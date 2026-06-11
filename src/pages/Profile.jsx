@@ -11,7 +11,7 @@ export default function Profile() {
   const { user } = useAuth()
   const { showToast } = useToast()
   const [tab, setTab] = useState('Overview')
-  const levelInfo = getLevelInfo(user.xp)
+  const levelInfo = getLevelInfo(user?.xp)
 
   return (
     <AppLayout>
@@ -20,20 +20,20 @@ export default function Profile() {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
           <div className="relative flex-shrink-0">
             <div className="w-24 h-24 rounded-full bg-[#D4AF37] text-[#1E3A5F] font-extrabold text-3xl flex items-center justify-center ring-4 ring-white/20">
-              {user.initials}
+              {user?.initials}
             </div>
             <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#D4AF37] flex items-center justify-center text-lg">
-              {user.levelEmoji}
+              {user?.levelEmoji}
             </div>
           </div>
           <div className="flex-1 text-center sm:text-left">
-            <h1 className="text-2xl font-bold text-white font-poppins">{user.name}</h1>
-            <p className="text-[#D4AF37] font-semibold mt-1">{user.levelEmoji} Level {user.level} — {user.levelTitle}</p>
-            <p className="text-white/60 text-sm mt-1">📍 {user.city}, {user.state}</p>
+            <h1 className="text-2xl font-bold text-white font-poppins">{user?.name}</h1>
+            <p className="text-[#D4AF37] font-semibold mt-1">{user?.levelEmoji} Level {user?.level} — {user?.levelTitle}</p>
+            <p className="text-white/60 text-sm mt-1">📍 {user?.city}, {user?.state}</p>
             <div className="flex flex-wrap gap-2 mt-3 justify-center sm:justify-start">
-              {user.isPro && <span className="clay-gold text-[#1E3A5F] text-xs font-bold px-3 py-1 rounded-full">⚡ PRO MEMBER</span>}
-              <span className="bg-white/10 text-white text-xs px-3 py-1 rounded-full">Joined {user.joinDate}</span>
-              <span className="bg-white/10 text-white/60 text-xs px-3 py-1 rounded-full font-mono">{user.userId}</span>
+              {user?.isPro && <span className="clay-gold text-[#1E3A5F] text-xs font-bold px-3 py-1 rounded-full">⚡ PRO MEMBER</span>}
+              <span className="bg-white/10 text-white text-xs px-3 py-1 rounded-full">Joined {user?.joinDate}</span>
+              <span className="bg-white/10 text-white/60 text-xs px-3 py-1 rounded-full font-mono">{user?.userId}</span>
             </div>
           </div>
         </div>
@@ -41,15 +41,15 @@ export default function Profile() {
         {/* XP Bar */}
         <div className="mt-6">
           <div className="flex justify-between text-sm mb-2">
-            <span className="text-white/70">Level {user.level} — {user.levelTitle}</span>
-            <span className="text-[#D4AF37] font-bold">{user.xp.toLocaleString()} / {user.xpToNext.toLocaleString()} XP</span>
+            <span className="text-white/70">Level {user?.level} — {user?.levelTitle}</span>
+            <span className="text-[#D4AF37] font-bold">{user?.xp.toLocaleString()} / {user?.xpToNext.toLocaleString()} XP</span>
           </div>
           <div className="w-full bg-white/10 rounded-full h-3">
             <div className="bg-[#D4AF37] h-3 rounded-full transition-all duration-1000"
-              style={{ width:`${(user.xp / user.xpToNext) * 100}%` }} />
+              style={{ width:`${(user?.xp / user?.xpToNext) * 100}%` }} />
           </div>
           <p className="text-white/40 text-xs mt-1">
-            {(user.xpToNext - user.xp).toLocaleString()} XP to {LEVELS[user.level]?.title || 'Max Level'}
+            {(user?.xpToNext - user?.xp).toLocaleString()} XP to {LEVELS[user?.level]?.title || 'Max Level'}
           </p>
         </div>
       </div>
@@ -57,10 +57,10 @@ export default function Profile() {
       {/* Quick stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { icon:'🏆', val:`#${user.rank.toLocaleString()}`, label:'All India Rank' },
-          { icon:'🔥', val:`${user.streak} days`, label:'Study Streak' },
-          { icon:'📝', val:user.testsCompleted, label:'Tests Completed' },
-          { icon:'📊', val:`${user.avgScore}%`, label:'Average Score' },
+          { icon:'🏆', val:`#${user?.rank.toLocaleString()}`, label:'All India Rank' },
+          { icon:'🔥', val:`${user?.streak} days`, label:'Study Streak' },
+          { icon:'📝', val:user?.testsCompleted, label:'Tests Completed' },
+          { icon:'📊', val:`${user?.avgScore}%`, label:'Average Score' },
         ].map(s => (
           <div key={s.label} className="clay rounded-2xl p-4 text-center">
             <p className="text-2xl mb-1">{s.icon}</p>
@@ -86,7 +86,7 @@ export default function Profile() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="clay rounded-2xl p-5">
             <h3 className="font-bold text-[#1E3A5F] mb-3">📊 Subject Performance</h3>
-            {user.subjects.map(s => (
+            {user?.subjects.map(s => (
               <div key={s.name} className="mb-3">
                 <div className="flex justify-between mb-1">
                   <span className="text-sm font-medium text-slate-700">{s.emoji} {s.name}</span>
@@ -106,7 +106,7 @@ export default function Profile() {
           </div>
           <div className="clay rounded-2xl p-5">
             <h3 className="font-bold text-[#1E3A5F] mb-3">🎯 Exam Readiness</h3>
-            {user.exams.map(e => (
+            {user?.exams.map(e => (
               <div key={e.id} className="mb-3">
                 <div className="flex justify-between mb-1">
                   <span className="text-sm font-semibold text-[#1E3A5F]">{e.name}</span>
@@ -168,15 +168,15 @@ export default function Profile() {
       {tab === 'Stats' && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {[
-            { icon:'📝', val:user.testsCompleted, label:'Tests Taken' },
-            { icon:'📊', val:`${user.avgScore}%`, label:'Average Score' },
-            { icon:'🏆', val:`#${user.rank.toLocaleString()}`, label:'All India Rank' },
-            { icon:'🔥', val:`${user.streak} days`, label:'Study Streak' },
-            { icon:'🪙', val:user.coins.toLocaleString(), label:'Total Coins' },
-            { icon:'🎓', val:user.guruPoints, label:'Guru Points' },
-            { icon:'⏱️', val:user.studyHours, label:'Study Time' },
-            { icon:'⭐', val:user.xp.toLocaleString(), label:'XP Earned' },
-            { icon:'💎', val:`Level ${user.level}`, label:'Current Level' },
+            { icon:'📝', val:user?.testsCompleted, label:'Tests Taken' },
+            { icon:'📊', val:`${user?.avgScore}%`, label:'Average Score' },
+            { icon:'🏆', val:`#${user?.rank.toLocaleString()}`, label:'All India Rank' },
+            { icon:'🔥', val:`${user?.streak} days`, label:'Study Streak' },
+            { icon:'🪙', val:user?.coins.toLocaleString(), label:'Total Coins' },
+            { icon:'🎓', val:user?.guruPoints, label:'Guru Points' },
+            { icon:'⏱️', val:user?.studyHours, label:'Study Time' },
+            { icon:'⭐', val:user?.xp.toLocaleString(), label:'XP Earned' },
+            { icon:'💎', val:`Level ${user?.level}`, label:'Current Level' },
           ].map(s => (
             <div key={s.label} className="clay rounded-2xl p-4 text-center">
               <p className="text-3xl mb-2">{s.icon}</p>

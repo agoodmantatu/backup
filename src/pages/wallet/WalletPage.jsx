@@ -40,8 +40,8 @@ export default function WalletPage() {
         <div style={{ fontSize:56 }}>🪙</div>
         <div style={{ flex:1 }}>
           <p style={{ color:'rgba(255,255,255,0.6)', fontSize:13, fontFamily:'Inter,sans-serif' }}>Total Coins</p>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:48, lineHeight:1 }}>{user.coins.toLocaleString()}</p>
-          <p style={{ color:'rgba(255,255,255,0.4)', fontSize:12, marginTop:4 }}>≈ ₹{(user.coins * 0.08).toFixed(0)} in exam value</p>
+          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:48, lineHeight:1 }}>{user?.coins.toLocaleString()}</p>
+          <p style={{ color:'rgba(255,255,255,0.4)', fontSize:12, marginTop:4 }}>≈ ₹{(user?.coins * 0.08).toFixed(0)} in exam value</p>
         </div>
         <div style={{ display:'flex', gap:14, flexWrap:'wrap' }}>
           {[['💚',totalEarned,'Earned'],['❤️',totalSpent,'Spent']].map(([e,v,l]) => (

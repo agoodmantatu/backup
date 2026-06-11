@@ -35,13 +35,13 @@ export default function Leaderboard() {
 
       {/* My rank card */}
       <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:20, padding:18, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)', display:'flex', alignItems:'center', gap:16, flexWrap:'wrap' }}>
-        <div style={{ width:52, height:52, borderRadius:'50%', background:'linear-gradient(135deg,#D4AF37,#E8C84A)', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:18, color:'#1E3A5F', flexShrink:0 }}>{user.initials}</div>
+        <div style={{ width:52, height:52, borderRadius:'50%', background:'linear-gradient(135deg,#D4AF37,#E8C84A)', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:18, color:'#1E3A5F', flexShrink:0 }}>{user?.initials}</div>
         <div style={{ flex:1 }}>
-          <p style={{ color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:16 }}>{user.name}</p>
-          <p style={{ color:'#D4AF37', fontSize:12, marginTop:2 }}>{user.levelEmoji} {user.levelTitle} · {user.exams[0]?.name}</p>
+          <p style={{ color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:16 }}>{user?.name}</p>
+          <p style={{ color:'#D4AF37', fontSize:12, marginTop:2 }}>{user?.levelEmoji} {user?.levelTitle} · {user?.exams[0]?.name}</p>
         </div>
         <div style={{ display:'flex', gap:16, flexWrap:'wrap' }}>
-          {[['#'+user.rank.toLocaleString(),'Your Rank'],['78%','Avg Score'],[user.streak+'d 🔥','Streak']].map(([v,l]) => (
+          {[['#'+user?.rank.toLocaleString(),'Your Rank'],['78%','Avg Score'],[user?.streak+'d 🔥','Streak']].map(([v,l]) => (
             <div key={l} style={{ textAlign:'center' }}>
               <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:18 }}>{v}</p>
               <p style={{ color:'rgba(255,255,255,0.45)', fontSize:10 }}>{l}</p>

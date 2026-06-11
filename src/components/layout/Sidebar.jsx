@@ -56,30 +56,30 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="px-4 pb-3 border-b border-white/10 flex-shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-[#D4AF37] text-[#1E3A5F] font-bold text-sm flex items-center justify-center flex-shrink-0">
-              {user.initials}
+              {user?.initials}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm truncate">{user.name}</p>
-              <p className="text-[#D4AF37] text-xs">{user.levelEmoji} {user.levelTitle}</p>
+              <p className="text-white font-semibold text-sm truncate">{user?.name}</p>
+              <p className="text-[#D4AF37] text-xs">{user?.levelEmoji} {user?.levelTitle}</p>
             </div>
           </div>
           {/* XP bar */}
           <div className="mt-2.5">
             <div className="flex justify-between text-xs mb-1">
-              <span className="text-white/50">{user.xp.toLocaleString()} XP</span>
-              <span className="text-white/50">{user.xpToNext.toLocaleString()}</span>
+              <span className="text-white/50">{user?.xp.toLocaleString()} XP</span>
+              <span className="text-white/50">{user?.xpToNext.toLocaleString()}</span>
             </div>
             <div className="w-full bg-white/10 rounded-full h-1.5">
-              <div className="bg-[#D4AF37] h-1.5 rounded-full" style={{ width: `${(user.xp / user.xpToNext) * 100}%` }} />
+              <div className="bg-[#D4AF37] h-1.5 rounded-full" style={{ width: `${(user?.xp / user?.xpToNext) * 100}%` }} />
             </div>
           </div>
           {/* Stats pills */}
           <div className="flex gap-2 mt-2">
             <span className="flex items-center gap-1 bg-[#D4AF37]/20 text-[#D4AF37] text-xs px-3 py-1 rounded-full font-semibold">
-              🪙 {user.coins.toLocaleString()}
+              🪙 {user?.coins.toLocaleString()}
             </span>
             <span className="flex items-center gap-1 bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded-full font-semibold">
-              🔥 {user.streak}
+              🔥 {user?.streak}
             </span>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function Sidebar({ isOpen, onClose }) {
           <div className="flex items-center justify-between bg-[#D4AF37]/15 border border-[#D4AF37]/30 rounded-xl px-3 py-2">
             <div>
               <p className="text-[#D4AF37] text-xs font-semibold">Active Exam</p>
-              <p className="text-white text-sm font-bold">{user.exams[0]?.name}</p>
+              <p className="text-white text-sm font-bold">{user?.exams[0]?.name}</p>
             </div>
             <button onClick={() => go('/exams')} className="text-[#D4AF37] text-xs flex items-center gap-0.5 hover:underline">
               Switch <ChevronRight size={12} />

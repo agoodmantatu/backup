@@ -37,11 +37,11 @@ export default function Analytics() {
       {/* Top stats */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,180px),1fr))', gap:12, marginBottom:20 }}>
         {[
-          { e:'📝', v:user.testsCompleted, l:'Tests Taken',      c:'#1E3A5F' },
-          { e:'📊', v:`${user.avgScore}%`, l:'Average Score',    c:'#D4AF37' },
-          { e:'🏆', v:`#${user.rank.toLocaleString()}`, l:'Current Rank', c:'#D4AF37' },
+          { e:'📝', v:user?.testsCompleted, l:'Tests Taken',      c:'#1E3A5F' },
+          { e:'📊', v:`${user?.avgScore}%`, l:'Average Score',    c:'#D4AF37' },
+          { e:'🏆', v:`#${user?.rank.toLocaleString()}`, l:'Current Rank', c:'#D4AF37' },
           { e:'📈', v:'+142',              l:'Rank Gained',       c:'#22C55E' },
-          { e:'🔥', v:`${user.streak}d`,   l:'Study Streak',     c:'#F97316' },
+          { e:'🔥', v:`${user?.streak}d`,   l:'Study Streak',     c:'#F97316' },
           { e:'⏱️', v:'48h',               l:'Study Time',        c:'#8B5CF6' },
         ].map(s => (
           <div key={s.l} style={{ background:'#fff', borderRadius:18, padding:'14px 12px', textAlign:'center', border:'1.5px solid #E2E8F0', boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>

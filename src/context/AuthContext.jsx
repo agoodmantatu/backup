@@ -184,7 +184,7 @@ export function AuthProvider({ children }) {
     setUser(updated)
     localDb.saveProfile(updated)
     if (!IS_DEV && user?.id) {
-      supabase.from('profiles').update(changes).eq('id', user.id).then(()=>{})
+      supabase.from('profiles').update(changes).eq('id', user?.id).then(()=>{})
     }
   }
 

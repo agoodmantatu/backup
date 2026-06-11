@@ -16,8 +16,8 @@ export default function CoinsWidget() {
     <div className="clay-gold rounded-3xl p-6">
       <h3 className="font-bold text-[#1E3A5F] text-lg font-poppins mb-3">🪙 Coins</h3>
       <div className="flex flex-col items-center gap-1 mb-4">
-        <span className="text-5xl font-extrabold text-[#1E3A5F] font-poppins">{user.coins.toLocaleString()}</span>
-        {user.isPro && (
+        <span className="text-5xl font-extrabold text-[#1E3A5F] font-poppins">{user?.coins.toLocaleString()}</span>
+        {user?.isPro && (
           <span className="clay-dark text-[#D4AF37] text-xs font-bold px-3 py-1 rounded-full">⚡ 3× PRO MULTIPLIER</span>
         )}
       </div>

@@ -66,10 +66,10 @@ export default function Dashboard() {
 
   const hour = new Date().getHours()
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
-  const firstName = user.name?.split(' ')[0] || 'Guest'
+  const firstName = user?.name?.split(' ')[0] || 'Guest'
 
   // Get primary exam (first one)
-  const primaryExam = user.exams?.[0] || { name: 'Your Exam', examDate: null, readiness: 75 }
+  const primaryExam = user?.exams?.[0] || { name: 'Your Exam', examDate: null, readiness: 75 }
 
   return (
     <AppLayout>
@@ -86,7 +86,7 @@ export default function Dashboard() {
         </p>
         {/* Exam switcher chips */}
         <div className="flex gap-2 mt-3 flex-wrap">
-          {user.exams?.map((e, i) => (
+          {user?.exams?.map((e, i) => (
             <button
               key={e.id}
               className={`px-4 py-1.5 rounded-xl text-sm font-semibold transition-all

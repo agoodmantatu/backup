@@ -58,7 +58,7 @@ function IDCardFace({ user, template, isFront }) {
           borderRadius:'8px', padding:'4px 10px',
           color:T.accent, fontSize:'10px', fontWeight:700, letterSpacing:'1px',
         }}>
-          {user.isPro ? '⚡ PRO' : 'STUDENT'}
+          {user?.isPro ? '⚡ PRO' : 'STUDENT'}
         </div>
       </div>
 
@@ -74,18 +74,18 @@ function IDCardFace({ user, template, isFront }) {
           boxShadow:`0 0 20px ${T.accent}44`,
           flexShrink:0,
         }}>
-          {user.initials}
+          {user?.initials}
         </div>
         <div>
           <div style={{ color:T.textPrimary, fontFamily:'Poppins,sans-serif',
             fontWeight:700, fontSize:'16px', letterSpacing:'0.5px' }}>
-            {user.name}
+            {user?.name}
           </div>
           <div style={{ color:T.textSecondary, fontSize:'11px', marginTop:'3px' }}>
-            {user.levelEmoji} {user.levelTitle}
+            {user?.levelEmoji} {user?.levelTitle}
           </div>
           <div style={{ color:T.textSecondary, fontSize:'10px', opacity:0.8, marginTop:'2px' }}>
-            {user.city}, {user.state}
+            {user?.city}, {user?.state}
           </div>
         </div>
       </div>
@@ -93,9 +93,9 @@ function IDCardFace({ user, template, isFront }) {
       {/* Stats row */}
       <div style={{ display:'flex', gap:'8px' }}>
         {[
-          { label:'RANK', val:`#${user.rank.toLocaleString()}` },
-          { label:'STREAK', val:`${user.streak}d 🔥` },
-          { label:'SCORE',  val:`${user.avgScore}%` },
+          { label:'RANK', val:`#${user?.rank.toLocaleString()}` },
+          { label:'STREAK', val:`${user?.streak}d 🔥` },
+          { label:'SCORE',  val:`${user?.avgScore}%` },
         ].map(s => (
           <div key={s.label} style={{
             flex:1, background:`${T.accent}15`,
@@ -115,10 +115,10 @@ function IDCardFace({ user, template, isFront }) {
         alignItems:'center', marginTop:'12px' }}>
         <div style={{ color:T.textSecondary, fontSize:'9px',
           fontFamily:'monospace', letterSpacing:'2px' }}>
-          {user.userId}
+          {user?.userId}
         </div>
         <div style={{ color:T.textSecondary, fontSize:'9px' }}>
-          {user.exams[0]?.name}
+          {user?.exams[0]?.name}
         </div>
       </div>
     </div>
@@ -138,14 +138,14 @@ function IDCardFace({ user, template, isFront }) {
           background:'linear-gradient(135deg,rgba(255,255,255,0.06) 0%,transparent 60%)',
           borderRadius:'20px', pointerEvents:'none' }} />
       )}
-      <div style={{ fontSize:'40px' }}>{LEVEL_LOGOS[user.levelTitle] || '🎓'}</div>
+      <div style={{ fontSize:'40px' }}>{LEVEL_LOGOS[user?.levelTitle] || '🎓'}</div>
       <div style={{ color:T.textPrimary, fontFamily:'Poppins,sans-serif',
         fontWeight:700, fontSize:'18px', textAlign:'center' }}>
-        {user.levelTitle}
+        {user?.levelTitle}
       </div>
       <div style={{ width:'60%', height:'1px', background:`${T.accent}40` }} />
       <div style={{ display:'flex', flexDirection:'column', gap:'8px', width:'100%' }}>
-        {user.exams.slice(0,3).map(e => (
+        {user?.exams.slice(0,3).map(e => (
           <div key={e.id} style={{ display:'flex', alignItems:'center',
             justifyContent:'space-between', background:`${T.accent}15`,
             borderRadius:'10px', padding:'8px 12px' }}>
@@ -170,9 +170,9 @@ export default function StudentIDCard({ user }) {
 
   const share = () => {
     if (navigator.share) {
-      navigator.share({ title:'My TryIT Student ID', text:`${user.name} · Rank #${user.rank} · ${user.exams[0]?.name} | tryiteducations.net` })
+      navigator.share({ title:'My TryIT Student ID', text:`${user?.name} · Rank #${user?.rank} · ${user?.exams[0]?.name} | tryiteducations.net` })
     } else {
-      navigator.clipboard?.writeText(`${user.name} · Rank #${user.rank} · ${user.levelEmoji} ${user.levelTitle} | tryiteducations.net`)
+      navigator.clipboard?.writeText(`${user?.name} · Rank #${user?.rank} · ${user?.levelEmoji} ${user?.levelTitle} | tryiteducations.net`)
       showToast('success','ID card link copied! Share on WhatsApp 🔥')
     }
   }

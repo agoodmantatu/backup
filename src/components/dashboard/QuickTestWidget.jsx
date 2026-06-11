@@ -14,7 +14,7 @@ export default function QuickTestWidget() {
   return (
     <div className="clay-dark rounded-3xl p-6">
       <h3 className="font-bold text-white text-lg font-poppins mb-1">⚡ Quick Test</h3>
-      <p className="text-white/60 text-sm mb-4">{user.exams[0]?.name}</p>
+      <p className="text-white/60 text-sm mb-4">{user?.exams[0]?.name}</p>
       <div className="flex gap-2 mb-3 flex-wrap">
         {TYPES.map(t => (
           <button key={t} onClick={() => setType(t)}

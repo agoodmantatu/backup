@@ -11,7 +11,7 @@ export default function StreakWidget() {
     <div className="clay rounded-3xl p-6">
       <h3 className="font-bold text-[#1E3A5F] text-lg font-poppins mb-4">🔥 Study Streak</h3>
       <div className="flex flex-col items-center gap-2 mb-5">
-        <span className="text-6xl font-extrabold text-[#D4AF37] font-poppins leading-none">{user.streak}</span>
+        <span className="text-6xl font-extrabold text-[#D4AF37] font-poppins leading-none">{user?.streak}</span>
         <p className="text-slate-500 text-sm">consecutive days</p>
       </div>
       <div className="flex gap-1.5 justify-between mb-4">
@@ -29,9 +29,9 @@ export default function StreakWidget() {
           )
         })}
       </div>
-      <button onClick={() => showToast('info', `Streak freeze used! ${user.streakFreezes - 1} left.`)}
+      <button onClick={() => showToast('info', `Streak freeze used! ${user?.streakFreezes - 1} left.`)}
         className="w-full text-center text-sm font-semibold text-[#D4AF37] hover:underline">
-        ❄️ Use Streak Freeze ({user.streakFreezes} left)
+        ❄️ Use Streak Freeze ({user?.streakFreezes} left)
       </button>
     </div>
   )

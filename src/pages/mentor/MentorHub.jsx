@@ -11,7 +11,7 @@ export default function MentorHub() {
       <p style={{ color:'#94A3B8', fontSize:14, marginBottom:24 }}>Teach. Earn. Become a Pan-India Guru.</p>
 
       <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:24, padding:24, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)', display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))', gap:14 }}>
-        {[['🎓',user.guruPoints,'Guru Points'],['💰','₹347','This Week'],['⭐','4.9','Rating'],['📝','47','Answers']].map(([e,v,l])=>(
+        {[['🎓',user?.guruPoints,'Guru Points'],['💰','₹347','This Week'],['⭐','4.9','Rating'],['📝','47','Answers']].map(([e,v,l])=>(
           <div key={l} style={{ textAlign:'center' }}>
             <p style={{ fontSize:24 }}>{e}</p>
             <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:20 }}>{v}</p>

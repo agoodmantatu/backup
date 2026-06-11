@@ -14,27 +14,27 @@ export default function Achievements() {
       <div style={{ marginBottom:20 }}>
         <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28 }}>🏅 Achievements</h1>
         <p style={{ color:'#94A3B8', fontSize:14, marginTop:2 }}>
-          {earned.length}/{BADGES.length} badges earned · {user.xp.toLocaleString()} total XP
+          {earned.length}/{BADGES.length} badges earned · {user?.xp.toLocaleString()} total XP
         </p>
       </div>
 
       {/* XP progress */}
       <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:22, padding:22, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)' }}>
         <div style={{ display:'flex', alignItems:'center', gap:16, marginBottom:16 }}>
-          <div style={{ fontSize:44 }}>{user.levelEmoji}</div>
+          <div style={{ fontSize:44 }}>{user?.levelEmoji}</div>
           <div style={{ flex:1 }}>
-            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:20 }}>Level {user.level} — {user.levelTitle}</p>
+            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:20 }}>Level {user?.level} — {user?.levelTitle}</p>
             <p style={{ color:'rgba(255,255,255,0.5)', fontSize:13, marginTop:2 }}>
-              {(user.xpToNext - user.xp).toLocaleString()} XP to {LEVELS[user.level]?.title || 'Max'} {LEVELS[user.level]?.emoji || '🏆'}
+              {(user?.xpToNext - user?.xp).toLocaleString()} XP to {LEVELS[user?.level]?.title || 'Max'} {LEVELS[user?.level]?.emoji || '🏆'}
             </p>
           </div>
           <div style={{ textAlign:'right' }}>
-            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:22 }}>{user.xp.toLocaleString()}</p>
-            <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11 }}>/ {user.xpToNext.toLocaleString()} XP</p>
+            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:22 }}>{user?.xp.toLocaleString()}</p>
+            <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11 }}>/ {user?.xpToNext.toLocaleString()} XP</p>
           </div>
         </div>
         <div style={{ height:10, background:'rgba(255,255,255,0.1)', borderRadius:5 }}>
-          <div style={{ width:`${(user.xp/user.xpToNext)*100}%`, height:10, borderRadius:5, background:'linear-gradient(90deg,#D4AF37,#E8C84A)', transition:'width 1s ease' }}/>
+          <div style={{ width:`${(user?.xp/user?.xpToNext)*100}%`, height:10, borderRadius:5, background:'linear-gradient(90deg,#D4AF37,#E8C84A)', transition:'width 1s ease' }}/>
         </div>
       </div>
 
@@ -43,13 +43,13 @@ export default function Achievements() {
         <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:14 }}>🎬 Cinematic Level Journey</p>
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,140px),1fr))', gap:10 }}>
           {LEVELS.map(lv => {
-            const isActive = lv.level === user.level
-            const isDone = lv.level < user.level
+            const isActive = lv.level === user?.level
+            const isDone = lv.level < user?.level
             return (
               <div key={lv.level} style={{ borderRadius:16, padding:'12px 10px', textAlign:'center',
                 background: isActive ? 'linear-gradient(135deg,#1E3A5F,#0F2140)' : isDone ? 'rgba(30,58,95,0.06)' : '#F8FAFC',
                 border: `1.5px solid ${isActive ? '#D4AF37' : isDone ? 'rgba(30,58,95,0.2)' : '#E2E8F0'}`,
-                opacity: lv.level > user.level + 2 ? 0.5 : 1,
+                opacity: lv.level > user?.level + 2 ? 0.5 : 1,
               }}>
                 <span style={{ fontSize:26 }}>{lv.emoji}</span>
                 <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:11,

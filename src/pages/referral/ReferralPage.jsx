@@ -5,7 +5,7 @@ import { useToast } from '../../context/ToastContext'
 export default function ReferralPage() {
   const { user } = useAuth()
   const { showToast } = useToast()
-  const code = `TRYIT-${user.userId?.slice(-6) || 'AK2026'}`
+  const code = `TRYIT-${user?.userId?.slice(-6) || 'AK2026'}`
   const link = `tryiteducations.net/join?ref=${code}`
 
   const share = () => {

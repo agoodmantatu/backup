@@ -33,7 +33,7 @@ export default function TestLauncher() {
         <div className="glass-gold rounded-2xl px-5 py-3 mb-6 flex items-center justify-between">
           <div>
             <p className="text-xs text-[#1E3A5F]/60 font-semibold uppercase tracking-wide">Currently preparing</p>
-            <p className="text-[#1E3A5F] font-bold text-lg">{user.exams[0]?.name}</p>
+            <p className="text-[#1E3A5F] font-bold text-lg">{user?.exams[0]?.name}</p>
           </div>
           <button className="text-[#1E3A5F] text-sm font-semibold hover:underline">Switch exam →</button>
         </div>

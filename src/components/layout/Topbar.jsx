@@ -28,7 +28,7 @@ export default function Topbar({ onMenuClick, title = 'Dashboard' }) {
         <h1 className="text-xl font-bold text-[#1E3A5F] font-poppins hidden sm:block">{title}</h1>
         <div className="hidden md:flex items-center gap-2 glass-gold px-3 py-1.5">
           <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse-dot" />
-          <span className="text-xs font-semibold text-[#1E3A5F]">{user.exams[0]?.name}</span>
+          <span className="text-xs font-semibold text-[#1E3A5F]">{user?.exams[0]?.name}</span>
         </div>
       </div>
 
@@ -37,14 +37,14 @@ export default function Topbar({ onMenuClick, title = 'Dashboard' }) {
         <button className="hidden sm:flex items-center gap-1.5 glass px-3 py-2 rounded-xl text-slate-600 text-sm font-medium hover:text-[#1E3A5F]">
           <Globe size={15} /> EN
         </button>
-        {user.isPro && (
+        {user?.isPro && (
           <span className="hidden sm:flex clay-gold items-center gap-1 px-3 py-1.5 rounded-xl text-[#1E3A5F] font-bold text-xs">
             ⚡ PRO
           </span>
         )}
         <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-2 rounded-xl">
           <span className="text-base">🪙</span>
-          <span className="text-sm font-bold text-[#1E3A5F]">{user.coins.toLocaleString()}</span>
+          <span className="text-sm font-bold text-[#1E3A5F]">{user?.coins.toLocaleString()}</span>
         </div>
         <button className="relative w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-100 transition-colors">
           <Bell size={20} className="text-slate-600" />
@@ -54,9 +54,9 @@ export default function Topbar({ onMenuClick, title = 'Dashboard' }) {
           <button onClick={() => setDropOpen(p => !p)}
             className="flex items-center gap-2 hover:bg-slate-100 px-2 py-1.5 rounded-xl transition-colors">
             <div className="w-8 h-8 rounded-full bg-[#1E3A5F] border-2 border-[#D4AF37] text-white font-bold text-xs flex items-center justify-center">
-              {user.initials}
+              {user?.initials}
             </div>
-            <span className="hidden md:block text-sm font-semibold text-slate-700">{user.name.split(' ')[0]}</span>
+            <span className="hidden md:block text-sm font-semibold text-slate-700">{user?.name.split(' ')[0]}</span>
             <ChevronDown size={14} className="text-slate-500" />
           </button>
           {dropOpen && (

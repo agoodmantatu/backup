@@ -27,7 +27,7 @@ export default function LeaderboardWidget() {
         ))}
       </div>
       <div className="text-center mb-4">
-        <p className="text-5xl font-extrabold text-[#D4AF37] font-poppins leading-none">#{user.rank.toLocaleString()}</p>
+        <p className="text-5xl font-extrabold text-[#D4AF37] font-poppins leading-none">#{user?.rank.toLocaleString()}</p>
         <p className="text-white/60 text-sm mt-1">{filter}</p>
         <p className="text-white/40 text-xs mt-1">TN: #127 · Coimbatore: #8</p>
       </div>

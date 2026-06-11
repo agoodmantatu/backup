@@ -48,7 +48,7 @@ export default function ExamReadinessWidget() {
         </span>
       </div>
       <div className="flex flex-wrap justify-around gap-6">
-        {user.exams.slice(0, 3).map((exam, i) => (
+        {user?.exams.slice(0, 3).map((exam, i) => (
           <Ring key={exam.id} exam={exam} delay={i} />
         ))}
       </div>
