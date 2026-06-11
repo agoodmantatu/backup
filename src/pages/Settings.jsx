@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../components/layout/AppLayout'
-import { useAuth } from './context/AuthContext'
-import { useToast } from './context/ToastContext'
+import { useToast } from '../context/ToastContext'
+import { useAuth } from '../context/AuthContext'
 
 export default function Settings() {
   const navigate = useNavigate()
