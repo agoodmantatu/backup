@@ -32,6 +32,19 @@ const SchoolCircle     = lazy(() => import('./pages/circles/SchoolCircle'))
 const SisterhoodCircle = lazy(() => import('./pages/circles/SisterhoodCircle'))
 
 const AccessibilityMode = lazy(() => import('./pages/accessibility/AccessibilityMode'))
+
+const HallHub       = lazy(() => import('./pages/hall/HallHub'))
+const FullLeaderboard = lazy(() => import('./pages/leaderboard/Leaderboard'))
+const Analytics     = lazy(() => import('./pages/analytics/Analytics'))
+const Achievements  = lazy(() => import('./pages/achievements/Achievements'))
+const FocusMode     = lazy(() => import('./pages/focus-mode/FocusMode'))
+const CurrentAffairs = lazy(() => import('./pages/current-affairs/CurrentAffairs'))
+
+const CareerCompass  = lazy(() => import('./pages/career-compass/CareerCompass'))
+const ScholarshipHub = lazy(() => import('./pages/scholarships/ScholarshipHub'))
+const PricingPage    = lazy(() => import('./pages/pricing/PricingPage'))
+const WalletPage     = lazy(() => import('./pages/wallet/WalletPage'))
+const FamilyHub      = lazy(() => import('./pages/family/FamilyHub'))
 const LiveImpactTracker = lazy(() => import('./pages/impact/LiveImpactTracker'))
 
 // ── Stub for pages not built yet ─────────────────────────────────
@@ -105,12 +118,27 @@ export default function App() {
                 <Route path="/guru-hub/:doubtId"    element={<Stub title="Doubt Thread" />} />
 
                 {/* Discovery */}
-                <Route path="/career-compass"   element={<Stub title="Career Compass 🧭" />} />
+                
+                <Route path="/career-compass"  element={<CareerCompass />} />
+                <Route path="/scholarships"    element={<ScholarshipHub />} />
+                <Route path="/pro"             element={<PricingPage />} />
+                <Route path="/wallet"          element={<WalletPage />} />
+                <Route path="/family"          element={<FamilyHub />} />
+              
                 <Route path="/roadmap/:examId"  element={<Stub title="My Roadmap 🗺️" />} />
                 <Route path="/exam-alerts"      element={<Stub title="Exam Watch 📡" />} />
 
                 {/* Hall — static before dynamic */}
-                <Route path="/hall"                  element={<Stub title="The Hall 👥" />} />
+                
+                <Route path="/hall"            element={<HallHub />} />
+                <Route path="/hall/create"     element={<Stub title="Create Hall" />} />
+                <Route path="/hall/leaderboard" element={<HallHub />} />
+                <Route path="/hall/:hallId"    element={<Stub title="Hall Home" />} />
+                <Route path="/leaderboard"     element={<FullLeaderboard />} />
+                <Route path="/analytics"       element={<Analytics />} />
+                <Route path="/achievements"    element={<Achievements />} />
+                <Route path="/focus-mode"      element={<FocusMode />} />
+                <Route path="/current-affairs" element={<CurrentAffairs />} />
                 <Route path="/hall/create"           element={<Stub title="Create Hall" />} />
                 <Route path="/hall/leaderboard"      element={<Stub title="Hall Leaderboard" />} />
                 <Route path="/hall/:hallId"          element={<Stub title="Hall Home" />} />
@@ -183,7 +211,7 @@ export default function App() {
                 <Route path="/privacy"   element={<Stub title="Privacy Policy" />} />
                 <Route path="/terms"     element={<Stub title="Terms of Service" />} />
 
-                <Route path="*" element={<Navigate to="/" replace />} />
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
               </Routes>
             </Suspense>
           </BrowserRouter>

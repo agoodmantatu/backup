@@ -1,4 +1,7 @@
 // ── LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ─────────
+// ── LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ─────────
+// Note: All 5 mandatory languages loaded in questionsWith7Layers.js
+// te-anna (Telugu), kn-anna (Kannada) added there
 export const LEVELS = [
   { level:1,  title:'The Fierce One',  emoji:'🔥', minXP:0,     maxXP:500,   color:'#EF4444' },
   { level:2,  title:'The Fighter',     emoji:'⚔️', minXP:500,   maxXP:1500,  color:'#F97316' },

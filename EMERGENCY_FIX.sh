@@ -1,3 +1,196 @@
+#!/bin/bash
+ROOT="${1:-/workspaces/Tatu}"
+cd "$ROOT"
+echo "🚨 Emergency fix — white screen..."
+
+# ── Step 1: Create InstitutionSection if missing ─────────────────
+mkdir -p src/components/landing
+cat > src/components/landing/InstitutionSection.jsx << 'EOF'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+const STEPS = [
+  { step:'01', emoji:'🏫', title:'Register Your Centre Free',
+    desc:'Sign up in 2 minutes. No paperwork. No approval wait. Instant access.' },
+  { step:'02', emoji:'📝', title:'Create Unlimited Tests — Any Day',
+    desc:'Weekend tests, after-school tests, surprise tests. Schedule for Saturday 10AM or Sunday 2PM. Students join with a 6-digit code from their phone.' },
+  { step:'03', emoji:'📱', title:'Students Join on Their Phone',
+    desc:'No laptop needed. TryIT runs on any ₹4,000 Android phone. Students open the app, enter the code, and start the test from home or your centre.' },
+  { step:'04', emoji:'📊', title:'Instant Results — Every Student Ranked',
+    desc:'The moment the test ends — scores, All-India ranks, subject-wise breakdown, weak areas. Zero manual checking. Everything on your dashboard.' },
+  { step:'05', emoji:'💰', title:'Every Monday — You Get Paid',
+    desc:'Every active student in your centre earns you a weekly payout every Monday via UPI. Unlimited students. Unlimited tests. No cap on earnings.' },
+]
+
+const BENEFITS = [
+  { emoji:'⚡', title:'No Extra Infrastructure', desc:'Students use their own phones. No desktop lab, no projector, no printed papers needed.' },
+  { emoji:'🌍', title:'Pan-India Recognition', desc:'Your centre gets ranked nationally on TryIT. Top centres are featured on our homepage — seen by lakhs of students.' },
+  { emoji:'📈', title:'Track Every Student', desc:'Full test history from Day 1. Score trends, improvement graphs, weak topics — one screen, zero spreadsheets.' },
+  { emoji:'🔒', title:'Anti-Cheating Built-In', desc:'Questions randomised per student. Timer enforced. No copy-paste. Screenshot detection. Your exam is fully protected.' },
+  { emoji:'🏆', title:'Monthly Centre Battle', desc:'Top-performing centres win featured placement and recognition. Motivates your students and grows your reputation fast.' },
+  { emoji:'💳', title:'Monday Payouts via UPI', desc:'Every active student = weekly earnings. Direct UPI transfer every Monday morning. No minimum threshold.' },
+]
+
+export default function InstitutionSection() {
+  const navigate = useNavigate()
+  const [active, setActive] = useState(0)
+
+  return (
+    <section id="institutions" style={{ padding:'72px 20px',
+      background:'linear-gradient(180deg,#F8FAFC,#EFF6FF)' }}>
+      <div style={{ maxWidth:1100, margin:'0 auto' }}>
+
+        <div style={{ textAlign:'center', marginBottom:48 }}>
+          <div style={{ display:'inline-flex', alignItems:'center', gap:8,
+            background:'rgba(30,58,95,0.08)', border:'1px solid rgba(30,58,95,0.18)',
+            borderRadius:20, padding:'7px 18px', marginBottom:16 }}>
+            <span>🏫</span>
+            <span style={{ color:'#1E3A5F', fontSize:12, fontWeight:700,
+              fontFamily:'Poppins,sans-serif', letterSpacing:'1px' }}>
+              FOR COACHING CENTRES & SCHOOLS
+            </span>
+          </div>
+          <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
+            fontSize:'clamp(24px,4vw,42px)', color:'#1E3A5F',
+            marginBottom:12, lineHeight:1.2 }}>
+            No More Saturdays Wasted on<br/>
+            <span style={{ color:'#D4AF37' }}>Manual Test Papers</span>
+          </h2>
+          <p style={{ fontFamily:'Inter,sans-serif', color:'#64748B',
+            fontSize:'clamp(14px,2vw,17px)', maxWidth:600, margin:'0 auto' }}>
+            Your students take weekend tests on TryIT — from their own phones.
+            You get instant results. They get All-India ranked.
+            And every Monday, you get paid.
+          </p>
+        </div>
+
+        {/* Steps */}
+        <div style={{ display:'grid',
+          gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,195px),1fr))',
+          gap:14, marginBottom:56 }}>
+          {STEPS.map((s,i) => (
+            <div key={i} onClick={() => setActive(i)} style={{
+              background: active===i ? 'linear-gradient(135deg,#1E3A5F,#0F2140)' : '#fff',
+              borderRadius:20, padding:'18px 16px', cursor:'pointer',
+              border: `2px solid ${active===i ? '#D4AF37' : '#E2E8F0'}`,
+              transition:'all 0.25s',
+              boxShadow: active===i ? '0 12px 32px rgba(30,58,95,0.2)' : '0 2px 8px rgba(0,0,0,0.04)',
+              transform: active===i ? 'translateY(-4px)' : 'none',
+            }}>
+              <div style={{ display:'flex', justifyContent:'space-between',
+                alignItems:'center', marginBottom:10 }}>
+                <span style={{ fontSize:26 }}>{s.emoji}</span>
+                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
+                  fontSize:10, color: active===i ? 'rgba(212,175,55,0.5)' : '#CBD5E1',
+                  letterSpacing:'1px' }}>STEP {s.step}</span>
+              </div>
+              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700,
+                color: active===i ? '#D4AF37' : '#1E3A5F',
+                fontSize:13, marginBottom:6 }}>{s.title}</p>
+              <p style={{ fontFamily:'Inter,sans-serif', fontSize:12,
+                color: active===i ? 'rgba(255,255,255,0.65)' : '#64748B',
+                lineHeight:1.6 }}>{s.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Benefits */}
+        <div style={{ marginBottom:48 }}>
+          <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800,
+            color:'#1E3A5F', fontSize:'clamp(18px,3vw,26px)',
+            textAlign:'center', marginBottom:28 }}>
+            Why 1,000+ Centres Are Switching to TryIT
+          </h3>
+          <div style={{ display:'grid',
+            gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,290px),1fr))',
+            gap:14 }}>
+            {BENEFITS.map((b,i) => (
+              <div key={i} style={{ background:'#fff', borderRadius:18, padding:20,
+                border:'1.5px solid #E2E8F0',
+                boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>
+                <span style={{ fontSize:28, display:'block', marginBottom:8 }}>{b.emoji}</span>
+                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700,
+                  color:'#1E3A5F', fontSize:14, marginBottom:6 }}>{b.title}</p>
+                <p style={{ fontFamily:'Inter,sans-serif', color:'#64748B',
+                  fontSize:12, lineHeight:1.65 }}>{b.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Monday Payout box */}
+        <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)',
+          borderRadius:24, padding:'36px 28px', marginBottom:28,
+          border:'1.5px solid rgba(212,175,55,0.3)',
+          display:'grid',
+          gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,340px),1fr))',
+          gap:28, alignItems:'center' }}>
+          <div>
+            <div style={{ display:'inline-flex', alignItems:'center', gap:8,
+              background:'rgba(212,175,55,0.12)',
+              border:'1px solid rgba(212,175,55,0.3)',
+              borderRadius:20, padding:'6px 14px', marginBottom:14 }}>
+              <span>💰</span>
+              <span style={{ color:'#D4AF37', fontSize:10, fontWeight:800,
+                letterSpacing:'2px', fontFamily:'Poppins,sans-serif' }}>
+                EVERY MONDAY. WITHOUT FAIL.
+              </span>
+            </div>
+            <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
+              color:'#fff', fontSize:'clamp(20px,3vw,32px)',
+              lineHeight:1.2, marginBottom:12 }}>
+              Each Student in Your Centre<br/>
+              <span style={{ color:'#D4AF37' }}>Earns You Every Week</span>
+            </h3>
+            <p style={{ fontFamily:'Inter,sans-serif', color:'rgba(255,255,255,0.6)',
+              fontSize:'clamp(13px,1.8vw,15px)', lineHeight:1.75 }}>
+              No caps. No limits. 10 students or 10,000 — the payout scales.
+              Direct UPI transfer every Monday morning. Build a passive income
+              while your students crack India's toughest exams.
+            </p>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            {[
+              { emoji:'📅', val:'Every Monday',  label:'Payout Day'          },
+              { emoji:'🔓', val:'Unlimited',      label:'Tests Per Month'     },
+              { emoji:'📊', val:'Real-time',       label:'Student Dashboard'   },
+              { emoji:'🌍', val:'Pan-India',       label:'Centre Recognition'  },
+            ].map(s => (
+              <div key={s.label} style={{ background:'rgba(255,255,255,0.06)',
+                border:'1px solid rgba(212,175,55,0.18)',
+                borderRadius:16, padding:'16px 12px', textAlign:'center' }}>
+                <span style={{ fontSize:22, display:'block', marginBottom:4 }}>{s.emoji}</span>
+                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800,
+                  color:'#D4AF37', fontSize:'clamp(13px,2vw,18px)' }}>{s.val}</p>
+                <p style={{ color:'rgba(255,255,255,0.4)', fontSize:10, marginTop:2 }}>{s.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ textAlign:'center' }}>
+          <button onClick={() => navigate('/centre/login')} style={{
+            background:'linear-gradient(135deg,#D4AF37,#E8C84A)', border:'none',
+            borderRadius:16, padding:'clamp(13px,2vw,17px) clamp(32px,4vw,52px)',
+            fontFamily:'Poppins,sans-serif', fontWeight:800,
+            fontSize:'clamp(15px,2.5vw,19px)', color:'#1E3A5F', cursor:'pointer',
+            boxShadow:'0 8px 24px rgba(212,175,55,0.3)' }}>
+            Register Your Centre Free →
+          </button>
+          <p style={{ color:'#94A3B8', fontSize:12, marginTop:10 }}>
+            No registration fee · First payout within 7 days of first student test
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+EOF
+
+echo "  ✅ InstitutionSection.jsx created"
+
+# ── Step 2: Write clean Landing.jsx from scratch ──────────────────
+cat > src/pages/Landing.jsx << 'EOF'
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/landing/Navbar'
@@ -740,3 +933,153 @@ export default function Landing() {
     </div>
   )
 }
+EOF
+
+echo "  ✅ Landing.jsx rewritten cleanly"
+
+# ── Step 3: Fix Navbar — use static SVG logo (no loop = no crash) ─
+cat > src/components/landing/Navbar.jsx << 'EOF'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+function NavLogo() {
+  const W=148, H=58
+  const sunCX=W*0.595, sunCY=H*0.30, sunR=W*0.080
+  const rays=[-85,-60,-35,-10,15,40,65,90]
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H} style={{ display:'block' }}>
+      <defs>
+        <linearGradient id="ng" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#B8860B"/><stop offset="50%" stopColor="#F5D76E"/>
+          <stop offset="100%" stopColor="#D4AF37"/>
+        </linearGradient>
+        <filter id="nf"><feGaussianBlur stdDeviation="0.8" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <ellipse cx={sunCX} cy={sunCY+sunR*0.28} rx={sunR*0.9} ry={sunR*0.56}
+        fill="url(#ng)" filter="url(#nf)"/>
+      {rays.map((a,i)=>{
+        const r=(a-90)*Math.PI/180, mj=i%2===0
+        return <line key={i}
+          x1={sunCX+Math.cos(r)*sunR*1.28} y1={sunCY+Math.sin(r)*sunR*1.28}
+          x2={sunCX+Math.cos(r)*sunR*(mj?1.85:2.15)} y2={sunCY+Math.sin(r)*sunR*(mj?1.85:2.15)}
+          stroke="url(#ng)" strokeWidth={mj?1.8:1.1} strokeLinecap="round"/>
+      })}
+      <line x1={sunCX+sunR*0.38} y1={sunCY+sunR*0.08}
+        x2={sunCX+sunR*1.55} y2={sunCY-sunR*1.28}
+        stroke="url(#ng)" strokeWidth={2.2} strokeLinecap="round"/>
+      <polygon points={`${sunCX+sunR*1.55},${sunCY-sunR*1.28} ${sunCX+sunR*1.14},${sunCY-sunR*1.06} ${sunCX+sunR*1.32},${sunCY-sunR*0.65}`}
+        fill="url(#ng)"/>
+      <text x={W*0.015} y={H*0.78} fontFamily="'Arial Black',Impact,sans-serif"
+        fontWeight="900" fontSize={H*0.54} fill="#FFFFFF">TRY</text>
+      <text x={W*0.605} y={H*0.78} fontFamily="'Arial Black',Impact,sans-serif"
+        fontWeight="900" fontSize={H*0.54} fill="url(#ng)" filter="url(#nf)">IT</text>
+      <rect x={W*0.015} y={H*0.84} width={W*0.965} height={H*0.028} rx={H*0.014} fill="url(#ng)"/>
+      <text x={W*0.5} y={H*0.965} textAnchor="middle" fontFamily="Arial,sans-serif"
+        fontWeight="800" fontSize={H*0.155} letterSpacing={H*0.044} fill="url(#ng)">EDUCATIONS</text>
+    </svg>
+  )
+}
+
+export default function Navbar() {
+  const navigate = useNavigate()
+  const [scrolled, setScrolled] = useState(false)
+  useEffect(() => {
+    const fn = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', fn, { passive:true })
+    return () => window.removeEventListener('scroll', fn)
+  }, [])
+  const links = [
+    { label:'Features',     href:'#features'    },
+    { label:'Exams',        href:'/exams'        },
+    { label:'Pricing',      href:'/pro'          },
+    { label:'Impact',       href:'/impact'       },
+    { label:'Free Access',  href:'/equity'       },
+    { label:'Institutions', href:'#institutions' },
+  ]
+  return (
+    <>
+      <nav style={{
+        position:'sticky', top:0, zIndex:500,
+        height:84,
+        background: scrolled ? 'rgba(10,21,50,0.98)' : 'rgba(10,21,50,0.92)',
+        backdropFilter:'blur(24px)',
+        borderBottom:'1px solid rgba(212,175,55,0.2)',
+        display:'flex', alignItems:'center',
+        padding:'0 28px', gap:20, transition:'background 0.3s',
+      }}>
+        <div onClick={() => navigate('/')} style={{ cursor:'pointer', flexShrink:0 }}>
+          <NavLogo/>
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:4, flex:1,
+          justifyContent:'center' }} className="nav-links">
+          {links.map(l => (
+            <a key={l.label} href={l.href}
+              style={{ color:'rgba(255,255,255,0.72)', fontSize:14,
+                fontFamily:'Poppins,sans-serif', fontWeight:600,
+                padding:'7px 13px', borderRadius:10, textDecoration:'none',
+                transition:'all 0.2s', whiteSpace:'nowrap' }}
+              onMouseEnter={e => { e.target.style.color='#D4AF37'; e.target.style.background='rgba(212,175,55,0.08)' }}
+              onMouseLeave={e => { e.target.style.color='rgba(255,255,255,0.72)'; e.target.style.background='none' }}>
+              {l.label}
+            </a>
+          ))}
+        </div>
+        <div style={{ display:'flex', alignItems:'center', gap:10,
+          marginLeft:'auto', flexShrink:0 }}>
+          {/* Green dot only — no fake numbers */}
+          <div style={{ display:'flex', alignItems:'center', gap:6,
+            background:'rgba(34,197,94,0.1)',
+            border:'1px solid rgba(34,197,94,0.25)',
+            borderRadius:20, padding:'6px 13px' }}>
+            <span style={{ width:9, height:9, borderRadius:'50%',
+              background:'#22C55E', display:'inline-block',
+              animation:'liveDot 1.4s ease-in-out infinite' }}/>
+            <span style={{ color:'rgba(255,255,255,0.7)', fontSize:12,
+              fontFamily:'Inter,sans-serif' }}>Live</span>
+          </div>
+          <button onClick={() => navigate('/login')} style={{
+            background:'linear-gradient(135deg,#D4AF37,#E8C84A)', border:'none',
+            borderRadius:13, padding:'11px 26px',
+            fontFamily:'Poppins,sans-serif', fontWeight:800,
+            fontSize:15, color:'#1E3A5F', cursor:'pointer',
+            boxShadow:'0 4px 14px rgba(212,175,55,0.35)' }}>
+            Login →
+          </button>
+        </div>
+      </nav>
+      <style>{`
+        @keyframes liveDot {
+          0%   { box-shadow:0 0 0 0 rgba(34,197,94,0.6); }
+          70%  { box-shadow:0 0 0 8px rgba(34,197,94,0); }
+          100% { box-shadow:0 0 0 0 rgba(34,197,94,0); }
+        }
+        @media (max-width:768px) { .nav-links { display:none!important; } }
+      `}</style>
+    </>
+  )
+}
+EOF
+
+echo "  ✅ Navbar.jsx — static SVG logo, green dot only"
+
+# ── Step 4: Make sure EquityPricingSection and DonationSection exist ──
+if [ ! -f "src/components/landing/EquityPricingSection.jsx" ]; then
+  cat > src/components/landing/EquityPricingSection.jsx << 'EOF'
+export default function EquityPricingSection() { return null }
+EOF
+  echo "  ⚠️  EquityPricingSection — placeholder (run install_equity_donation_a11y.sh for full version)"
+fi
+
+if [ ! -f "src/components/landing/DonationSection.jsx" ]; then
+  cat > src/components/landing/DonationSection.jsx << 'EOF'
+export default function DonationSection() { return null }
+EOF
+  echo "  ⚠️  DonationSection — placeholder (run install_equity_donation_a11y.sh for full version)"
+fi
+
+echo ""
+echo "╔══════════════════════════════════════════════════════════╗"
+echo "║  ✅ Emergency fix complete. Run: npm run dev             ║"
+echo "╚══════════════════════════════════════════════════════════╝"

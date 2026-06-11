@@ -39,6 +39,25 @@ const Q = [
         exam_tip:            "SSC CGL mein har saal 2-3 aise sawaal aate hain. 15 second mein karo: SP ÷ (1 + P%) = CP.",
         pyq_relevance:       "SSC CGL 2019 Tier 1, SSC CHSL 2021 mein exactly aisa hi sawaal aaya tha. Pakka aayega."
       }
+    },
+      "te-anna": {
+        simple_answer:       "Anna, CP = 520 ÷ 1.3 = ₹400 da. Chala simple!",
+        deep_concept:        "Anna, profit percentage ALWAYS cost price meeda calculate avutundi, selling price meeda kaadu. SP = CP × (1 + P/100) formula. Daaniki reverse chesthe CP vasthundi.",
+        wrong_option_autopsy:"₹380 select chesevaru — vaalllu 520 nunchi 30% tagginci 364 cheppataaru. Adhi WRONG anna. Profit SP meeda kaadu, CP meeda.",
+        memory_trick:        "Idhi try cheyyi: 'Naenu 400 ki konnaanu, 520 ki amaanaanu, profit 120. 120 ÷ 400 = 30%' check chesuko. Correct!",
+        cultural_story:      "Mana kiraana kadaka uncle 100 ki sarauku techi 130 ki amaataadu — 30 rupees profit, adhi cost price yokka 30% anna!",
+        exam_tip:            "SSC la idhi type question 2 marks anna. 15 seconds lo cheseyavachu: 520 ÷ 1.3 = 400. Practice cheseyyi.",
+        pyq_relevance:       "SSC CGL 2019, SSC CHSL 2021 lo occhindi anna. Every year 2-3 questions vasthaayi."
+      },
+      "kn-anna": {
+        simple_answer:       "Anna, CP = 520 ÷ 1.3 = ₹400. Thumba simple!",
+        deep_concept:        "Anna, profit percentage ALWAYS cost price meele calculate aaguttade, selling price meele alla. SP = CP × (1 + P/100) formula. Adannu reverse maadidre CP siguttade.",
+        wrong_option_autopsy:"₹380 select maadtaare — avaru 520 ninda 30% kalidhu 364 antaare. Adhu WRONG anna. Profit SP meele alla, CP meele.",
+        memory_trick:        "Idu try maadi: 'Naanu 400 ge kondenu, 520 ge madidu, profit 120. 120 ÷ 400 = 30%' check maadi. Correct!",
+        cultural_story:      "Namma kiraana angadi uncle 100 ge sarakku tegedu 130 ge madtaane — 30 rupee profit, adu cost price da 30% anna!",
+        exam_tip:            "SSC la idu type question 2 marks anna. 15 seconds alli maadabahudu: 520 ÷ 1.3 = 400.",
+        pyq_relevance:       "SSC CGL 2019, SSC CHSL 2021 alla bandittade anna. Prathi varsha 2-3 questions barutte."
+      }
     }
   },
   {
