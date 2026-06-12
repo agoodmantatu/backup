@@ -5,3 +5,8 @@ build/
 # Build caches
 .cache/
 node_modules/.cache/
+dist/
+node_modules/
+*.log
+*.tmp
+.env.local

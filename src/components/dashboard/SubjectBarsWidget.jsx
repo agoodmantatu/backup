@@ -7,23 +7,12 @@ export default function SubjectBarsWidget() {
   const ref = useRef(null)
 
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { 
-      if (e.isIntersecting) { 
-        setAnimated(true); 
-        obs.disconnect() 
-      } 
-    }, { threshold: 0.3 })
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setAnimated(true); obs.disconnect() } }, { threshold: 0.3 })
     if (ref.current) obs.observe(ref.current)
     return () => obs.disconnect()
   }, [])
 
-  // Safety: if subjects is missing or not an array, use empty array
-  const subjects = Array.isArray(user?.subjects) ? user.subjects : []
-
-  const weakest = subjects.length > 0 
-    ? [...subjects].sort((a, b) => a.accuracy - b.accuracy)[0] 
-    : null
-
+const weakest = [...(user?.subjects || [])].sort((a, b) => a.accuracy - b.accuracy)[0]
   return (
     <div ref={ref} className="clay rounded-3xl p-6 sm:col-span-2">
       <div className="flex items-center justify-between mb-4">
@@ -31,7 +20,7 @@ export default function SubjectBarsWidget() {
         <span className="text-xs text-slate-500">This month</span>
       </div>
       <div className="flex flex-col gap-3">
-        {subjects.map(sub => {
+        {user?.subjects.map(sub => {
           const color = sub.accuracy >= 80 ? 'bg-green-500' : sub.accuracy >= 70 ? 'bg-[#D4AF37]' : 'bg-amber-500'
           return (
             <div key={sub.name}>

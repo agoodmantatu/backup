@@ -1,151 +1,293 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../components/layout/AppLayout'
-import { useAuth } from '../context/AuthContext'
-import { useCoins } from '../context/CoinContext'
-import FestivalBanner from '../components/FestivalBanner'
-import ExamNotificationBanner from '../components/ExamNotificationBanner'
 
-const QUICK_ACTIONS = [
-  { emoji:'📝', label:'Take a Test',       path:'/test-engine',    color:'#1E3A5F' },
-  { emoji:'📚', label:'Guru Hub',          path:'/guru-hub',       color:'#7C3AED' },
-  { emoji:'🎯', label:'Career Compass',    path:'/career-compass', color:'#0C4A6E' },
-  { emoji:'🔥', label:'Focus Mode',        path:'/focus-mode',     color:'#065F46' },
-  { emoji:'🌏', label:'Current Affairs',   path:'/current-affairs',color:'#92400E' },
-  { emoji:'🎮', label:'Brain Games',       path:'/games',          color:'#4C1D95' },
-  { emoji:'🏆', label:'Leaderboard',       path:'/leaderboard',    color:'#0F2140' },
-  { emoji:'📋', label:'All Exams',         path:'/exams',          color:'#1E3A5F' },
-]
+// ── Student Core Widgets ──────────────────────────────────────────
+import ExamReadinessWidget   from '../components/dashboard/ExamReadinessWidget'
+import StreakWidget           from '../components/dashboard/StreakWidget'
+import CoinsWidget            from '../components/dashboard/CoinsWidget'
+import QuickTestWidget        from '../components/dashboard/QuickTestWidget'
+import DailyQuizWidget        from '../components/dashboard/DailyQuizWidget'
+import SubjectBarsWidget      from '../components/dashboard/SubjectBarsWidget'
+import ScoreTrendWidget       from '../components/dashboard/ScoreTrendWidget'
+import LeaderboardWidget      from '../components/dashboard/LeaderboardWidget'
+import RecentActivityWidget   from '../components/dashboard/RecentActivityWidget'
 
-export default function Dashboard() {
-  const navigate    = useNavigate()
-  const { user }    = useAuth()
-  const { balance } = useCoins()
-  const isNew       = !user?.testsCompleted && (user?.coins <= 200)
-
+// ==================================================================
+// 🧑‍🏫 AUTHENTIC MENTOR WORKSPACE
+// ==================================================================
+function MentorDashboardView({ profile, email, greeting }) {
+  const mentorName = profile.fullName || profile.name || email.split('@')[0]
+  
   return (
     <AppLayout>
-      {/* Festival banner */}
-      <FestivalBanner />
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1E3A5F] font-poppins">
+          {greeting}, Coach {mentorName}! 🧑‍🏫
+        </h1>
+        <p className="text-slate-500 mt-1 text-sm">
+          Current Role: <span className="font-semibold text-[#1E3A5F]">{profile.currentJob || 'Expert Educator'}</span>
+          {profile.experience && ` · Experience: ${profile.experience}`}
+        </p>
+      </div>
 
-      {/* Exam notification banner */}
-      <ExamNotificationBanner />
-
-      {/* Welcome header */}
-      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:20, flexWrap:'wrap', gap:12 }}>
-        <div>
-          <p style={{ color:'#94A3B8', fontSize:13 }}>{getGreeting()}</p>
-          <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#1E3A5F', fontSize:'clamp(22px,3vw,30px)', marginTop:4 }}>
-            {user?.name ? `Welcome, ${user.name.split(' ')[0]}! 👋` : 'Welcome to TryIT! 👋'}
-          </h1>
-        </div>
-        <div style={{ display:'flex', gap:10, flexShrink:0 }}>
-          <div onClick={()=>navigate('/wallet')} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:14, padding:'10px 16px', cursor:'pointer', textAlign:'center', border:'1.5px solid rgba(212,175,55,0.3)' }}>
-            <p style={{ color:'rgba(255,255,255,0.5)', fontSize:10, letterSpacing:'1px' }}>COINS</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:20 }}>{balance || user?.coins || 200}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Expert Subjects</h3>
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            {profile.expertSubjects?.map(subject => (
+              <span key={subject} className="px-2.5 py-1 bg-amber-50 text-amber-800 rounded-lg text-xs font-medium">
+                {subject}
+              </span>
+            )) || <span className="text-xs text-slate-400">None selected</span>}
           </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Target Exam Domain</h3>
+          <div className="flex flex-wrap gap-1.5 mt-3">
+            {profile.expertExams?.map(exam => (
+              <span key={exam} className="px-2.5 py-1 bg-blue-50 text-[#1E3A5F] rounded-lg text-xs font-medium">
+                {exam}
+              </span>
+            )) || <span className="text-xs text-slate-400">None mapped</span>}
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Availability & Payout</h3>
+          <p className="text-lg font-bold text-[#1E3A5F] mt-2">{profile.availability || 'Flexible Time'}</p>
+          <p className="text-[11px] text-slate-400 mt-1 truncate">UPI ID: {profile.upi || 'Not linked'}</p>
         </div>
       </div>
 
-      {/* New user welcome card */}
-      {isNew && (
-        <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:22, padding:22, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)' }}>
-          <p style={{ color:'#D4AF37', fontSize:12, fontWeight:700, letterSpacing:'2px', marginBottom:8 }}>🎉 YOU'RE READY TO BEGIN</p>
-          <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#fff', fontSize:20, marginBottom:8 }}>
-            200 coins in your wallet. Every exam waiting.
-          </h2>
-          <p style={{ color:'rgba(255,255,255,0.6)', fontSize:13, marginBottom:16 }}>
-            Start your first test to get your All-India rank. Score above the cutoff → earn more coins. Score below → coins deducted. That's the discipline.
-          </p>
-          <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
-            <button onClick={()=>navigate('/test-engine')} style={{ padding:'11px 22px', borderRadius:14, border:'none', background:'linear-gradient(135deg,#D4AF37,#E8C44A)', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:14, color:'#1E3A5F', cursor:'pointer' }}>
-              📝 Start First Test
-            </button>
-            <button onClick={()=>navigate('/career-compass')} style={{ padding:'11px 22px', borderRadius:14, border:'1px solid rgba(255,255,255,0.2)', background:'rgba(255,255,255,0.06)', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:14, color:'rgba(255,255,255,0.8)', cursor:'pointer' }}>
-              🧭 Find My Exam
-            </button>
-          </div>
+      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <h3 className="font-bold text-[#1E3A5F] mb-1">📥 Active Doubt Solver Queue</h3>
+        <p className="text-xs text-slate-400 mb-4">
+          Incoming student tickets matching your support languages ({profile.replyLangs?.join(', ') || 'English'}) will populate below.
+        </p>
+        <div className="p-8 bg-slate-50 border border-dashed border-slate-200 rounded-xl text-center text-slate-400 text-sm font-medium">
+          No pending student doubts found in your queue right now.
         </div>
-      )}
-
-      {/* Returning user stats */}
-      {!isNew && (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))', gap:12, marginBottom:20 }}>
-          {[
-            [user?.levelEmoji||'🔥', user?.levelTitle||'The Fierce One', 'Your Level'],
-            ['🔥', `${user?.streak||0} days`, 'Streak'],
-            ['📝', user?.testsCompleted||0, 'Tests Done'],
-            ['📊', user?.avgScore ? `${user.avgScore}%` : '—', 'Avg Score'],
-            ['🏆', user?.rank ? `#${user.rank.toLocaleString()}` : '—', 'Rank'],
-          ].map(([e,v,l])=>(
-            <div key={l} style={{ background:'#fff', borderRadius:18, padding:'14px 12px', textAlign:'center', border:'1.5px solid #E2E8F0', boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>
-              <p style={{ fontSize:22 }}>{e}</p>
-              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:16, marginTop:4, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{v}</p>
-              <p style={{ color:'#94A3B8', fontSize:11, marginTop:2 }}>{l}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Quick actions */}
-      <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>⚡ Quick Actions</p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,150px),1fr))', gap:10, marginBottom:20 }}>
-        {QUICK_ACTIONS.map(a => (
-          <div key={a.path} onClick={()=>navigate(a.path)}
-            style={{ background:'#fff', borderRadius:18, padding:'16px 12px', textAlign:'center', cursor:'pointer', border:'1.5px solid #E2E8F0', boxShadow:'0 2px 8px rgba(0,0,0,0.04)', transition:'all 0.2s' }}
-            onMouseEnter={e=>{ e.currentTarget.style.borderColor=a.color; e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.boxShadow=`0 8px 20px ${a.color}22` }}
-            onMouseLeave={e=>{ e.currentTarget.style.borderColor='#E2E8F0'; e.currentTarget.style.transform='none'; e.currentTarget.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)' }}>
-            <p style={{ fontSize:28, marginBottom:6 }}>{a.emoji}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:13 }}>{a.label}</p>
-          </div>
-        ))}
       </div>
-
-      {/* Enrolled exams — empty state for new user */}
-      {(!user?.exams || user.exams.length === 0) ? (
-        <div style={{ background:'rgba(30,58,95,0.04)', borderRadius:20, padding:24, textAlign:'center', border:'1.5px dashed #E2E8F0' }}>
-          <p style={{ fontSize:36, marginBottom:10 }}>📋</p>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:6 }}>No exams enrolled yet</p>
-          <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>Pick your target exam to get a personalised roadmap, daily practice, and All-India rank.</p>
-          <button onClick={()=>navigate('/exams')} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:14, padding:'11px 24px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:14, cursor:'pointer' }}>
-            Browse 1,10,000+ Exams →
-          </button>
-        </div>
-      ) : (
-        <div>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>📋 My Exams</p>
-          <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-            {user.exams.map((e,i) => (
-              <div key={i} onClick={()=>navigate(`/exams/${e.id}`)}
-                style={{ background:'#fff', borderRadius:18, padding:'14px 18px', border:'1.5px solid #E2E8F0', cursor:'pointer', display:'flex', alignItems:'center', gap:14 }}>
-                <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:15 }}>{e.name}</p>
-                  {e.readiness > 0 ? (
-                    <>
-                      <div style={{ height:4, background:'#F1F5F9', borderRadius:2, marginTop:8 }}>
-                        <div style={{ width:`${e.readiness}%`, height:4, borderRadius:2, background:e.readiness>=70?'#22C55E':e.readiness>=40?'#D4AF37':'#EF4444' }}/>
-                      </div>
-                      <p style={{ color:'#94A3B8', fontSize:11, marginTop:4 }}>{e.readiness}% ready</p>
-                    </>
-                  ) : (
-                    <p style={{ color:'#94A3B8', fontSize:12, marginTop:4 }}>Take first test to see readiness</p>
-                  )}
-                </div>
-                <button onClick={e2=>{e2.stopPropagation();navigate('/test-engine')}} style={{ background:'#F1F5F9', border:'none', borderRadius:10, padding:'7px 14px', color:'#1E3A5F', cursor:'pointer', fontSize:12, fontWeight:600, flexShrink:0 }}>Practice</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
     </AppLayout>
   )
 }
 
-function getGreeting() {
-  const h = new Date().getHours()
-  if (h < 5)  return 'Still awake? 🌙 Dedication!'
-  if (h < 12) return 'Good morning ☀️'
-  if (h < 17) return 'Good afternoon 🌤️'
-  if (h < 21) return 'Good evening 🌆'
-  return 'Good night 🌙 Study session?'
+// ==================================================================
+// 🏫 AUTHENTIC INSTITUTION WORKSPACE
+// ==================================================================
+function InstitutionDashboardView({ profile, greeting }) {
+  return (
+    <AppLayout>
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1E3A5F] font-poppins">
+          {greeting}, {profile.institutionName || 'Campus Admin Hub'}! 🏫
+        </h1>
+        <p className="text-slate-500 mt-1 text-sm">
+          Authorized Registrar: <span className="font-semibold text-[#1E3A5F]">{profile.contactName}</span> ({profile.contactDesignation || 'Administrator'})
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Provisioned Students</h3>
+          <p className="text-2xl font-black text-[#1E3A5F] mt-2">{profile.studentEmails?.length || 0}</p>
+          <p className="text-[11px] text-slate-400 mt-1">Scale Group Target: {profile.studentCount || 'N/A'}</p>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Question Processing Mode</h3>
+          <p className="text-lg font-bold text-[#1E3A5F] capitalize mt-2">{profile.questionFormat || 'Manual Upload'} Engine</p>
+          <p className="text-[11px] text-slate-400 mt-1">Directly routes to localized test engines</p>
+        </div>
+
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Campus Footprint</h3>
+          <p className="text-sm font-bold text-[#1E3A5F] mt-2 truncate">{profile.city}, {profile.state}</p>
+          <p className="text-[11px] text-slate-400 mt-1">Postal Pincode: {profile.pincode || 'N/A'}</p>
+        </div>
+      </div>
+
+      <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+        <h3 className="font-bold text-[#1E3A5F] text-sm mb-3">📋 Managed Exam Curriculums</h3>
+        <div className="flex flex-wrap gap-2">
+          {profile.examsConducted?.map(exam => (
+            <span key={exam} className="px-3 py-1 bg-slate-100 text-slate-600 font-semibold rounded-xl text-xs">
+              {exam}
+            </span>
+          )) || <span className="text-xs text-slate-400">No curating streams activated yet</span>}
+        </div>
+      </div>
+    </AppLayout>
+  )
+}
+
+// ==================================================================
+// 👨‍👩‍👧 AUTHENTIC FAMILY WORKSPACE
+// ==================================================================
+function FamilyDashboardView({ profile, greeting }) {
+  return (
+    <AppLayout>
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1E3A5F] font-poppins">
+          {greeting}, {profile.familyName || 'Family Workspace'}! 👨‍👩‍👧
+        </h1>
+        <p className="text-slate-500 mt-1 text-sm">
+          Primary Guardian: <span className="font-semibold text-[#1E3A5F]">{profile.headName}</span> ({profile.headRelation || 'Supervisor'})
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm col-span-2">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Core Educational Mission</h3>
+          <p className="text-sm font-bold text-[#1E3A5F] bg-amber-50/40 p-3 rounded-xl border border-amber-100/50">
+            🎯 "{profile.goalTogether || 'Coordinated learning path for all dependents.'}"
+          </p>
+        </div>
+        <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col justify-between">
+          <h3 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Sub-Profiles Linked</h3>
+          <p className="text-2xl font-black text-[#1E3A5F] mt-1">{profile.members?.length || 0} Dependent(s)</p>
+        </div>
+      </div>
+
+      <div className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm">
+        <h3 className="font-bold text-[#1E3A5F] text-sm mb-4">👥 Real-Time Student Member Progress</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {profile.members?.map(member => (
+            <div key={member.id} className="flex items-center gap-3 bg-slate-50 p-3 rounded-xl border border-slate-100">
+              <div className="w-8 h-8 rounded-full bg-[#D4AF37] text-[#1E3A5F] font-bold flex items-center justify-center text-sm shadow-sm">
+                {member.name?.[0]?.toUpperCase() || 'M'}
+              </div>
+              <div className="truncate">
+                <h4 className="font-bold text-[#1E3A5F] text-xs truncate">
+                  {member.name} <span className="text-[10px] text-slate-400 font-normal">({member.relation})</span>
+                </h4>
+                <p className="text-[11px] text-slate-500 truncate">{member.exam} · {member.email}</p>
+              </div>
+            </div>
+          )) || <p className="text-xs text-slate-400">No sub-profiles linked to this dashboard container.</p>}
+        </div>
+      </div>
+    </AppLayout>
+  )
+}
+
+// ==================================================================
+// 🚀 PRODUCTION PLATFORM ROUTER TRAFFIC CONTROLLER
+// ==================================================================
+export default function Dashboard() {
+  const navigate = useNavigate()
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const role = localStorage.getItem('tryit_role')
+    const email = localStorage.getItem('tryit_email')
+
+    // Safe authorization shield fallback
+    if (!email) {
+      navigate('/login')
+      return
+    }
+
+    // Read authentic onboarding storage block directly
+    const storedData = localStorage.getItem('onboardingData')
+    let profile = {}
+    
+    if (storedData) {
+      try {
+        profile = JSON.parse(storedData)
+      } catch (err) {
+        console.error("Failed to extract authentic onboarding data object", err)
+      }
+    }
+
+    setUser({
+      email,
+      role: role || 'student',
+      profile
+    })
+    setLoading(false)
+  }, [navigate])
+
+  if (loading) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-[#D4AF37] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="mt-4 text-slate-500 text-sm font-medium">Assembling workspace layout...</p>
+          </div>
+        </div>
+      </AppLayout>
+    )
+  }
+
+  if (!user) return null
+
+  // System greeting parameters
+  const hour = new Date().getHours()
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+
+  // 🔑 SWITCH ROUTING BASED ON AUTHENTIC ACCOUNT ROLE MAPS
+  if (user.role === 'mentor') {
+    return <MentorDashboardView profile={user.profile} email={user.email} greeting={greeting} />
+  }
+  if (user.role === 'institution') {
+    return <InstitutionDashboardView profile={user.profile} greeting={greeting} />
+  }
+  if (user.role === 'family') {
+    return <FamilyDashboardView profile={user.profile} greeting={greeting} />
+  }
+
+  // 👇 DYNAMIC STUDENT WORKSPACE VIEW (When role === 'student')
+  const studentName = user.profile?.name || user.email.split('@')[0]
+  const targetExams = user.profile?.exams || []
+  const primaryExam = targetExams[0] || 'General Assessment Track'
+  const studyLanguage = user.profile?.studyLang || 'English'
+
+  return (
+    <AppLayout>
+      {/* Dynamic Header Frame */}
+      <div className="mb-6">
+        <h1 className="text-2xl md:text-3xl font-bold text-[#1E3A5F] font-poppins">
+          {greeting}, {studentName}! 👋
+        </h1>
+        <p className="text-slate-500 mt-1 text-sm">
+          Preparing for{' '}
+          <span className="font-semibold text-[#1E3A5F]">{primaryExam}</span>
+          {' · '}Language Stream: <span className="font-medium text-slate-600">{studyLanguage}</span>
+        </p>
+        
+        {/* Exam Tracking Switcher Chips */}
+        {targetExams.length > 0 && (
+          <div className="flex gap-2 mt-3 flex-wrap">
+            {targetExams.map((exam, index) => (
+              <button
+                key={exam}
+                className={`px-4 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200
+                  ${index === 0 ? 'bg-[#D4AF37] text-[#1E3A5F]' : 'bg-white border border-slate-200 text-slate-600 hover:border-[#D4AF37]'}`}
+              >
+                {exam}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Production Widget Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        <ExamReadinessWidget />
+        <StreakWidget />
+        <CoinsWidget />
+        <DailyQuizWidget />
+        <QuickTestWidget />
+        <ScoreTrendWidget />
+        <SubjectBarsWidget />
+        <LeaderboardWidget />
+        <RecentActivityWidget />
+      </div>
+    </AppLayout>
+  )
 }
