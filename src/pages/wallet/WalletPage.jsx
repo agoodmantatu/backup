@@ -1,115 +1,100 @@
-import { useState } from 'react'
+// src/pages/wallet/WalletPage.jsx
+import { useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
-import { useToast } from '../../context/ToastContext'
 
-const TRANSACTIONS = [
-  { id:1, type:'earn',  source:'Completed SSC CGL Mock 4',    coins:+120, date:'Today 10:23',     icon:'📝' },
-  { id:2, type:'earn',  source:'7-day Streak Bonus',           coins:+50,  date:'Today 07:00',     icon:'🔥' },
-  { id:3, type:'spend', source:'Unlocked Premium Test Pack',   coins:-200, date:'Yesterday 15:40', icon:'🔓' },
-  { id:4, type:'earn',  source:'Guru Hub Answer Accepted',     coins:+25,  date:'Yesterday 12:00', icon:'🎓' },
-  { id:5, type:'earn',  source:'Focus Mode — 2 sessions',      coins:+50,  date:'2 days ago',       icon:'🎯' },
-  { id:6, type:'earn',  source:'Brain Game — Math Blitz Win',  coins:+30,  date:'2 days ago',       icon:'🎮' },
-  { id:7, type:'spend', source:'Guru Book — SSC Quant Bible',  coins:-150, date:'3 days ago',       icon:'📚' },
-  { id:8, type:'earn',  source:'Daily Quiz Completed',          coins:+15,  date:'3 days ago',       icon:'📅' },
-  { id:9, type:'earn',  source:'Referral Bonus — Priya joined',coins:+100, date:'5 days ago',       icon:'🎁' },
+const SAMPLE_TRANSACTIONS = [
+  { id: 1, date: '2025-01-15', description: 'Signup Bonus 🎉',     amount: +200, type: 'credit' },
+  { id: 2, date: '2025-01-16', description: 'Daily Quiz',          amount: +50,  type: 'credit' },
+  { id: 3, date: '2025-01-17', description: 'Math Blitz 🧮',       amount: +15,  type: 'credit' },
+  { id: 4, date: '2025-01-17', description: 'Memory Matrix 🧠',    amount: +25,  type: 'credit' },
+  { id: 5, date: '2025-01-18', description: 'Guru Hub Answer ✍️',  amount: +5,   type: 'credit' },
+  { id: 6, date: '2025-01-18', description: 'Current Affairs Read',amount: +5,   type: 'credit' },
 ]
 
-const COIN_USES = [
-  { emoji:'🔓', label:'Unlock Premium Tests',  cost:'100–500 coins' },
-  { emoji:'📚', label:'Buy Guru Books',         cost:'50–300 coins'  },
-  { emoji:'⚡',  label:'Extra Test Attempts',   cost:'50 coins each' },
-  { emoji:'🎨', label:'Unlock ID Card Templates',cost:'200 coins'   },
-  { emoji:'💎', label:'Boost your Hall rank',   cost:'150 coins'    },
+const COIN_PACKS = [
+  { label: '100 Coins',  price: '₹9',   coins: 100 },
+  { label: '500 Coins',  price: '₹39',  coins: 500 },
+  { label: '1,200 Coins',price: '₹79',  coins: 1200 },
+  { label: '3,000 Coins',price: '₹149', coins: 3000 },
 ]
+
+function fmt(dateStr) {
+  return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
+}
 
 export default function WalletPage() {
   const { user } = useAuth()
-  const { showToast } = useToast()
-  const [filter, setFilter] = useState('all')
-  const filtered = filter==='all' ? TRANSACTIONS : TRANSACTIONS.filter(t=>t.type===filter)
-  const totalEarned = TRANSACTIONS.filter(t=>t.type==='earn').reduce((s,t)=>s+t.coins,0)
-  const totalSpent  = Math.abs(TRANSACTIONS.filter(t=>t.type==='spend').reduce((s,t)=>s+t.coins,0))
+  if (!user) return null
+
+  const total = SAMPLE_TRANSACTIONS.reduce((s, t) => s + t.amount, 0)
 
   return (
-    <AppLayout>
-      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28, marginBottom:20 }}>🪙 My Wallet</h1>
+    <AppLayout title="My Wallet">
+      <div className="max-w-2xl mx-auto space-y-6 p-4">
 
-      {/* Coin balance card */}
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:24, padding:26, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)', display:'flex', alignItems:'center', gap:20, flexWrap:'wrap' }}>
-        <div style={{ fontSize:56 }}>🪙</div>
-        <div style={{ flex:1 }}>
-          <p style={{ color:'rgba(255,255,255,0.6)', fontSize:13, fontFamily:'Inter,sans-serif' }}>Total Coins</p>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:48, lineHeight:1 }}>{user?.coins.toLocaleString()}</p>
-          <p style={{ color:'rgba(255,255,255,0.4)', fontSize:12, marginTop:4 }}>≈ ₹{(user?.coins * 0.08).toFixed(0)} in exam value</p>
+        {/* Coins card */}
+        <div className="bg-gradient-to-br from-[#D4AF37] to-[#E8C84A] rounded-2xl p-6 text-[#0F2140] shadow-lg">
+          <p className="text-sm font-semibold opacity-75 mb-1">Your TryIT Coins</p>
+          <p className="text-6xl font-black">{(user.coins ?? 0).toLocaleString('en-IN')}</p>
+          <p className="text-sm mt-2 opacity-75">🪙 Coins earned through learning — never expire</p>
         </div>
-        <div style={{ display:'flex', gap:14, flexWrap:'wrap' }}>
-          {[['💚',totalEarned,'Earned'],['❤️',totalSpent,'Spent']].map(([e,v,l]) => (
-            <div key={l} style={{ textAlign:'center' }}>
-              <p style={{ fontSize:20 }}>{e}</p>
-              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#fff', fontSize:20 }}>{v}</p>
-              <p style={{ color:'rgba(255,255,255,0.4)', fontSize:10 }}>{l}</p>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* How to earn */}
-      <div style={{ background:'#fff', borderRadius:20, padding:18, marginBottom:16, border:'1.5px solid #E2E8F0' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>⚡ How to Earn More Coins</p>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap:8 }}>
-          {[['📝','Complete a test','50–150 coins'],['🔥','Daily streak','10–100 coins'],['🎓','Answer doubts','25 coins each'],['🎯','Focus session','25 coins/session'],['🎮','Brain Games','5–50 coins'],['🧭','Career Compass','20 coins']].map(([e,a,c]) => (
-            <div key={a} style={{ display:'flex', alignItems:'center', gap:8, background:'#F8FAFC', borderRadius:12, padding:'10px 12px' }}>
-              <span style={{ fontSize:18 }}>{e}</span>
-              <div>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:12 }}>{a}</p>
-                <p style={{ color:'#D4AF37', fontSize:11, fontWeight:700 }}>{c}</p>
+        {/* Transaction history */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
+          <div className="p-5 border-b border-gray-100">
+            <h2 className="font-bold text-[#1E3A5F] text-lg">Transaction History</h2>
+          </div>
+          <ul className="divide-y divide-gray-50">
+            {SAMPLE_TRANSACTIONS.map(tx => (
+              <li key={tx.id} className="flex items-center justify-between px-5 py-4">
+                <div>
+                  <p className="text-sm font-medium text-gray-800">{tx.description}</p>
+                  <p className="text-xs text-gray-400">{fmt(tx.date)}</p>
+                </div>
+                <span className={`text-base font-bold ${tx.type === 'credit' ? 'text-emerald-600' : 'text-red-500'}`}>
+                  {tx.type === 'credit' ? '+' : ''}{tx.amount} 🪙
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="px-5 py-4 bg-gray-50 rounded-b-2xl flex justify-between">
+            <span className="text-sm text-gray-500">Lifetime earned</span>
+            <span className="font-bold text-[#D4AF37]">+{total} 🪙</span>
+          </div>
+        </div>
+
+        {/* Coin packs */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+          <h2 className="font-bold text-[#1E3A5F] text-lg mb-1">Buy Coin Packs</h2>
+          <p className="text-gray-400 text-sm mb-4">Payments launching soon — payments via Razorpay.</p>
+          <div className="grid grid-cols-2 gap-3">
+            {COIN_PACKS.map(p => (
+              <div key={p.label} className="border border-gray-200 rounded-xl p-3 flex flex-col gap-1">
+                <span className="text-xl">🪙</span>
+                <p className="font-bold text-[#1E3A5F] text-sm">{p.label}</p>
+                <p className="text-[#D4AF37] font-black">{p.price}</p>
+                <button disabled className="mt-1 py-1 rounded-lg bg-gray-200 text-gray-400 text-xs font-semibold cursor-not-allowed">Coming Soon</button>
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Spend coins */}
-      <div style={{ background:'linear-gradient(135deg,rgba(212,175,55,0.08),rgba(212,175,55,0.04))', borderRadius:20, padding:18, marginBottom:16, border:'1.5px solid rgba(212,175,55,0.25)' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>🛍️ Spend Your Coins</p>
-        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-          {COIN_USES.map(u => (
-            <div key={u.label} style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'10px 14px', background:'#fff', borderRadius:12, border:'1px solid #E2E8F0' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-                <span style={{ fontSize:22 }}>{u.emoji}</span>
-                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:13 }}>{u.label}</span>
-              </div>
-              <span style={{ color:'#D4AF37', fontWeight:700, fontSize:12 }}>{u.cost}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Transaction history */}
-      <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', border:'1.5px solid #E2E8F0', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-        <div style={{ padding:'14px 18px', borderBottom:'1px solid #F1F5F9', display:'flex', alignItems:'center', justifyContent:'space-between', flexWrap:'wrap', gap:8 }}>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F' }}>Transaction History</p>
-          <div style={{ display:'flex', gap:6 }}>
-            {['all','earn','spend'].map(f => (
-              <button key={f} onClick={() => setFilter(f)} style={{ padding:'6px 14px', borderRadius:20, border:'none', cursor:'pointer', background: filter===f?'#1E3A5F':'#F1F5F9', color: filter===f?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12 }}>
-                {f.charAt(0).toUpperCase()+f.slice(1)}
-              </button>
             ))}
           </div>
         </div>
-        {filtered.map((t,i) => (
-          <div key={t.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'13px 18px', borderBottom: i<filtered.length-1?'1px solid #F8FAFC':'none' }}>
-            <div style={{ width:40, height:40, borderRadius:12, background: t.type==='earn'?'#DCFCE7':'#FEE2E2', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>{t.icon}</div>
-            <div style={{ flex:1 }}>
-              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:14 }}>{t.source}</p>
-              <p style={{ color:'#94A3B8', fontSize:12 }}>{t.date}</p>
+
+        {/* Redeem */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+          <h2 className="font-bold text-[#1E3A5F] text-lg mb-1">Redeem Coins</h2>
+          <p className="text-gray-500 text-sm mb-3">Exchange coins for Pro days, merchandise, and exclusive rewards.</p>
+          <div className="flex gap-3">
+            <div className="flex-1 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-sm">
+              Pro Extension<br /><span className="font-bold text-[#D4AF37]">500 🪙 = 7 days Pro</span>
             </div>
-            <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color: t.type==='earn'?'#22C55E':'#EF4444' }}>
-              {t.type==='earn'?'+':''}{t.coins}
-            </span>
+            <div className="flex-1 border border-dashed border-gray-300 rounded-xl p-3 text-center text-gray-400 text-sm">
+              TryIT Merch<br /><span className="font-bold text-[#D4AF37]">2,000 🪙</span>
+            </div>
           </div>
-        ))}
+          <button disabled className="mt-3 w-full py-2 rounded-xl bg-gray-200 text-gray-400 font-semibold text-sm cursor-not-allowed">Redemptions Coming Soon</button>
+        </div>
+
       </div>
     </AppLayout>
   )

@@ -1,4 +1,5 @@
 import EquityPricingSection from '../components/landing/EquityPricingSection'
+import LogoAnimated from '../components/LogoAnimated'
 import DonationSection      from '../components/landing/DonationSection'
 // TARGET_FILE: src/pages/Landing.jsx
 // Full feature showcase — every section shows a LIVE PREVIEW
@@ -52,12 +53,13 @@ function useCountUp(target, duration=1800) {
 }
 
 // ── HERO ──────────────────────────────────────────────────────────
+// ── HERO ──────────────────────────────────────────────────────────
 function Hero({ navigate }) {
   return (
     <section style={{
       minHeight:'100vh', display:'flex', alignItems:'center',
-      background:'linear-gradient(135deg,#071428 0%,#0F2140 45%,#1E3A5F 100%)',
-      padding:'80px 20px 60px', position:'relative', overflow:'hidden',
+      background:'linear-gradient(135deg,#1E3A5F 0%,#3B2A6B 45%,#5B1A3D 100%)',
+      padding:'40px 20px 60px', position:'relative', overflow:'hidden',
     }}>
       {/* Rings */}
       {[400,650,900].map((s,i)=>(
@@ -73,27 +75,36 @@ function Hero({ navigate }) {
 
         {/* Left */}
         <div>
+          <div style={{ marginBottom:20 }}>
+            <LogoAnimated size="lg" mode="auto" dark={true} />
+          </div>
+
           <div style={{ display:'inline-flex', alignItems:'center', gap:8,
             background:'rgba(212,175,55,0.12)', border:'1px solid rgba(212,175,55,0.3)',
             borderRadius:20, padding:'7px 16px', marginBottom:24 }}>
-            <span>🚀</span>
+            <span>🇮🇳</span>
             <span style={{ color:'#D4AF37', fontSize:'clamp(11px,2vw,13px)',
               fontWeight:600, fontFamily:'Inter,sans-serif' }}>
-              India's First Complete Exam Platform
+              LKG to PhD — One Platform, Every Exam, India & Abroad
             </span>
           </div>
 
           <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
-            fontSize:'clamp(36px,6vw,72px)', lineHeight:1.05, marginBottom:16 }}>
-            <span style={{ color:'#fff' }}>One App.</span><br/>
-            <span style={{ color:'#D4AF37' }}>Every Exam.</span><br/>
-            <span style={{ color:'#fff' }}>Zero Barriers.</span>
+            fontSize:'clamp(34px,5.5vw,66px)', lineHeight:1.08, marginBottom:16 }}>
+            <span style={{ color:'#fff' }}>Your Whole</span><br/>
+            <span style={{ color:'#D4AF37' }}>Learning Journey.</span><br/>
+            <span style={{ color:'#fff' }}>Lifetime Free.</span>
           </h1>
           <p style={{ color:'#D4AF37', fontStyle:'italic', fontSize:'clamp(15px,2vw,19px)',
             marginBottom:8 }}>Your Exam. Your Rank. Your Success.</p>
-          <p style={{ ...R.p, color:'rgba(255,255,255,0.65)', maxWidth:500, marginBottom:32 }}>
-            1,10,000+ exam pathways. 40+ Indian languages. Real All-India rankings.
-            100% free for 6 vulnerable communities. From Class 6 to retirement — for every Indian.
+          <p style={{ ...R.p, color:'rgba(255,255,255,0.7)', maxWidth:540, marginBottom:24 }}>
+            From your first Olympiad in LKG to clearing UPSC, NEET, JEE, GATE, CLAT,
+            CA/CS/CMA, SSC, Banking, Railways, Defence, every State PSC — and even
+            IELTS/TOEFL/PTE & MBBS-abroad entrance prep. School board exams,
+            SWAYAM/NPTEL courses, NIFT/design entrances, and every scholarship
+            notification — all on ONE platform, in 40+ Indian languages, with
+            real All-India rankings. <strong style={{color:'#D4AF37'}}>Core learning is 100%
+            free for life</strong> — no trial period, no "expires in 7 days."
           </p>
 
           <div style={{ display:'flex', gap:12, flexWrap:'wrap', marginBottom:28 }}>
@@ -102,7 +113,7 @@ function Hero({ navigate }) {
               border:'none', borderRadius:16, padding:'clamp(12px,2vw,18px) clamp(24px,3vw,40px)',
               fontFamily:'Poppins,sans-serif', fontWeight:800,
               fontSize:'clamp(15px,2vw,18px)', color:'#1E3A5F', cursor:'pointer' }}>
-              Start Free →
+              Start Free Forever →
             </button>
             <button onClick={()=>navigate('/equity')} style={{
               background:'rgba(255,255,255,0.06)', border:'1px solid rgba(212,175,55,0.4)',
@@ -114,8 +125,8 @@ function Hero({ navigate }) {
           </div>
 
           <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-            {['🔒 Secure','💳 ₹19 Trial','🌐 40+ Languages',
-              '🏆 Real Rankings','🤝 Free for Life (6 tiers)','🏳️‍⚧️ Trans Inclusive'].map(t=>(
+            {['🆓 Lifetime Free Core','🌐 40+ Languages','🏆 Real All-India Rankings',
+              '🎓 LKG → PhD', '✈️ Foreign Exams Too', '🤝 Free for Life (6 tiers)'].map(t=>(
               <span key={t} style={{ background:'rgba(255,255,255,0.06)',
                 border:'1px solid rgba(255,255,255,0.1)', borderRadius:20,
                 padding:'5px 12px', color:'rgba(255,255,255,0.6)',
@@ -124,9 +135,8 @@ function Hero({ navigate }) {
           </div>
         </div>
 
-        {/* Right — App preview cards */}
+        {/* Right — App preview cards (unchanged) */}
         <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-          {/* Rank card */}
           <div style={{ background:'rgba(15,33,64,0.9)',
             border:'1px solid rgba(212,175,55,0.3)', borderRadius:20,
             padding:18, backdropFilter:'blur(20px)' }}>
@@ -153,7 +163,6 @@ function Hero({ navigate }) {
             </div>
           </div>
 
-          {/* Level badge */}
           <div style={{ background:'linear-gradient(135deg,#D4AF37,#E8C84A)',
             borderRadius:20, padding:'16px 20px',
             display:'flex', alignItems:'center', gap:16 }}>
@@ -168,7 +177,6 @@ function Hero({ navigate }) {
             </div>
           </div>
 
-          {/* Stats */}
           <div style={{ background:'rgba(255,255,255,0.04)',
             border:'1px solid rgba(255,255,255,0.08)', borderRadius:20,
             padding:16, display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
@@ -190,7 +198,123 @@ function Hero({ navigate }) {
   )
 }
 
+
 // ── STATS STRIP ───────────────────────────────────────────────────
+// ── UNIVERSAL COVERAGE — LKG to PhD & Beyond, every exam type ──────
+function UniversalCoverageSection() {
+  const CATEGORIES = [
+    {
+      emoji:'🎈', title:'School & Olympiads', range:'LKG – Class 12',
+      color:'#0F766E', bg:'#F0FDFA',
+      items:['CBSE/ICSE/State Boards', 'SOF (IMO, NSO, IEO, NCO)', 'CREST, LogIQids, MaRRS', 'NTSE, NMMS'],
+      glimpse:'Pick your board + class → get a personalized practice path with games, badges, and weekly Olympiad-style mock tests.',
+    },
+    {
+      emoji:'🏛️', title:'Government — Central', range:'Graduate & Above',
+      color:'#1E3A5F', bg:'#F8FAFC',
+      items:['UPSC CSE, CDS, NDA', 'SSC CGL, CHSL, MTS', 'RRB NTPC, Group D', 'IBPS, SBI, RBI (Banking)'],
+      glimpse:'Choose your target exam → get a syllabus-mapped study plan, PYQ banks, and live All-India mock-test rankings.',
+    },
+    {
+      emoji:'🏢', title:'Government — State', range:'All 28 States + 8 UTs',
+      color:'#7C2D12', bg:'#FFF7ED',
+      items:['State PSCs (Group 1/2/3)', 'State Police & Forest Services', 'Teacher Eligibility (TET/CTET)', 'State Cooperative Banks'],
+      glimpse:'Select your state → questions auto-adjust to your state\'s syllabus, language, and current affairs focus.',
+    },
+    {
+      emoji:'🩺', title:'Medical & Engineering', range:'India + Abroad',
+      color:'#9D174D', bg:'#FFF1F2',
+      items:['NEET UG/PG', 'JEE Main/Advanced, GATE', 'MBBS Abroad (Russia/Georgia/Philippines prep)', 'NEET-equivalent foreign screening (FMGE)'],
+      glimpse:'Layered difficulty (L1–L5) on the same topic means NEET aspirants and GATE aspirants both get exam-appropriate versions of core science.',
+    },
+    {
+      emoji:'⚖️', title:'Law, Design & Management', range:'Entrance Exams',
+      color:'#6D28D9', bg:'#FAF5FF',
+      items:['CLAT, AILET (Law)', 'NIFT, NID (Design)', 'CAT, XAT, CMAT (MBA)', 'Hotel Management & Mass Comm entrances'],
+      glimpse:'Logical reasoning and comprehension question pools are shared across CLAT/CAT/NIFT — but framed in each exam\'s real pattern.',
+    },
+    {
+      emoji:'✈️', title:'Foreign & Language Exams', range:'Study Abroad',
+      color:'#0369A1', bg:'#F0F9FF',
+      items:['IELTS, TOEFL, PTE, Duolingo English Test', 'GRE, GMAT, SAT', 'Goethe (German), DELF (French), JLPT (Japanese)', 'Visa-interview mock prep'],
+      glimpse:'Practice with timed sections + AI band-score style feedback — built for Indian students applying abroad.',
+    },
+    {
+      emoji:'📜', title:'Professional Certifications', range:'Career Credentials',
+      color:'#92400E', bg:'#FFFBEB',
+      items:['CA Foundation/Inter/Final', 'CS, CMA (ICSI/ICMAI)', 'JAIIB, CAIIB (Banking)', 'NSDC & Skill India Certifications'],
+      glimpse:'Module-wise mock exams matching real institute patterns, with progress tracking toward your certification.',
+    },
+    {
+      emoji:'🎓', title:'Scholarships & SWAYAM', range:'Free Learning + Funding',
+      color:'#15803D', bg:'#F0FDF4',
+      items:['Central & State Scholarship Portals (NSP)', 'SWAYAM/NPTEL course-linked practice', 'Private Foundation Scholarships', 'Scholarship deadline notifications'],
+      glimpse:'We notify you when a scholarship you\'re ELIGIBLE for opens — based on your profile, state, and category.',
+    },
+  ]
+
+  return (
+    <section style={{ ...R.section, background:'#FFFFFF' }}>
+      <div style={R.container}>
+        <div style={{ textAlign:'center', marginBottom:16 }}>
+          <span style={{ display:'inline-flex', alignItems:'center', gap:8,
+            background:'linear-gradient(135deg,#D4AF37,#E8C84A)', borderRadius:20,
+            padding:'8px 20px', fontFamily:'Poppins,sans-serif', fontWeight:800,
+            fontSize:'clamp(12px,2vw,15px)', color:'#1E3A5F', marginBottom:16 }}>
+            🆓 100% LIFETIME FREE — Core access never expires, ever
+          </span>
+        </div>
+        <h2 style={{ ...R.h2, textAlign:'center', marginBottom:8 }}>
+          One Platform. Every Stage of Your Life.
+        </h2>
+        <p style={{ ...R.p, textAlign:'center', color:'#64748B', maxWidth:680, margin:'0 auto 40px' }}>
+          From your first Olympiad badge in LKG to your professional certification —
+          here's exactly what's inside, and a glimpse of how each section works.
+        </p>
+
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,300px),1fr))', gap:18 }}>
+          {CATEGORIES.map(c=>(
+            <div key={c.title} style={{ background:c.bg, borderRadius:22, padding:22,
+              border:`1.5px solid ${c.color}22`, display:'flex', flexDirection:'column' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:12 }}>
+                <span style={{ fontSize:32 }}>{c.emoji}</span>
+                <div>
+                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:c.color, fontSize:16 }}>{c.title}</p>
+                  <p style={{ color:'#94A3B8', fontSize:11, fontWeight:600 }}>{c.range}</p>
+                </div>
+              </div>
+              <ul style={{ listStyle:'none', padding:0, margin:'0 0 14px', display:'flex', flexDirection:'column', gap:6 }}>
+                {c.items.map(it=>(
+                  <li key={it} style={{ color:'#475569', fontSize:13, display:'flex', gap:8, alignItems:'flex-start' }}>
+                    <span style={{ color:c.color }}>✓</span>{it}
+                  </li>
+                ))}
+              </ul>
+              <p style={{ color:'#94A3B8', fontSize:12, fontStyle:'italic', lineHeight:1.6, marginTop:'auto',
+                paddingTop:12, borderTop:`1px dashed ${c.color}33` }}>
+                💡 {c.glimpse}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ marginTop:32, textAlign:'center', background:'linear-gradient(135deg,#1E3A5F,#3B2A6B)',
+          borderRadius:24, padding:'28px 24px' }}>
+          <p style={{ color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:'clamp(16px,2.5vw,22px)', marginBottom:8 }}>
+            One question bank. 800+ exams. Every difficulty layer.
+          </p>
+          <p style={{ color:'rgba(255,255,255,0.7)', fontSize:13, maxWidth:600, margin:'0 auto' }}>
+            The same core concept — say, "ratio & proportion" — appears at LKG-Olympiad
+            difficulty AND at UPSC-Prelims difficulty. Our engine shows YOU the right
+            version, with explanations tuned to YOUR exam's pattern.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+
 function StatsStrip() {
   const stats = [
     { target:110000, suffix:'+', label:'Exam Pathways' },
@@ -219,7 +343,7 @@ function StatsStrip() {
   },[])
 
   return (
-    <section style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', padding:'32px 20px' }}>
+    <section style={{ background:'linear-gradient(135deg,#FDF6E3,#FFF3D6)', padding:'32px 20px' }}>
       <div style={{ ...R.container, display:'flex', flexWrap:'wrap',
         justifyContent:'center', borderLeft:'1px solid rgba(255,255,255,0.06)' }}>
         {stats.map((s,i)=>(
@@ -387,7 +511,7 @@ function LeaderboardPreview({ navigate }) {
     { rank:1243, name:'You (Preview)',  state:'—',         exam:'—',        score:'—',     badge:'⛏️ Start Now',  isYou:true },
   ]
   return (
-    <section style={{ ...R.section, background:'linear-gradient(135deg,#1E3A5F,#0F2140)' }}>
+    <section style={{ ...R.section, background:'linear-gradient(135deg,#064E3B,#022C22)' }}>
       <div style={R.container}>
         <div style={{ textAlign:'center', marginBottom:36 }}>
           <h2 style={{ ...R.h2, color:'#fff', marginBottom:8 }}>
@@ -756,13 +880,12 @@ function EquitySection({ navigate }) {
     { emoji:'🧹', name:"Swachhta Warriors",   desc:"Children of sanitation workers",    free:true  },
     { emoji:'🎖️', name:"Martyr's Families",   desc:'Veer Naris & children of martyrs',  free:true  },
     { emoji:'🏳️‍⚧️',name:'Transgender Youth',  desc:'SMILE Portal verified',             free:true  },
-    { emoji:'🌾', name:'Agrarian Distress',   desc:'Farming crisis & natural disasters', free:true  },
     { emoji:'🪖', name:'Active Military',     desc:'Defense families — 30% OFF',        free:false },
     { emoji:'🏥', name:'ASHA/Anganwadi',      desc:'Health worker families — 30% OFF',  free:false },
     { emoji:'🌟', name:'First-Generation',    desc:'First in family in college — 15–25% OFF', free:false },
   ]
   return (
-    <section style={{ ...R.section, background:'linear-gradient(135deg,#071428,#0F2140)' }}>
+    <section style={{ ...R.section, background:'linear-gradient(135deg,#7C2D12,#450A0A)' }}>
       <div style={R.container}>
         <div style={{ textAlign:'center', marginBottom:40 }}>
           <span style={{ fontSize:'clamp(32px,5vw,56px)' }}>🇮🇳</span>
@@ -993,7 +1116,7 @@ function Testimonials() {
 function FinalCTA({ navigate }) {
   return (
     <section style={{ ...R.section,
-      background:'linear-gradient(135deg,#1E3A5F,#0F2140)', textAlign:'center' }}>
+      background:'linear-gradient(135deg,#3B2A6B,#1E3A5F)', textAlign:'center' }}>
       <div style={R.container}>
         <h2 style={{ ...R.h2, color:'#fff', marginBottom:16 }}>
           Ready to Start Your Journey?
@@ -1055,6 +1178,7 @@ export default function Landing() {
 
       <Navbar/>
       <Hero navigate={navigate}/>
+      <UniversalCoverageSection/>
       <StatsStrip/>
       <TestPreview/>
       <LeaderboardPreview navigate={navigate}/>

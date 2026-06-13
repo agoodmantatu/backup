@@ -1,128 +1,119 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import Logo from '../Logo'
-import { useAuth } from '../../context/AuthContext'
+// FILE: src/components/layout/Sidebar.jsx
+import { NavLink, useNavigate } from 'react-router-dom'
 import {
   Home, FileText, Target, BookOpen, Gamepad2, GraduationCap,
-  Users, Trophy, Library, Newspaper, DollarSign, BarChart2,
-  CreditCard, Settings, ChevronRight
+  Users, Trophy, School, Newspaper,
 } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
+import Logo from '../Logo'
 
-const NAV = [
-  { path: '/dashboard',       label: 'Dashboard',       icon: Home,          badge: null     },
-  { path: '/test-engine',     label: 'My Tests',         icon: FileText,      badge: '3 New'  },
-  { path: '/exams',           label: 'All Exams',        icon: Target,        badge: null     },
-  { path: '/subjects',        label: 'Subjects',          icon: BookOpen,      badge: null     },
-  { path: '/games',           label: 'Brain Games',      icon: Gamepad2,      badge: '🔥 Hot' },
-  { path: '/guru-hub',        label: 'Guru Hub',         icon: GraduationCap, badge: '24'     },
-  null,
-  { path: '/hall',            label: 'The Hall',         icon: Users,         badge: null     },
-  { path: '/tournaments',     label: 'Tournaments',      icon: Trophy,        badge: '●'      },
-  null,
-  { path: '/classroom',       label: 'Classroom',        icon: Library,       badge: null     },
-  { path: '/current-affairs', label: 'Current Affairs',  icon: Newspaper,     badge: 'Today'  },
-  { path: '/scholarships',    label: 'Scholarships',     icon: DollarSign,    badge: null     },
-  null,
-  { path: '/analytics',       label: 'My Analytics',     icon: BarChart2,     badge: null     },
-  { path: '/pro',             label: 'Pro Member',        icon: CreditCard,    badge: 'PRO'    },
-  { path: '/settings',        label: 'Settings',          icon: Settings,      badge: null     },
+// Routes corrected to match actual App.jsx routes (previous version
+// pointed at /brain-games, /all-exams, /my-tests, /the-hall, /subjects
+// which don't exist in App.jsx — they fell through to the catch-all
+// "*" route and redirected to /dashboard).
+const NAV_ITEMS = [
+  { to: '/dashboard',     icon: Home,         label: 'Dashboard' },
+  { to: '/test-engine',   icon: FileText,     label: 'My Tests', badge: 'newTests' },
+  { to: '/exams',         icon: Target,       label: 'All Exams' },
+  { to: '/analytics',     icon: BookOpen,     label: 'Subjects' },
+  { to: '/games',         icon: Gamepad2,     label: 'Brain Games', badge: 'hot' },
+  { to: '/guru-hub',      icon: GraduationCap,label: 'Guru Hub', badge: 'guruPoints' },
+  { to: '/hall',          icon: Users,        label: 'The Hall' },
+  { to: '/tournaments',   icon: Trophy,       label: 'Tournaments', badge: 'dot' },
+  { to: '/classroom',     icon: School,       label: 'Classroom' },
+  { to: '/current-affairs',icon: Newspaper,   label: 'Current Affairs', badge: 'today' },
 ]
 
-export default function Sidebar({ isOpen, onClose }) {
-  const navigate = useNavigate()
-  const { pathname } = useLocation()
+export default function Sidebar({ open, onClose }) {
   const { user } = useAuth()
+  const navigate = useNavigate()
 
-  const go = (path) => { navigate(path); if (onClose) onClose() }
-  const active = (path) => pathname === path || (path !== '/' && pathname.startsWith(path + '/'))
+  const xpPct = user?.xpToNext
+    ? Math.min(100, Math.round(((user.xp || 0) / user.xpToNext) * 100))
+    : 0
+
+  const initials = user?.initials || user?.name?.[0]?.toUpperCase() || '?'
 
   return (
     <>
-      {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={onClose} />
-      )}
-      <aside className={`fixed left-0 top-0 h-screen w-[260px] bg-[#1E3A5F] z-40 flex flex-col overflow-hidden
-        transition-transform duration-300 ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
+      {open && <div className="fixed inset-0 bg-black/40 z-30 lg:hidden" onClick={onClose} />}
 
-        {/* Gold stripe */}
-        <div className="h-1 w-full bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent flex-shrink-0" />
+      <aside className={`fixed top-0 left-0 h-full w-[260px] z-40 transition-transform duration-300
+        ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
+        style={{ background: 'linear-gradient(180deg,#1E3A5F,#0F2140)' }}>
 
-        {/* Logo */}
-        <div className="px-5 py-4 flex-shrink-0">
-          <Logo dark height={36} />
-          <p className="text-white/40 text-xs italic mt-1">Your Exam. Your Rank. Your Success.</p>
-        </div>
-
-        {/* User card */}
-        <div className="px-4 pb-3 border-b border-white/10 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#D4AF37] text-[#1E3A5F] font-bold text-sm flex items-center justify-center flex-shrink-0">
-              {user?.initials}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm truncate">{user?.name}</p>
-              <p className="text-[#D4AF37] text-xs">{user?.levelEmoji} {user?.levelTitle}</p>
-            </div>
+        <div className="p-5 flex flex-col h-full overflow-y-auto">
+          <div className="mb-2">
+            <Logo dark height={36} />
+            <p className="text-white/50 text-[11px] mt-1 italic">Your Exam. Your Rank. Your Success.</p>
           </div>
-          {/* XP bar */}
-          <div className="mt-2.5">
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-white/50">{user?.xp.toLocaleString()} XP</span>
-              <span className="text-white/50">{user?.xpToNext.toLocaleString()}</span>
-            </div>
-            <div className="w-full bg-white/10 rounded-full h-1.5">
-              <div className="bg-[#D4AF37] h-1.5 rounded-full" style={{ width: `${(user?.xp / user?.xpToNext) * 100}%` }} />
-            </div>
-          </div>
-          {/* Stats pills */}
-          <div className="flex gap-2 mt-2">
-            <span className="flex items-center gap-1 bg-[#D4AF37]/20 text-[#D4AF37] text-xs px-3 py-1 rounded-full font-semibold">
-              🪙 {user?.coins.toLocaleString()}
-            </span>
-            <span className="flex items-center gap-1 bg-red-500/20 text-red-400 text-xs px-3 py-1 rounded-full font-semibold">
-              🔥 {user?.streak}
-            </span>
-          </div>
-        </div>
 
-        {/* Active exam */}
-        <div className="px-4 py-2.5 border-b border-white/10 flex-shrink-0">
-          <div className="flex items-center justify-between bg-[#D4AF37]/15 border border-[#D4AF37]/30 rounded-xl px-3 py-2">
+          <div className="flex flex-col gap-2 mt-4 mb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
+                style={{
+                  background: 'linear-gradient(135deg,#D4AF37,#E8C84A)',
+                  color: '#1E3A5F',
+                }}>
+                {initials}
+              </div>
+              <div className="min-w-0">
+                <p className="text-white font-semibold text-sm truncate">
+                  {user?.name || 'New Learner'}
+                </p>
+                <p className="text-[#D4AF37] text-xs">
+                  {user?.levelEmoji} {user?.levelTitle || 'The Fierce One'}
+                </p>
+              </div>
+            </div>
             <div>
-              <p className="text-[#D4AF37] text-xs font-semibold">Active Exam</p>
-              <p className="text-white text-sm font-bold">{user?.exams[0]?.name}</p>
+              <div className="flex justify-between text-[10px] text-white/50 mb-1">
+                <span>XP</span>
+                <span>{user?.xp || 0} / {user?.xpToNext || 500}</span>
+              </div>
+              <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
+                <div className="h-full rounded-full" style={{
+                  width: `${xpPct}%`,
+                  background: 'linear-gradient(90deg,#D4AF37,#E8C84A)',
+                }} />
+              </div>
             </div>
-            <button onClick={() => go('/exams')} className="text-[#D4AF37] text-xs flex items-center gap-0.5 hover:underline">
-              Switch <ChevronRight size={12} />
-            </button>
           </div>
-        </div>
 
-        {/* Nav links */}
-        <nav className="flex-1 overflow-y-auto px-3 py-3 scrollbar-hide">
-          {NAV.map((item, i) => {
-            if (item === null) return <hr key={i} className="border-white/10 my-2" />
-            const Icon = item.icon
-            const isActive = active(item.path)
-            return (
-              <button key={item.path} onClick={() => go(item.path)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl mb-0.5 text-left transition-all
-                  ${isActive
-                    ? 'bg-[#D4AF37]/15 border-l-2 border-[#D4AF37] text-[#D4AF37]'
-                    : 'text-white/70 hover:bg-white/5 hover:text-white'}`}>
-                <Icon size={18} className="flex-shrink-0" />
-                <span className="text-sm font-medium flex-1">{item.label}</span>
-                {item.badge !== null && (
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-semibold
-                    ${item.badge === 'PRO' ? 'bg-[#D4AF37] text-[#1E3A5F]'
-                    : item.badge === '●' ? 'text-red-400 animate-pulse-dot text-base leading-none'
-                    : 'bg-white/10 text-white/70'}`}>
-                    {item.badge}
-                  </span>
+          <button onClick={() => navigate('/exams')}
+            className="flex items-center justify-between bg-white/5 hover:bg-white/10 rounded-xl px-3 py-2.5 mb-4 transition-colors">
+            <div className="text-left">
+              <p className="text-[10px] text-white/40 uppercase tracking-wide">Active Exam</p>
+              <p className="text-[#D4AF37] text-sm font-semibold">
+                {user?.exams?.[0]?.name || 'Choose your exam'}
+              </p>
+            </div>
+            <span className="text-white/40 text-xs">Switch ›</span>
+          </button>
+
+          <nav className="flex flex-col gap-1 flex-1">
+            {NAV_ITEMS.map(item => (
+              <NavLink key={item.to} to={item.to}
+                onClick={onClose}
+                className={({ isActive }) =>
+                  `flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors
+                  ${isActive ? 'bg-white/10 text-[#D4AF37]' : 'text-white/70 hover:bg-white/5 hover:text-white'}`
+                }>
+                <span className="flex items-center gap-3">
+                  <item.icon size={18} />
+                  {item.label}
+                </span>
+                {item.badge === 'hot' && <span className="text-[10px] bg-orange-500/20 text-orange-300 px-1.5 py-0.5 rounded-full">🔥 Hot</span>}
+                {item.badge === 'dot' && <span className="w-2 h-2 rounded-full bg-red-500" />}
+                {item.badge === 'today' && <span className="text-[10px] bg-white/10 text-white/50 px-1.5 py-0.5 rounded-full">Today</span>}
+                {item.badge === 'newTests' && <span className="text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] px-1.5 py-0.5 rounded-full">3 New</span>}
+                {item.badge === 'guruPoints' && (user?.guruPoints ?? 0) > 0 && (
+                  <span className="text-[10px] bg-[#D4AF37]/20 text-[#D4AF37] px-1.5 py-0.5 rounded-full">{user.guruPoints}</span>
                 )}
-              </button>
-            )
-          })}
-        </nav>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
       </aside>
     </>
   )

@@ -1,192 +1,478 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useAuth, onboardingKey } from '../context/AuthContext'
+
+import Logo from '../components/Logo'
+
+const IS_DEV =
+  !import.meta.env.VITE_SUPABASE_URL ||
+  import.meta.env.VITE_SUPABASE_URL.includes('placeholder')
 
 const ROLES = [
-  { id:'student',     emoji:'🎓', label:'Student',    desc:'Prepare for exams'  },
-  { id:'mentor',      emoji:'🧑‍🏫', label:'Mentor',     desc:'Teach & earn'       },
-  { id:'institution', emoji:'🏫', label:'Institution', desc:'Manage your centre' },
-  { id:'family',      emoji:'👨‍👩‍👧', label:'Family Hub',  desc:'Learn together'     },
+  { id: 'student',     label: 'Student',     emoji: '🎓', desc: 'Prepare for your exams' },
+  { id: 'mentor',      label: 'Mentor',      emoji: '🧑‍🏫', desc: 'Guide and track learners' },
+  { id: 'institution', label: 'Institution', emoji: '🏫', desc: 'Manage your coaching centre' },
+  { id: 'family',      label: 'Family',      emoji: '👨‍👩‍👧', desc: 'Monitor your child\'s progress' },
 ]
 
 export default function Login() {
   const navigate = useNavigate()
-  const [role,  setRole]  = useState('student')
-  const [step,  setStep]  = useState('role')
+  const { login } = useAuth()
+
+  const [step, setStep] = useState('role') // 'role' | 'email' | 'otp' | 'magic'
+  const [selectedRole, setSelectedRole] = useState('')
   const [email, setEmail] = useState('')
-  const [otp,   setOtp]   = useState(['','','','','',''])
-  const [coupon,setCoupon]= useState('')
+  const [otp, setOtp] = useState(['', '', '', '', '', ''])
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const emailRef = useRef(null)
-  const otpRefs  = useRef([])
+  const [couponOpen, setCouponOpen] = useState(false)
+  const [coupon, setCoupon] = useState('')
+
+  const otpRefs = useRef([])
 
   useEffect(() => {
-    if (step==='email') setTimeout(()=>emailRef.current?.focus(), 300)
-    if (step==='otp')   setTimeout(()=>otpRefs.current[0]?.focus(), 300)
+    if (step === 'otp' && otpRefs.current[0]) {
+      otpRefs.current[0].focus()
+    }
   }, [step])
 
-  const goIn = (emailAddr) => {
-    const e = (emailAddr || email).trim().toLowerCase()
-    const cleanRole = role.trim().toLowerCase()
+  function handleRoleSelect(roleId) {
+    setSelectedRole(roleId)
+    setStep('email')
+  }
+
+  // --- OTP Input Navigation Handlers ---
+  function handleOtpChange(index, value) {
+    const char = value.replace(/\D/, '')
+    const next = [...otp]
+    next[index] = char
+    setOtp(next)
+    if (char && index < 5) {
+      otpRefs.current[index + 1]?.focus()
+    }
+  }
+
+  function handleOtpKeyDown(index, e) {
+    if (e.key === 'Backspace' && !otp[index] && index > 0) {
+      otpRefs.current[index - 1]?.focus()
+    }
+  }
+
+  function handleOtpPaste(e) {
+    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
+    if (pasted.length === 6) {
+      setOtp(pasted.split(''))
+      otpRefs.current[5]?.focus()
+    }
+    e.preventDefault()
+  }
+
+  // --- Authentication Flows (Temp-Disabled / Dev Mode Forced) ---
+  async function handleSendOtp(e) {
+    e.preventDefault()
+    if (!email.trim()) { setError('Enter your email address.'); return }
+    setError('')
+    setLoading(true)
+
+    // Bypass mode active: advances immediately to verification step
+    setStep('otp')
+    setLoading(false)
+  }
+
+  async function handleVerifyOtp(e) {
+    e.preventDefault()
+    const code = otp.join('')
+    if (code.length < 6) { setError('Enter all 6 digits.'); return }
+    setError('')
+    setLoading(true)
+
+    if (coupon.trim()) {
+      localStorage.setItem('applied_coupon', coupon.trim().toUpperCase())
+    }
     
-    localStorage.setItem('tryit_role', cleanRole)
-    localStorage.setItem('tryit_email', e)
-    localStorage.setItem('onboarding_done', 'true')
-    
-    if (coupon.trim()) localStorage.setItem('applied_coupon', coupon.trim().toUpperCase())
+    // Bypass mode active: Logs directly in without hitting external servers
+    const done = localStorage.getItem(onboardingKey(email.trim()))
+    navigate(done ? '/dashboard' : '/onboarding')
+    setLoading(false)
+  }
+
+  async function handleGoogle() {
+    if (!selectedRole) { setError('Select a role first.'); return }
+    setError('')
+    setLoading(true)
+
+    if (coupon.trim()) {
+      localStorage.setItem('applied_coupon', coupon.trim().toUpperCase())
+    }
+
+    // Bypass mode active: Creates a dummy developer account profile instantly
     try {
-      const grants = JSON.parse(localStorage.getItem('tryit_pro_grants')||'[]')
-      const grant  = grants.find(g => g.email.toLowerCase()===e && new Date(g.expiresAt)>new Date())
-      if (grant) localStorage.setItem('tryit_active_grant', JSON.stringify(grant))
-    } catch {}
-    
-    if (cleanRole === 'mentor') {
-      navigate('/mentor-hub', { replace: true })
-    } else if (cleanRole === 'institution') {
-      navigate('/centre/dashboard', { replace: true })
-    } else if (cleanRole === 'family') {
-      navigate('/family', { replace: true })
-    } else {
-      navigate('/dashboard', { replace: true })
+      const mockEmail = `google-dev-user@example.com`
+      setEmail(mockEmail)
+      const done = localStorage.getItem(onboardingKey(mockEmail))
+      navigate(done ? '/dashboard' : '/onboarding')
+    } catch (err) {
+      setError('Google sign-in failed. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
-  const googleLogin = () => goIn('google.user@gmail.com')
-
-  const sendOTP = () => {
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError('Enter a valid email address.'); return
-    }
-    setStep('otp'); setError('')
-  }
-
-  const changeOtp = (i, val) => {
-    if (!/^\d?$/.test(val)) return
-    const n = [...otp]; n[i] = val; setOtp(n)
-    if (val && i < 5) otpRefs.current[i+1]?.focus()
-    if (val && i === 5 && n.every(x=>x)) goIn()
-  }
-
-  const S = {
-    page:  { minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(135deg,#071428,#0F2140,#1E3A5F)', padding:16, position:'relative', overflow:'hidden' },
-    card:  { background:'rgba(255,255,255,0.93)', backdropFilter:'blur(24px)', borderRadius:28, padding:'36px 26px', width:'100%', maxWidth:400, boxShadow:'0 24px 80px rgba(0,0,0,0.4)', position:'relative', zIndex:10 },
-    title: { textAlign:'center', marginBottom:24 },
-    btn:   { width:'100%', padding:14, borderRadius:14, border:'none', background:'linear-gradient(135deg,#D4AF37,#E8C44A)', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:15, color:'#1E3A5F', cursor:'pointer' },
-    input: { width:'100%', padding:'13px 16px', borderRadius:14, border:'2px solid #E2E8F0', fontSize:15, outline:'none', background:'#F8FAFC', color:'#1E293B', boxSizing:'border-box', fontFamily:'Poppins,sans-serif' },
-  }
+  const roleObj = ROLES.find(r => r.id === selectedRole)
 
   return (
-    <div style={S.page}>
-      {[300,500,700].map((s,i)=>(
-        <div key={i} style={{ position:'absolute', width:s, height:s, borderRadius:'50%', border:`1px solid rgba(212,175,55,${0.06-i*0.015})`, top:'50%', left:'50%', transform:'translate(-50%,-50%)', pointerEvents:'none' }}/>
-      ))}
+    <div
+      className="min-h-screen flex items-center justify-center px-4 py-10"
+      style={{ background: 'linear-gradient(135deg, #0F2140 0%, #1E3A5F 55%, #162d4a 100%)' }}
+    >
+      {/* Subtle background texture rings */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute rounded-full opacity-10"
+          style={{
+            width: 700, height: 700,
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -60%)',
+            border: '1.5px solid #D4AF37',
+          }}
+        />
+        <div
+          className="absolute rounded-full opacity-5"
+          style={{
+            width: 420, height: 420,
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -55%)',
+            border: '1.5px solid #D4AF37',
+          }}
+        />
+      </div>
 
-      <div style={S.card}>
-        <div style={S.title}>
-          <div style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:28 }}>
-            <span style={{ color:'#1E3A5F' }}>TRY</span><span style={{ color:'#D4AF37' }}>IT</span>
+      <div className="relative w-full max-w-md">
+        {/* Card */}
+        <div className="rounded-2xl p-8 shadow-2xl" style={{ background: '#F8FAFC' }}>
+          {/* Logo + heading */}
+          <div className="flex flex-col items-center mb-7">
+            <Logo dark={false} height={48} />
+            <p
+              className="mt-3 text-xs font-medium tracking-widest uppercase"
+              style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}
+            >
+              Your Exam. Your Rank. Your Success.
+            </p>
           </div>
-          <div style={{ color:'#94A3B8', fontSize:9, letterSpacing:'4px', marginTop:2 }}>EDUCATIONS</div>
-          <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:20, color:'#1E293B', marginTop:14, marginBottom:0 }}>
-            {step==='role'?'Who are you?':step==='email'?'Enter Email':'Verify OTP'}
-          </h2>
+
+          {/* ─── STEP: role ─────────────────────────────────────── */}
+          {step === 'role' && (
+            <div>
+              <h2
+                className="text-center text-xl font-bold mb-1"
+                style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}
+              >
+                Who are you?
+              </h2>
+              <p className="text-center text-sm mb-6" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
+                Pick your role to get started
+              </p>
+
+              <div className="grid grid-cols-2 gap-3">
+                {ROLES.map(role => (
+                  <button
+                    key={role.id}
+                    onClick={() => handleRoleSelect(role.id)}
+                    className="group flex flex-col items-center gap-1 rounded-xl p-4 border-2 text-left transition-all duration-150 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+                    style={{
+                      borderColor: selectedRole === role.id ? '#D4AF37' : '#E2E8F0',
+                      background: selectedRole === role.id ? '#FFFBF0' : '#fff',
+                      fontFamily: 'Inter, sans-serif',
+                    }}
+                    onFocus={e => e.currentTarget.style.borderColor = '#D4AF37'}
+                    onBlur={e => e.currentTarget.style.borderColor = '#E2E8F0'}
+                  >
+                    <span className="text-3xl">{role.emoji}</span>
+                    <span className="font-semibold text-sm" style={{ color: '#1E3A5F' }}>{role.label}</span>
+                    <span className="text-xs text-center leading-tight" style={{ color: '#94A3B8' }}>{role.desc}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Google button (role required first) */}
+              <div className="mt-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+                  <span className="text-xs" style={{ color: '#94A3B8', fontFamily: 'Inter, sans-serif' }}>or</span>
+                  <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+                </div>
+                <button
+                  onClick={() => { if (!selectedRole) setError('Select a role first.'); else handleGoogle(); }}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 border-2 font-medium text-sm transition-all hover:shadow"
+                  style={{
+                    borderColor: '#E2E8F0',
+                    background: '#fff',
+                    color: '#1E3A5F',
+                    fontFamily: 'Inter, sans-serif',
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
+                    <path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.4-.2-2.7-.5-4z" fill="#FFC107"/>
+                    <path d="M6.3 14.7l7 5.1C15.1 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 16.3 3 9.6 7.9 6.3 14.7z" fill="#FF3D00"/>
+                    <path d="M24 45c5.5 0 10.5-1.9 14.3-5.1l-6.6-5.6C29.7 35.9 27 37 24 37c-6 0-10.6-3.9-11.8-9.1l-7 5.4C8.6 40.8 15.7 45 24 45z" fill="#4CAF50"/>
+                    <path d="M44.5 20H24v8.5h11.8c-1 3-3.2 5.4-6.1 7l6.6 5.6C40.3 37.9 44.5 31.6 44.5 24c0-1.4-.2-2.7-.5-4z" fill="#1976D2"/>
+                  </svg>
+                  Continue with Google
+                </button>
+              </div>
+
+              {error && <p className="mt-3 text-center text-sm text-red-500">{error}</p>}
+            </div>
+          )}
+
+          {/* ─── STEP: email ──────────────────────────────────────── */}
+          {step === 'email' && (
+            <div>
+              <button
+                onClick={() => { setStep('role'); setError('') }}
+                className="flex items-center gap-1 text-sm mb-5 transition-opacity hover:opacity-70"
+                style={{ color: '#1E3A5F', fontFamily: 'Inter, sans-serif' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
+                Back
+              </button>
+
+              <div className="flex items-center gap-2 mb-5">
+                <span className="text-2xl">{roleObj?.emoji}</span>
+                <div>
+                  <h2
+                    className="text-lg font-bold leading-tight"
+                    style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}
+                  >
+                    Sign in as {roleObj?.label}
+                  </h2>
+                  <p className="text-xs" style={{ color: '#94A3B8', fontFamily: 'Inter, sans-serif' }}>
+                    We'll send a one-time code to your inbox
+                  </p>
+                </div>
+              </div>
+
+              <form onSubmit={handleSendOtp} className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-xs font-semibold mb-1.5 uppercase tracking-wide"
+                    style={{ color: '#1E3A5F', fontFamily: 'Inter, sans-serif' }}
+                  >
+                    Email address
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                    className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none"
+                    style={{
+                      borderColor: '#E2E8F0',
+                      background: '#fff',
+                      color: '#1E3A5F',
+                      fontFamily: 'Inter, sans-serif',
+                    }}
+                    onFocus={e => e.target.style.borderColor = '#D4AF37'}
+                    onBlur={e => e.target.style.borderColor = '#E2E8F0'}
+                  />
+                </div>
+
+                {error && <p className="text-sm text-red-500">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-xl py-3 font-semibold text-sm transition-all hover:shadow-md disabled:opacity-60"
+                  style={{
+                    background: 'linear-gradient(135deg, #D4AF37, #E8C84A)',
+                    color: '#0F2140',
+                    fontFamily: 'Poppins, sans-serif',
+                  }}
+                >
+                  {loading ? 'Sending…' : 'Send OTP →'}
+                </button>
+              </form>
+
+              <div className="mt-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+                  <span className="text-xs" style={{ color: '#94A3B8' }}>or</span>
+                  <div className="flex-1 h-px" style={{ background: '#E2E8F0' }} />
+                </div>
+                <button
+                  onClick={handleGoogle}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl py-3 border-2 font-medium text-sm transition-all hover:shadow"
+                  style={{ borderColor: '#E2E8F0', background: '#fff', color: '#1E3A5F', fontFamily: 'Inter, sans-serif' }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
+                    <path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.4-.2-2.7-.5-4z" fill="#FFC107"/>
+                    <path d="M6.3 14.7l7 5.1C15.1 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 16.3 3 9.6 7.9 6.3 14.7z" fill="#FF3D00"/>
+                    <path d="M24 45c5.5 0 10.5-1.9 14.3-5.1l-6.6-5.6C29.7 35.9 27 37 24 37c-6 0-10.6-3.9-11.8-9.1l-7 5.4C8.6 40.8 15.7 45 24 45z" fill="#4CAF50"/>
+                    <path d="M44.5 20H24v8.5h11.8c-1 3-3.2 5.4-6.1 7l6.6 5.6C40.3 37.9 44.5 31.6 44.5 24c0-1.4-.2-2.7-.5-4z" fill="#1976D2"/>
+                  </svg>
+                  Continue with Google
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ─── STEP: otp ────────────────────────────────────────── */}
+          {step === 'otp' && (
+            <div>
+              <button
+                onClick={() => { setStep('email'); setError(''); setOtp(['','','','','','']) }}
+                className="flex items-center gap-1 text-sm mb-5 transition-opacity hover:opacity-70"
+                style={{ color: '#1E3A5F', fontFamily: 'Inter, sans-serif' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
+                Back
+              </button>
+
+              <h2
+                className="text-lg font-bold mb-1"
+                style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}
+              >
+                Enter your code
+              </h2>
+              <p className="text-sm mb-6" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
+                A 6-digit code was sent to <span className="font-semibold" style={{ color: '#1E3A5F' }}>{email}</span>
+                <span className="ml-1 px-1.5 py-0.5 rounded text-xs font-medium" style={{ background: '#FEF3C7', color: '#92400E' }}>
+                  dev — any 6 digits work
+                </span>
+              </p>
+
+              <form onSubmit={handleVerifyOtp} className="space-y-5">
+                {/* OTP inputs */}
+                <div className="flex gap-2 justify-center" onPaste={handleOtpPaste}>
+                  {otp.map((digit, i) => (
+                    <input
+                      key={i}
+                      ref={el => otpRefs.current[i] = el}
+                      type="text"
+                      inputMode="numeric"
+                      maxLength={1}
+                      value={digit}
+                      onChange={e => handleOtpChange(i, e.target.value)}
+                      onKeyDown={e => handleOtpKeyDown(i, e)}
+                      className="w-11 h-12 text-center text-xl font-bold rounded-xl border-2 outline-none"
+                      style={{
+                        borderColor: digit ? '#D4AF37' : '#E2E8F0',
+                        background: digit ? '#FFFBF0' : '#fff',
+                        color: '#1E3A5F',
+                        fontFamily: 'Poppins, sans-serif',
+                      }}
+                      onFocus={e => e.target.style.borderColor = '#D4AF37'}
+                      onBlur={e => e.target.style.borderColor = otp[i] ? '#D4AF37' : '#E2E8F0'}
+                    />
+                  ))}
+                </div>
+
+                {/* Coupon (collapsible) */}
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setCouponOpen(v => !v)}
+                    className="text-xs transition-opacity hover:opacity-70 flex items-center gap-1"
+                    style={{ color: '#94A3B8', fontFamily: 'Inter, sans-serif' }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                    {couponOpen ? 'Hide coupon' : 'Have a coupon code?'}
+                  </button>
+                  {couponOpen && (
+                    <input
+                      type="text"
+                      value={coupon}
+                      onChange={e => setCoupon(e.target.value)}
+                      placeholder="Enter coupon"
+                      className="mt-2 w-full rounded-xl border-2 px-3 py-2 text-xs outline-none"
+                      style={{
+                        borderColor: '#E2E8F0',
+                        background: '#fff',
+                        color: '#1E3A5F',
+                        fontFamily: 'Inter, sans-serif',
+                      }}
+                      onFocus={e => e.target.style.borderColor = '#D4AF37'}
+                      onBlur={e => e.target.style.borderColor = '#E2E8F0'}
+                    />
+                  )}
+                </div>
+
+                {error && <p className="text-sm text-red-500">{error}</p>}
+
+                <button
+                  type="submit"
+                  disabled={loading || otp.join('').length < 6}
+                  className="w-full rounded-xl py-3 font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
+                  style={{
+                    background: 'linear-gradient(135deg, #D4AF37, #E8C84A)',
+                    color: '#0F2140',
+                    fontFamily: 'Poppins, sans-serif',
+                  }}
+                >
+                  {loading ? 'Verifying…' : 'Verify & Enter →'}
+                </button>
+              </form>
+            </div>
+          )}
+
+          {/* ─── STEP: magic link ───────────────────────────────── */}
+          {step === 'magic' && (
+            <div className="text-center py-4">
+              <div
+                className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                style={{ background: '#FEF3C7' }}
+              >
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </div>
+              <h2
+                className="text-lg font-bold mb-2"
+                style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}
+              >
+                Check your inbox
+              </h2>
+              <p className="text-sm mb-4" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
+                We sent a login link to <span className="font-semibold" style={{ color: '#1E3A5F' }}>{email}</span>. Click it to sign in.
+              </p>
+              <button
+                onClick={() => { setStep('email'); setError('') }}
+                className="text-sm transition-opacity hover:opacity-70"
+                style={{ color: '#D4AF37', fontFamily: 'Inter, sans-serif' }}
+              >
+                Use a different email
+              </button>
+            </div>
+          )}
+
+          {/* Footer note */}
+          {step !== 'magic' && (
+            <p
+              className="mt-6 text-center text-xs"
+              style={{ color: '#CBD5E1', fontFamily: 'Inter, sans-serif' }}
+            >
+              By continuing, you agree to our{' '}
+              <a href="/terms" className="underline hover:opacity-80" style={{ color: '#94A3B8' }}>Terms</a>
+              {' '}and{' '}
+              <a href="/privacy" className="underline hover:opacity-80" style={{ color: '#94A3B8' }}>Privacy Policy</a>.
+            </p>
+          )}
         </div>
 
-        {step==='role' && (
-          <>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:14 }}>
-              {ROLES.map(r=>(
-                <button key={r.id} onClick={()=>setRole(r.id)}
-                  style={{ padding:'13px 8px', borderRadius:16, border:'none', cursor:'pointer',
-                    background: role===r.id?'linear-gradient(135deg,#1E3A5F,#0F2140)':'#F8FAFC',
-                    outline: role===r.id?'2px solid #D4AF37':'none',
-                    transition:'all 0.2s' }}>
-                  <div style={{ fontSize:22, marginBottom:4 }}>{r.emoji}</div>
-                  <div style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:12, color:role===r.id?'#D4AF37':'#1E293B' }}>{r.label}</div>
-                  <div style={{ fontSize:10, color:role===r.id?'rgba(212,175,55,0.7)':'#94A3B8', marginTop:1 }}>{r.desc}</div>
-                </button>
-              ))}
-            </div>
-
-            <button onClick={googleLogin}
-              style={{ width:'100%', display:'flex', alignItems:'center', justifyContent:'center', gap:10, padding:13, borderRadius:14, border:'2px solid #E2E8F0', background:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:14, color:'#1E293B', cursor:'pointer', marginBottom:10 }}>
-              <svg viewBox="0 0 24 24" width="18" height="18">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Continue with Google
-            </button>
-
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
-              <div style={{ flex:1, height:1, background:'#E2E8F0' }}/>
-              <span style={{ color:'#94A3B8', fontSize:11 }}>or email</span>
-              <div style={{ flex:1, height:1, background:'#E2E8F0' }}/>
-            </div>
-
-            <button onClick={()=>setStep('email')} style={S.btn}>
-              Continue with Email →
-            </button>
-          </>
-        )}
-
-        {step==='email' && (
-          <>
-            <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:14, background:'rgba(30,58,95,0.06)', borderRadius:12, padding:'10px 14px' }}>
-              <span style={{ fontSize:18 }}>{ROLES.find(r=>r.id===role)?.emoji}</span>
-              <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E3A5F', fontSize:13, flex:1 }}>
-                {ROLES.find(r=>r.id===role)?.label}
-              </span>
-              <button onClick={()=>setStep('role')} style={{ background:'none', border:'none', color:'#D4AF37', cursor:'pointer', fontSize:12, fontWeight:600 }}>Change</button>
-            </div>
-            <input ref={emailRef} value={email} type="email" placeholder="your@email.com"
-              onChange={e=>{setEmail(e.target.value); setError('')}}
-              onKeyDown={e=>e.key==='Enter'&&sendOTP()}
-              style={{ ...S.input, borderColor:error?'#EF4444':'#E2E8F0', marginBottom:error?6:14 }}
-              onFocus={e=>e.target.style.borderColor='#D4AF37'}
-              onBlur={e=>e.target.style.borderColor=error?'#EF4444':'#E2E8F0'}
-            />
-            {error && <p style={{ color:'#EF4444', fontSize:12, marginBottom:10 }}>{error}</p>}
-            <button onClick={sendOTP} style={S.btn}>Send OTP →</button>
-          </>
-        )}
-
-        {step==='otp' && (
-          <>
-            <p style={{ textAlign:'center', color:'#475569', fontSize:13, marginBottom:14 }}>
-              Code sent to <strong style={{ color:'#1E3A5F' }}>{email}</strong>
-            </p>
-            <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:12 }}>
-              {otp.map((d,i)=>(
-                <input key={i} ref={el=>otpRefs.current[i]=el}
-                  value={d} maxLength={1} inputMode="numeric"
-                  onChange={e=>changeOtp(i,e.target.value)}
-                  onKeyDown={e=>{
-                    if(e.key==='Backspace'&&!d&&i>0) otpRefs.current[i-1]?.focus()
-                    if(e.key==='Enter'&&otp.every(x=>x)) goIn()
-                  }}
-                  style={{ width:42, height:50, textAlign:'center', fontSize:22, fontWeight:700, borderRadius:12, border:`2px solid ${d?'#1E3A5F':'#E2E8F0'}`, background:'#fff', outline:'none', fontFamily:'Poppins,sans-serif', color:'#1E3A5F' }}
-                  onFocus={e=>e.target.style.borderColor='#D4AF37'}
-                  onBlur={e=>e.target.style.borderColor=d?'#1E3A5F':'#E2E8F0'}
-                />
-              ))}
-            </div>
-            <input value={coupon} placeholder="Coupon code? (optional)"
-              onChange={e=>setCoupon(e.target.value)}
-              style={{ ...S.input, fontSize:13, marginBottom:10 }}
-              onFocus={e=>e.target.style.borderColor='#D4AF37'}
-              onBlur={e=>e.target.style.borderColor='#E2E8F0'}
-            />
-            <p style={{ textAlign:'center', color:'#94A3B8', fontSize:11, marginBottom:10 }}>
-              💡 Any 6 digits work during testing
-            </p>
-            <button onClick={()=>goIn()} style={S.btn}>Verify & Enter →</button>
-            <button onClick={()=>{setStep('email');setOtp(['','','','','',''])}}
-              style={{ width:'100%', background:'none', border:'none', color:'#94A3B8', fontSize:12, marginTop:8, cursor:'pointer' }}>
-              ← Change email
-            </button>
-          </>
-        )}
+        {/* Tagline below card */}
+        <p
+          className="text-center mt-4 text-xs opacity-50"
+          style={{ color: '#fff', fontFamily: 'Inter, sans-serif' }}
+        >
+          TryIT Educations © {new Date().getFullYear()}
+        </p>
       </div>
     </div>
   )

@@ -1,43 +1,119 @@
+// src/pages/referral/ReferralPage.jsx
+import { useState } from 'react'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
-import { useToast } from '../../context/ToastContext'
+
+function makeCode(user) {
+  const base = (user.userId || user.email || 'tryit').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6)
+  return `TRYIT-${base}`
+}
 
 export default function ReferralPage() {
   const { user } = useAuth()
-  const { showToast } = useToast()
-  const code = `TRYIT-${user?.userId?.slice(-6) || 'AK2026'}`
-  const link = `tryiteducations.net/join?ref=${code}`
+  const [copied, setCopied] = useState(false)
 
-  const share = () => {
-    const msg = `🎓 Study smarter with TryIT Educations!\n1,10,000+ exams · 40+ languages · Real rankings\nUse my code ${code} for extra benefits!\n${link}`
-    if (navigator.share) navigator.share({ text: msg })
-    else { navigator.clipboard?.writeText(msg); showToast('success','Copied! Share on WhatsApp 🎉') }
+  if (!user) return null
+
+  const code = makeCode(user)
+  const referralLink = `https://tryiteducations.net/join?ref=${code}`
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(referralLink).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  const handleShare = () => {
+    const msg = `🎓 Join TryIT Educations — India's free exam prep platform!\nUse my code ${code} at signup.\n${referralLink}`
+    if (navigator.share) {
+      navigator.share({ title: 'TryIT Educations', text: msg, url: referralLink }).catch(() => {})
+    } else {
+      window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
+    }
   }
 
   return (
-    <AppLayout>
-      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28, marginBottom:6 }}>🎁 Refer & Earn</h1>
-      <p style={{ color:'#94A3B8', fontSize:14, marginBottom:24 }}>Invite friends. Earn coins. Together rise faster.</p>
+    <AppLayout title="Refer & Earn">
+      <div className="max-w-xl mx-auto space-y-6 p-4">
 
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:24, padding:28, marginBottom:20, textAlign:'center', border:'1.5px solid rgba(212,175,55,0.3)' }}>
-        <p style={{ color:'rgba(255,255,255,0.6)', fontSize:13, marginBottom:8 }}>Your Referral Code</p>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:32, letterSpacing:4 }}>{code}</p>
-        <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11, marginTop:6, fontFamily:'monospace' }}>{link}</p>
-      </div>
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-[#D4AF37] to-[#E8C84A] rounded-2xl p-6 text-[#0F2140] text-center shadow-lg">
+          <p className="text-4xl mb-2">🎁</p>
+          <p className="text-2xl font-black">Invite Friends, Earn Coins</p>
+          <p className="text-sm mt-1 opacity-75">You earn 50 coins for every friend who joins with your code.</p>
+        </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,200px),1fr))', gap:12, marginBottom:20 }}>
-        {[['🎯','You earn','100 coins per signup'],['💰','Friend gets','₹50 off first plan'],['🌟','After 5 referrals','+500 bonus coins']].map(([e,t,v])=>(
-          <div key={t} style={{ background:'#fff', borderRadius:18, padding:18, textAlign:'center', border:'1.5px solid #E2E8F0' }}>
-            <p style={{ fontSize:28 }}>{e}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginTop:8 }}>{t}</p>
-            <p style={{ color:'#D4AF37', fontWeight:700, fontSize:13 }}>{v}</p>
+        {/* Referral code */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+          <p className="text-xs text-gray-400 uppercase tracking-wide">Your Referral Code</p>
+          <div className="flex items-center gap-3 bg-[#FDF6E3] rounded-xl px-4 py-3">
+            <span className="flex-1 font-black text-[#D4AF37] text-2xl tracking-widest">{code}</span>
+            <button
+              onClick={handleCopy}
+              className="px-3 py-1.5 bg-[#1E3A5F] text-white rounded-lg text-xs font-semibold hover:bg-[#0F2140] transition"
+            >
+              {copied ? '✓ Copied!' : 'Copy'}
+            </button>
           </div>
-        ))}
-      </div>
 
-      <button onClick={share} style={{ width:'100%', padding:16, borderRadius:16, border:'none', background:'linear-gradient(135deg,#D4AF37,#E8C84A)', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:'#1E3A5F', cursor:'pointer' }}>
-        📤 Share on WhatsApp / Instagram →
-      </button>
+          <div className="flex gap-3">
+            <button
+              onClick={handleCopy}
+              className="flex-1 py-2.5 border-2 border-[#D4AF37] text-[#D4AF37] rounded-xl font-semibold text-sm hover:bg-[#FDF6E3] transition"
+            >
+              📋 Copy Link
+            </button>
+            <button
+              onClick={handleShare}
+              className="flex-1 py-2.5 bg-[#25D366] text-white rounded-xl font-semibold text-sm hover:opacity-90 transition"
+            >
+              💬 Share on WhatsApp
+            </button>
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <h2 className="font-bold text-[#1E3A5F] mb-4">Your Referral Stats</h2>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="bg-gray-50 rounded-xl p-4 text-center">
+              <p className="text-3xl font-black text-[#1E3A5F]">0</p>
+              <p className="text-xs text-gray-500 mt-1">Friends Joined</p>
+            </div>
+            <div className="bg-[#FDF6E3] rounded-xl p-4 text-center">
+              <p className="text-3xl font-black text-[#D4AF37]">0 🪙</p>
+              <p className="text-xs text-gray-500 mt-1">Coins Earned</p>
+            </div>
+          </div>
+          <p className="text-center text-gray-400 text-sm mt-4">Invite 3 friends to earn your first 150 coins!</p>
+        </div>
+
+        {/* How it works */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <h2 className="font-bold text-[#1E3A5F] mb-3">How It Works</h2>
+          {[
+            ['1️⃣', 'Share your code with friends'],
+            ['2️⃣', 'Friend signs up using your code'],
+            ['3️⃣', 'You both earn 50 coins instantly!'],
+          ].map(([num, text]) => (
+            <div key={num} className="flex items-center gap-3 py-2">
+              <span className="text-xl">{num}</span>
+              <p className="text-gray-700 text-sm">{text}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Referred friends list */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+          <h2 className="font-bold text-[#1E3A5F] mb-3">Referred Friends</h2>
+          <div className="text-center py-6 text-gray-400">
+            <p className="text-3xl mb-2">👥</p>
+            <p className="text-sm">No referrals yet — share your link to get started!</p>
+          </div>
+        </div>
+
+      </div>
     </AppLayout>
   )
 }

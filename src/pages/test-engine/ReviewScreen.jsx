@@ -1,154 +1,168 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import AppLayout from '../../components/layout/AppLayout'
-import { Bookmark, ChevronLeft } from 'lucide-react'
 
-const QUESTIONS = [
-  { id:1, subject:'Reasoning', text:'A train 200m long passes a 300m platform in 25 seconds. Speed in km/hr?', opts:['72 km/hr','64 km/hr','80 km/hr','56 km/hr'], correct:0, explanation:'Total = 500m. Speed = 20 m/s = 72 km/hr.' },
-  { id:2, subject:'Maths',    text:'If 15% of X = 45, find X.', opts:['280','300','320','340'], correct:1, explanation:'X = 45 × 100/15 = 300.' },
-  { id:3, subject:'English',  text:'Choose the correct sentence:', opts:["He don't know.","He doesn't know.","He not know.","He knowed."], correct:1, explanation:'Third person singular uses "doesn\'t" for negatives.' },
-  { id:4, subject:'GK',       text:'Which article abolishes untouchability?', opts:['Article 14','Article 17','Article 21','Article 25'], correct:1, explanation:'Article 17 abolishes untouchability.' },
-  { id:5, subject:'Maths',    text:'LCM of 12, 18, and 24?', opts:['48','72','36','60'], correct:1, explanation:'LCM = 72.' },
-]
-
-const FILTERS = ['All','Correct','Wrong','Skipped','Bookmarked']
+const FACTOR_LABELS = {
+  concept: '📘 Concept',
+  formula: '📐 Formula / Rule',
+  common_mistake: '⚠️ Common Mistake',
+  shortcut: '⚡ Shortcut',
+  exam_relevance: '🎯 Exam Relevance',
+}
 
 export default function ReviewScreen() {
+  const { state } = useLocation()
   const navigate = useNavigate()
-  const location = useLocation()
-  const { answers = { 1:0, 2:1, 3:0, 4:1, 5:0 } } = location.state || {}
+  const [expanded, setExpanded] = useState({}) // { qId_factor: bool }
 
-  const [filter,    setFilter]    = useState('All')
-  const [expanded,  setExpanded]  = useState({})
-  const [bookmarks, setBookmarks] = useState(new Set())
-
-  const result = (q) => {
-    const s = answers[q.id]
-    if (s === undefined) return 'skipped'
-    return s === q.correct ? 'correct' : 'wrong'
+  if (!state) {
+    navigate('/test-engine')
+    return null
   }
 
-  const counts = {
-    All: QUESTIONS.length,
-    Correct: QUESTIONS.filter(q => result(q) === 'correct').length,
-    Wrong: QUESTIONS.filter(q => result(q) === 'wrong').length,
-    Skipped: QUESTIONS.filter(q => result(q) === 'skipped').length,
-    Bookmarked: bookmarks.size,
-  }
+  const { questions, answers } = state
 
-  const filtered = QUESTIONS.filter(q => {
-    const r = result(q)
-    if (filter === 'All') return true
-    if (filter === 'Correct') return r === 'correct'
-    if (filter === 'Wrong') return r === 'wrong'
-    if (filter === 'Skipped') return r === 'skipped'
-    if (filter === 'Bookmarked') return bookmarks.has(q.id)
-    return true
-  })
+  const toggleFactor = (key) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const correct = questions.filter(q => answers[q.id] === q.correct_answer).length
+  const total = questions.length
 
   return (
-    <AppLayout>
-      <div className="max-w-3xl mx-auto">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(-1)}
-            className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-200 hover:border-[#D4AF37] transition-colors">
-            <ChevronLeft size={20} className="text-slate-600" />
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: 'Inter, sans-serif' }}>
+
+      {/* Header */}
+      <div className="bg-[#1E3A5F] px-4 py-4 flex items-center justify-between sticky top-0 z-10">
+        <div>
+          <h1 className="text-white font-bold text-lg">Answer Review</h1>
+          <p className="text-white/60 text-xs">{correct}/{total} correct</p>
+        </div>
+        <div className="flex gap-2">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-xs text-white/80 border border-white/30 px-3 py-1.5 rounded-lg hover:bg-white/10 transition"
+          >
+            ← Result
           </button>
-          <div>
-            <h1 className="text-2xl font-bold text-[#1E3A5F] font-poppins">Answer Review</h1>
-            <p className="text-slate-500 text-sm">{QUESTIONS.length} Questions · SSC CGL Mock</p>
-          </div>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="text-xs text-white/80 border border-white/30 px-3 py-1.5 rounded-lg hover:bg-white/10 transition"
+          >
+            Dashboard
+          </button>
         </div>
+      </div>
 
-        {/* Filter chips */}
-        <div className="flex gap-2 mb-6 overflow-x-auto scrollbar-hide pb-1">
-          {FILTERS.map(f => (
-            <button key={f} onClick={() => setFilter(f)}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold whitespace-nowrap flex-shrink-0 transition-all
-                ${filter === f ? 'bg-[#1E3A5F] text-white' : 'bg-white border border-slate-200 text-slate-600 hover:border-[#D4AF37]'}`}>
-              {f}
-              <span className={`text-xs px-1.5 py-0.5 rounded-full ${filter === f ? 'bg-white/20' : 'bg-slate-100 text-slate-500'}`}>
-                {counts[f]}
-              </span>
-            </button>
-          ))}
-        </div>
+      {/* Questions */}
+      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+        {questions.map((q, idx) => {
+          const userAnswer = answers[q.id]
+          const isCorrect = userAnswer === q.correct_answer
+          const wasAttempted = !!userAnswer
 
-        {/* Cards */}
-        <div className="flex flex-col gap-4">
-          {filtered.length > 0 ? filtered.map((q, qi) => {
-            const res = result(q)
-            const sel = answers[q.id]
-            const isExp = expanded[q.id]
-            const border = res === 'correct' ? 'border-green-500' : res === 'wrong' ? 'border-red-500' : 'border-slate-200'
+          return (
+            <div
+              key={q.id}
+              className={`bg-white rounded-2xl shadow-sm border-2 overflow-hidden ${
+                !wasAttempted ? 'border-gray-200' : isCorrect ? 'border-green-200' : 'border-red-200'
+              }`}
+            >
+              {/* Question header */}
+              <div className={`px-5 py-3 flex items-center gap-3 ${
+                !wasAttempted ? 'bg-gray-50' : isCorrect ? 'bg-green-50' : 'bg-red-50'
+              }`}>
+                <span className={`text-xl ${
+                  !wasAttempted ? '⬜' : isCorrect ? '✅' : '❌'
+                }`}>
+                  {!wasAttempted ? '⬜' : isCorrect ? '✅' : '❌'}
+                </span>
+                <span className="text-sm font-bold text-gray-600">Q{idx + 1}</span>
+                <span className="ml-auto text-xs font-semibold bg-white/60 px-2 py-0.5 rounded-full text-gray-500">
+                  {q.difficulty}
+                </span>
+              </div>
 
-            return (
-              <div key={q.id} className={`clay rounded-3xl p-6 border-2 ${border}`}>
-                {/* Header */}
-                <div className="flex items-start justify-between gap-3 mb-4">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full">Q{qi + 1}</span>
-                    <span className={`text-xs font-bold px-3 py-1 rounded-full
-                      ${res === 'correct' ? 'bg-green-100 text-green-700' : res === 'wrong' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-500'}`}>
-                      {res === 'correct' ? '✅ Correct' : res === 'wrong' ? '❌ Wrong' : '⏭️ Skipped'}
-                    </span>
-                    <span className="bg-slate-100 text-slate-500 text-xs px-3 py-1 rounded-full">{q.subject}</span>
-                  </div>
-                  <button
-                    onClick={() => setBookmarks(p => { const n = new Set(p); p.has(q.id) ? n.delete(q.id) : n.add(q.id); return n })}
-                    className={`flex-shrink-0 transition-colors ${bookmarks.has(q.id) ? 'text-[#D4AF37]' : 'text-slate-300 hover:text-[#D4AF37]'}`}>
-                    <Bookmark size={20} fill={bookmarks.has(q.id) ? 'currentColor' : 'none'} />
-                  </button>
-                </div>
+              <div className="px-5 py-4 space-y-4">
 
-                <p className="text-[#1E293B] font-medium mb-4 leading-relaxed">{q.text}</p>
+                {/* Question text */}
+                <p className="text-gray-800 font-medium leading-relaxed">{q.question}</p>
 
-                {/* Options (read-only) */}
-                <div className="flex flex-col gap-2 mb-4">
-                  {q.opts.map((opt, i) => {
-                    const isCorrect  = i === q.correct
-                    const isUserSel  = i === sel
-                    let cls = 'border-slate-200 bg-slate-50 opacity-60'
-                    if (isCorrect) cls = 'border-green-500 bg-green-50'
-                    else if (isUserSel && !isCorrect) cls = 'border-red-500 bg-red-50'
+                {/* Options */}
+                <div className="space-y-2">
+                  {q.options.map((opt, i) => {
+                    const isUserChoice = opt === userAnswer
+                    const isRightAnswer = opt === q.correct_answer
+
+                    let style = 'border-gray-100 bg-gray-50 text-gray-500'
+                    if (isRightAnswer) style = 'border-green-400 bg-green-50 text-green-800 font-semibold'
+                    if (isUserChoice && !isRightAnswer) style = 'border-red-400 bg-red-50 text-red-700 line-through'
+
                     return (
-                      <div key={i} className={`flex items-center gap-3 p-3 rounded-xl border-2 ${cls}`}>
-                        <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0
-                          ${isCorrect ? 'bg-green-500 text-white' : isUserSel ? 'bg-red-500 text-white' : 'bg-slate-200 text-slate-500'}`}>
-                          {['A','B','C','D'][i]}
-                        </span>
-                        <span className="text-sm">{opt}</span>
-                        {isCorrect && <span className="ml-auto text-green-600 text-xs font-bold">✓ Correct</span>}
-                        {isUserSel && !isCorrect && <span className="ml-auto text-red-500 text-xs font-bold">Your answer</span>}
+                      <div
+                        key={opt}
+                        className={`px-4 py-2.5 rounded-xl border-2 flex items-center gap-2 text-sm ${style}`}
+                      >
+                        <span className="opacity-50 font-bold">{['A','B','C','D'][i]}.</span>
+                        <span>{opt}</span>
+                        {isRightAnswer && <span className="ml-auto text-green-600 text-xs font-bold">✓ Correct</span>}
+                        {isUserChoice && !isRightAnswer && <span className="ml-auto text-red-500 text-xs">Your answer</span>}
                       </div>
                     )
                   })}
                 </div>
 
-                <button onClick={() => setExpanded(p => ({ ...p, [q.id]: !p[q.id] }))}
-                  className="text-[#D4AF37] text-sm font-semibold hover:underline">
-                  {isExp ? '▲ Hide Explanation' : '▼ Show Explanation'}
-                </button>
-                {isExp && (
-                  <div className="mt-3 bg-slate-50 rounded-2xl p-4 text-sm text-slate-700 leading-relaxed animate-slide-up">
-                    {q.explanation}
-                  </div>
+                {/* Unattempted note */}
+                {!wasAttempted && (
+                  <div className="text-xs text-gray-400 italic">Not attempted — correct answer: <span className="font-semibold text-gray-600">{q.correct_answer}</span></div>
                 )}
-              </div>
-            )
-          }) : (
-            <div className="clay rounded-3xl p-12 text-center">
-              <p className="text-5xl mb-3">🔍</p>
-              <p className="text-slate-500">No questions match this filter.</p>
-            </div>
-          )}
-        </div>
 
-        <button onClick={() => navigate('/test-engine')} className="btn-gold w-full py-4 rounded-2xl font-bold text-lg mt-6 mb-4">
-          Take Another Test →
-        </button>
+                {/* Explanation */}
+                <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 text-sm text-blue-900">
+                  <span className="font-semibold">Explanation: </span>{q.explanation}
+                </div>
+
+                {/* Expandable factors */}
+                <div className="space-y-2">
+                  {Object.entries(q.explanation_factors).map(([key, value]) => {
+                    const expandKey = `${q.id}_${key}`
+                    const isOpen = expanded[expandKey]
+                    return (
+                      <div key={key} className="border border-gray-100 rounded-xl overflow-hidden">
+                        <button
+                          onClick={() => toggleFactor(expandKey)}
+                          className="w-full flex items-center justify-between px-4 py-2.5 bg-gray-50 hover:bg-gray-100 transition text-sm"
+                        >
+                          <span className="font-medium text-gray-700">{FACTOR_LABELS[key]}</span>
+                          <span className="text-gray-400 text-xs">{isOpen ? '▲' : '▼'}</span>
+                        </button>
+                        {isOpen && (
+                          <div className="px-4 py-3 text-sm text-gray-700 bg-white">
+                            {value}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+
+        {/* Bottom navigation */}
+        <div className="flex gap-3 pb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-2xl hover:bg-gray-50 transition"
+          >
+            ← Back to Result
+          </button>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="flex-1 py-3 bg-[#1E3A5F] text-white font-semibold rounded-2xl hover:bg-[#0F2140] transition"
+          >
+            Dashboard
+          </button>
+        </div>
       </div>
-    </AppLayout>
+    </div>
   )
 }

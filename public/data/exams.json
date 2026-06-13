@@ -1,0 +1,1302 @@
+{
+  "exams": [
+    {
+      "id": "ssc-cgl",
+      "name": "SSC CGL",
+      "body": "Staff Selection Commission",
+      "category": "govt_central",
+      "level": "Graduate",
+      "vacancies": 22000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "ssc-chsl",
+      "name": "SSC CHSL",
+      "body": "Staff Selection Commission",
+      "category": "govt_central",
+      "level": "12th Pass",
+      "vacancies": 18000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "upsc-cse",
+      "name": "UPSC CSE",
+      "body": "Union Public Service Commission",
+      "category": "govt_central",
+      "level": "Graduate",
+      "vacancies": 11000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "ibps-po",
+      "name": "IBPS PO",
+      "body": "Institute of Banking Personnel Selection",
+      "category": "banking",
+      "level": "Graduate",
+      "vacancies": 25000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "ibps-clerk",
+      "name": "IBPS Clerk",
+      "body": "Institute of Banking Personnel Selection",
+      "category": "banking",
+      "level": "Graduate",
+      "vacancies": 30000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "sbi-po",
+      "name": "SBI PO",
+      "body": "State Bank of India",
+      "category": "banking",
+      "level": "Graduate",
+      "vacancies": 20000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "rrb-ntpc",
+      "name": "RRB NTPC",
+      "body": "Railway Recruitment Board",
+      "category": "railways",
+      "level": "12th/Graduate",
+      "vacancies": 35000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "rrb-group-d",
+      "name": "RRB Group D",
+      "body": "Railway Recruitment Board",
+      "category": "railways",
+      "level": "10th Pass",
+      "vacancies": 50000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "neet-ug",
+      "name": "NEET UG",
+      "body": "National Testing Agency",
+      "category": "medical",
+      "level": "12th PCB",
+      "vacancies": 24,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "jee-main",
+      "name": "JEE Main",
+      "body": "National Testing Agency",
+      "category": "engineering",
+      "level": "12th PCM",
+      "vacancies": 12,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "gate-cs",
+      "name": "GATE CS",
+      "body": "IIT (rotating)",
+      "category": "engineering_pg",
+      "level": "B.Tech",
+      "vacancies": 9,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "ctet",
+      "name": "CTET",
+      "body": "CBSE",
+      "category": "teaching",
+      "level": "Graduate + B.Ed",
+      "vacancies": 30000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "cds",
+      "name": "CDS",
+      "body": "UPSC",
+      "category": "defence",
+      "level": "Graduate",
+      "vacancies": 12000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "nda",
+      "name": "NDA",
+      "body": "UPSC",
+      "category": "defence",
+      "level": "12th Pass",
+      "vacancies": 17000,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "state-psc-tnpsc-group-1",
+      "name": "State PSC (TNPSC) Group 1",
+      "body": "Tamil Nadu PSC",
+      "category": "govt_state",
+      "level": "Graduate",
+      "vacancies": 3500,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "state-psc-tnpsc-group-2",
+      "name": "State PSC (TNPSC) Group 2",
+      "body": "Tamil Nadu PSC",
+      "category": "govt_state",
+      "level": "Graduate",
+      "vacancies": 5500,
+      "emoji": "\ud83d\udccb",
+      "price_inr": 0
+    },
+    {
+      "id": "crest-ciko-lkg",
+      "name": "CREST Kids Olympiad (CIKO) \u2013 LKG",
+      "body": "CREST",
+      "category": "school_competitive",
+      "level": "LKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "crest-ciko-ukg",
+      "name": "CREST Kids Olympiad (CIKO) \u2013 UKG",
+      "body": "CREST",
+      "category": "school_competitive",
+      "level": "UKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "logiqids-lmaa-lkg",
+      "name": "LogIQids Mental Aptitude Assessment (LMAA) \u2013 LKG",
+      "body": "LogIQids",
+      "category": "school_competitive",
+      "level": "LKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "logiqids-lmaa-ukg",
+      "name": "LogIQids Mental Aptitude Assessment (LMAA) \u2013 UKG",
+      "body": "LogIQids",
+      "category": "school_competitive",
+      "level": "UKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "marrs-mpsb-lkg",
+      "name": "MaRRS Pre-School Bee (MPSB) \u2013 LKG",
+      "body": "MaRRS",
+      "category": "school_competitive",
+      "level": "LKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "marrs-mpsb-ukg",
+      "name": "MaRRS Pre-School Bee (MPSB) \u2013 UKG",
+      "body": "MaRRS",
+      "category": "school_competitive",
+      "level": "UKG",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-1",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 1",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 1",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-2",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 2",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 2",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-3",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-4",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-5",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-6",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-7",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-8",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-9",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-10",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-11",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 11",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 11",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-igko-12",
+      "name": "SOF International General Knowledge Olympiad (IGKO) \u2013 Class 12",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 12",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-1",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 1",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 1",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-2",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 2",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 2",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-3",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-4",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-5",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-6",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-7",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-8",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-9",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-10",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-11",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 11",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 11",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-ieo-12",
+      "name": "SOF International English Olympiad (IEO) \u2013 Class 12",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 12",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-1",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 1",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 1",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-2",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 2",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 2",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-3",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-4",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-5",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-6",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-7",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-8",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-9",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-10",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-11",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 11",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 11",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nco-12",
+      "name": "SOF National Cyber Olympiad (NCO) \u2013 Class 12",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 12",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-1",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 1",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 1",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-2",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 2",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 2",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-3",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-4",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-5",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-6",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-7",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-8",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-9",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-10",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-11",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 11",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 11",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-nso-12",
+      "name": "SOF National Science Olympiad (NSO) \u2013 Class 12",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 12",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-1",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 1",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 1",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-2",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 2",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 2",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-3",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-4",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-5",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-6",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-7",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-8",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-9",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-10",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-11",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 11",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 11",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-imo-12",
+      "name": "SOF International Mathematics Olympiad (IMO) \u2013 Class 12",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 12",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-3",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 3",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 3",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-4",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 4",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 4",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-5",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 5",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 5",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-6",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 6",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 6",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-7",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 7",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 7",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-8",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 8",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 8",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-9",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 9",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 9",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    },
+    {
+      "id": "sof-isso-10",
+      "name": "SOF International Social Studies Olympiad (ISSO) \u2013 Class 10",
+      "body": "SOF",
+      "category": "school_competitive",
+      "level": "Class 10",
+      "vacancies": null,
+      "emoji": "\ud83c\udfc5",
+      "price_inr": 0
+    }
+  ],
+  "total": 90,
+  "generated": "2026-06-12"
+}EXEOF
+echo "✅ public/data/exams.json — 90 exams (major govt/banking/medical/engineering + 76 school olympiad records)"
+
+echo ""
+echo "═══ 3/6: Admin Exam Manager (CRUD + pricing) ═══"
+cat > src/pages/admin/ExamManager.jsx << 'EMEOF'
+// FILE: src/pages/admin/ExamManager.jsx
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
+
+const CATEGORIES = ['govt_central','govt_state','banking','railways','defence','medical','engineering','engineering_pg','teaching','school_competitive','scholarship','professional_cert','foreign_language']
+
+const EMPTY = { name:'', body:'', category:'govt_central', level:'', vacancies:'', price_inr:0, emoji:'📋' }
+
+export default function ExamManager() {
+  const navigate = useNavigate()
+  const [exams, setExams] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState(null) // null | EMPTY | exam object
+  const [search, setSearch] = useState('')
+  const [source, setSource] = useState('local') // 'local' | 'supabase'
+
+  useEffect(() => { load() }, [])
+
+  async function load() {
+    setLoading(true)
+    try {
+      const { data, error } = await supabase.from('exams').select('*').order('name')
+      if (error) throw error
+      if (data && data.length) {
+        setExams(data); setSource('supabase'); setLoading(false); return
+      }
+    } catch {}
+    // Fallback: static exams.json (read-only baseline)
+    try {
+      const res = await fetch('/data/exams.json')
+      const json = await res.json()
+      setExams(json.exams || [])
+      setSource('local')
+    } catch { setExams([]) }
+    setLoading(false)
+  }
+
+  const filtered = exams.filter(e =>
+    (e.name||'').toLowerCase().includes(search.toLowerCase()) ||
+    (e.body||'').toLowerCase().includes(search.toLowerCase())
+  )
+
+  async function save() {
+    if (!editing.name?.trim()) return
+    const payload = {
+      ...editing,
+      id: editing.id || editing.name.toLowerCase().replace(/[^a-z0-9]+/g,'-'),
+      vacancies: editing.vacancies ? parseInt(editing.vacancies) : null,
+      price_inr: editing.price_inr ? parseFloat(editing.price_inr) : 0,
+    }
+    try {
+      const { error } = await supabase.from('exams').upsert(payload)
+      if (error) throw error
+      await load()
+      setEditing(null)
+    } catch (e) {
+      alert('Could not save to Supabase. Make sure the "exams" table exists (see schema). Error: ' + e.message)
+    }
+  }
+
+  async function remove(id) {
+    if (!confirm('Delete this exam permanently?')) return
+    try {
+      await supabase.from('exams').delete().eq('id', id)
+      await load()
+    } catch (e) { alert('Delete failed: ' + e.message) }
+  }
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#F8FAFC', padding:'24px clamp(16px,4vw,40px)' }}>
+      <button onClick={()=>navigate('/admin/dashboard')} style={{ background:'none', border:'none', color:'#64748B', cursor:'pointer', fontSize:13, marginBottom:12 }}>← Back to Admin</button>
+      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:24, marginBottom:6 }}>📋 Exam Manager</h1>
+      <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>
+        {source==='local'
+          ? '⚠️ Reading from static /data/exams.json (Supabase "exams" table empty/missing — saves will fail until table exists, see schema)'
+          : `✅ Connected to Supabase — ${exams.length} exams`}
+      </p>
+
+      <div style={{ display:'flex', gap:10, marginBottom:14, flexWrap:'wrap' }}>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search exams..."
+          style={{ flex:1, minWidth:200, padding:'10px 14px', borderRadius:12, border:'1.5px solid #E2E8F0', fontSize:13, outline:'none' }}/>
+        <button onClick={()=>setEditing({...EMPTY})} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:12, padding:'10px 20px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer' }}>+ Add Exam</button>
+      </div>
+
+      {loading ? <p style={{ color:'#94A3B8' }}>Loading...</p> : (
+        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+          {filtered.slice(0,100).map(e=>(
+            <div key={e.id} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 14px', background:'#fff', borderRadius:12, border:'1.5px solid #E2E8F0', flexWrap:'wrap' }}>
+              <span style={{ fontSize:18 }}>{e.emoji||'📋'}</span>
+              <div style={{ flex:1, minWidth:160 }}>
+                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:13 }}>{e.name}</p>
+                <p style={{ color:'#94A3B8', fontSize:11 }}>{e.body} · {e.category} · {e.level}</p>
+              </div>
+              <span style={{ fontSize:12, fontWeight:700, color: e.price_inr>0 ? '#92400E':'#15803D', background: e.price_inr>0 ? 'rgba(212,175,55,0.12)':'rgba(34,197,94,0.1)', padding:'4px 10px', borderRadius:20 }}>
+                {e.price_inr>0 ? `₹${e.price_inr}` : 'Free'}
+              </span>
+              <button onClick={()=>setEditing({...e, vacancies: e.vacancies||'', price_inr: e.price_inr||0})} style={{ background:'#F1F5F9', border:'none', borderRadius:10, padding:'6px 12px', fontSize:12, fontWeight:700, color:'#1E3A5F', cursor:'pointer' }}>Edit</button>
+              <button onClick={()=>remove(e.id)} style={{ background:'#FEE2E2', border:'none', borderRadius:10, padding:'6px 12px', fontSize:12, fontWeight:700, color:'#991B1B', cursor:'pointer' }}>Delete</button>
+            </div>
+          ))}
+          {filtered.length > 100 && <p style={{ color:'#94A3B8', fontSize:12, textAlign:'center' }}>Showing 100 of {filtered.length} — refine search</p>}
+        </div>
+      )}
+
+      {/* Edit/Add modal */}
+      {editing && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center', padding:16, zIndex:999 }}>
+          <div style={{ background:'#fff', borderRadius:20, padding:24, maxWidth:480, width:'100%', maxHeight:'85vh', overflowY:'auto' }}>
+            <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', marginBottom:14 }}>{editing.id ? 'Edit Exam' : 'Add New Exam'}</h3>
+            {[
+              ['Exam Name','name','text'], ['Conducting Body','body','text'],
+              ['Level (e.g. Graduate, 12th Pass)','level','text'],
+              ['Vacancies (optional)','vacancies','number'],
+              ['Price ₹ (0 = free)','price_inr','number'],
+              ['Emoji','emoji','text'],
+            ].map(([label,key,type])=>(
+              <div key={key} style={{ marginBottom:10 }}>
+                <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>{label}</label>
+                <input type={type} value={editing[key]??''} onChange={e=>setEditing(v=>({...v,[key]:e.target.value}))}
+                  style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, outline:'none', boxSizing:'border-box' }}/>
+              </div>
+            ))}
+            <div style={{ marginBottom:10 }}>
+              <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Category</label>
+              <select value={editing.category} onChange={e=>setEditing(v=>({...v,category:e.target.value}))}
+                style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13 }}>
+                {CATEGORIES.map(c=><option key={c} value={c}>{c.replace(/_/g,' ')}</option>)}
+              </select>
+            </div>
+            <div style={{ display:'flex', gap:10, marginTop:14 }}>
+              <button onClick={save} style={{ flex:1, padding:12, borderRadius:12, border:'none', background:'linear-gradient(135deg,#1E3A5F,#0F2140)', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, cursor:'pointer' }}>Save</button>
+              <button onClick={()=>setEditing(null)} style={{ flex:1, padding:12, borderRadius:12, border:'1.5px solid #E2E8F0', background:'#fff', color:'#64748B', fontWeight:600, cursor:'pointer' }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+EMEOF
+echo "✅ src/pages/admin/ExamManager.jsx"
+
+echo ""
+echo "═══ 4/6: Admin Current Affairs Manager ═══"
+cat > src/pages/admin/CurrentAffairsManager.jsx << 'CAEOF'
+// FILE: src/pages/admin/CurrentAffairsManager.jsx
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
+
+const CATEGORIES = ['National','International','Economy','Science & Tech','Sports','Awards','Environment','Defence']
+const EMPTY = { title:'', summary:'', category:'National', source:'', date:'', exam_relevance:[] }
+
+export default function CurrentAffairsManager() {
+  const navigate = useNavigate()
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState(null)
+
+  useEffect(() => { load() }, [])
+
+  async function load() {
+    setLoading(true)
+    try {
+      const { data, error } = await supabase.from('current_affairs').select('*').order('date',{ascending:false}).limit(100)
+      if (error) throw error
+      setArticles(data || [])
+    } catch { setArticles([]) }
+    setLoading(false)
+  }
+
+  async function save() {
+    if (!editing.title?.trim()) return
+    const payload = { ...editing, date: editing.date || new Date().toISOString().split('T')[0] }
+    delete payload.created_at
+    try {
+      const { error } = await supabase.from('current_affairs').upsert(payload)
+      if (error) throw error
+      await load(); setEditing(null)
+    } catch (e) {
+      alert('Save failed — ensure "current_affairs" table exists (see schema). ' + e.message)
+    }
+  }
+
+  async function remove(id) {
+    if (!confirm('Delete this article?')) return
+    try { await supabase.from('current_affairs').delete().eq('id', id); await load() }
+    catch (e) { alert('Delete failed: ' + e.message) }
+  }
+
+  return (
+    <div style={{ minHeight:'100vh', background:'#F8FAFC', padding:'24px clamp(16px,4vw,40px)' }}>
+      <button onClick={()=>navigate('/admin/dashboard')} style={{ background:'none', border:'none', color:'#64748B', cursor:'pointer', fontSize:13, marginBottom:12 }}>← Back to Admin</button>
+      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:24, marginBottom:6 }}>📰 Current Affairs Manager</h1>
+      <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>Articles posted here appear live on every user's Current Affairs page + earn them +5🪙 per read.</p>
+
+      <button onClick={()=>setEditing({...EMPTY})} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:12, padding:'10px 20px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer', marginBottom:14 }}>+ Add Article</button>
+
+      {loading ? <p style={{ color:'#94A3B8' }}>Loading...</p> : articles.length===0 ? (
+        <div style={{ textAlign:'center', padding:40, color:'#94A3B8', background:'#fff', borderRadius:16, border:'1.5px solid #E2E8F0' }}>
+          <p style={{ fontSize:32, marginBottom:8 }}>📰</p>
+          <p>No articles yet. Add your first one above — it'll appear on users' Current Affairs page immediately.</p>
+        </div>
+      ) : (
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {articles.map(a=>(
+            <div key={a.id} style={{ padding:'12px 16px', background:'#fff', borderRadius:14, border:'1.5px solid #E2E8F0' }}>
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:10, flexWrap:'wrap' }}>
+                <div style={{ flex:1, minWidth:200 }}>
+                  <span style={{ fontSize:11, fontWeight:700, color:'#7C3AED', background:'#EDE9FE', padding:'2px 8px', borderRadius:20 }}>{a.category}</span>
+                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginTop:6 }}>{a.title}</p>
+                  <p style={{ color:'#64748B', fontSize:12, marginTop:4 }}>{a.summary}</p>
+                  <p style={{ color:'#94A3B8', fontSize:11, marginTop:4 }}>{a.source} · {a.date}</p>
+                </div>
+                <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+                  <button onClick={()=>setEditing(a)} style={{ background:'#F1F5F9', border:'none', borderRadius:10, padding:'6px 12px', fontSize:12, fontWeight:700, color:'#1E3A5F', cursor:'pointer' }}>Edit</button>
+                  <button onClick={()=>remove(a.id)} style={{ background:'#FEE2E2', border:'none', borderRadius:10, padding:'6px 12px', fontSize:12, fontWeight:700, color:'#991B1B', cursor:'pointer' }}>Delete</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {editing && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', display:'flex', alignItems:'center', justifyContent:'center', padding:16, zIndex:999 }}>
+          <div style={{ background:'#fff', borderRadius:20, padding:24, maxWidth:480, width:'100%', maxHeight:'85vh', overflowY:'auto' }}>
+            <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', marginBottom:14 }}>{editing.id ? 'Edit' : 'New'} Article</h3>
+            <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Title</label>
+            <input value={editing.title} onChange={e=>setEditing(v=>({...v,title:e.target.value}))}
+              style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, marginBottom:10, boxSizing:'border-box' }}/>
+            <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Summary</label>
+            <textarea value={editing.summary} onChange={e=>setEditing(v=>({...v,summary:e.target.value}))} rows={3}
+              style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, marginBottom:10, boxSizing:'border-box', resize:'none' }}/>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:10 }}>
+              <div>
+                <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Category</label>
+                <select value={editing.category} onChange={e=>setEditing(v=>({...v,category:e.target.value}))}
+                  style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13 }}>
+                  {CATEGORIES.map(c=><option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Date</label>
+                <input type="date" value={editing.date} onChange={e=>setEditing(v=>({...v,date:e.target.value}))}
+                  style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, boxSizing:'border-box' }}/>
+              </div>
+            </div>
+            <label style={{ display:'block', fontSize:12, fontWeight:600, color:'#1E3A5F', marginBottom:4 }}>Source (e.g. PIB, The Hindu)</label>
+            <input value={editing.source} onChange={e=>setEditing(v=>({...v,source:e.target.value}))}
+              style={{ width:'100%', padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, marginBottom:14, boxSizing:'border-box' }}/>
+            <div style={{ display:'flex', gap:10 }}>
+              <button onClick={save} style={{ flex:1, padding:12, borderRadius:12, border:'none', background:'linear-gradient(135deg,#1E3A5F,#0F2140)', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, cursor:'pointer' }}>Save & Publish</button>
+              <button onClick={()=>setEditing(null)} style={{ flex:1, padding:12, borderRadius:12, border:'1.5px solid #E2E8F0', background:'#fff', color:'#64748B', fontWeight:600, cursor:'pointer' }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+CAEOF
+echo "✅ src/pages/admin/CurrentAffairsManager.jsx"
+
+echo ""
+echo "═══ 5/6: Wire CurrentAffairs.jsx to Supabase (with fallback) ═══"
+path = 'src/pages/current-affairs/CurrentAffairs.jsx'
+with open(path,'r') as f: c = f.read()
+
+# Add imports
+c = c.replace(
+    "import { useState } from 'react'",
+    "import { useState, useEffect } from 'react'\nimport { supabase } from '../../lib/supabase'\nimport { rewardCurrentAffairsRead } from '../../lib/coinVault'"
+)
+
+# Add fetch effect + dynamic news state inside component (right after useState hooks)
+old = "  const [expanded, setExpanded] = useState(null)"
+new = """  const [expanded, setExpanded] = useState(null)
+  const [news, setNews] = useState(NEWS) // fallback: static seed list
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data, error } = await supabase
+          .from('current_affairs')
+          .select('*')
+          .order('date', { ascending: false })
+          .limit(50)
+        if (error) throw error
+        if (data && data.length) {
+          setNews(data.map(a => ({
+            id: a.id, cat: a.category, emoji: '📰', title: a.title,
+            date: a.date, tags: a.exam_relevance || [],
+            preview: a.summary, important: false, source: a.source,
+          })))
+        }
+      } catch {
+        // Supabase table empty/missing — keep static NEWS fallback
+      }
+    })()
+  }, [])"""
+c = c.replace(old, new)
+
+# Replace all uses of NEWS (the filtered source) with `news`
+c = c.replace("cat==='All' ? NEWS : NEWS.filter(n=>n.cat===cat)", "cat==='All' ? news : news.filter(n=>n.cat===cat)")
+
+# Reward coins on expand (read an article)
+c = c.replace(
+    "setExpanded(",
+    "rewardCurrentAffairsRead({amount:5}); setExpanded(",
+    1
+)
+
+with open(path,'w') as f: f.write(c)
+print("✅ CurrentAffairs.jsx — now fetches from Supabase 'current_affairs' table")
+print("   (falls back to 8 seeded articles if table empty/missing)")
+print("   +5 coins awarded when a student opens any article")
+
+echo ""
+echo "═══ 6/6: Wire new routes (ThemeSelector, ExamManager, CurrentAffairsManager) ═══"
+python3 << 'PYEOF'
+with open('src/App.jsx','r') as f: c = f.read()
+changed = False
+
+if 'ThemeSelector' not in c:
+    c = c.replace(
+        "const Settings       = lazy(() => import('./pages/Settings'))",
+        "const Settings       = lazy(() => import('./pages/Settings'))\nconst ThemeSelector  = lazy(() => import('./pages/settings/ThemeSelector'))"
+    )
+    c = c.replace(
+        '<Route path="/settings"        element={<Settings />} />',
+        '<Route path="/settings"        element={<Settings />} />\n                <Route path="/settings/themes" element={<ThemeSelector />} />'
+    )
+    changed = True
+
+if 'CurrentAffairsManager' not in c:
+    c = c.replace(
+        "const QuestionManager = lazy(() => import('./pages/admin/QuestionManager'))",
+        "const QuestionManager = lazy(() => import('./pages/admin/QuestionManager'))\nconst CurrentAffairsManager = lazy(() => import('./pages/admin/CurrentAffairsManager'))"
+    )
+    c = c.replace(
+        '<Route path="/admin/questions" element={<QuestionManager />} />',
+        '<Route path="/admin/questions" element={<QuestionManager />} />\n                <Route path="/admin/current-affairs" element={<CurrentAffairsManager />} />'
+    )
+    changed = True
+
+if changed:
+    with open('src/App.jsx','w') as f: f.write(c)
+    print("✅ App.jsx — added /settings/themes and /admin/current-affairs routes")
+else:
+    print("ℹ️  Routes already present")
+PYEOF
+
+echo ""
+echo "═══ Also: link new admin pages from AdminDashboard Overview tab ═══"
+python3 << 'PYEOF'
+path = 'src/pages/admin/AdminDashboard.jsx'
+with open(path,'r') as f: c = f.read()
+if '/admin/exams' not in c.split('function ExamsTab')[0]:  # add quick-links in overview if not present
+    old = "      <div style={{ marginTop:20, background:'rgba(212,175,55,0.06)'"
+    addition = '''      <div style={{ display:'flex', gap:10, flexWrap:'wrap', marginTop:16, marginBottom:16 }}>
+        <a href="/admin/exams" style={{ background:'#1E3A5F', color:'#D4AF37', borderRadius:12, padding:'10px 20px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, textDecoration:'none' }}>📋 Manage Exams & Pricing</a>
+        <a href="/admin/current-affairs" style={{ background:'#1E3A5F', color:'#D4AF37', borderRadius:12, padding:'10px 20px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, textDecoration:'none' }}>📰 Manage Current Affairs</a>
+      </div>
+''' + old
+    c = c.replace(old, addition, 1)
+    with open(path,'w') as f: f.write(c)
+    print("✅ AdminDashboard — quick links to Exam Manager + Current Affairs Manager added")
+PYEOF
+
+rm -rf node_modules/.vite
+
+echo ""
+echo "╔══════════════════════════════════════════════════════════════╗"
+echo "║  ✅ PHASE 3 COMPLETE                                          ║"
+echo "║                                                                ║"
+echo "║  1. THEMES restored — 6 themes, /settings/themes              ║"
+echo "║  2. exams.json created — All Exams page now has 90 real      ║"
+echo "║     exams (was fetching a 404 before!)                        ║"
+echo "║  3. Admin → Exam Manager: add/edit/delete exams + set prices  ║"
+echo "║  4. Admin → Current Affairs Manager: post articles live       ║"
+echo "║  5. CurrentAffairs.jsx reads from Supabase 'current_affairs'  ║"
+echo "║     table (falls back to 8 seeded articles if empty)          ║"
+echo "║                                                                ║"
+echo "║  ⚠️  IMPORTANT: Run schema_phase3.sql in Supabase SQL Editor   ║"
+echo "║      BEFORE using Exam Manager / Current Affairs Manager —    ║"
+echo "║      otherwise saves will fail with a clear error message.    ║"
+echo "║                                                                ║"
+echo "║  Run: npm run dev                                              ║"
+echo "╚══════════════════════════════════════════════════════════════╝"

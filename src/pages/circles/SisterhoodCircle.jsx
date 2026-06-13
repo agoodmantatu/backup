@@ -1,114 +1,123 @@
+// src/pages/circles/SisterhoodCircle.jsx
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { isValidAPAAR, formatAPAAR, verifyAPAAR } from '../../lib/apaarValidator'
-import { useToast } from '../../context/ToastContext'
+import AppLayout from '../../components/layout/AppLayout'
+import { useAuth } from '../../context/AuthContext'
 
-const REQUIRED = 5
-const DISCOUNT  = 25
+const SAMPLE_POSTS = [
+  { id: 1, author: 'Anjali R.', initials: 'AR', time: '1 hr ago',   content: 'Just scored 88% in the UPSC Geography mock 🎉 Consistency really is the key — 2 hours daily for 3 weeks made all the difference!' },
+  { id: 2, author: 'Deepa M.', initials: 'DM', time: '4 hrs ago',   content: 'Any tips for managing exam prep with household responsibilities? Balancing is tough but we\'re doing it 💪' },
+  { id: 3, author: 'Kavitha S.', initials: 'KS', time: '1 day ago', content: 'Sharing a free PDF for NDA Mathematics — helped me a lot. Will upload to GuruBooks shortly 📚' },
+]
+
+const RESOURCES = [
+  { emoji: '🎓', title: 'Scholarships for Women', desc: 'Pragati Scholarship (AICTE), Ishan Uday, INSPIRE — explore 40+ grants exclusively for female students.', link: '#' },
+  { emoji: '👩‍🏫', title: "Women's Mentorship Program", desc: 'Connect with female mentors across UPSC, Engineering, Medical, and Banking on the Guru Hub.', link: '/guru-hub' },
+  { emoji: '🛡️', title: 'Safety & Support Resources', desc: 'iCall Helpline: 9152987821 | Women\'s Helpline: 181 | Cybercrime: cybercrime.gov.in', link: null },
+]
+
+const GUIDELINES = [
+  'Be kind, be real — this is a space of mutual support, not competition.',
+  'No hate speech, casteism, body shaming, or discriminatory remarks of any kind.',
+  'Respect each other\'s privacy — do not share personal information of other members.',
+  'Academic integrity: no cheating tips. Help each other learn, not shortcut.',
+  'Violations are reported to our safety team immediately. Zero tolerance applies.',
+]
 
 export default function SisterhoodCircle() {
-  const navigate  = useNavigate()
-  const { showToast } = useToast()
-  const STORE_KEY = 'my_sisterhood_circle'
-  const [circle]     = useState(() => JSON.parse(localStorage.getItem(STORE_KEY) || 'null'))
-  const [members, setMembers]     = useState([])
-  const [newApaar, setNewApaar]   = useState('')
-  const [verifying, setVerifying] = useState(false)
-  const unlocked = members.length >= REQUIRED
+  const { user } = useAuth()
+  const [posts, setPosts] = useState(SAMPLE_POSTS)
+  const [postText, setPostText] = useState('')
 
-  const add = async () => {
-    if (!isValidAPAAR(newApaar)) { showToast('error','Invalid APAAR ID'); return }
-    if (members.some(m => m.apaarId === newApaar.replace(/\D/g,''))) {
-      showToast('error','Already added'); return
+  if (!user) return null
+
+  const handlePost = () => {
+    if (!postText.trim()) return
+    const newPost = {
+      id: Date.now(),
+      author: user.name,
+      initials: user.initials || user.name.slice(0, 2).toUpperCase(),
+      time: 'Just now',
+      content: postText.trim(),
     }
-    setVerifying(true)
-    const r = await verifyAPAAR(newApaar)
-    setVerifying(false)
-    if (r.valid) {
-      const updated = [...members, { ...r, joinedAt: new Date().toISOString() }]
-      setMembers(updated)
-      setNewApaar('')
-      if (updated.length >= REQUIRED) {
-        const data = { id:`sc-${Date.now()}`, type:'sisterhood', discount:DISCOUNT,
-          members:updated, activatedAt:new Date().toISOString() }
-        localStorage.setItem(STORE_KEY, JSON.stringify(data))
-        showToast('success',`🌸 Sisterhood Circle complete! ${DISCOUNT}% off for all 5 members!`)
-      } else { showToast('success',`✅ ${updated.length}/${REQUIRED} members`) }
-    } else { showToast('error','Verification failed') }
+    setPosts(prev => [newPost, ...prev])
+    setPostText('')
   }
 
   return (
-    <div style={{ minHeight:'100vh', background:'linear-gradient(135deg,#4A0E4E,#2D0A2E)',padding:20 }}>
-      <div style={{ maxWidth:480, margin:'0 auto', paddingTop:20 }}>
-        <button onClick={() => navigate(-1)}
-          style={{ background:'none', border:'none', color:'rgba(255,255,255,0.5)', cursor:'pointer', marginBottom:20 }}>
-          ← Back
-        </button>
-        <div style={{ textAlign:'center', marginBottom:28 }}>
-          <div style={{ fontSize:48, marginBottom:8 }}>🌸</div>
-          <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#fff', fontSize:24, marginBottom:8 }}>
-            TryIT Sisterhood Circle
-          </h1>
-          <div style={{ background:'linear-gradient(135deg,#EC4899,#DB2777)', display:'inline-block',
-            padding:'5px 18px', borderRadius:20, fontWeight:800, fontSize:13, color:'#fff', marginBottom:12 }}>
-            25% OFF FOR LIFE
-          </div>
-          <p style={{ color:'rgba(255,255,255,0.65)', fontSize:14, lineHeight:1.7 }}>
-            5 female students from the same institution. One circle. Lifelong discount.
-            Closing India's tech gender gap — one circle at a time.
-          </p>
+    <AppLayout title="Sisterhood Circle">
+      <div className="max-w-2xl mx-auto space-y-6 p-4">
+
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-[#7C2D12] to-[#4C1D95] rounded-2xl p-5 text-white">
+          <p className="text-2xl font-bold">🌸 Sisterhood Circle</p>
+          <p className="text-sm opacity-75 mt-1">A safe, supportive community space for women & non-binary students. Lift each other, grow together.</p>
         </div>
 
-        {/* Progress */}
-        <div style={{ background:'rgba(255,255,255,0.06)', borderRadius:20, padding:20, marginBottom:16 }}>
-          <div style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
-            <span style={{ color:'#fff', fontWeight:700 }}>Circle Members</span>
-            <span style={{ color:'#EC4899', fontWeight:800 }}>{members.length}/{REQUIRED}</span>
-          </div>
-          <div style={{ display:'flex', gap:8, marginBottom:12 }}>
-            {Array.from({length:REQUIRED}).map((_,i)=>(
-              <div key={i} style={{ flex:1, height:8, borderRadius:4,
-                background: i<members.length ? '#EC4899' : 'rgba(255,255,255,0.1)' }} />
+        {/* Guidelines */}
+        <details className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+          <summary className="p-4 font-bold text-[#1E3A5F] cursor-pointer select-none">🛡️ Community Guidelines (tap to read)</summary>
+          <ul className="px-5 pb-4 space-y-2">
+            {GUIDELINES.map((g, i) => (
+              <li key={i} className="text-sm text-gray-600 flex gap-2">
+                <span className="text-[#D4AF37] font-bold shrink-0">{i+1}.</span>{g}
+              </li>
             ))}
+          </ul>
+        </details>
+
+        {/* Post box */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 space-y-3">
+          <textarea
+            placeholder="Share a thought, tip, or encouragement with the circle..."
+            value={postText}
+            onChange={e => setPostText(e.target.value)}
+            rows={3}
+            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+          />
+          <div className="flex justify-end">
+            <button
+              onClick={handlePost}
+              disabled={!postText.trim()}
+              className="px-5 py-2 bg-[#D4AF37] disabled:bg-gray-200 disabled:text-gray-400 text-[#0F2140] font-bold rounded-xl text-sm hover:bg-[#E8C84A] transition"
+            >
+              Post
+            </button>
           </div>
-          {members.map((m,i)=>(
-            <div key={i} style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6 }}>
-              <span style={{ color:'#EC4899' }}>🌸</span>
-              <span style={{ color:'#fff', fontSize:13 }}>{m.studentName}</span>
+        </div>
+
+        {/* Posts feed */}
+        <div className="space-y-3">
+          {posts.map(p => (
+            <div key={p.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-3">
+              <div className="w-9 h-9 rounded-full bg-[#7C2D12] text-white text-xs font-bold flex items-center justify-center shrink-0">{p.initials}</div>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <p className="font-semibold text-[#1E3A5F] text-sm">{p.author}</p>
+                  <p className="text-xs text-gray-400">{p.time}</p>
+                </div>
+                <p className="text-sm text-gray-700 mt-1">{p.content}</p>
+              </div>
             </div>
           ))}
         </div>
 
-        {!unlocked && (
-          <div style={{ display:'flex', gap:8, marginBottom:16 }}>
-            <input value={formatAPAAR(newApaar)}
-              onChange={e => setNewApaar(e.target.value.replace(/\D/g,'').slice(0,12))}
-              placeholder="Enter APAAR ID"
-              style={{ flex:1, padding:'12px', borderRadius:12,
-                border:'1.5px solid rgba(236,72,153,0.4)',
-                background:'rgba(255,255,255,0.06)', color:'#fff',
-                fontSize:15, fontFamily:'monospace', letterSpacing:3, outline:'none' }}
-            />
-            <button onClick={add} disabled={verifying||newApaar.length<12}
-              style={{ padding:'12px 18px', borderRadius:12, border:'none',
-                background:'linear-gradient(135deg,#EC4899,#DB2777)',
-                color:'#fff', fontWeight:700, cursor:'pointer', flexShrink:0 }}>
-              {verifying?'...':'Add'}
-            </button>
+        {/* Resources */}
+        <div>
+          <h2 className="font-bold text-[#1E3A5F] text-lg mb-3">Resources</h2>
+          <div className="space-y-3">
+            {RESOURCES.map(r => (
+              <div key={r.title} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex gap-3 items-start">
+                <span className="text-2xl">{r.emoji}</span>
+                <div>
+                  <p className="font-semibold text-[#1E3A5F] text-sm">{r.title}</p>
+                  <p className="text-gray-500 text-xs mt-0.5">{r.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-        {unlocked && (
-          <button onClick={() => navigate('/dashboard')} style={{
-            width:'100%', padding:16, borderRadius:16, border:'none',
-            background:'linear-gradient(135deg,#EC4899,#DB2777)',
-            fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:17,
-            color:'#fff', cursor:'pointer',
-          }}>
-            🌸 Sisterhood Activated — 25% OFF →
-          </button>
-        )}
+        </div>
+
       </div>
-    </div>
+    </AppLayout>
   )
 }

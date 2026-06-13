@@ -1,142 +1,171 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import AppLayout from '../../components/layout/AppLayout'
-
-const SUBS = [
-  { name:'Reasoning', acc:85, trend:'up'   },
-  { name:'Maths',     acc:80, trend:'up'   },
-  { name:'English',   acc:65, trend:'down' },
-  { name:'GK',        acc:78, trend:'up'   },
-  { name:'Science',   acc:50, trend:'down' },
-]
+import { useAuth } from '../../context/AuthContext'
 
 export default function ResultScreen() {
+  const { state } = useLocation()
   const navigate = useNavigate()
-  const location = useLocation()
-  const { answers = {}, correct = 7, total = 10, timeUsed = 1200 } = location.state || {}
-  const wrong   = Object.keys(answers).length - correct
-  const skipped = total - Object.keys(answers).length
-  const pct = Math.round((correct / total) * 100)
+  const { addCoins, updateUser, user } = useAuth()
+  const coinsAwardedRef = useRef(false)
 
-  const [rank,     setRank]     = useState(9999)
-  const [animated, setAnimated] = useState(false)
-  const ref = useRef(null)
+  if (!state) {
+    // No test data — redirect
+    navigate('/test-engine')
+    return null
+  }
 
+  const { questions, answers, score, config } = state
+
+  const total = questions.length
+  const percentage = Math.round((score / total) * 100)
+  const isGreat = percentage >= 80
+
+  // Coins formula: correct*2 + (score>=80 ? 20 bonus : 0)
+  const coinsEarned = score * 2 + (isGreat ? 20 : 0)
+  // XP: correct * 5
+  const xpEarned = score * 5
+
+  // Award coins once on mount
   useEffect(() => {
-    const t = setTimeout(() => {
-      const dur = 2000, target = 1243, start = performance.now()
-      const step = (now) => {
-        const p = Math.min((now - start) / dur, 1)
-        const e = 1 - Math.pow(1 - p, 4)
-        setRank(Math.round(9999 - e * (9999 - target)))
-        if (p < 1) requestAnimationFrame(step)
-      }
-      requestAnimationFrame(step)
-    }, 600)
-    return () => clearTimeout(t)
+    if (!coinsAwardedRef.current) {
+      coinsAwardedRef.current = true
+      addCoins(coinsEarned)
+      updateUser({ xp: (user?.xp || 0) + xpEarned, testsCompleted: (user?.testsCompleted || 0) + 1 })
+    }
   }, [])
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setAnimated(true); obs.disconnect() } }, { threshold: 0.3 })
-    if (ref.current) obs.observe(ref.current)
-    return () => obs.disconnect()
-  }, [])
+  // Subject breakdown
+  const subjectBreakdown = {}
+  questions.forEach(q => {
+    const subject = q.topic_id.split('-')[0]
+    if (!subjectBreakdown[subject]) subjectBreakdown[subject] = { correct: 0, total: 0 }
+    subjectBreakdown[subject].total++
+    if (answers[q.id] === q.correct_answer) subjectBreakdown[subject].correct++
+  })
 
-  const fmt = (s) => `${String(Math.floor(s / 60)).padStart(2,'0')}:${String(s % 60).padStart(2,'0')}`
-  const r = 52, circ = 2 * Math.PI * r
-  const ringColor = pct >= 75 ? '#22C55E' : pct >= 50 ? '#D4AF37' : '#EF4444'
+  const getGrade = (pct) => {
+    if (pct >= 90) return { grade: 'A+', color: 'text-green-600' }
+    if (pct >= 80) return { grade: 'A', color: 'text-green-500' }
+    if (pct >= 60) return { grade: 'B', color: 'text-blue-500' }
+    if (pct >= 40) return { grade: 'C', color: 'text-yellow-500' }
+    return { grade: 'D', color: 'text-red-500' }
+  }
+
+  const { grade, color: gradeColor } = getGrade(percentage)
 
   return (
-    <AppLayout>
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen bg-[#F8FAFC]" style={{ fontFamily: 'Inter, sans-serif' }}>
 
-        {/* Score card */}
-        <div ref={ref} className="clay-dark rounded-3xl p-8 mb-6 text-center relative overflow-hidden">
-          <div className="absolute top-4 right-4 glass-gold px-3 py-1.5 rounded-xl animate-bounce-in">
-            <span className="text-[#D4AF37] font-bold text-sm">+30 🪙 earned!</span>
-          </div>
+      {/* Hero result section */}
+      <div className={`py-12 px-4 text-center ${isGreat ? 'bg-gradient-to-br from-[#064E3B] to-[#1E3A5F]' : 'bg-gradient-to-br from-[#1E3A5F] to-[#0F2140]'}`}>
+        {isGreat && (
+          <div className="text-4xl mb-3 animate-bounce">🎉</div>
+        )}
+        <h1 className="text-2xl font-bold text-white mb-1">
+          {isGreat ? 'Great job!' : 'Test Complete'}
+        </h1>
+        {isGreat && (
+          <p className="text-green-300 text-sm mb-4">Outstanding performance! You're on the right track.</p>
+        )}
 
-          <h2 className="text-white text-2xl font-bold font-poppins mb-6">Test Completed! 🎉</h2>
-
-          {/* Ring */}
-          <div className="flex justify-center mb-6">
-            <div className="relative w-36 h-36">
-              <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
-                <circle cx="60" cy="60" r={r} fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="10" />
-                <circle cx="60" cy="60" r={r} fill="none" stroke={ringColor} strokeWidth="10"
-                  strokeLinecap="round" strokeDasharray={circ}
-                  strokeDashoffset={animated ? circ * (1 - pct / 100) : circ}
-                  style={{ transition: 'stroke-dashoffset 1.5s ease 0.3s' }} />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-3xl font-extrabold text-white font-poppins">{pct}%</span>
-                <span className="text-white/60 text-xs">Score</span>
-              </div>
-            </div>
-          </div>
-
-          {/* 4 stats */}
-          <div className="grid grid-cols-4 gap-3 mb-6">
-            {[['✅', correct,'Correct'],['❌', wrong,'Wrong'],['⏭️', skipped,'Skipped'],['⏱️', fmt(timeUsed),'Time']].map(([icon, val, label]) => (
-              <div key={label} className="bg-white/5 rounded-2xl p-3">
-                <p className="text-xl mb-1">{icon}</p>
-                <p className="text-xl font-bold text-white font-poppins">{val}</p>
-                <p className="text-white/50 text-xs">{label}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Rank */}
-          <div className="bg-white/5 rounded-2xl p-4">
-            <p className="text-white/60 text-sm mb-1">All India Rank</p>
-            <p className="text-5xl font-black text-[#D4AF37] font-poppins">#{rank.toLocaleString()}</p>
-            <p className="text-white/50 text-xs mt-1">SSC CGL · Today's Mock</p>
-            <div className="mt-3">
-              <div className="flex justify-between text-xs mb-1">
-                <span className="text-white/40">You scored higher than</span>
-                <span className="text-white/70 font-bold">87% of test takers</span>
-              </div>
-              <div className="w-full bg-white/10 rounded-full h-2.5">
-                <div className="bg-[#D4AF37] h-2.5 rounded-full transition-all duration-1000"
-                  style={{ width: animated ? '87%' : '0%' }} />
-              </div>
-            </div>
-            <p className="text-white/40 text-xs mt-2">TN: #127 · Coimbatore: #8</p>
-          </div>
+        {/* Score circle */}
+        <div className="inline-flex flex-col items-center justify-center w-36 h-36 rounded-full bg-white/10 border-4 border-[#D4AF37] my-6 mx-auto">
+          <span className={`text-4xl font-black ${isGreat ? 'text-[#E8C84A]' : 'text-white'}`}>
+            {percentage}%
+          </span>
+          <span className={`text-lg font-bold ${gradeColor.replace('text-', 'text-')} text-white/80`}>{grade}</span>
         </div>
 
-        {/* Subject breakdown */}
-        <div className="clay rounded-3xl p-6 mb-6">
-          <h3 className="font-bold text-[#1E3A5F] text-lg font-poppins mb-4">Subject Performance</h3>
-          {SUBS.map(s => (
-            <div key={s.name} className="flex items-center gap-3 mb-3">
-              <span className="text-slate-600 text-sm w-20 flex-shrink-0">{s.name}</span>
-              <div className="flex-1 bg-slate-100 rounded-full h-2.5">
-                <div className={`h-2.5 rounded-full transition-all duration-1000 ${s.acc >= 80 ? 'bg-green-500' : s.acc >= 70 ? 'bg-[#D4AF37]' : 'bg-amber-500'}`}
-                  style={{ width: animated ? `${s.acc}%` : '0%' }} />
-              </div>
-              <span className="text-sm font-bold text-[#1E3A5F] w-10 text-right">{s.acc}%</span>
-              <span className={`text-xs font-bold ${s.trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
-                {s.trend === 'up' ? '↑' : '↓'}
-              </span>
-            </div>
-          ))}
-        </div>
+        <p className="text-white/80 text-sm">
+          {score} correct out of {total} questions
+        </p>
 
-        {/* Actions */}
-        <div className="grid grid-cols-2 gap-3 mb-3">
-          <button onClick={() => navigate('/test-engine/review', { state: { answers } })} className="btn-gold py-4 rounded-2xl font-bold">
-            Review Answers
-          </button>
-          <button onClick={() => navigate('/test-engine')} className="btn-navy py-4 rounded-2xl font-bold">
-            Take Another
-          </button>
+        {/* Coins & XP earned */}
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <div className="bg-white/10 rounded-xl px-4 py-2 text-center">
+            <div className="text-[#D4AF37] font-bold text-xl">+{coinsEarned}</div>
+            <div className="text-white/70 text-xs">Coins Earned</div>
+          </div>
+          <div className="bg-white/10 rounded-xl px-4 py-2 text-center">
+            <div className="text-green-300 font-bold text-xl">+{xpEarned}</div>
+            <div className="text-white/70 text-xs">XP Gained</div>
+          </div>
+          {isGreat && (
+            <div className="bg-yellow-500/20 rounded-xl px-4 py-2 text-center">
+              <div className="text-yellow-300 font-bold text-xl">+20</div>
+              <div className="text-white/70 text-xs">Bonus Coins</div>
+            </div>
+          )}
         </div>
-        <button onClick={() => { navigator.clipboard?.writeText(`I scored ${pct}% on TryIT Educations! Rank #${rank}. tryiteducations.net`) }}
-          className="w-full border-2 border-slate-200 text-slate-600 py-3.5 rounded-2xl font-bold hover:border-[#D4AF37] transition-colors">
-          📤 Share Result
-        </button>
       </div>
-    </AppLayout>
+
+      <div className="max-w-xl mx-auto px-4 py-6 space-y-5">
+
+        {/* Subject Breakdown */}
+        {Object.keys(subjectBreakdown).length > 1 && (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+            <h2 className="font-bold text-[#1E3A5F] mb-4">Subject Breakdown</h2>
+            <div className="space-y-3">
+              {Object.entries(subjectBreakdown).map(([subject, data]) => {
+                const pct = Math.round((data.correct / data.total) * 100)
+                return (
+                  <div key={subject}>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="capitalize font-medium text-gray-700">{subject}</span>
+                      <span className="text-gray-500">{data.correct}/{data.total}</span>
+                    </div>
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full ${pct >= 70 ? 'bg-green-500' : pct >= 40 ? 'bg-yellow-400' : 'bg-red-400'}`}
+                        style={{ width: `${pct}%` }}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Performance message */}
+        <div className={`rounded-2xl p-4 border ${
+          isGreat
+            ? 'bg-green-50 border-green-200'
+            : percentage >= 50
+            ? 'bg-blue-50 border-blue-200'
+            : 'bg-amber-50 border-amber-200'
+        }`}>
+          <p className="text-sm font-medium text-gray-700">
+            {isGreat
+              ? '🏆 Excellent! Review the solutions to reinforce what you know.'
+              : percentage >= 50
+              ? '📈 Solid effort. Check the review to identify patterns in your mistakes.'
+              : '💡 Keep going — every test is practice. Review the answers carefully.'}
+          </p>
+        </div>
+
+        {/* Action buttons */}
+        <div className="space-y-3">
+          <button
+            onClick={() => navigate('/test-engine/review', { state: { questions, answers, config } })}
+            className="w-full py-3.5 bg-[#1E3A5F] text-white font-semibold rounded-2xl hover:bg-[#0F2140] transition"
+          >
+            📋 Review Answers
+          </button>
+          <button
+            onClick={() => navigate('/test-engine', { state: { preset: config } })}
+            className="w-full py-3.5 bg-[#D4AF37] text-white font-semibold rounded-2xl hover:bg-[#E8C84A] transition"
+          >
+            🔄 Retake Test
+          </button>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="w-full py-3.5 border border-gray-300 text-gray-700 font-semibold rounded-2xl hover:bg-gray-50 transition"
+          >
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }

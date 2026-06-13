@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider }  from './context/ThemeContext'
 import { ToastProvider }  from './context/ToastContext'
 import { AuthProvider }   from './context/AuthContext'
+import ImpersonationBanner from './components/ImpersonationBanner'
 
 // ── AUTH / CORE ────────────────────────────────────────────────
 const Splash         = lazy(() => import('./pages/Splash'))
@@ -103,11 +104,15 @@ const ChildDetail     = lazy(() => import('./pages/parent/ChildDetail'))
 const MyTestHistory   = lazy(() => import('./pages/student/MyTestHistory'))
 
 // ── ADMIN ──────────────────────────────────────────────────────
+// AdminLogin must set localStorage.tryit_admin = 'true' on success
 const AdminLogin      = lazy(() => import('./pages/admin/AdminLogin'))
 const AdminDashboard  = lazy(() => import('./pages/admin/AdminDashboard'))
 const ExamManager     = lazy(() => import('./pages/admin/ExamManager'))
 const QuestionManager = lazy(() => import('./pages/admin/QuestionManager'))
 const UserManager     = lazy(() => import('./pages/admin/UserManager'))
+
+// ── SETTINGS ───────────────────────────────────────────────────
+const ThemeSelector   = lazy(() => import('./pages/settings/ThemeSelector'))
 
 // ── LEGAL ──────────────────────────────────────────────────────
 const Terms              = lazy(() => import('./pages/legal/Terms'))
@@ -154,6 +159,7 @@ export default function App() {
       <ToastProvider>
         <AuthProvider>
           <BrowserRouter>
+            <ImpersonationBanner />
             <Suspense fallback={<Loader />}>
               <Routes>
                 {/* AUTH */}
@@ -258,11 +264,15 @@ export default function App() {
                 <Route path="/student/test-history"  element={<MyTestHistory />} />
 
                 {/* ADMIN */}
+                {/* AdminLogin must set localStorage.tryit_admin = 'true' on success */}
                 <Route path="/admin/login"     element={<AdminLogin />} />
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/exams"     element={<ExamManager />} />
                 <Route path="/admin/questions" element={<QuestionManager />} />
                 <Route path="/admin/users"     element={<UserManager />} />
+
+                {/* SETTINGS */}
+                <Route path="/settings/themes" element={<ThemeSelector />} />
 
                 {/* LEGAL */}
                 <Route path="/terms"               element={<Terms />} />

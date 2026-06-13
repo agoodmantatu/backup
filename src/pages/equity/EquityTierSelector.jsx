@@ -1,135 +1,81 @@
-import { useState } from 'react'
+// src/pages/equity/EquityTierSelector.jsx
+// Accessible from Landing (logged-out) AND from app (logged-in → AppLayout)
 import { useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { EQUITY_TIERS } from '../../lib/equityTiers'
-import { useEquity } from '../../context/EquityTierContext'
-import EquityVerification from './EquityVerification'
+import AppLayout from '../../components/layout/AppLayout'
+import { useAuth } from '../../context/AuthContext'
 
-const TIER_LIST = Object.values(EQUITY_TIERS)
+const TIERS = [
+  { id: 'hope_scholars',       emoji: '🌱', name: 'Hope Scholars',        desc: 'Students from economically weaker sections (BPL/AAY card holders)',        badge: '100% Free for Life' },
+  { id: 'divyang',             emoji: '♿', name: 'Physically Challenged', desc: 'Persons with disabilities (PwD) — Divyang category per Govt of India',     badge: '100% Free for Life' },
+  { id: 'swachhta_warriors',   emoji: '🧹', name: 'Swachhta Warriors',    desc: 'Sanitation workers, waste pickers, and their immediate family',             badge: '100% Free for Life' },
+  { id: 'martyr_families',     emoji: '🎖️', name: "Martyr's Families",   desc: 'Families of fallen soldiers, paramilitary, or police (Veer Naris)',         badge: '100% Free for Life' },
+  { id: 'transgender_youth',   emoji: '🏳️‍⚧️', name: 'Transgender Youth', desc: 'Transgender students (SMILE Portal beneficiaries and applicants)',         badge: '100% Free for Life' },
+  { id: 'active_military',     emoji: '🪖', name: 'Active Military',      desc: 'Currently serving defence/paramilitary personnel and their dependents',      badge: '15-30% Discount' },
+  { id: 'asha_anganwadi',      emoji: '🏥', name: 'ASHA / Anganwadi',    desc: 'Frontline health workers — ASHA, Anganwadi, and their children',            badge: '15-30% Discount' },
+  { id: 'first_generation',    emoji: '🌟', name: 'First-Generation',     desc: 'First in family to pursue higher education (no parent with degree)',        badge: '15-30% Discount' },
+]
+
+function Content({ isLoggedIn }) {
+  const navigate = useNavigate()
+
+  return (
+    <div className="max-w-2xl mx-auto space-y-6 p-4">
+      {!isLoggedIn && (
+        <div className="bg-[#FDF6E3] rounded-2xl p-4 text-center">
+          <p className="font-bold text-[#7C2D12]">🌱 TryIT Equity Access</p>
+          <p className="text-sm text-gray-600 mt-1">We believe cost should never be a barrier to education. Select your category to apply for free or discounted access.</p>
+        </div>
+      )}
+
+      <div className="space-y-3">
+        {TIERS.map(tier => (
+          <button
+            key={tier.id}
+            onClick={() => navigate('/equity/verify', { state: { tierId: tier.id, tierName: tier.name } })}
+            className="w-full bg-white rounded-2xl border-2 border-gray-100 p-4 text-left flex items-start gap-4 hover:border-[#D4AF37] hover:shadow-md transition group"
+          >
+            <span className="text-3xl">{tier.emoji}</span>
+            <div className="flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <p className="font-bold text-[#1E3A5F] group-hover:text-[#D4AF37] transition">{tier.name}</p>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${tier.badge.startsWith('100') ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'}`}>
+                  {tier.badge}
+                </span>
+              </div>
+              <p className="text-sm text-gray-500 mt-0.5">{tier.desc}</p>
+            </div>
+            <span className="text-gray-300 group-hover:text-[#D4AF37] transition text-xl self-center">›</span>
+          </button>
+        ))}
+      </div>
+
+      <p className="text-center text-xs text-gray-400 pb-4">
+        All applications are reviewed within 3-5 business days. You'll be notified by email upon approval.
+      </p>
+    </div>
+  )
+}
 
 export default function EquityTierSelector() {
-  const navigate = useNavigate()
-  const { equityTier } = useEquity()
-  const [selected, setSelected]     = useState(null)
-  const [showVerify, setShowVerify]  = useState(false)
+  const { user } = useAuth()
 
-  if (showVerify && selected) {
-    return <EquityVerification tier={selected} onBack={() => setShowVerify(false)} />
+  if (user) {
+    return (
+      <AppLayout title="Equity Access">
+        <Content isLoggedIn={true} />
+      </AppLayout>
+    )
   }
 
   return (
-    <div style={{
-      minHeight:'100vh', background:'linear-gradient(135deg,#071428,#0F2140)',
-      padding:20, overflowY:'auto',
-    }}>
-      <div style={{ maxWidth:680, margin:'0 auto', paddingTop:20 }}>
-        {/* Header */}
-        <div style={{ textAlign:'center', marginBottom:32 }}>
-          <div style={{ fontSize:48, marginBottom:12 }}>🇮🇳</div>
-          <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
-            color:'#fff', fontSize:'clamp(22px,4vw,32px)', marginBottom:8 }}>
-            TryIT Cares
-          </h1>
-          <p style={{ color:'#D4AF37', fontStyle:'italic', fontSize:16, marginBottom:12 }}>
-            Education is a right, not a privilege.
-          </p>
-          <p style={{ color:'rgba(255,255,255,0.65)', fontSize:14, lineHeight:1.6, maxWidth:500, margin:'0 auto' }}>
-            TryIT provides 100% free education for life to India's most vulnerable communities.
-            If any of these descriptions match your situation, you deserve full access—completely free.
-          </p>
-        </div>
-
-        {/* Tier cards */}
-        <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:24 }}>
-          {TIER_LIST.map(tier => (
-            <motion.button key={tier.id}
-              whileHover={{ scale:1.01 }}
-              whileTap={{ scale:0.99 }}
-              onClick={() => setSelected(selected?.id === tier.id ? null : tier)}
-              style={{
-                textAlign:'left', padding:'18px 20px', borderRadius:20,
-                border:`2px solid ${selected?.id === tier.id ? tier.color : 'rgba(255,255,255,0.1)'}`,
-                background: selected?.id === tier.id
-                  ? `${tier.color}22`
-                  : 'rgba(255,255,255,0.04)',
-                cursor:'pointer', transition:'all 0.2s',
-              }}
-            >
-              <div style={{ display:'flex', alignItems:'center', gap:14 }}>
-                <span style={{ fontSize:32, flexShrink:0 }}>{tier.emoji}</span>
-                <div style={{ flex:1 }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap' }}>
-                    <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:700,
-                      color:'#fff', fontSize:15 }}>{tier.name}</span>
-                    <span style={{
-                      background: tier.isFree ? '#22C55E' : '#D4AF37',
-                      color: tier.isFree ? '#fff' : '#1E3A5F',
-                      fontSize:10, fontWeight:800, padding:'3px 10px',
-                      borderRadius:20, letterSpacing:'0.5px',
-                    }}>
-                      {tier.isFree ? '100% FREE FOR LIFE' : `${tier.discount}% OFF FOR LIFE`}
-                    </span>
-                  </div>
-                  <p style={{ color:'rgba(255,255,255,0.55)', fontSize:12, marginTop:4 }}>
-                    {tier.beneficiaries}
-                  </p>
-                  <p style={{ color:'rgba(255,255,255,0.35)', fontSize:11, marginTop:2, fontStyle:'italic' }}>
-                    {tier.tagline}
-                  </p>
-                </div>
-                <span style={{ color: selected?.id===tier.id ? tier.color : 'rgba(255,255,255,0.2)',
-                  fontSize:20, fontWeight:800, flexShrink:0 }}>
-                  {selected?.id===tier.id ? '●' : '○'}
-                </span>
-              </div>
-
-              {/* Expanded description */}
-              <AnimatePresence>
-                {selected?.id === tier.id && (
-                  <motion.div initial={{ height:0, opacity:0 }} animate={{ height:'auto', opacity:1 }}
-                    exit={{ height:0, opacity:0 }} style={{ overflow:'hidden' }}>
-                    <div style={{ marginTop:14, paddingTop:14,
-                      borderTop:'1px solid rgba(255,255,255,0.1)' }}>
-                      <p style={{ color:'rgba(255,255,255,0.75)', fontSize:13, lineHeight:1.6 }}>
-                        {tier.description}
-                      </p>
-                      <p style={{ color:'rgba(255,255,255,0.45)', fontSize:12, marginTop:8 }}>
-                        📋 <strong style={{ color:'rgba(255,255,255,0.6)' }}>Verification needed:</strong>{' '}
-                        {tier.verification.instructions}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.button>
-          ))}
-        </div>
-
-        {/* Actions */}
-        <div style={{ display:'flex', flexDirection:'column', gap:12, paddingBottom:40 }}>
-          {selected && (
-            <motion.button
-              initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }}
-              onClick={() => setShowVerify(true)}
-              style={{
-                width:'100%', padding:18, borderRadius:16, border:'none',
-                background:`linear-gradient(135deg,${selected.color},${selected.color}CC)`,
-                fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:17,
-                color:'#fff', cursor:'pointer',
-                boxShadow:`0 8px 30px ${selected.color}44`,
-              }}
-            >
-              Apply for {selected.name} →
-            </motion.button>
-          )}
-          <button onClick={() => navigate('/dashboard')}
-            style={{ background:'none', border:'1px solid rgba(255,255,255,0.2)',
-              borderRadius:14, padding:'12px', color:'rgba(255,255,255,0.5)',
-              fontFamily:'Poppins,sans-serif', fontWeight:600, cursor:'pointer', fontSize:14 }}>
-            I don't qualify — Continue with regular pricing
-          </button>
-        </div>
+    <div className="min-h-screen bg-[#F8FAFC]">
+      <div className="bg-[#1E3A5F] px-6 py-4 flex items-center justify-between">
+        <span className="text-[#D4AF37] font-black text-xl">TryIT</span>
+        <a href="/landing" className="text-white text-sm opacity-70 hover:opacity-100">← Back</a>
       </div>
+      <h1 className="text-2xl font-bold text-[#1E3A5F] text-center mt-8 mb-2">Equity Access Program</h1>
+      <p className="text-gray-500 text-sm text-center mb-6">Select your category to apply for free or discounted access</p>
+      <Content isLoggedIn={false} />
     </div>
   )
 }

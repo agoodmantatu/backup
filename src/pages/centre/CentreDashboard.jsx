@@ -1,197 +1,351 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useAuth } from '../../context/AuthContext'
+import AppLayout from '../../components/layout/AppLayout'
 
-const MOCK_TESTS = [
-  { id:'ct1', name:'SSC CGL Mock 1',   subject:'Full Syllabus', date:'2026-06-08 10:00', students:32, avgScore:68, status:'completed' },
-  { id:'ct2', name:'Quant Speed Test', subject:'Maths',         date:'2026-06-07 14:00', students:28, avgScore:72, status:'completed' },
-  { id:'ct3', name:'Reasoning Drill',  subject:'Reasoning',     date:'2026-06-10 16:00', students:0,  avgScore:0,  status:'upcoming'  },
-  { id:'ct4', name:'English Mastery',  subject:'English',       date:'2026-06-09 09:00', students:35, avgScore:61, status:'completed' },
-]
-const MOCK_STUDENTS = [
-  { id:'s1', name:'Arjun Kumar',    rank:1,  streak:12, avgScore:78, testsCount:6 },
-  { id:'s2', name:'Priya Sharma',   rank:2,  streak:8,  avgScore:84, testsCount:6 },
-  { id:'s3', name:'Rahul Mehta',    rank:3,  streak:5,  avgScore:71, testsCount:5 },
-  { id:'s4', name:'Zainab Ali',     rank:4,  streak:9,  avgScore:76, testsCount:6 },
-  { id:'s5', name:'Meera V.',       rank:5,  streak:3,  avgScore:65, testsCount:4 },
+// ─── Sample / placeholder data ───────────────────────────────────────────────
+
+const SAMPLE_TESTS = [
+  { id: 1, name: 'SSC CGL Mock #1',    subject: 'General Studies', date: '2025-06-10', students: 24, avgScore: '71%' },
+  { id: 2, name: 'Quant Speed Test',   subject: 'Quantitative Aptitude', date: '2025-06-14', students: 18, avgScore: '64%' },
+  { id: 3, name: 'English Full Mock',  subject: 'English Language', date: '2025-06-18', students: 31, avgScore: '68%' },
 ]
 
-function CreateTestModal({ onClose, onCreate }) {
-  const [f, setF] = useState({ name:'', subject:'', date:'', questions:25, duration:30 })
-  const upd = (k,v) => setF(p=>({...p,[k]:v}))
-  const save = () => {
-    if (!f.name.trim()) return
-    const all = JSON.parse(localStorage.getItem('centreTests') || '[]')
-    const test = { id:`ct-${Date.now()}`, ...f, students:0, avgScore:0, status:'upcoming' }
-    localStorage.setItem('centreTests', JSON.stringify([...all, test]))
-    onCreate(test); onClose()
-  }
+const SAMPLE_STUDENTS = [
+  { id: 1, name: 'Aarav Sharma',   email: 'aarav@example.com',   exams: ['SSC CGL', 'SSC CHSL'], progress: 72 },
+  { id: 2, name: 'Priya Mehta',    email: 'priya@example.com',   exams: ['IBPS PO'],             progress: 58 },
+  { id: 3, name: 'Rohan Das',      email: 'rohan@example.com',   exams: ['RRB NTPC'],            progress: 81 },
+  { id: 4, name: 'Sneha Pillai',   email: 'sneha@example.com',   exams: ['SSC CGL'],             progress: 45 },
+]
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function StatCard({ emoji, value, label, hint }) {
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:100,
-      display:'flex', alignItems:'center', justifyContent:'center', padding:20 }}>
-      <motion.div initial={{ scale:0.9, opacity:0 }} animate={{ scale:1, opacity:1 }}
-        style={{ background:'#fff', borderRadius:24, padding:28, width:'100%', maxWidth:460 }}>
-        <div style={{ display:'flex', justifyContent:'space-between', marginBottom:20 }}>
-          <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:18 }}>
-            ➕ Create New Test
-          </h3>
-          <button onClick={onClose} style={{ background:'none', border:'none', fontSize:22, cursor:'pointer' }}>×</button>
-        </div>
-        {[
-          { k:'name',     label:'Test Name *',           ph:'e.g. SSC CGL Mock 5',    type:'text'           },
-          { k:'subject',  label:'Subject',                ph:'e.g. Full Syllabus',     type:'text'           },
-          { k:'date',     label:'Date & Time',            ph:'',                       type:'datetime-local'  },
-        ].map(fi => (
-          <div key={fi.k} style={{ marginBottom:14 }}>
-            <label style={{ display:'block', fontWeight:600, color:'#1E3A5F', fontSize:13, marginBottom:5 }}>
-              {fi.label}
-            </label>
-            <input value={f[fi.k]} type={fi.type} placeholder={fi.ph}
-              onChange={e => upd(fi.k, e.target.value)}
-              style={{ width:'100%', padding:'10px 12px', borderRadius:10,
-                border:'1.5px solid #E2E8F0', fontSize:13, outline:'none', boxSizing:'border-box' }}
-              onFocus={e => e.target.style.borderColor='#D4AF37'}
-              onBlur={e => e.target.style.borderColor='#E2E8F0'}
-            />
-          </div>
-        ))}
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, marginBottom:16 }}>
-          {[
-            { k:'questions', label:'Questions', min:5, max:200 },
-            { k:'duration',  label:'Duration (min)', min:10, max:180 },
-          ].map(sl => (
-            <div key={sl.k}>
-              <label style={{ display:'block', fontWeight:600, color:'#1E3A5F', fontSize:13, marginBottom:5 }}>
-                {sl.label}: <span style={{ color:'#D4AF37', fontWeight:800 }}>{f[sl.k]}</span>
-              </label>
-              <input type='range' min={sl.min} max={sl.max} value={f[sl.k]}
-                onChange={e => upd(sl.k, +e.target.value)}
-                style={{ width:'100%', accentColor:'#D4AF37' }} />
-            </div>
-          ))}
-        </div>
-        <button onClick={save} style={{
-          width:'100%', padding:14, borderRadius:12, border:'none',
-          background:'linear-gradient(135deg,#D4AF37,#E8C84A)',
-          fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:15,
-          color:'#1E3A5F', cursor:'pointer',
-        }}>Create Test →</button>
-      </motion.div>
+    <div className="rounded-2xl p-5 flex flex-col gap-1" style={{ background: '#fff', boxShadow: '0 1px 8px rgba(30,58,95,0.07)' }}>
+      <span className="text-2xl">{emoji}</span>
+      <span className="text-2xl font-bold mt-1" style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}>{value}</span>
+      <span className="text-xs font-medium" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>{label}</span>
+      {hint && <span className="text-xs mt-1" style={{ color: '#94A3B8', fontFamily: 'Inter, sans-serif' }}>{hint}</span>}
     </div>
   )
 }
 
-export default function CentreDashboard() {
-  const navigate = useNavigate()
-  const [tests, setTests]     = useState(MOCK_TESTS)
-  const [showModal, setModal] = useState(false)
-  const [tab, setTab]         = useState('tests')
+function EmptyState({ icon, title, body, action, onAction }) {
+  return (
+    <div className="flex flex-col items-center justify-center py-16 gap-3">
+      <span className="text-5xl">{icon}</span>
+      <p className="text-base font-semibold" style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}>{title}</p>
+      <p className="text-sm text-center max-w-xs" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>{body}</p>
+      {action && (
+        <button
+          onClick={onAction}
+          className="mt-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:shadow-md"
+          style={{ background: 'linear-gradient(135deg, #D4AF37, #E8C84A)', color: '#0F2140', fontFamily: 'Poppins, sans-serif' }}
+        >
+          {action}
+        </button>
+      )}
+    </div>
+  )
+}
 
-  const handleCreate = (t) => setTests(p => [t, ...p])
+function TestsTab({ tests, onCreateTest }) {
+  if (!tests.length) {
+    return (
+      <EmptyState
+        icon="📋"
+        title="No tests created yet"
+        body="Create your first test and share it with your students to start tracking performance."
+        action="+ Create Test"
+        onAction={onCreateTest}
+      />
+    )
+  }
 
   return (
-    <div style={{ minHeight:'100vh', background:'#F8FAFC', padding:'0 0 40px' }}>
-      {/* Header */}
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', padding:'20px 28px' }}>
-        <p style={{ color:'rgba(255,255,255,0.5)', fontSize:12 }}>🏫 Centre Dashboard</p>
-        <h1 style={{ color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:24, margin:'4px 0' }}>
-          ABC Coaching Centre
-        </h1>
-        <p style={{ color:'#D4AF37', fontSize:13 }}>47 students · All India Rank #12 Centre</p>
-      </div>
-
-      {/* Stats row */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, padding:'16px 20px' }}>
-        {[['📝','12','Tests This Month'],['👥','47','Active Students'],['🏆','#12','Centre Rank India'],['📊','72%','Avg Score']].map(([e,v,l])=>(
-          <div key={l} style={{ background:'#fff', borderRadius:16, padding:'14px 12px',
-            boxShadow:'0 2px 12px rgba(0,0,0,0.05)', textAlign:'center' }}>
-            <p style={{ fontSize:24 }}>{e}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#D4AF37', fontSize:20 }}>{v}</p>
-            <p style={{ color:'#94A3B8', fontSize:11 }}>{l}</p>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ padding:'0 20px' }}>
-        {/* Tabs */}
-        <div style={{ display:'flex', gap:8, marginBottom:16 }}>
-          {[['tests','📝 Tests'],['students','👥 Students']].map(([k,label])=>(
-            <button key={k} onClick={()=>setTab(k)} style={{
-              padding:'10px 20px', borderRadius:12, border:'none', cursor:'pointer',
-              background: tab===k ? '#1E3A5F' : '#fff',
-              color: tab===k ? '#fff' : '#64748B',
-              fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13,
-            }}>{label}</button>
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <thead>
+          <tr style={{ borderBottom: '2px solid #E2E8F0' }}>
+            {['Test Name', 'Subject', 'Date', 'Students', 'Avg Score'].map(h => (
+              <th key={h} className="text-left pb-3 pr-4 font-semibold text-xs uppercase tracking-wide" style={{ color: '#94A3B8' }}>{h}</th>
+            ))}
+            <th className="pb-3" />
+          </tr>
+        </thead>
+        <tbody>
+          {tests.map((t, i) => (
+            <tr
+              key={t.id}
+              className="transition-colors hover:bg-slate-50"
+              style={{ borderBottom: i < tests.length - 1 ? '1px solid #F1F5F9' : 'none' }}
+            >
+              <td className="py-3.5 pr-4 font-medium" style={{ color: '#1E3A5F' }}>{t.name}</td>
+              <td className="py-3.5 pr-4" style={{ color: '#475569' }}>{t.subject}</td>
+              <td className="py-3.5 pr-4" style={{ color: '#64748B' }}>{new Date(t.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+              <td className="py-3.5 pr-4">
+                <span className="flex items-center gap-1" style={{ color: '#475569' }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  {t.students}
+                </span>
+              </td>
+              <td className="py-3.5 pr-4">
+                <span className="px-2 py-0.5 rounded-full text-xs font-semibold" style={{ background: '#F0FDF4', color: '#16A34A' }}>{t.avgScore}</span>
+              </td>
+              <td className="py-3.5 text-right">
+                <button className="text-xs px-3 py-1 rounded-lg border transition-colors hover:bg-slate-50" style={{ borderColor: '#E2E8F0', color: '#64748B' }}>
+                  View
+                </button>
+              </td>
+            </tr>
           ))}
-          <button onClick={()=>setModal(true)} style={{
-            marginLeft:'auto', padding:'10px 20px', borderRadius:12, border:'none',
-            background:'linear-gradient(135deg,#D4AF37,#E8C84A)',
-            fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13,
-            color:'#1E3A5F', cursor:'pointer',
-          }}>+ Create Test</button>
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+function ProgressBar({ value }) {
+  const pct = Math.min(100, Math.max(0, value))
+  const color = pct >= 70 ? '#16A34A' : pct >= 45 ? '#D4AF37' : '#DC2626'
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-1.5 rounded-full" style={{ background: '#E2E8F0' }}>
+        <div className="h-1.5 rounded-full transition-all" style={{ width: `${pct}%`, background: color }} />
+      </div>
+      <span className="text-xs font-medium w-8 text-right" style={{ color, fontFamily: 'Inter, sans-serif' }}>{pct}%</span>
+    </div>
+  )
+}
+
+function StudentsTab({ students, centreCode }) {
+  if (!students.length) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 gap-3">
+        <span className="text-5xl">👥</span>
+        <p className="text-base font-semibold" style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}>No students yet</p>
+        <p className="text-sm text-center max-w-xs" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
+          Share your Centre code with students so they can join.
+        </p>
+        <div className="mt-2 flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ background: '#FFFBF0', border: '1.5px solid #D4AF37' }}>
+          <span className="text-xs font-medium" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>Centre code</span>
+          <span className="text-sm font-bold tracking-widest" style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}>{centreCode || 'TRYIT001'}</span>
+          <button
+            onClick={() => navigator.clipboard?.writeText(centreCode || 'TRYIT001')}
+            className="text-xs px-2 py-0.5 rounded-lg transition-colors hover:opacity-70"
+            style={{ background: '#D4AF37', color: '#0F2140', fontFamily: 'Inter, sans-serif' }}
+          >
+            Copy
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+        <thead>
+          <tr style={{ borderBottom: '2px solid #E2E8F0' }}>
+            {['Student', 'Email', 'Enrolled Exams', 'Progress'].map(h => (
+              <th key={h} className="text-left pb-3 pr-4 font-semibold text-xs uppercase tracking-wide" style={{ color: '#94A3B8' }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {students.map((s, i) => (
+            <tr
+              key={s.id}
+              className="transition-colors hover:bg-slate-50"
+              style={{ borderBottom: i < students.length - 1 ? '1px solid #F1F5F9' : 'none' }}
+            >
+              <td className="py-3.5 pr-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
+                    style={{ background: '#EFF6FF', color: '#1E3A5F' }}>
+                    {s.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                  </div>
+                  <span className="font-medium" style={{ color: '#1E3A5F' }}>{s.name}</span>
+                </div>
+              </td>
+              <td className="py-3.5 pr-4" style={{ color: '#64748B' }}>{s.email}</td>
+              <td className="py-3.5 pr-4">
+                <div className="flex flex-wrap gap-1">
+                  {s.exams.map(ex => (
+                    <span key={ex} className="px-2 py-0.5 rounded-full text-xs" style={{ background: '#F1F5F9', color: '#475569' }}>{ex}</span>
+                  ))}
+                </div>
+              </td>
+              <td className="py-3.5 pr-4 min-w-[120px]">
+                <ProgressBar value={s.progress} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+// ─── Main component ───────────────────────────────────────────────────────────
+
+export default function CentreDashboard() {
+  const navigate = useNavigate()
+  const { user } = useAuth()
+  const [activeTab, setActiveTab] = useState('tests')
+
+  // Derive display values — use real user fields where they exist, fall back gracefully
+  const institutionName = user?.institutionName || user?.name || 'Your Coaching Centre'
+  const studentCount    = user?.studentCount    || SAMPLE_STUDENTS.length
+  const centreRank      = user?.centreRank      || '—'
+  const testsThisMonth  = user?.testsCompleted  || SAMPLE_TESTS.length
+  const avgScore        = user?.avgScore        ? `${user.avgScore}%` : '68%'
+  const centreCode      = user?.userId          || 'TRYIT001'
+
+  // For demo, use sample data; in production these would come from API/context
+  const tests    = SAMPLE_TESTS
+  const students = SAMPLE_STUDENTS
+
+  const hasData = tests.length > 0
+
+  const STATS = [
+    { emoji: '📝', value: testsThisMonth || 0, label: 'Tests This Month', hint: !hasData ? 'Create your first test to see stats' : null },
+    { emoji: '👥', value: studentCount,        label: 'Active Students',   hint: studentCount === 0 ? 'Share your code to add students' : null },
+    { emoji: '🏆', value: centreRank === '—' ? '—' : `#${centreRank}`, label: 'Centre Rank India', hint: centreRank === '—' ? 'Rank unlocks after 10 tests' : null },
+    { emoji: '📊', value: avgScore,            label: 'Avg Score',         hint: null },
+  ]
+
+  function handleCreateTest() {
+    navigate('/centre/create-test')
+  }
+
+  const TABS = [
+    { id: 'tests',    label: 'Tests' },
+    { id: 'students', label: 'Students' },
+  ]
+
+  return (
+    <AppLayout title="Centre Dashboard">
+      <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
+
+        {/* ── Header banner ──────────────────────────────────────── */}
+        <div
+          className="px-6 py-6 sm:px-8"
+          style={{ background: 'linear-gradient(135deg, #0F2140 0%, #1E3A5F 100%)' }}
+        >
+          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1
+                className="text-xl sm:text-2xl font-bold"
+                style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}
+              >
+                {institutionName}
+              </h1>
+              <p className="text-sm mt-0.5" style={{ color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>
+                {studentCount} students
+                {centreRank !== '—' && <> · All India Rank <span style={{ color: '#E8C84A' }}>#{centreRank}</span> Centre</>}
+                {centreRank === '—' && <> · Centre rank unlocks after 10 tests</>}
+              </p>
+            </div>
+            <button
+              onClick={handleCreateTest}
+              className="self-start sm:self-auto flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:shadow-lg"
+              style={{
+                background: 'linear-gradient(135deg, #D4AF37, #E8C84A)',
+                color: '#0F2140',
+                fontFamily: 'Poppins, sans-serif',
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Create Test
+            </button>
+          </div>
         </div>
 
-        {/* Tests tab */}
-        {tab === 'tests' && (
-          <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-            <div style={{ background:'#1E3A5F', padding:'12px 18px',
-              display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr 1fr', gap:8 }}>
-              {['Test Name','Subject','Date','Students','Avg Score'].map(h=>(
-                <span key={h} style={{ color:'#D4AF37', fontSize:11, fontWeight:700, letterSpacing:'1px' }}>{h}</span>
-              ))}
+        <div className="max-w-5xl mx-auto px-4 sm:px-8 py-6 space-y-6">
+
+          {/* ── Stats row ──────────────────────────────────────────── */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            {STATS.map(s => <StatCard key={s.label} {...s} />)}
+          </div>
+
+          {/* ── Tabs + content ─────────────────────────────────────── */}
+          <div className="rounded-2xl overflow-hidden" style={{ background: '#fff', boxShadow: '0 1px 8px rgba(30,58,95,0.07)' }}>
+
+            {/* Tab bar */}
+            <div className="flex items-center justify-between px-5 pt-4 pb-0" style={{ borderBottom: '1px solid #E2E8F0' }}>
+              <div className="flex gap-1">
+                {TABS.map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className="px-4 py-2.5 text-sm font-semibold rounded-t-lg transition-all focus:outline-none"
+                    style={{
+                      color: activeTab === tab.id ? '#1E3A5F' : '#94A3B8',
+                      borderBottom: activeTab === tab.id ? '2px solid #D4AF37' : '2px solid transparent',
+                      fontFamily: 'Inter, sans-serif',
+                      background: 'transparent',
+                      marginBottom: '-1px',
+                    }}
+                  >
+                    {tab.label}
+                    {tab.id === 'tests' && tests.length > 0 && (
+                      <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-xs" style={{ background: '#F1F5F9', color: '#475569' }}>{tests.length}</span>
+                    )}
+                    {tab.id === 'students' && students.length > 0 && (
+                      <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-xs" style={{ background: '#F1F5F9', color: '#475569' }}>{students.length}</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              {/* Create test button in tab bar (desktop shortcut) */}
+              {activeTab === 'tests' && (
+                <button
+                  onClick={handleCreateTest}
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all hover:shadow mb-1"
+                  style={{ background: 'linear-gradient(135deg, #D4AF37, #E8C84A)', color: '#0F2140', fontFamily: 'Poppins, sans-serif' }}
+                >
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  Create Test
+                </button>
+              )}
             </div>
-            {tests.map(t => (
-              <div key={t.id} style={{ padding:'14px 18px', borderBottom:'1px solid #F1F5F9',
-                display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr 1fr', gap:8,
-                alignItems:'center', cursor:'pointer' }}
-                onClick={()=>navigate(`/centre/students`)}>
-                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E3A5F', fontSize:14 }}>
-                  {t.name}
-                </span>
-                <span style={{ background:'#F1F5F9', color:'#64748B', borderRadius:8,
-                  padding:'3px 8px', fontSize:11, fontWeight:600, display:'inline-block' }}>
-                  {t.subject}
-                </span>
-                <span style={{ color:'#64748B', fontSize:12 }}>{t.date?.slice(0,10)}</span>
-                <span style={{ fontWeight:700, color:'#1E3A5F', fontSize:14 }}>{t.students || '—'}</span>
-                <span style={{ fontWeight:700, color: t.avgScore >= 70 ? '#22C55E' : '#EF4444', fontSize:14 }}>
-                  {t.avgScore ? `${t.avgScore}%` : '—'}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
 
-        {/* Students tab */}
-        {tab === 'students' && (
-          <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-            {MOCK_STUDENTS.map(s => (
-              <div key={s.id} onClick={()=>navigate('/centre/students')}
-                style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px',
-                  borderBottom:'1px solid #F1F5F9', cursor:'pointer' }}>
-                <div style={{ width:38, height:38, borderRadius:'50%', background:'#1E3A5F',
-                  color:'#D4AF37', fontWeight:800, fontSize:14,
-                  display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  {s.name.split(' ').map(n=>n[0]).join('')}
-                </div>
-                <div style={{ flex:1 }}>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E3A5F' }}>{s.name}</p>
-                  <p style={{ color:'#94A3B8', fontSize:12 }}>🔥 {s.streak} day streak · {s.testsCount} tests</p>
-                </div>
-                <div style={{ textAlign:'right' }}>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#D4AF37', fontSize:16 }}>
-                    {s.avgScore}%
-                  </p>
-                  <p style={{ color:'#94A3B8', fontSize:11 }}>Avg Score</p>
-                </div>
-                <span style={{ color:'#D4AF37', fontSize:18 }}>›</span>
-              </div>
-            ))}
+            {/* Tab content */}
+            <div className="p-5">
+              {activeTab === 'tests' && (
+                <TestsTab tests={tests} onCreateTest={handleCreateTest} />
+              )}
+              {activeTab === 'students' && (
+                <StudentsTab students={students} centreCode={centreCode} />
+              )}
+            </div>
           </div>
-        )}
+
+          {/* ── Centre code footer chip ────────────────────────────── */}
+          <div className="flex items-center justify-center gap-3 py-2">
+            <span className="text-xs" style={{ color: '#94A3B8', fontFamily: 'Inter, sans-serif' }}>Your Centre code:</span>
+            <div
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg"
+              style={{ background: '#FFFBF0', border: '1.5px solid #E8C84A' }}
+            >
+              <span className="text-sm font-bold tracking-widest" style={{ color: '#1E3A5F', fontFamily: 'Poppins, sans-serif' }}>{centreCode}</span>
+              <button
+                onClick={() => navigator.clipboard?.writeText(centreCode)}
+                className="text-xs px-2 py-0.5 rounded-md transition-opacity hover:opacity-70"
+                style={{ background: '#D4AF37', color: '#0F2140', fontFamily: 'Inter, sans-serif' }}
+              >
+                Copy
+              </button>
+            </div>
+          </div>
+
+        </div>
       </div>
-
-      {showModal && <CreateTestModal onClose={()=>setModal(false)} onCreate={handleCreate} />}
-    </div>
+    </AppLayout>
   )
 }

@@ -1,368 +1,349 @@
+// FILE: src/pages/admin/AdminDashboard.jsx
+// Admin — Full Control Panel
+// Tabs: Overview · Users · Coin/Pro Grants · Exams · Security · View As
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
+import { useAuth } from '../../context/AuthContext'
 
-// ── Pro Access grant storage ──────────────────────────────────────
-const GRANTS_KEY = 'tryit_pro_grants'
-function getGrants() { return JSON.parse(localStorage.getItem(GRANTS_KEY) || '[]') }
-function saveGrants(g) { localStorage.setItem(GRANTS_KEY, JSON.stringify(g)) }
-function isGrantActive(grant) { return new Date(grant.expiresAt) > new Date() }
-export function checkProGrant(email) {
-  return getGrants().find(g => g.email.toLowerCase()===email.toLowerCase() && isGrantActive(g)) || null
-}
-
-const TABS = ['overview','grants','users','exam-requests','push']
+const TABS = [
+  { id:'overview', label:'📊 Overview' },
+  { id:'users',    label:'👥 Users' },
+  { id:'grants',   label:'🪙 Coin / Pro Grants' },
+  { id:'exams',    label:'📋 Exams' },
+  { id:'security', label:'🛡️ Security' },
+  { id:'viewas',   label:'👁️ View As' },
+]
 
 export default function AdminDashboard() {
   const navigate = useNavigate()
   const [tab, setTab] = useState('overview')
+  const [authed, setAuthed] = useState(false)
 
   useEffect(() => {
-    if (!localStorage.getItem('tryit_admin')) navigate('/admin/login')
+    const flag = localStorage.getItem('tryit_admin')
+    if (flag === 'true' || flag === '1') setAuthed(true)
+    else navigate('/admin/login')
   }, [navigate])
 
-  const logout = () => { localStorage.removeItem('tryit_admin'); navigate('/admin/login') }
+  if (!authed) return null
+
+  const logout = () => {
+    localStorage.removeItem('tryit_admin')
+    navigate('/admin/login')
+  }
 
   return (
-    <div style={{ minHeight:'100vh', background:'#F1F5F9' }}>
+    <div style={{ minHeight:'100vh', background:'#F8FAFC' }}>
       {/* Header */}
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', padding:'16px 24px', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:10 }}>
+      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', padding:'20px clamp(16px,4vw,40px)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
         <div>
-          <p style={{ color:'rgba(255,255,255,0.5)', fontSize:11 }}>TryIT Admin · 360° Control</p>
-          <h1 style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:22 }}>
-            Admin Dashboard
-          </h1>
+          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:22 }}>🛡️ TryIT Admin</p>
+          <p style={{ color:'rgba(255,255,255,0.5)', fontSize:12 }}>Full Control Panel</p>
         </div>
-        <button onClick={logout} style={{ background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:10, padding:'8px 16px', color:'#fff', cursor:'pointer', fontSize:13 }}>
-          Sign Out
+        <button onClick={logout} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:12, padding:'10px 20px', color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13, cursor:'pointer' }}>
+          🚪 Logout
         </button>
       </div>
 
       {/* Tabs */}
-      <div style={{ display:'flex', gap:4, padding:'10px 16px', background:'#fff', boxShadow:'0 2px 8px rgba(0,0,0,0.06)', overflowX:'auto' }}>
-        {[['overview','📊 Overview'],['grants','⚡ Grant Pro Access'],['users','👥 Users'],['exam-requests','📬 Exam Queue'],['push','🔔 Push Test']].map(([k,l]) => (
-          <button key={k} onClick={() => setTab(k)} style={{ padding:'9px 16px', borderRadius:10, border:'none', cursor:'pointer', whiteSpace:'nowrap', background: tab===k?'#1E3A5F':'transparent', color: tab===k?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13 }}>{l}</button>
+      <div style={{ display:'flex', gap:8, overflowX:'auto', padding:'16px clamp(16px,4vw,40px) 0' }}>
+        {TABS.map(t=>(
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            style={{ padding:'10px 18px', borderRadius:'14px 14px 0 0', border:'none', cursor:'pointer', whiteSpace:'nowrap',
+              background: tab===t.id ? '#fff' : 'transparent',
+              color: tab===t.id ? '#1E3A5F' : '#94A3B8',
+              fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13,
+              borderBottom: tab===t.id ? '3px solid #D4AF37' : '3px solid transparent' }}>
+            {t.label}
+          </button>
         ))}
       </div>
 
-      <div style={{ padding:20 }}>
-        {tab==='overview'    && <OverviewTab/>}
-        {tab==='grants'      && <GrantProTab/>}
-        {tab==='users'       && <UsersTab/>}
-        {tab==='exam-requests' && <ExamQueueTab/>}
-        {tab==='push'        && <PushTestTab/>}
+      <div style={{ padding:'20px clamp(16px,4vw,40px) 40px', background:'#fff', minHeight:'60vh' }}>
+        {tab==='overview' && <OverviewTab navigate={navigate}/>}
+        {tab==='users'    && <UsersTab/>}
+        {tab==='grants'   && <GrantsTab/>}
+        {tab==='exams'    && <ExamsTab navigate={navigate}/>}
+        {tab==='security' && <SecurityTab/>}
+        {tab==='viewas'   && <ViewAsTab/>}
       </div>
     </div>
   )
 }
 
-// ── GRANT PRO ACCESS TAB ──────────────────────────────────────────
-function GrantProTab() {
-  const [email, setEmail]   = useState('')
-  const [days,  setDays]    = useState(30)
-  const [plan,  setPlan]    = useState('pro')
-  const [note,  setNote]    = useState('')
-  const [grants, setGrants] = useState(getGrants)
-  const [error, setError]   = useState('')
-  const [success, setSuccess] = useState('')
+// ── OVERVIEW ─────────────────────────────────────────────────────
+function OverviewTab({ navigate }) {
+  const [stats, setStats] = useState({ users:0, pro:0, tests:0, coins:0 })
 
-  const PLAN_OPTIONS = [
-    { id:'trial', label:'Trial (7 days features)' },
-    { id:'plus',  label:'Plus (all features)'     },
-    { id:'pro',   label:'Pro (full + books)'       },
-    { id:'promax',label:'Pro Max (everything)'     },
+  useEffect(()=>{
+    (async () => {
+      try {
+        const { count: users }  = await supabase.from('profiles').select('*', { count:'exact', head:true })
+        const { count: pro }    = await supabase.from('profiles').select('*', { count:'exact', head:true }).eq('plan','pro')
+        const { count: tests }  = await supabase.from('test_attempts').select('*', { count:'exact', head:true })
+        setStats({ users: users||0, pro: pro||0, tests: tests||0, coins: 0 })
+      } catch {
+        setStats({ users: 1, pro: 1, tests: 0, coins: 0 })
+      }
+    })()
+  },[])
+
+  const CARDS = [
+    { label:'Total Users',  value: stats.users, emoji:'👥', color:'#1E3A5F' },
+    { label:'Pro Members',  value: stats.pro,   emoji:'⚡', color:'#D4AF37' },
+    { label:'Tests Taken',  value: stats.tests, emoji:'📝', color:'#22C55E' },
+    { label:'Active Grants',value: '—',         emoji:'🎁', color:'#7C3AED' },
   ]
-  const DAY_PRESETS = [7, 14, 30, 60, 90, 180, 365]
 
-  const grant = () => {
-    const clean = email.trim().toLowerCase()
-    if (!clean || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
-      setError('Enter a valid email address.'); return
-    }
-    const expiresAt = new Date()
-    expiresAt.setDate(expiresAt.getDate() + days)
-    const newGrant = {
-      id: `grant-${Date.now()}`,
-      email: clean,
-      plan,
-      days,
-      note: note.trim(),
-      grantedAt: new Date().toISOString(),
-      expiresAt: expiresAt.toISOString(),
-      grantedBy: 'admin',
-    }
-    const updated = [newGrant, ...grants.filter(g => g.email !== clean)]
-    saveGrants(updated)
-    setGrants(updated)
-    setEmail(''); setNote(''); setError('')
-    setSuccess(`✅ ${clean} granted ${plan.toUpperCase()} for ${days} days (expires ${expiresAt.toLocaleDateString('en-IN')})`)
-    setTimeout(() => setSuccess(''), 5000)
-  }
-
-  const revoke = (id) => {
-    const updated = grants.filter(g => g.id !== id)
-    saveGrants(updated)
-    setGrants(updated)
-  }
-
-  const active  = grants.filter(isGrantActive)
-  const expired = grants.filter(g => !isGrantActive(g))
-
-  return (
-    <div style={{ maxWidth:720 }}>
-      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:6 }}>⚡ Grant Free Pro Access</h2>
-      <p style={{ color:'#64748B', fontSize:14, marginBottom:24 }}>
-        Enter a user's email. They get Pro access for the specified days — no payment needed.
-        Works immediately when they log in with that email.
-      </p>
-
-      {/* Grant form */}
-      <div style={{ background:'#fff', borderRadius:22, padding:24, border:'1.5px solid #E2E8F0', boxShadow:'0 4px 16px rgba(0,0,0,0.06)', marginBottom:24 }}>
-        <div style={{ marginBottom:16 }}>
-          <label style={{ display:'block', fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:8 }}>
-            User Email Address *
-          </label>
-          <input value={email} type="email" placeholder="user@gmail.com"
-            onChange={e => { setEmail(e.target.value); setError('') }}
-            onKeyDown={e => e.key==='Enter' && grant()}
-            style={{ width:'100%', padding:'13px 16px', borderRadius:14, border:`1.5px solid ${error?'#EF4444':'#E2E8F0'}`, fontSize:15, fontFamily:'Inter,sans-serif', outline:'none', boxSizing:'border-box' }}
-            onFocus={e => e.target.style.borderColor='#D4AF37'}
-            onBlur={e => e.target.style.borderColor=error?'#EF4444':'#E2E8F0'}
-          />
-          {error && <p style={{ color:'#EF4444', fontSize:12, marginTop:6 }}>{error}</p>}
-        </div>
-
-        {/* Plan selector */}
-        <div style={{ marginBottom:16 }}>
-          <label style={{ display:'block', fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:8 }}>
-            Plan to Grant
-          </label>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(150px,1fr))', gap:8 }}>
-            {PLAN_OPTIONS.map(p => (
-              <button key={p.id} onClick={() => setPlan(p.id)} style={{ padding:'10px 14px', borderRadius:12, border:`2px solid ${plan===p.id?'#D4AF37':'#E2E8F0'}`, background: plan===p.id?'rgba(212,175,55,0.08)':'#F8FAFC', cursor:'pointer', textAlign:'left', transition:'all 0.15s' }}>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color: plan===p.id?'#1E3A5F':'#64748B', fontSize:13 }}>{p.id.toUpperCase()}</p>
-                <p style={{ color:'#94A3B8', fontSize:11, marginTop:2 }}>{p.label}</p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Days */}
-        <div style={{ marginBottom:16 }}>
-          <label style={{ display:'block', fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:8 }}>
-            Duration: <span style={{ color:'#D4AF37' }}>{days} days</span>
-            {days===365 && <span style={{ color:'#22C55E', fontSize:12, marginLeft:8 }}>— 1 Full Year 🎉</span>}
-          </label>
-          <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:10 }}>
-            {DAY_PRESETS.map(d => (
-              <button key={d} onClick={() => setDays(d)} style={{ padding:'7px 16px', borderRadius:20, border:'none', cursor:'pointer', background: days===d?'#1E3A5F':'#F1F5F9', color: days===d?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13 }}>
-                {d===365?'1 Year':`${d}d`}
-              </button>
-            ))}
-          </div>
-          <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <span style={{ color:'#64748B', fontSize:13 }}>Custom:</span>
-            <input type="number" min={1} max={3650} value={days}
-              onChange={e => setDays(Math.max(1,Math.min(3650,+e.target.value)))}
-              style={{ width:80, padding:'8px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:14, outline:'none', textAlign:'center' }}
-              onFocus={e=>e.target.style.borderColor='#D4AF37'}
-              onBlur={e=>e.target.style.borderColor='#E2E8F0'}
-            />
-            <span style={{ color:'#64748B', fontSize:13 }}>days</span>
-          </div>
-        </div>
-
-        {/* Internal note */}
-        <div style={{ marginBottom:20 }}>
-          <label style={{ display:'block', fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:8 }}>
-            Internal Note (optional)
-          </label>
-          <input value={note} placeholder="e.g. Test user, Friend referral, Press demo..."
-            onChange={e => setNote(e.target.value)}
-            style={{ width:'100%', padding:'11px 14px', borderRadius:12, border:'1.5px solid #E2E8F0', fontSize:13, fontFamily:'Inter,sans-serif', outline:'none', boxSizing:'border-box' }}
-            onFocus={e=>e.target.style.borderColor='#D4AF37'}
-            onBlur={e=>e.target.style.borderColor='#E2E8F0'}
-          />
-        </div>
-
-        {success && (
-          <div style={{ background:'#DCFCE7', border:'1px solid #22C55E', borderRadius:12, padding:'12px 16px', marginBottom:16 }}>
-            <p style={{ color:'#15803D', fontWeight:600, fontSize:14 }}>{success}</p>
-          </div>
-        )}
-
-        <button onClick={grant} style={{ width:'100%', padding:'14px', borderRadius:14, border:'none', background:'linear-gradient(135deg,#D4AF37,#E8C84A)', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:'#1E3A5F', cursor:'pointer', boxShadow:'0 4px 16px rgba(212,175,55,0.3)' }}>
-          ⚡ Grant {plan.toUpperCase()} Access for {days} Days
-        </button>
-      </div>
-
-      {/* Active grants */}
-      {active.length > 0 && (
-        <div style={{ marginBottom:20 }}>
-          <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>
-            ✅ Active Grants ({active.length})
-          </h3>
-          <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', border:'1.5px solid #E2E8F0' }}>
-            {active.map((g,i) => {
-              const daysLeft = Math.ceil((new Date(g.expiresAt)-new Date())/86400000)
-              return (
-                <div key={g.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'14px 18px', borderBottom: i<active.length-1?'1px solid #F8FAFC':'none', flexWrap:'wrap' }}>
-                  <div style={{ width:38, height:38, borderRadius:10, background:'#DCFCE7', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>⚡</div>
-                  <div style={{ flex:1, minWidth:0 }}>
-                    <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{g.email}</p>
-                    <p style={{ color:'#64748B', fontSize:12, marginTop:2 }}>
-                      {g.plan.toUpperCase()} · Expires {new Date(g.expiresAt).toLocaleDateString('en-IN')}
-                      {g.note && <span style={{ color:'#94A3B8' }}> · {g.note}</span>}
-                    </p>
-                  </div>
-                  <span style={{ background: daysLeft<=7?'#FEF3C7':'#DCFCE7', color: daysLeft<=7?'#92400E':'#15803D', fontSize:11, fontWeight:800, padding:'4px 12px', borderRadius:20, flexShrink:0 }}>
-                    {daysLeft}d left
-                  </span>
-                  <button onClick={() => revoke(g.id)} style={{ background:'#FEE2E2', border:'none', borderRadius:10, padding:'7px 14px', color:'#991B1B', cursor:'pointer', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12, flexShrink:0 }}>
-                    Revoke
-                  </button>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Expired */}
-      {expired.length > 0 && (
-        <div>
-          <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#94A3B8', marginBottom:12 }}>
-            Expired Grants ({expired.length})
-          </h3>
-          <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', border:'1.5px solid #E2E8F0', opacity:0.65 }}>
-            {expired.slice(0,5).map((g,i) => (
-              <div key={g.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 18px', borderBottom: i<Math.min(expired.length-1,4)?'1px solid #F8FAFC':'none' }}>
-                <p style={{ fontFamily:'Poppins,sans-serif', color:'#94A3B8', fontSize:13, flex:1 }}>{g.email}</p>
-                <span style={{ color:'#94A3B8', fontSize:11 }}>Expired {new Date(g.expiresAt).toLocaleDateString('en-IN')}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {grants.length === 0 && (
-        <div style={{ textAlign:'center', padding:40, color:'#94A3B8' }}>
-          <p style={{ fontSize:36 }}>⚡</p>
-          <p style={{ marginTop:10 }}>No grants yet. Enter an email above to get started.</p>
-        </div>
-      )}
-    </div>
-  )
-}
-
-function OverviewTab() {
-  const grants = getGrants().filter(isGrantActive)
-  const requests = JSON.parse(localStorage.getItem('examRequests') || '[]').filter(r=>r.status==='pending')
-  return (
-    <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:14 }}>
-      {[
-        ['⚡', grants.length,     'Active Pro Grants',    '#D4AF37'],
-        ['📬', requests.length,   'Pending Exam Requests','#EF4444'],
-        ['👥', '1,247',           'Registered Users',     '#1E3A5F'],
-        ['📝', '23,481',          'Tests Completed',      '#22C55E'],
-        ['💰', '₹48,392',         'Revenue This Month',   '#D4AF37'],
-        ['🗃️', '5,280',           'Questions in DB',      '#8B5CF6'],
-      ].map(([e,v,l,c]) => (
-        <div key={l} style={{ background:'#fff', borderRadius:18, padding:'18px 16px', textAlign:'center', boxShadow:'0 2px 10px rgba(0,0,0,0.05)', border:'1.5px solid #E2E8F0' }}>
-          <p style={{ fontSize:28 }}>{e}</p>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:c, fontSize:22 }}>{v}</p>
-          <p style={{ color:'#94A3B8', fontSize:12, marginTop:2 }}>{l}</p>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function UsersTab() {
-  const grants = getGrants().filter(isGrantActive)
-  const USERS = [
-    { name:'Arjun Kumar',  email:'arjun@ex.com', role:'student', level:4, joined:'Jan 2026' },
-    { name:'Vikram Nair',  email:'vikram@ex.com',role:'mentor',  level:7, joined:'Feb 2026' },
-    { name:'Test User 1',  email:'test1@ex.com', role:'student', level:1, joined:'Jun 2026' },
-  ]
   return (
     <div>
-      <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:16 }}>
-        Registered Users · <span style={{ color:'#D4AF37' }}>{grants.length} with active grants</span>
-      </p>
-      <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', border:'1.5px solid #E2E8F0' }}>
-        {USERS.map((u,i) => {
-          const grant = grants.find(g=>g.email===u.email)
-          return (
-            <div key={i} style={{ display:'grid', gridTemplateColumns:'1fr 1fr 80px 80px', gap:10, padding:'13px 18px', borderBottom:'1px solid #F8FAFC', alignItems:'center' }}>
-              <div>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14 }}>{u.name}</p>
-                <p style={{ color:'#94A3B8', fontSize:12 }}>{u.email}</p>
-              </div>
-              <div>
-                {grant
-                  ? <span style={{ background:'#DCFCE7', color:'#15803D', fontSize:11, fontWeight:700, padding:'3px 10px', borderRadius:20 }}>⚡ {grant.plan.toUpperCase()} Grant</span>
-                  : <span style={{ background:'#F1F5F9', color:'#64748B', fontSize:11, fontWeight:600, padding:'3px 10px', borderRadius:20 }}>{u.role}</span>
-                }
-              </div>
-              <span style={{ color:'#D4AF37', fontWeight:700 }}>Lv {u.level}</span>
-              <span style={{ color:'#94A3B8', fontSize:12 }}>{u.joined}</span>
-            </div>
-          )
-        })}
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:16 }}>Platform Overview</h2>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:14 }}>
+        {CARDS.map(c=>(
+          <div key={c.label} style={{ background:'#F8FAFC', borderRadius:18, padding:18, border:'1.5px solid #E2E8F0' }}>
+            <p style={{ fontSize:28 }}>{c.emoji}</p>
+            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:c.color, fontSize:24 }}>{c.value}</p>
+            <p style={{ color:'#94A3B8', fontSize:12 }}>{c.label}</p>
+          </div>
+        ))}
+      </div>
+      <div style={{ display:'flex', gap:10, flexWrap:'wrap', marginTop:16, marginBottom:16 }}>
+        <a href="/admin/exams" style={{ background:'#1E3A5F', color:'#D4AF37', borderRadius:12, padding:'10px 20px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, textDecoration:'none' }}>📋 Manage Exams & Pricing</a>
+        <a href="/admin/current-affairs" style={{ background:'#1E3A5F', color:'#D4AF37', borderRadius:12, padding:'10px 20px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, textDecoration:'none' }}>📰 Manage Current Affairs</a>
+      </div>
+      <div style={{ background:'rgba(212,175,55,0.06)', borderRadius:16, padding:16, border:'1px solid rgba(212,175,55,0.2)' }}>
+        <p style={{ color:'#64748B', fontSize:13, lineHeight:1.7 }}>
+          ℹ️ If counts show 0/—, Supabase tables (profiles, test_attempts) may not be
+          populated yet, or VITE_SUPABASE_URL isn't configured. This is expected
+          before real users sign up.
+        </p>
       </div>
     </div>
   )
 }
 
-function ExamQueueTab() {
-  const [reqs, setReqs] = useState(() => {
-    const s = JSON.parse(localStorage.getItem('examRequests')||'[]')
-    return s.length ? s : [
-      { id:'r1', examName:'TSPSC Group 2', conductingBody:'TSPSC', status:'pending', requestedAt:'2026-06-09T08:00:00Z' },
-      { id:'r2', examName:'KPSC FDA',      conductingBody:'KPSC',  status:'pending', requestedAt:'2026-06-08T14:00:00Z' },
-    ]
-  })
-  const mark = (id,status) => { const u=reqs.map(r=>r.id===id?{...r,status}:r); setReqs(u); localStorage.setItem('examRequests',JSON.stringify(u)) }
+// ── USERS ────────────────────────────────────────────────────────
+function UsersTab() {
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+
+  useEffect(()=>{
+    (async () => {
+      try {
+        const { data } = await supabase.from('profiles').select('*').order('created_at',{ascending:false}).limit(100)
+        setUsers(data || [])
+      } catch { setUsers([]) }
+      setLoading(false)
+    })()
+  },[])
+
+  const filtered = users.filter(u =>
+    (u.email||'').toLowerCase().includes(search.toLowerCase()) ||
+    (u.name||'').toLowerCase().includes(search.toLowerCase())
+  )
+
+  const suspend = async (id, suspended) => {
+    try {
+      await supabase.from('profiles').update({ suspended: !suspended }).eq('id', id)
+      setUsers(u => u.map(x => x.id===id ? {...x, suspended: !suspended} : x))
+    } catch { alert('Could not update — check Supabase connection') }
+  }
+
   return (
-    <div style={{ background:'#fff', borderRadius:20, overflow:'hidden', border:'1.5px solid #E2E8F0' }}>
-      {reqs.map((r,i) => (
-        <div key={r.id} style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px', borderBottom:i<reqs.length-1?'1px solid #F8FAFC':'none', flexWrap:'wrap' }}>
-          <div style={{ flex:1 }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F' }}>{r.examName}</p>
-            <p style={{ color:'#94A3B8', fontSize:12 }}>{r.conductingBody} · {r.requestedAt?.slice(0,10)}</p>
+    <div>
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:12 }}>User Management</h2>
+      <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search by name or email..."
+        style={{ width:'100%', maxWidth:340, padding:'10px 14px', borderRadius:12, border:'1.5px solid #E2E8F0', fontSize:13, marginBottom:14, outline:'none' }}/>
+
+      {loading ? <p style={{ color:'#94A3B8' }}>Loading...</p> : filtered.length===0 ? (
+        <div style={{ textAlign:'center', padding:40, color:'#94A3B8', background:'#F8FAFC', borderRadius:16 }}>
+          <p style={{ fontSize:32, marginBottom:8 }}>👤</p>
+          <p>No users found yet. Real users will appear here after signup via Supabase.</p>
+        </div>
+      ) : (
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {filtered.map(u=>(
+            <div key={u.id} style={{ display:'flex', alignItems:'center', gap:12, padding:'12px 16px', background:'#F8FAFC', borderRadius:14, border:'1.5px solid #E2E8F0', flexWrap:'wrap' }}>
+              <div style={{ width:36, height:36, borderRadius:'50%', background:'#1E3A5F', color:'#D4AF37', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, fontSize:12, flexShrink:0 }}>
+                {(u.name||'?').slice(0,2).toUpperCase()}
+              </div>
+              <div style={{ flex:1, minWidth:120 }}>
+                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:13 }}>{u.name || 'Unnamed'}</p>
+                <p style={{ color:'#94A3B8', fontSize:11 }}>{u.email}</p>
+              </div>
+              <span style={{ fontSize:12, color:'#64748B' }}>🪙 {u.coins ?? 0}</span>
+              <span style={{ fontSize:12, padding:'3px 10px', borderRadius:20, background: u.plan==='pro' ? 'rgba(212,175,55,0.15)':'#EEE', color: u.plan==='pro' ? '#92400E':'#64748B', fontWeight:700 }}>{u.plan || 'free'}</span>
+              <button onClick={()=>suspend(u.id, u.suspended)} style={{ padding:'6px 14px', borderRadius:10, border:'none', cursor:'pointer', fontSize:12, fontWeight:700,
+                background: u.suspended ? '#DCFCE7' : '#FEE2E2', color: u.suspended ? '#15803D' : '#991B1B' }}>
+                {u.suspended ? '✓ Unsuspend' : '🔒 Suspend'}
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── GRANTS ───────────────────────────────────────────────────────
+function GrantsTab() {
+  const [grants, setGrants] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('tryit_pro_grants')||'[]') } catch { return [] }
+  })
+  const [email, setEmail] = useState('')
+  const [plan, setPlan]   = useState('pro')
+  const [days, setDays]   = useState(30)
+
+  const addGrant = () => {
+    if (!email.trim()) return
+    const expiresAt = new Date(Date.now() + days*24*60*60*1000).toISOString()
+    const newGrants = [...grants, { email: email.trim().toLowerCase(), plan, expiresAt, grantedAt: new Date().toISOString() }]
+    setGrants(newGrants)
+    localStorage.setItem('tryit_pro_grants', JSON.stringify(newGrants))
+    setEmail('')
+  }
+
+  const removeGrant = (idx) => {
+    const newGrants = grants.filter((_,i)=>i!==idx)
+    setGrants(newGrants)
+    localStorage.setItem('tryit_pro_grants', JSON.stringify(newGrants))
+  }
+
+  return (
+    <div>
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:6 }}>Coin / Pro Grants</h2>
+      <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>Grant free Pro access to specific emails. Applied automatically on their next login.</p>
+
+      <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:16, background:'#F8FAFC', padding:14, borderRadius:14, border:'1.5px solid #E2E8F0' }}>
+        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="user@email.com"
+          style={{ flex:1, minWidth:180, padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13, outline:'none' }}/>
+        <select value={plan} onChange={e=>setPlan(e.target.value)} style={{ padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13 }}>
+          <option value="pro">Pro</option>
+          <option value="equity">Equity (Free Lifetime)</option>
+        </select>
+        <input type="number" value={days} onChange={e=>setDays(parseInt(e.target.value)||30)} style={{ width:80, padding:'10px 12px', borderRadius:10, border:'1.5px solid #E2E8F0', fontSize:13 }}/>
+        <span style={{ alignSelf:'center', fontSize:12, color:'#64748B' }}>days</span>
+        <button onClick={addGrant} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:10, padding:'10px 20px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer' }}>Grant</button>
+      </div>
+
+      {grants.length===0 ? (
+        <p style={{ color:'#94A3B8', fontSize:13 }}>No active grants.</p>
+      ) : (
+        <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+          {grants.map((g,i)=>(
+            <div key={i} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'10px 14px', background:'#F8FAFC', borderRadius:12, border:'1.5px solid #E2E8F0', flexWrap:'wrap', gap:8 }}>
+              <span style={{ fontSize:13, fontWeight:600, color:'#1E3A5F' }}>{g.email}</span>
+              <span style={{ fontSize:12, color:'#64748B' }}>{g.plan} · expires {new Date(g.expiresAt).toLocaleDateString('en-IN')}</span>
+              <button onClick={()=>removeGrant(i)} style={{ background:'#FEE2E2', color:'#991B1B', border:'none', borderRadius:8, padding:'4px 10px', fontSize:11, fontWeight:700, cursor:'pointer' }}>Remove</button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── EXAMS ────────────────────────────────────────────────────────
+function ExamsTab({ navigate }) {
+  const [exams, setExams] = useState([])
+  useEffect(()=>{
+    fetch('/data/exams.json').then(r=>r.json()).then(d=>setExams(d.exams||[])).catch(()=>setExams([]))
+  },[])
+
+  const byCategory = {}
+  exams.forEach(e => { byCategory[e.category] = (byCategory[e.category]||0) + 1 })
+
+  return (
+    <div>
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:6 }}>Exam Catalog</h2>
+      <button onClick={()=>navigate('/admin/exams')} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:12, padding:'10px 20px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer', marginBottom:14 }}>
+        Open Full Exam Manager (add / edit / pricing) →
+      </button>
+      <p style={{ color:'#64748B', fontSize:14, marginBottom:14 }}>Total exams: <b>{exams.length}</b></p>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:10 }}>
+        {Object.entries(byCategory).map(([cat,count])=>(
+          <div key={cat} style={{ background:'#F8FAFC', borderRadius:14, padding:14, border:'1.5px solid #E2E8F0' }}>
+            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:20 }}>{count}</p>
+            <p style={{ color:'#94A3B8', fontSize:12 }}>{cat?.replace(/_/g,' ')}</p>
           </div>
-          <span style={{ padding:'4px 10px', borderRadius:20, fontSize:11, fontWeight:700, background:r.status==='added'?'#DCFCE7':'#FEF3C7', color:r.status==='added'?'#15803D':'#92400E' }}>{r.status}</span>
-          {r.status==='pending' && <button onClick={()=>mark(r.id,'added')} style={{ background:'#22C55E', border:'none', borderRadius:10, padding:'7px 14px', color:'#fff', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12, cursor:'pointer' }}>Mark Added ✓</button>}
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// ── SECURITY ─────────────────────────────────────────────────────
+function SecurityTab() {
+  const [events, setEvents] = useState([])
+  useEffect(()=>{
+    (async () => {
+      try {
+        const { data } = await supabase.from('security_events').select('*').order('timestamp',{ascending:false}).limit(50)
+        setEvents(data||[])
+      } catch { setEvents([]) }
+    })()
+  },[])
+
+  return (
+    <div>
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:12 }}>Security Events</h2>
+      {events.length===0 ? (
+        <div style={{ textAlign:'center', padding:40, color:'#94A3B8', background:'#F8FAFC', borderRadius:16 }}>
+          <p style={{ fontSize:32, marginBottom:8 }}>✅</p>
+          <p>No security events. (Device-level security checks are a Month 2+ feature.)</p>
+        </div>
+      ) : events.map(e=>(
+        <div key={e.id} style={{ padding:'10px 14px', background:'#FEF2F2', borderRadius:12, marginBottom:8, fontSize:13 }}>
+          {e.type} — {e.severity} — {new Date(e.timestamp).toLocaleString('en-IN')}
         </div>
       ))}
     </div>
   )
 }
 
-function PushTestTab() {
-  const [role, setRole] = useState('student')
-  const [sent, setSent]  = useState(false)
-  const MSGS = { student:'📚 Time to study! SSC CGL exam is 30 days away.', mentor:'💰 3 doubts waiting. Answer now and earn ₹15.', institution:"📊 Your centre's top student scored 92% today!", family:'👨‍👩‍👧 Family streak: 7 days! Keep it going! 🔥' }
-  const simulate = () => {
-    setSent(true)
-    if (Notification.permission==='granted') new Notification('TryIT Educations',{ body:MSGS[role], icon:'/tryit-logo.webp' })
-    else Notification.requestPermission().then(p=>{ if(p==='granted') new Notification('TryIT Educations',{ body:MSGS[role] }) })
-    setTimeout(()=>setSent(false),3000)
+// ── VIEW AS — QA any role with full access ────────────────────────
+function ViewAsTab() {
+  const { viewAs } = useAuth()
+  const navigate = useNavigate()
+
+  const ROLES = [
+    { id:'student',     emoji:'🎓', label:'Student',     route:'/dashboard',
+      desc:'Full Pro access, 3 exams pre-loaded (SSC CGL, NEET UG, UPSC CSE), subject accuracy data, rank #1, 9999 coins, Level 10' },
+    { id:'mentor',      emoji:'🧑‍🏫', label:'Mentor',      route:'/mentor-hub',
+      desc:'Access Mentor Hub, Cashback Center, Analytics, Coupon Manager' },
+    { id:'institution', emoji:'🏫', label:'Institution', route:'/centre/dashboard',
+      desc:'Access Centre Dashboard, Conduct Test, Student History' },
+    { id:'family',      emoji:'👨‍👩‍👧', label:'Family Hub',  route:'/family',
+      desc:'Access Family Hub, Parent Dashboard' },
+  ]
+
+  const enter = (role, route) => {
+    viewAs(role)
+    navigate(route)
   }
+
   return (
-    <div style={{ maxWidth:400 }}>
-      <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:16 }}>🔔 Test Push Notification</p>
-      <div style={{ display:'flex', gap:8, flexWrap:'wrap', marginBottom:16 }}>
-        {['student','mentor','institution','family'].map(r=>(
-          <button key={r} onClick={()=>setRole(r)} style={{ padding:'8px 16px', borderRadius:20, border:'none', cursor:'pointer', background:role===r?'#1E3A5F':'#F1F5F9', color:role===r?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13 }}>{r}</button>
+    <div>
+      <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:22, marginBottom:6 }}>👁️ View As — QA Mode</h2>
+      <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>
+        Instantly experience the app as any role with full Pro access — no real account needed.
+        A banner shows at the top so you can exit back to Admin anytime.
+      </p>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:14 }}>
+        {ROLES.map(r=>(
+          <div key={r.id} style={{ background:'#F8FAFC', borderRadius:18, padding:18, border:'1.5px solid #E2E8F0' }}>
+            <p style={{ fontSize:32, marginBottom:8 }}>{r.emoji}</p>
+            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:15, marginBottom:6 }}>{r.label}</p>
+            <p style={{ color:'#94A3B8', fontSize:12, marginBottom:12, lineHeight:1.5 }}>{r.desc}</p>
+            <button onClick={()=>enter(r.id, r.route)} style={{ width:'100%', background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:12, padding:'10px 0', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer' }}>
+              Enter as {r.label} →
+            </button>
+          </div>
         ))}
       </div>
-      <div style={{ background:'#F8FAFC', borderRadius:14, padding:'12px 16px', marginBottom:16, border:'1.5px solid #E2E8F0' }}>
-        <p style={{ color:'#1E3A5F', fontSize:13 }}>{MSGS[role]}</p>
-      </div>
-      <button onClick={simulate} style={{ width:'100%', padding:14, borderRadius:14, border:'none', background:'linear-gradient(135deg,#1E3A5F,#0F2140)', color:sent?'#D4AF37':'#fff', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:15, cursor:'pointer' }}>
-        {sent?'✅ Sent!':'🔔 Simulate Push'}
-      </button>
     </div>
   )
 }
+

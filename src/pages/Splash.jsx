@@ -1,80 +1,117 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LogoAnimated from '../components/LogoAnimated'
+import { useAuth, onboardingKey } from '../context/AuthContext'
+
+const ROLE_HOME = {
+  student: '/dashboard',
+  mentor: '/mentor-hub',
+  institution: '/centre/dashboard',
+  family: '/family',
+}
 
 export default function Splash() {
+  const { user, loading } = useAuth()
   const navigate = useNavigate()
-  const [tagline, setTagline] = useState(false)
-  const [fadeOut, setFadeOut] = useState(false)
+  const [animDone, setAnimDone] = useState(false)
+  const [showDots, setShowDots] = useState(false)
 
-  const done = () => {
-    setTagline(true)
-    setTimeout(() => setFadeOut(true),  1200)
-    setTimeout(() => navigate('/landing'), 1900)
+  function handleAnimComplete() {
+    setAnimDone(true)
+    // Show pulsing dots briefly before nav fires
+    setTimeout(() => setShowDots(true), 100)
   }
 
-  return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex', flexDirection: 'column',
-      alignItems: 'center', justifyContent: 'center',
-      background: 'linear-gradient(135deg,#071428,#0F2140,#1E3A5F)',
-      opacity: fadeOut ? 0 : 1,
-      transition: 'opacity 0.7s ease',
-      position: 'relative', overflow: 'hidden',
-    }}>
-      {/* Background rings */}
-      {[300, 520, 740].map((s, i) => (
-        <div key={i} style={{
-          position: 'absolute', width: s, height: s, borderRadius: '50%',
-          border: `1px solid rgba(212,175,55,${0.08 - i * 0.02})`,
-          animation: `ring ${3 + i}s ease-in-out ${i * 0.4}s infinite`,
-          pointerEvents: 'none',
-        }} />
-      ))}
+  useEffect(() => {
+    if (!animDone) return
+    if (loading) return // Wait for auth to resolve
 
-      {/* Animated logo */}
-      <div style={{ position: 'relative', zIndex: 10 }}>
-        <LogoAnimated size="splash" mode="auto" dark={true} onComplete={done} />
+    const timer = setTimeout(() => {
+      if (!user) {
+        navigate('/landing')
+        return
+      }
+      const done = localStorage.getItem(onboardingKey(user.email))
+      if (!done) {
+        navigate('/onboarding')
+        return
+      }
+      navigate(ROLE_HOME[user.role] ?? '/dashboard')
+    }, 500)
+
+    return () => clearTimeout(timer)
+  }, [animDone, loading, user, navigate])
+
+  return (
+    <div
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, #1E3A5F 0%, #3B2A6B 45%, #5B1A3D 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Subtle ambient rings — decorative only, no animation distraction */}
+      <div style={{
+        position: 'absolute',
+        width: 600, height: 600,
+        borderRadius: '50%',
+        border: '1px solid rgba(212,175,55,0.08)',
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute',
+        width: 400, height: 400,
+        borderRadius: '50%',
+        border: '1px solid rgba(212,175,55,0.06)',
+        top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Logo */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <LogoAnimated size="splash" mode="auto" dark={true} onComplete={handleAnimComplete} />
       </div>
 
-      {/* Tagline */}
-      <p style={{
-        fontFamily: 'Inter, sans-serif', fontStyle: 'italic',
-        color: 'rgba(212,175,55,0.9)', fontSize: 15,
-        letterSpacing: '1.5px', textAlign: 'center',
-        marginTop: 20, zIndex: 10,
-        opacity: tagline ? 1 : 0,
-        transform: `translateY(${tagline ? 0 : 10}px)`,
-        transition: 'all 0.6s ease',
-      }}>
-        Your Exam. Your Rank. Your Success.
-      </p>
-
-      {/* Loading dots */}
-      <div style={{
-        position: 'absolute', bottom: 50,
-        display: 'flex', gap: 10, zIndex: 10,
-        opacity: tagline ? 1 : 0,
-        transition: 'opacity 0.4s ease 0.3s',
-      }}>
+      {/* Pulsing dots — appear after animation completes */}
+      <div
+        style={{
+          marginTop: 40,
+          display: 'flex',
+          gap: 8,
+          alignItems: 'center',
+          opacity: showDots ? 1 : 0,
+          transition: 'opacity 0.4s ease',
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
         {[0, 1, 2].map(i => (
-          <div key={i} style={{
-            width: 7, height: 7, borderRadius: '50%',
-            background: 'rgba(212,175,55,0.6)',
-            animation: `dot 1.2s ease-in-out ${i * 0.2}s infinite`,
-          }} />
+          <div
+            key={i}
+            style={{
+              width: 7,
+              height: 7,
+              borderRadius: '50%',
+              background: '#D4AF37',
+              opacity: 0.7,
+              animation: `splashPulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+            }}
+          />
         ))}
       </div>
 
       <style>{`
-        @keyframes ring {
-          0%,100% { transform: scale(1); opacity: 0.6; }
-          50%      { transform: scale(1.05); opacity: 0.3; }
-        }
-        @keyframes dot {
-          0%,100% { transform: translateY(0); opacity: 0.5; }
-          50%      { transform: translateY(-8px); opacity: 1; }
+        @keyframes splashPulse {
+          0%, 80%, 100% { transform: scale(0.7); opacity: 0.4; }
+          40% { transform: scale(1.1); opacity: 1; }
         }
       `}</style>
     </div>

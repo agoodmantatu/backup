@@ -1,16 +1,6 @@
-// TARGET_FILE: src/components/Logo.jsx
-// Works on: Web browser, Android app, iOS app
-// Static mode = used in Navbar, Sidebar, Footer, Login
-// Animated mode = used on Splash screen only
-
-import { useState } from 'react'
-import LogoAnimated from './LogoAnimated'
-
-// ── Static SVG logo — matches the real logo exactly ──────────────
-// Used everywhere except Splash. No image file needed.
-// Scales perfectly at any size. Works offline. No blink on load.
-function LogoStatic({ height = 44, dark = false }) {
-  const W = height * 2.6   // maintain aspect ratio
+// Change the default height from 44 to 32 here:
+export default function Logo({ height = 32, dark = false }) {
+  const W = height * 2.6
   const H = height
   const NAVY = dark ? '#FFFFFF' : '#1E3A5F'
   const GOLD = '#D4AF37'
@@ -18,7 +8,6 @@ function LogoStatic({ height = 44, dark = false }) {
   const sunCX = W * 0.595
   const sunCY = H * 0.31
   const sunR  = W * 0.082
-
   const rays = [-85,-60,-35,-10,15,40,65,90]
 
   return (
@@ -37,114 +26,43 @@ function LogoStatic({ height = 44, dark = false }) {
         </filter>
       </defs>
 
-      {/* Sun */}
-      <ellipse cx={sunCX} cy={sunCY + sunR * 0.28}
-        rx={sunR * 0.9} ry={sunR * 0.56}
-        fill="url(#sGold)" filter="url(#sGlow)" />
-
       {/* Rays */}
-      {rays.map((angle, i) => {
-        const rad = (angle - 90) * Math.PI / 180
-        const major = i % 2 === 0
+      {rays.map((deg,i) => {
+        const rad = (deg * Math.PI) / 180
+        const inner = sunR * 1.4, outer = sunR * 2.5
         return (
           <line key={i}
-            x1={sunCX + Math.cos(rad) * sunR * 1.28}
-            y1={sunCY + Math.sin(rad) * sunR * 1.28}
-            x2={sunCX + Math.cos(rad) * sunR * (major ? 1.85 : 2.15)}
-            y2={sunCY + Math.sin(rad) * sunR * (major ? 1.85 : 2.15)}
-            stroke="url(#sGold)"
-            strokeWidth={major ? 1.8 : 1.1}
-            strokeLinecap="round"
-          />
+            x1={sunCX + Math.cos(rad)*inner} y1={sunCY + Math.sin(rad)*inner}
+            x2={sunCX + Math.cos(rad)*outer} y2={sunCY + Math.sin(rad)*outer}
+            stroke="url(#sGold)" strokeWidth={H*0.018} strokeLinecap="round" opacity={0.85}/>
         )
       })}
 
-      {/* Arrow */}
-      <line
-        x1={sunCX + sunR * 0.38} y1={sunCY + sunR * 0.08}
-        x2={sunCX + sunR * 1.55} y2={sunCY - sunR * 1.28}
-        stroke="url(#sGold)" strokeWidth={2.2} strokeLinecap="round"
-      />
+      {/* Sun */}
+      <circle cx={sunCX} cy={sunCY} r={sunR} fill="url(#sGold)" filter="url(#sGlow)"/>
+      <circle cx={sunCX - sunR*0.25} cy={sunCY - sunR*0.25} r={sunR*0.32} fill="rgba(255,255,255,0.4)"/>
+
+      {/* Arrow accent */}
+      <line x1={sunCX + sunR*0.4} y1={sunCY - sunR*0.4}
+            x2={sunCX + sunR*1.9} y2={sunCY - sunR*1.9}
+            stroke="url(#sGold)" strokeWidth={H*0.022} strokeLinecap="round" filter="url(#sGlow)"/>
       <polygon
-        points={`
-          ${sunCX + sunR * 1.55},${sunCY - sunR * 1.28}
-          ${sunCX + sunR * 1.14},${sunCY - sunR * 1.06}
-          ${sunCX + sunR * 1.32},${sunCY - sunR * 0.65}
-        `}
-        fill="url(#sGold)"
-      />
+        points={`${sunCX+sunR*1.9},${sunCY-sunR*1.9} ${sunCX+sunR*1.35},${sunCY-sunR*1.85} ${sunCX+sunR*1.85},${sunCY-sunR*1.35}`}
+        fill="url(#sGold)"/>
 
       {/* TRY */}
-      <text x={W * 0.015} y={H * 0.72}
-        fontFamily="'Arial Black',Impact,sans-serif"
-        fontWeight="900"
-        fontSize={H * 0.52}
-        fill={NAVY}>TRY</text>
-
+      <text x={W*0.015} y={H*0.62} fontFamily="'Arial Black',Impact,Arial,sans-serif"
+        fontWeight="900" fontSize={H*0.5} fill={NAVY} letterSpacing={-1}>TRY</text>
       {/* IT */}
-      <text x={W * 0.605} y={H * 0.72}
-        fontFamily="'Arial Black',Impact,sans-serif"
-        fontWeight="900"
-        fontSize={H * 0.52}
-        fill="url(#sGold)" filter="url(#sGlow)">IT</text>
+      <text x={W*0.395} y={H*0.62} fontFamily="'Arial Black',Impact,Arial,sans-serif"
+        fontWeight="900" fontSize={H*0.5} fill="url(#sGold)" filter="url(#sGlow)" letterSpacing={-1}>IT</text>
 
-      {/* Top line */}
-      <rect x={W * 0.015} y={H * 0.77}
-        width={W * 0.965} height={H * 0.028} rx={H * 0.014}
-        fill="url(#sGold)" />
-
-      {/* EDUCATIONS */}
-      <text x={W * 0.5} y={H * 0.91}
-        textAnchor="middle"
-        fontFamily="Arial,'Helvetica Neue',sans-serif"
-        fontWeight="800"
-        fontSize={H * 0.155}
-        letterSpacing={H * 0.048}
-        fill="url(#sGold)">EDUCATIONS</text>
-
-      {/* Bottom line */}
-      <rect x={W * 0.015} y={H * 0.945}
-        width={W * 0.965} height={H * 0.022} rx={H * 0.011}
-        fill="url(#sGold)" />
+      {/* underline */}
+      <rect x={W*0.015} y={H*0.70} width={W*0.62} height={Math.max(1.5,H*0.035)} rx={H*0.017} fill="url(#sGold)"/>
+      
+      {/* EDUCATIONS (Adjusted y coordinate from 0.93 to 0.89 so it doesn't clip) */}
+      <text x={W*0.015} y={H*0.89} fontFamily="Arial,'Helvetica Neue',sans-serif"
+        fontWeight="800" fontSize={H*0.155} letterSpacing={H*0.025} fill={dark ? 'rgba(255,255,255,0.85)' : '#1E3A5F'}>EDUCATIONS</text>
     </svg>
   )
-}
-
-// ── Main Logo component ───────────────────────────────────────────
-export default function Logo({
-  height    = 44,
-  dark      = false,
-  animated  = false,
-  loop      = false,
-  size      = 'md',
-  onComplete,
-}) {
-  const [imgFailed, setImgFailed] = useState(false)
-
-  // Splash screen — use full animation
-  if (animated) {
-    return (
-      <LogoAnimated
-        size={size}
-        mode={loop ? 'loop' : 'auto'}
-        dark={dark}
-        onComplete={onComplete}
-      />
-    )
-  }
-
-  // Try real webp image first
-  if (!imgFailed) {
-    return (
-      <img
-        src="/tryit-logo.webp"
-        alt="TryIT Educations"
-        style={{ height:`${height}px`, width:'auto', objectFit:'contain', display:'block' }}
-        onError={() => setImgFailed(true)}
-      />
-    )
-  }
-
-  // Fallback: pixel-perfect SVG (works 100% offline, Android, iOS)
-  return <LogoStatic height={height} dark={dark} />
 }

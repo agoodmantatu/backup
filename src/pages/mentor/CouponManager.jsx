@@ -1,145 +1,141 @@
-import { useState, useEffect } from 'react'
+// src/pages/mentor/CouponManager.jsx
+import { useState } from 'react'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
-import { useToast } from '../../context/ToastContext'
 
-function generateCouponCode(name) {
-  const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-  const digits = Math.floor(1000 + Math.random() * 9000)
-  return `GURU-${initials}-${digits}`
+function randomChars(n=4) {
+  return Math.random().toString(36).toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,n)
+}
+
+function addDays(d, n) {
+  const r = new Date(d)
+  r.setDate(r.getDate() + n)
+  return r.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
 export default function CouponManager() {
   const { user } = useAuth()
-  const { showToast } = useToast()
-  const STORE_KEY = `mentor_coupons_${user?.id}`
+  const [coupons, setCoupons] = useState([])
+  const [discount, setDiscount] = useState(10)
+  const [creating, setCreating] = useState(false)
+  const [copied, setCopied] = useState(null)
 
-  const [coupons, setCoupons] = useState(() =>
-    JSON.parse(localStorage.getItem(STORE_KEY) || '[]')
-  )
-  const [earnings] = useState({
-    total: 3, totalRupees: 150, pending: 47, withdrawn: 103,
-  })
+  if (!user) return null
 
-  const generate = () => {
-    const code = generateCouponCode(user?.name || 'Mentor')
-    const expiry = new Date(); expiry.setMonth(expiry.getMonth() + 3)
-    const c = { id: `cp-${Date.now()}`, code, used: 0, cashback: 0,
-      createdAt: new Date().toISOString(), expiresAt: expiry.toISOString(), active: true }
-    const updated = [c, ...coupons]
-    setCoupons(updated)
-    localStorage.setItem(STORE_KEY, JSON.stringify(updated))
-    navigator.clipboard?.writeText(code)
-    showToast('success', `🎉 Coupon ${code} generated & copied!`)
+  const handleGenerate = () => {
+    const code = `MENTOR-${randomChars(4)}`
+    const newCoupon = {
+      id: Date.now(),
+      code,
+      discount,
+      uses: 0,
+      expiry: addDays(new Date(), 30),
+      active: true,
+    }
+    setCoupons(prev => [newCoupon, ...prev])
+    setCreating(false)
   }
 
-  const share = (code) => {
-    const msg = `Use my TryIT mentor code ${code} to get ₹50 off your first subscription! tryiteducations.net`
-    if (navigator.share) navigator.share({ text: msg })
-    else { navigator.clipboard?.writeText(msg); showToast('success', 'Share message copied!') }
+  const handleCopy = (code) => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(code)
+      setTimeout(() => setCopied(null), 2000)
+    })
+  }
+
+  const handleDeactivate = (id) => {
+    setCoupons(prev => prev.map(c => c.id === id ? { ...c, active: false } : c))
   }
 
   return (
-    <AppLayout>
-      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:26, marginBottom:6 }}>
-        🎟️ Coupon Manager
-      </h1>
-      <p style={{ color:'#94A3B8', fontSize:14, marginBottom:24 }}>
-        Generate referral coupons. Earn ₹50 per new user, ₹200 per institution.
-      </p>
+    <AppLayout title="Coupon Manager">
+      <div className="max-w-2xl mx-auto space-y-6 p-4">
 
-      {/* Earnings stats */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:24 }}>
-        {[['💰',`₹${earnings.totalRupees}`,'Total Earned'],
-          ['⏳',`₹${earnings.pending}`,'Pending'],
-          ['✅',`₹${earnings.withdrawn}`,'Withdrawn']].map(([e,v,l])=>(
-          <div key={l} style={{ background:'#fff', borderRadius:18, padding:'14px 12px',
-            textAlign:'center', boxShadow:'0 2px 10px rgba(0,0,0,0.05)' }}>
-            <p style={{ fontSize:24 }}>{e}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#D4AF37', fontSize:20 }}>{v}</p>
-            <p style={{ color:'#94A3B8', fontSize:11 }}>{l}</p>
+        <div className="bg-gradient-to-r from-[#4C1D95] to-[#3B2A6B] rounded-2xl p-5 text-white">
+          <p className="text-lg font-bold">🎟️ Coupon Manager</p>
+          <p className="text-sm opacity-75 mt-1">Create discount codes for your students — they use these at checkout.</p>
+        </div>
+
+        {/* Generate button */}
+        {!creating ? (
+          <button
+            onClick={() => setCreating(true)}
+            className="w-full py-3 bg-[#D4AF37] text-[#0F2140] font-bold rounded-2xl hover:bg-[#E8C84A] transition text-sm"
+          >
+            + Generate New Coupon
+          </button>
+        ) : (
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-4">
+            <h2 className="font-bold text-[#1E3A5F]">Configure Coupon</h2>
+            <div>
+              <div className="flex justify-between text-sm mb-1">
+                <label className="text-gray-600">Discount</label>
+                <span className="font-bold text-[#D4AF37]">{discount}%</span>
+              </div>
+              <input
+                type="range" min={5} max={20} step={1}
+                value={discount}
+                onChange={e => setDiscount(Number(e.target.value))}
+                className="w-full accent-[#D4AF37]"
+              />
+              <div className="flex justify-between text-xs text-gray-400">
+                <span>5% min</span><span>20% max</span>
+              </div>
+            </div>
+            <p className="text-xs text-gray-400">Expires in 30 days. Students enter this code at checkout to get {discount}% off Pro plans.</p>
+            <div className="flex gap-3">
+              <button onClick={handleGenerate} className="flex-1 py-2.5 bg-[#D4AF37] text-[#0F2140] font-bold rounded-xl text-sm hover:bg-[#E8C84A] transition">
+                Generate
+              </button>
+              <button onClick={() => setCreating(false)} className="flex-1 py-2.5 border border-gray-200 text-gray-500 font-semibold rounded-xl text-sm hover:bg-gray-50 transition">
+                Cancel
+              </button>
+            </div>
           </div>
-        ))}
-      </div>
+        )}
 
-      {/* How it works */}
-      <div style={{ background:'linear-gradient(135deg,rgba(30,58,95,0.06),rgba(212,175,55,0.06))',
-        borderRadius:18, padding:'14px 18px', marginBottom:20,
-        border:'1.5px solid rgba(212,175,55,0.25)' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:8 }}>
-          💡 How Cashback Works
-        </p>
-        <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-          {[['New user signs up via your coupon','₹50 cashback'],
-            ['User upgrades to Pro via coupon','₹100 cashback'],
-            ['Institution joins via coupon','₹200 cashback'],
-            ['Minimum to withdraw','₹100'],
-            ['Payment via UPI within 7 days','after 30-day quality check']].map(([label,val])=>(
-            <div key={label} style={{ display:'flex', justifyContent:'space-between' }}>
-              <span style={{ color:'#475569', fontSize:13 }}>• {label}</span>
-              <span style={{ color:'#D4AF37', fontWeight:700, fontSize:13 }}>{val}</span>
+        {/* Coupon list */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+          <div className="p-5 border-b border-gray-100">
+            <h2 className="font-bold text-[#1E3A5F]">Your Coupons</h2>
+          </div>
+          {coupons.length === 0 ? (
+            <div className="text-center py-10 text-gray-400">
+              <p className="text-3xl mb-2">🎟️</p>
+              <p className="text-sm">No coupons yet — generate one above!</p>
             </div>
-          ))}
+          ) : (
+            <ul className="divide-y divide-gray-50">
+              {coupons.map(c => (
+                <li key={c.id} className="flex items-center gap-3 px-5 py-4">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-mono font-bold text-[#D4AF37] text-base">{c.code}</p>
+                    <p className="text-xs text-gray-400">{c.discount}% off · {c.uses} uses · Expires {c.expiry}</p>
+                  </div>
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-semibold ${c.active ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-400'}`}>
+                    {c.active ? 'Active' : 'Inactive'}
+                  </span>
+                  <button
+                    onClick={() => handleCopy(c.code)}
+                    className="text-xs px-2 py-1 bg-[#FDF6E3] text-[#D4AF37] rounded-lg font-semibold hover:bg-[#E8C84A] hover:text-[#0F2140] transition"
+                  >
+                    {copied === c.code ? '✓' : 'Copy'}
+                  </button>
+                  {c.active && (
+                    <button
+                      onClick={() => handleDeactivate(c.id)}
+                      className="text-xs px-2 py-1 border border-red-200 text-red-400 rounded-lg font-semibold hover:bg-red-50 transition"
+                    >
+                      Deactivate
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
+
       </div>
-
-      {/* Generate button */}
-      <button onClick={generate} style={{
-        width:'100%', padding:16, borderRadius:16, border:'none',
-        background:'linear-gradient(135deg,#D4AF37,#E8C84A)',
-        fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:16,
-        color:'#1E3A5F', cursor:'pointer', marginBottom:20,
-        boxShadow:'0 4px 20px rgba(212,175,55,0.4)',
-      }}>
-        ✨ Generate New Coupon
-      </button>
-
-      {/* Coupon list */}
-      {coupons.length === 0 ? (
-        <div style={{ textAlign:'center', padding:32, color:'#94A3B8' }}>
-          <p style={{ fontSize:36 }}>🎟️</p>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, marginTop:8 }}>
-            No coupons yet. Generate your first one!
-          </p>
-        </div>
-      ) : (
-        <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
-          {coupons.map(c => (
-            <div key={c.id} style={{ background:'#fff', borderRadius:18, padding:'16px 18px',
-              boxShadow:'0 2px 10px rgba(0,0,0,0.05)',
-              border: c.active ? '1.5px solid rgba(212,175,55,0.3)' : '1.5px solid #E2E8F0' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
-                <div>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800,
-                    color:'#1E3A5F', fontSize:20, letterSpacing:1 }}>{c.code}</p>
-                  <p style={{ color:'#94A3B8', fontSize:12, marginTop:3 }}>
-                    Created: {c.createdAt.slice(0,10)} · Expires: {c.expiresAt.slice(0,10)}
-                  </p>
-                </div>
-                <div style={{ textAlign:'right' }}>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800,
-                    color:'#D4AF37', fontSize:18 }}>{c.used} uses</p>
-                  <p style={{ color:'#22C55E', fontWeight:700, fontSize:14 }}>₹{c.cashback} earned</p>
-                </div>
-              </div>
-              <div style={{ display:'flex', gap:8, marginTop:12 }}>
-                <button onClick={() => share(c.code)} style={{
-                  flex:1, padding:'9px', borderRadius:10, border:'none',
-                  background:'#1E3A5F', color:'#fff',
-                  fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13, cursor:'pointer',
-                }}>📤 Share</button>
-                <button onClick={() => { navigator.clipboard?.writeText(c.code); showToast('success','Code copied!') }}
-                  style={{ flex:1, padding:'9px', borderRadius:10,
-                    border:'1.5px solid #D4AF37', background:'transparent',
-                    color:'#D4AF37', fontFamily:'Poppins,sans-serif',
-                    fontWeight:600, fontSize:13, cursor:'pointer' }}>
-                  📋 Copy
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </AppLayout>
   )
 }

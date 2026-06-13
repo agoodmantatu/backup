@@ -1,39 +1,89 @@
+// src/pages/mentor/MentorHub.jsx — home page for role==='mentor'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
 
+const SAMPLE_DOUBTS = [
+  { id: 1, subject: 'Mathematics', question: 'How do I solve quadratic inequalities on a number line?', time: '12 min ago', coins: 5 },
+  { id: 2, subject: 'History',     question: 'What were the main causes of the 1857 revolt?',            time: '34 min ago', coins: 5 },
+  { id: 3, subject: 'Physics',     question: 'Explain Bernoulli\'s principle with a real-life example.',  time: '1 hr ago',   coins: 5 },
+]
+
+const QUICK_LINKS = [
+  { emoji: '✍️', label: 'Answer Doubts',    path: '/guru-hub',              desc: 'Help students & earn coins' },
+  { emoji: '📊', label: 'Analytics',         path: '/mentor-hub/analytics',  desc: 'Your impact metrics' },
+  { emoji: '💰', label: 'Cashback Center',   path: '/mentor-hub/cashback',   desc: 'Track your referral earnings' },
+  { emoji: '🎟️', label: 'Coupon Manager',   path: '/mentor-hub/coupons',    desc: 'Create discount codes' },
+]
+
 export default function MentorHub() {
-  const navigate = useNavigate()
   const { user } = useAuth()
+  const navigate = useNavigate()
+  if (!user) return null
+
   return (
-    <AppLayout>
-      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28, marginBottom:6 }}>🧑‍🏫 Mentor Hub</h1>
-      <p style={{ color:'#94A3B8', fontSize:14, marginBottom:24 }}>Teach. Earn. Become a Pan-India Guru.</p>
+    <AppLayout title="Mentor Hub">
+      <div className="max-w-2xl mx-auto space-y-6 p-4">
 
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:24, padding:24, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)', display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(130px,1fr))', gap:14 }}>
-        {[['🎓',user?.guruPoints,'Guru Points'],['💰','₹347','This Week'],['⭐','4.9','Rating'],['📝','47','Answers']].map(([e,v,l])=>(
-          <div key={l} style={{ textAlign:'center' }}>
-            <p style={{ fontSize:24 }}>{e}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#D4AF37', fontSize:20 }}>{v}</p>
-            <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11 }}>{l}</p>
-          </div>
-        ))}
-      </div>
+        {/* Welcome */}
+        <div className="bg-gradient-to-r from-[#064E3B] to-[#047857] rounded-2xl p-5 text-white">
+          <p className="text-sm opacity-70">Welcome back, Mentor</p>
+          <p className="text-2xl font-bold">{user.name} 🎓</p>
+          {user.mentorSubjects && (
+            <p className="text-sm opacity-70 mt-1">Subjects: {Array.isArray(user.mentorSubjects) ? user.mentorSubjects.join(', ') : user.mentorSubjects}</p>
+          )}
+        </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,260px),1fr))', gap:12 }}>
-        {[
-          { emoji:'🎓', title:'Answer Doubts',  desc:'Students are waiting. Earn ₹15–50 per accepted answer.', path:'/guru-hub',              btn:'Go to Guru Hub' },
-          { emoji:'📚', title:'Publish a Book',  desc:'Upload your notes as a Guru Book. Earn 85% of every sale.', path:'/ebooks/upload',    btn:'Upload Book' },
-          { emoji:'🎟️', title:'My Coupons',     desc:'Generate referral coupons. Earn on every new student.', path:'/mentor-hub/coupons',      btn:'Manage Coupons' },
-          { emoji:'💸', title:'Cashback Center', desc:'View earnings. Withdraw to UPI every Monday.', path:'/mentor-hub/cashback',             btn:'View Earnings' },
-        ].map(s=>(
-          <div key={s.title} style={{ background:'#fff', borderRadius:20, padding:20, border:'1.5px solid #E2E8F0', boxShadow:'0 2px 10px rgba(0,0,0,0.04)' }}>
-            <span style={{ fontSize:30, display:'block', marginBottom:10 }}>{s.emoji}</span>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:15, marginBottom:6 }}>{s.title}</p>
-            <p style={{ color:'#64748B', fontSize:13, marginBottom:14 }}>{s.desc}</p>
-            <button onClick={()=>navigate(s.path)} style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', border:'none', borderRadius:12, padding:'9px 18px', color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, cursor:'pointer' }}>{s.btn} →</button>
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { label: 'Answers Given',   value: user.guruPoints ?? 0, emoji: '✍️' },
+            { label: 'Coins Earned',     value: user.coins ?? 0,      emoji: '🪙' },
+            { label: 'Students Helped',  value: 0,                    emoji: '👨‍🎓' },
+          ].map(s => (
+            <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-4 text-center shadow-sm">
+              <p className="text-2xl">{s.emoji}</p>
+              <p className="text-2xl font-black text-[#1E3A5F]">{s.value}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{s.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick links */}
+        <div className="grid grid-cols-2 gap-3">
+          {QUICK_LINKS.map(l => (
+            <button
+              key={l.label}
+              onClick={() => navigate(l.path)}
+              className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 text-left hover:shadow-md hover:border-[#D4AF37] transition"
+            >
+              <span className="text-2xl">{l.emoji}</span>
+              <p className="font-bold text-[#1E3A5F] mt-2 text-sm">{l.label}</p>
+              <p className="text-gray-400 text-xs">{l.desc}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* Recent doubts */}
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+          <div className="p-5 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="font-bold text-[#1E3A5F]">Recent Doubts You Can Help</h2>
+            <button onClick={() => navigate('/guru-hub')} className="text-[#D4AF37] text-xs font-semibold hover:underline">See all →</button>
           </div>
-        ))}
+          <ul className="divide-y divide-gray-50">
+            {SAMPLE_DOUBTS.map(d => (
+              <li key={d.id} className="p-4 flex items-start gap-3 hover:bg-gray-50 cursor-pointer transition" onClick={() => navigate('/guru-hub')}>
+                <div className="flex-1">
+                  <span className="text-xs font-semibold text-[#064E3B] bg-emerald-50 px-2 py-0.5 rounded-full">{d.subject}</span>
+                  <p className="text-sm text-gray-700 mt-1 line-clamp-2">{d.question}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{d.time}</p>
+                </div>
+                <span className="text-xs font-bold text-[#D4AF37] whitespace-nowrap">+{d.coins} 🪙</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
     </AppLayout>
   )

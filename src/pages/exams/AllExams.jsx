@@ -1,129 +1,158 @@
-import { useState, useEffect, useCallback } from 'react'
-import AppLayout from '../../components/layout/AppLayout'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ExamDropRequest from '../../components/ExamDropRequest'
+import AppLayout from '../../components/layout/AppLayout'
+import { useAuth } from '../../context/AuthContext'
+
+const CATEGORY_LABELS = {
+  govt_central: '🏛️ Central Govt',
+  govt_state: '🗺️ State Govt',
+  banking: '🏦 Banking',
+  railways: '🚂 Railways',
+  defence: '🪖 Defence',
+  medical: '🩺 Medical',
+  engineering: '⚙️ Engineering',
+  engineering_pg: '🎓 Engg PG',
+  teaching: '📚 Teaching',
+  school_competitive: '🏫 School',
+  scholarship: '🌟 Scholarship',
+  professional_cert: '📜 Professional',
+  foreign_language: '🌐 Language',
+}
 
 export default function AllExams() {
-  const navigate  = useNavigate()
-  const [query, setQuery]       = useState('')
-  const [results, setResults]   = useState([])
-  const [loading, setLoading]   = useState(false)
-  const [exams, setExams]       = useState([])
-  const [fuseReady, setFuse]    = useState(null)
-  const [showDrop, setShowDrop] = useState(false)
+  const { user } = useAuth()
+  const navigate = useNavigate()
+  const [exams, setExams] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [activeCategory, setActiveCategory] = useState('all')
 
-  // Load exams + Fuse on mount
   useEffect(() => {
-    let mounted = true
-    const load = async () => {
-      try {
-        const res  = await fetch('/data/exams.json')
-        const data = await res.json()
-        if (!mounted) return
-        setExams(data)
-        const { default: Fuse } = await import('fuse.js')
-        const f = new Fuse(data, {
-          keys: [{ name:'name', weight:0.5 }, { name:'tags', weight:0.35 }, { name:'body', weight:0.15 }],
-          threshold: 0.4, ignoreLocation: true, minMatchCharLength: 2, includeScore: true,
-        })
-        if (mounted) setFuse(f)
-      } catch {
-        // File not generated yet — use small inline set
-        if (mounted) setExams([])
-      }
-    }
-    load()
-    return () => { mounted = false }
+    fetch('/data/exams.json')
+      .then(r => r.json())
+      .then(data => { setExams(data.exams || []); setLoading(false) })
+      .catch(() => setLoading(false))
   }, [])
 
-  const search = useCallback((q) => {
-    if (!q.trim() || q.length < 2) { setResults([]); return }
-    setLoading(true)
-    if (fuseReady) setResults(fuseReady.search(q, { limit: 10 }).map(r => r.item))
-    else setResults(exams.filter(e => e.name.toLowerCase().includes(q.toLowerCase())).slice(0,10))
-    setLoading(false)
-  }, [fuseReady, exams])
+  if (!user) return null
 
-  useEffect(() => {
-    const t = setTimeout(() => search(query), 200)
-    return () => clearTimeout(t)
-  }, [query, search])
+  const categories = ['all', ...Object.keys(CATEGORY_LABELS)]
 
-  const list = query.length >= 2 ? results : exams.filter(e => e.is_popular).slice(0, 20)
+  const filtered = exams.filter(ex => {
+    const matchSearch = ex.name.toLowerCase().includes(search.toLowerCase()) ||
+      (ex.body || '').toLowerCase().includes(search.toLowerCase())
+    const matchCat = activeCategory === 'all' || ex.category === activeCategory
+    return matchSearch && matchCat
+  })
 
   return (
-    <AppLayout>
-      <h1 className="text-3xl font-bold text-[#1E3A5F] font-poppins mb-2">🎯 All Exams</h1>
-      <p className="text-slate-500 text-sm mb-5">
-        {exams.length > 0 ? `${exams.length.toLocaleString()}+ exam pathways` : 'Loading exam database...'} ·
-        India's most complete exam search
-      </p>
+    <AppLayout title="All Exams">
+      <div className="max-w-5xl mx-auto px-4 py-6 space-y-6">
 
-      {/* Search */}
-      <div className="relative mb-4">
-        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl">🔍</span>
-        <input value={query} onChange={e => setQuery(e.target.value)}
-          placeholder="Search 1,10,000+ exams... (try 'UPCS' for UPSC, 'ssc cg' for SSC CGL)"
-          className="clay-input pl-12 py-4 text-base"
-        />
-        {loading && (
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 border-2 border-[#D4AF37] border-t-transparent rounded-full animate-spin-slow" />
-        )}
-      </div>
-
-      {/* No results → show drop request */}
-      {query.length >= 2 && results.length === 0 && !loading && (
-        <div className="mb-5 space-y-3">
-          <p className="text-slate-500 text-sm">No results for "{query}"</p>
-          <ExamDropRequest compact />
-        </div>
-      )}
-
-      {/* Results / Popular list */}
-      <div className="clay rounded-3xl overflow-hidden">
-        <div className="bg-[#1E3A5F] px-5 py-3 flex justify-between items-center">
-          <span className="text-[#D4AF37] font-bold font-poppins text-sm">
-            {query.length >= 2 ? `Results for "${query}"` : 'Popular Exams'}
-          </span>
-          <span className="text-white/40 text-xs">{list.length} shown</span>
-        </div>
-        {list.length === 0 && !query && (
-          <div className="p-8 text-center text-slate-400">
-            <p className="text-2xl mb-2">⏳</p>
-            <p className="text-sm">Loading exam database...<br/>Run <code>node scripts/generateMockExams.js</code> to generate it.</p>
-          </div>
-        )}
-        {list.map((exam, i) => (
-          <div key={exam.id} onClick={() => navigate(`/exams/${exam.id}/universe`)}
-            className="flex items-center gap-4 px-5 py-4 border-b border-slate-100 last:border-0 cursor-pointer hover:bg-slate-50 transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-[#1E3A5F] flex items-center justify-center
-              text-[#D4AF37] font-bold text-xs font-poppins flex-shrink-0">
-              {exam.name.slice(0,3).toUpperCase()}
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[#1E3A5F] text-sm font-poppins truncate">{exam.name}</p>
-              <p className="text-slate-400 text-xs mt-0.5">{exam.body} · {exam.category}</p>
-            </div>
-            {exam.is_popular && (
-              <span className="text-[10px] bg-[#D4AF37]/20 text-[#1E3A5F] px-2 py-0.5 rounded-full font-bold flex-shrink-0">
-                Popular
-              </span>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-bold text-[#1E3A5F]">Exam Catalogue</h1>
+            {!loading && (
+              <p className="text-sm text-gray-500 mt-0.5">
+                {exams.length} exams and growing — new exams added weekly
+              </p>
             )}
-            <span className="text-[#D4AF37] text-lg flex-shrink-0">›</span>
           </div>
-        ))}
-      </div>
+          <input
+            type="text"
+            placeholder="Search exams..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="w-full sm:w-64 border border-gray-200 rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+          />
+        </div>
 
-      {/* Always show drop request at bottom */}
-      <div className="mt-6 flex justify-center">
-        {showDrop
-          ? <ExamDropRequest onClose={() => setShowDrop(false)} />
-          : <button onClick={() => setShowDrop(true)}
-              className="flex items-center gap-2 border-2 border-dashed border-[#D4AF37]/50 text-[#D4AF37]
-                rounded-2xl px-6 py-3 font-semibold text-sm hover:border-[#D4AF37] transition-colors">
-              📬 Don't see your exam? Request it →
+        {/* Category chips */}
+        <div className="flex gap-2 flex-wrap">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition whitespace-nowrap ${
+                activeCategory === cat
+                  ? 'bg-[#1E3A5F] text-white border-[#1E3A5F]'
+                  : 'bg-white text-gray-600 border-gray-200 hover:border-[#1E3A5F]'
+              }`}
+            >
+              {cat === 'all' ? '🔍 All Exams' : CATEGORY_LABELS[cat]}
             </button>
-        }
+          ))}
+        </div>
+
+        {/* Loading */}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(9)].map((_, i) => (
+              <div key={i} className="h-36 bg-gray-100 rounded-2xl animate-pulse" />
+            ))}
+          </div>
+        )}
+
+        {/* Results count */}
+        {!loading && filtered.length > 0 && (
+          <p className="text-xs text-gray-400">Showing {filtered.length} exam{filtered.length !== 1 ? 's' : ''}</p>
+        )}
+
+        {/* Exam grid */}
+        {!loading && filtered.length > 0 && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map(exam => (
+              <button
+                key={exam.id}
+                onClick={() => navigate(`/exams/${exam.id}`)}
+                className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-left hover:shadow-md hover:border-[#D4AF37] transition group"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <span className="text-3xl">{exam.emoji || '📋'}</span>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                    !exam.price_inr || exam.price_inr === 0
+                      ? 'bg-green-100 text-green-700'
+                      : 'bg-amber-100 text-amber-700'
+                  }`}>
+                    {!exam.price_inr || exam.price_inr === 0 ? 'Free' : `₹${exam.price_inr}`}
+                  </span>
+                </div>
+                <h3 className="font-bold text-[#1E3A5F] text-sm leading-snug group-hover:text-[#0F2140]">
+                  {exam.name}
+                </h3>
+                {exam.body && (
+                  <p className="text-xs text-gray-500 mt-1">{exam.body}</p>
+                )}
+                <div className="flex items-center gap-2 mt-3">
+                  {exam.level && (
+                    <span className="text-xs bg-[#1E3A5F]/10 text-[#1E3A5F] px-2 py-0.5 rounded-full capitalize">
+                      {exam.level}
+                    </span>
+                  )}
+                  {exam.vacancies && (
+                    <span className="text-xs text-gray-400">{exam.vacancies} vacancies</span>
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!loading && filtered.length === 0 && (
+          <div className="text-center py-16">
+            <div className="text-5xl mb-4">🔍</div>
+            <p className="font-semibold text-gray-600">No exams found</p>
+            <p className="text-sm text-gray-400 mt-1">Try a different search or category.</p>
+            <button
+              onClick={() => { setSearch(''); setActiveCategory('all') }}
+              className="mt-4 px-5 py-2 bg-[#D4AF37] text-white rounded-xl font-semibold hover:bg-[#E8C84A] transition"
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
       </div>
     </AppLayout>
   )
