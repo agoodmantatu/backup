@@ -5,7 +5,7 @@ import {
   Users, Trophy, School, Newspaper,
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
-import Logo from '../Logo'
+import LogoAnimated from '../LogoAnimated'
 
 // Routes corrected to match actual App.jsx routes (previous version
 // pointed at /brain-games, /all-exams, /my-tests, /the-hall, /subjects
@@ -44,7 +44,7 @@ export default function Sidebar({ open, onClose }) {
 
         <div className="p-5 flex flex-col h-full overflow-y-auto">
           <div className="mb-2">
-            <Logo dark height={36} />
+            <LogoAnimated size="xs" mode="auto" dark={true} />
             <p className="text-white/50 text-[11px] mt-1 italic">Your Exam. Your Rank. Your Success.</p>
           </div>
 

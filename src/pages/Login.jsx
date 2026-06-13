@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth, onboardingKey } from '../context/AuthContext'
 
-import Logo from '../components/Logo'
+import LogoAnimated from '../components/LogoAnimated'
 
 const IS_DEV =
   !import.meta.env.VITE_SUPABASE_URL ||
@@ -152,7 +152,7 @@ export default function Login() {
         <div className="rounded-2xl p-8 shadow-2xl" style={{ background: '#F8FAFC' }}>
           {/* Logo + heading */}
           <div className="flex flex-col items-center mb-7">
-            <Logo dark={false} height={48} />
+            <LogoAnimated size="sm" mode="auto" dark={false} />
             <p
               className="mt-3 text-xs font-medium tracking-widest uppercase"
               style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}

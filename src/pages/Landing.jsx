@@ -1,5 +1,4 @@
 import EquityPricingSection from '../components/landing/EquityPricingSection'
-import LogoAnimated from '../components/LogoAnimated'
 import DonationSection      from '../components/landing/DonationSection'
 // TARGET_FILE: src/pages/Landing.jsx
 // Full feature showcase — every section shows a LIVE PREVIEW
@@ -76,7 +75,6 @@ function Hero({ navigate }) {
         {/* Left */}
         <div>
           <div style={{ marginBottom:20 }}>
-            <LogoAnimated size="lg" mode="auto" dark={true} />
           </div>
 
           <div style={{ display:'inline-flex', alignItems:'center', gap:8,

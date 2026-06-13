@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import Logo from '../Logo'
+import LogoAnimated from '../LogoAnimated'
 
 const LINKS = {
   Platform:   ['Features','Pricing','All Exams','Career Compass','Impact'],
@@ -24,7 +24,7 @@ export default function Footer() {
           {/* Brand column — bigger logo */}
           <div>
             <div onClick={() => navigate('/')} style={{ cursor:'pointer', marginBottom:14 }}>
-              <Logo dark height={40} />
+              <LogoAnimated size="xs" mode="auto" dark={true} />
             </div>
             <p style={{ color:'#D4AF37', fontStyle:'italic',
               fontSize:13, margin:'0 0 10px',

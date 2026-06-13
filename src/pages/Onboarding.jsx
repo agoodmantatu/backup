@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth, onboardingKey } from '../context/AuthContext'
-import Logo from '../components/Logo'
+import LogoAnimated from '../components/LogoAnimated'
 
 // ─── Static data ────────────────────────────────────────────────────────────
 
@@ -611,7 +611,7 @@ export default function Onboarding() {
         <div className="rounded-2xl p-8 shadow-2xl" style={{ background: '#F8FAFC' }}>
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
-            <Logo dark={false} height={40} />
+            <LogoAnimated size="xs" mode="auto" dark={false} />
             <p className="mt-2 text-xs font-medium tracking-widest uppercase" style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}>
               Setting up your profile
             </p>

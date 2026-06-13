@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Logo from '../Logo'
+import LogoAnimated from '../LogoAnimated'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const NAV_LINKS = [
@@ -65,7 +65,7 @@ export default function Navbar() {
   className="flex-shrink-0 focus:outline-none"
   aria-label="Go to top"
 >
-  <Logo dark={scrolled} height={32} />
+  <LogoAnimated size="xs" mode="auto" dark={!scrolled} compact />
 </button>
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-1 ml-8 flex-1">
