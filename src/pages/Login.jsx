@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth, onboardingKey } from '../context/AuthContext'
-
-import LogoAnimated from '../components/LogoAnimated'
+import Logo from '../components/Logo'
 
 const IS_DEV =
   !import.meta.env.VITE_SUPABASE_URL ||
@@ -41,7 +40,6 @@ export default function Login() {
     setStep('email')
   }
 
-  // --- OTP Input Navigation Handlers ---
   function handleOtpChange(index, value) {
     const char = value.replace(/\D/, '')
     const next = [...otp]
@@ -67,16 +65,27 @@ export default function Login() {
     e.preventDefault()
   }
 
-  // --- Authentication Flows (Temp-Disabled / Dev Mode Forced) ---
   async function handleSendOtp(e) {
     e.preventDefault()
     if (!email.trim()) { setError('Enter your email address.'); return }
     setError('')
     setLoading(true)
 
-    // Bypass mode active: advances immediately to verification step
-    setStep('otp')
-    setLoading(false)
+    if (IS_DEV) {
+      setStep('otp')
+      setLoading(false)
+      return
+    }
+
+    // Production: trigger Supabase magic-link via login()
+    try {
+      await login(email.trim(), selectedRole)
+      setStep('magic')
+    } catch (err) {
+      setError('Could not send login link. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleVerifyOtp(e) {
@@ -89,11 +98,16 @@ export default function Login() {
     if (coupon.trim()) {
       localStorage.setItem('applied_coupon', coupon.trim().toUpperCase())
     }
-    
-    // Bypass mode active: Logs directly in without hitting external servers
-    const done = localStorage.getItem(onboardingKey(email.trim()))
-    navigate(done ? '/dashboard' : '/onboarding')
-    setLoading(false)
+
+    try {
+      await login(email.trim(), selectedRole)
+      const done = localStorage.getItem(onboardingKey(email.trim()))
+      navigate(done ? '/dashboard' : '/onboarding')
+    } catch (err) {
+      setError('Login failed. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   async function handleGoogle() {
@@ -105,10 +119,9 @@ export default function Login() {
       localStorage.setItem('applied_coupon', coupon.trim().toUpperCase())
     }
 
-    // Bypass mode active: Creates a dummy developer account profile instantly
+    const mockEmail = 'google.user@gmail.com'
     try {
-      const mockEmail = `google-dev-user@example.com`
-      setEmail(mockEmail)
+      await login(mockEmail, selectedRole)
       const done = localStorage.getItem(onboardingKey(mockEmail))
       navigate(done ? '/dashboard' : '/onboarding')
     } catch (err) {
@@ -149,10 +162,13 @@ export default function Login() {
 
       <div className="relative w-full max-w-md">
         {/* Card */}
-        <div className="rounded-2xl p-8 shadow-2xl" style={{ background: '#F8FAFC' }}>
+        <div
+          className="rounded-2xl p-8 shadow-2xl"
+          style={{ background: '#F8FAFC' }}
+        >
           {/* Logo + heading */}
           <div className="flex flex-col items-center mb-7">
-            <LogoAnimated size="sm" mode="auto" dark={false} />
+            <Logo dark={false} height={48} />
             <p
               className="mt-3 text-xs font-medium tracking-widest uppercase"
               style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}
@@ -271,7 +287,7 @@ export default function Login() {
                     onChange={e => setEmail(e.target.value)}
                     placeholder="you@example.com"
                     required
-                    className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none"
+                    className="w-full rounded-xl border-2 px-4 py-3 text-sm outline-none transition-all focus:border-yellow-500"
                     style={{
                       borderColor: '#E2E8F0',
                       background: '#fff',
@@ -312,7 +328,7 @@ export default function Login() {
                   style={{ borderColor: '#E2E8F0', background: '#fff', color: '#1E3A5F', fontFamily: 'Inter, sans-serif' }}
                 >
                   <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
-                    <path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.4-.2-2.7-.5-4z" fill="#FFC107"/>
+                    <path d="M44.5 20H24v8.5h11.8C34.7 33.9 30.1 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.4-.2-2.7-.5-4z" fill="#FFC107"/>
                     <path d="M6.3 14.7l7 5.1C15.1 16.1 19.2 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.4-6.4C34.6 5.1 29.6 3 24 3 16.3 3 9.6 7.9 6.3 14.7z" fill="#FF3D00"/>
                     <path d="M24 45c5.5 0 10.5-1.9 14.3-5.1l-6.6-5.6C29.7 35.9 27 37 24 37c-6 0-10.6-3.9-11.8-9.1l-7 5.4C8.6 40.8 15.7 45 24 45z" fill="#4CAF50"/>
                     <path d="M44.5 20H24v8.5h11.8c-1 3-3.2 5.4-6.1 7l6.6 5.6C40.3 37.9 44.5 31.6 44.5 24c0-1.4-.2-2.7-.5-4z" fill="#1976D2"/>
@@ -323,7 +339,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* ─── STEP: otp ────────────────────────────────────────── */}
+          {/* ─── STEP: otp (dev) ──────────────────────────────────── */}
           {step === 'otp' && (
             <div>
               <button
@@ -343,9 +359,11 @@ export default function Login() {
               </h2>
               <p className="text-sm mb-6" style={{ color: '#64748B', fontFamily: 'Inter, sans-serif' }}>
                 A 6-digit code was sent to <span className="font-semibold" style={{ color: '#1E3A5F' }}>{email}</span>
-                <span className="ml-1 px-1.5 py-0.5 rounded text-xs font-medium" style={{ background: '#FEF3C7', color: '#92400E' }}>
-                  dev — any 6 digits work
-                </span>
+                {IS_DEV && (
+                  <span className="ml-1 px-1.5 py-0.5 rounded text-xs font-medium" style={{ background: '#FEF3C7', color: '#92400E' }}>
+                    dev — any 6 digits work
+                  </span>
+                )}
               </p>
 
               <form onSubmit={handleVerifyOtp} className="space-y-5">
@@ -361,7 +379,7 @@ export default function Login() {
                       value={digit}
                       onChange={e => handleOtpChange(i, e.target.value)}
                       onKeyDown={e => handleOtpKeyDown(i, e)}
-                      className="w-11 h-12 text-center text-xl font-bold rounded-xl border-2 outline-none"
+                      className="w-11 h-12 text-center text-xl font-bold rounded-xl border-2 outline-none transition-all"
                       style={{
                         borderColor: digit ? '#D4AF37' : '#E2E8F0',
                         background: digit ? '#FFFBF0' : '#fff',
@@ -391,7 +409,7 @@ export default function Login() {
                       value={coupon}
                       onChange={e => setCoupon(e.target.value)}
                       placeholder="Enter coupon"
-                      className="mt-2 w-full rounded-xl border-2 px-3 py-2 text-xs outline-none"
+                      className="mt-2 w-full rounded-xl border-2 px-3 py-2 text-xs outline-none transition-all"
                       style={{
                         borderColor: '#E2E8F0',
                         background: '#fff',
@@ -422,7 +440,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* ─── STEP: magic link ───────────────────────────────── */}
+          {/* ─── STEP: magic link (prod) ─────────────────────────── */}
           {step === 'magic' && (
             <div className="text-center py-4">
               <div

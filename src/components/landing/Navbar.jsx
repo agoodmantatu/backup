@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import LogoAnimated from '../LogoAnimated'
+import Logo from '../Logo'
 import ThemeSwitcher from '../ThemeSwitcher'
 
 const NAV_LINKS = [
@@ -58,15 +58,15 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center h-16" style={{ gap: 0 }}>
 
-    
-{/* Logo */}
-<button
-  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-  className="flex-shrink-0 focus:outline-none"
-  aria-label="Go to top"
->
-  <LogoAnimated size="xs" mode="auto" dark={!scrolled} compact />
-</button>
+          {/* Logo */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex-shrink-0 focus:outline-none"
+            aria-label="Go to top"
+          >
+            <Logo dark={scrolled} height={scrolled ? 32 : 40} />
+          </button>
+
           {/* Desktop nav links */}
           <div className="hidden md:flex items-center gap-1 ml-8 flex-1">
             {NAV_LINKS.map(link => (

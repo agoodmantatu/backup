@@ -1,157 +1,103 @@
-import { useState } from 'react'
+// src/pages/pricing/PricingPage.jsx
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
-import { useToast } from '../../context/ToastContext'
+import { useAuth } from '../../context/AuthContext'
 
-const PLANS = [
-  {
-    id:'trial', name:'₹19 Trial', price:19, period:'7 days',
-    color:'#22C55E', bg:'linear-gradient(135deg,#065F46,#047857)',
-    badge:'START HERE', popular:false,
-    features:[
-      '7 full mock tests (any exam)',
-      'All-India ranking after each test',
-      'Guru Hub — 5 doubt questions',
-      '7-layer explanations',
-      'Career Compass quiz',
-      'Access in all 40+ languages',
-      'Student ID Card (Royal Gold template)',
-    ],
-    cta:'Start ₹19 Trial',
-  },
-  {
-    id:'plus', name:'TryIT Plus', price:199, period:'month',
-    color:'#1E3A5F', bg:'linear-gradient(135deg,#1E3A5F,#0F2140)',
-    badge:'MOST POPULAR', popular:true,
-    features:[
-      'Unlimited mock tests',
-      'All-India + State rankings',
-      'Unlimited Guru Hub doubts',
-      'All 5 ID Card templates + 3D flip',
-      'Focus Mode + Ambient sounds',
-      'Current Affairs daily',
-      'Study Planner + Roadmap',
-      'The Hall (join or create)',
-      'Brain Games unlimited',
-      'Download question PDFs',
-    ],
-    cta:'Get Plus — ₹199/mo',
-  },
-  {
-    id:'pro', name:'TryIT Pro', price:399, period:'month',
-    color:'#D4AF37', bg:'linear-gradient(135deg,#92400E,#B45309)',
-    badge:'BEST VALUE', popular:false,
-    features:[
-      'Everything in Plus',
-      'Guru Books — 3 free/month',
-      'Mentor 1-on-1 doubt sessions',
-      'Previous 10-year PYQ bank',
-      'Performance AI analysis',
-      'Family Hub (4 members)',
-      'Centre test access unlimited',
-      'Priority support',
-      '⚡ Baahuveer badge on signup',
-    ],
-    cta:'Go Pro — ₹399/mo',
-  },
-  {
-    id:'annual', name:'Pro Annual', price:2999, period:'year',
-    color:'#D4AF37', bg:'linear-gradient(135deg,#1E3A5F,#D4AF37)',
-    badge:'SAVE ₹1,789', popular:false,
-    yearSaving:'₹1,789 saved vs monthly',
-    features:[
-      'Everything in Pro',
-      '12 months at ₹250/mo effectively',
-      'Free Guru Book every month',
-      'Dedicated mentor assignment',
-      'Early access to new features',
-      '🏆 The Legend badge on signup',
-    ],
-    cta:'Get Annual — ₹2,999/yr',
-  },
+const PRICING = [
+  { key: 'trial_pass',    label: 'Trial Pass',       price_inr: 19,   description: '3-day full access — try every Pro feature risk-free.' },
+  { key: 'pro_monthly',   label: 'Pro Monthly',      price_inr: 99,   description: 'Unlimited tests, all themes, ad-free — billed monthly.' },
+  { key: 'pro_yearly',    label: 'Pro Yearly',       price_inr: 699,  description: 'Best value — save ₹489 vs monthly. Everything in Pro.' },
+  { key: 'coin_pack_100', label: '100 Coins',        price_inr: 9,    description: 'Boost your wallet for hints, games, and more.' },
+  { key: 'coin_pack_500', label: '500 Coins',        price_inr: 39,   description: 'Great for active learners who play daily.' },
+  { key: 'coin_pack_1200',label: '1,200 Coins',      price_inr: 79,   description: 'Power pack — never run low mid-session.' },
+  { key: 'coin_pack_3000',label: '3,000 Coins',      price_inr: 149,  description: 'Ultimate stash for serious grinders.' },
+]
+
+const PRO_BENEFITS = [
+  '♾️ Unlimited practice + mock tests',
+  '🎨 All 25 premium themes unlocked',
+  '🚫 100% ad-free experience',
+  '📊 Advanced analytics & weak-area reports',
+  '📖 Mentor eBooks & GuruBooks access',
+  '🔔 Priority doubt resolution in Guru Hub',
+  '🏆 Exclusive Pro leaderboard ranking',
+  '📱 Offline mode (download tests)',
 ]
 
 export default function PricingPage() {
-  const navigate = useNavigate()
-  const { showToast } = useToast()
-  const [selected, setSelected] = useState('plus')
+  const { user } = useAuth()
+  if (!user) return null
 
-  const handleBuy = (plan) => {
-    if (plan.id === 'trial') {
-      showToast('success', '🎉 Redirecting to ₹19 Trial checkout...')
-    } else {
-      showToast('info', `Opening payment for ${plan.name}...`)
-    }
-  }
+  const plans = PRICING.filter(p => !p.key.startsWith('coin'))
+  const coins  = PRICING.filter(p =>  p.key.startsWith('coin'))
 
   return (
-    <AppLayout>
-      <div style={{ textAlign:'center', marginBottom:36 }}>
-        <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#1E3A5F', fontSize:'clamp(24px,4vw,38px)', marginBottom:10 }}>
-          Simple, Honest Pricing
-        </h1>
-        <p style={{ color:'#64748B', fontSize:16 }}>
-          Start for ₹19. No hidden fees. Cancel anytime.
-        </p>
-        <div style={{ marginTop:12, display:'inline-flex', alignItems:'center', gap:8, background:'#DCFCE7', border:'1px solid #22C55E', borderRadius:20, padding:'6px 16px' }}>
-          <span style={{ color:'#15803D', fontSize:13, fontWeight:700 }}>🤝 6 communities get 100% FREE for life — </span>
-          <button onClick={() => navigate('/equity')} style={{ background:'none', border:'none', color:'#15803D', fontWeight:800, cursor:'pointer', fontSize:13, textDecoration:'underline' }}>Check eligibility →</button>
+    <AppLayout title="Pro & Pricing">
+      <div className="max-w-4xl mx-auto space-y-8 p-4">
+
+        {/* Launch banner */}
+        <div className="bg-gradient-to-r from-[#D4AF37] to-[#E8C84A] rounded-2xl p-5 flex items-center gap-4 shadow-lg">
+          <span className="text-4xl">🎉</span>
+          <div>
+            <p className="font-bold text-[#0F2140] text-lg">You're on Pro — free during our launch period!</p>
+            <p className="text-[#1E3A5F] text-sm mt-0.5">Enjoy all features at no charge. Paid plans activate after our launch window ends (we'll give you 30 days' notice).</p>
+          </div>
         </div>
-      </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,260px),1fr))', gap:16, marginBottom:32 }}>
-        {PLANS.map(plan => (
-          <div key={plan.id} onClick={() => setSelected(plan.id)}
-            style={{ borderRadius:24, overflow:'hidden', cursor:'pointer',
-              border:`2px solid ${selected===plan.id?plan.color:'#E2E8F0'}`,
-              boxShadow: selected===plan.id ? `0 12px 32px ${plan.color}33` : '0 2px 12px rgba(0,0,0,0.05)',
-              transform: selected===plan.id ? 'translateY(-4px)' : 'none',
-              transition:'all 0.2s', background:'#fff' }}>
-
-            {/* Header */}
-            <div style={{ background:plan.bg, padding:'20px 22px' }}>
-              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#fff', fontSize:18 }}>{plan.name}</p>
-                <span style={{ background:'rgba(255,255,255,0.2)', color:'#fff', fontSize:9, fontWeight:800, padding:'3px 10px', borderRadius:20, letterSpacing:'1px' }}>{plan.badge}</span>
+        {/* Pro benefits */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+          <h2 className="text-xl font-bold text-[#1E3A5F] mb-4">What's included in Pro</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {PRO_BENEFITS.map(b => (
+              <div key={b} className="flex items-center gap-2 text-gray-700 text-sm">
+                <span>{b}</span>
               </div>
-              <div style={{ display:'flex', alignItems:'baseline', gap:4 }}>
-                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#fff', fontSize:34 }}>₹{plan.price.toLocaleString()}</span>
-                <span style={{ color:'rgba(255,255,255,0.65)', fontSize:13 }}>/ {plan.period}</span>
-              </div>
-              {plan.yearSaving && <p style={{ color:'rgba(255,255,255,0.8)', fontSize:12, marginTop:4 }}>{plan.yearSaving}</p>}
-            </div>
+            ))}
+          </div>
+        </div>
 
-            {/* Features */}
-            <div style={{ padding:'18px 20px' }}>
-              {plan.features.map((f,i) => (
-                <div key={i} style={{ display:'flex', gap:8, marginBottom:9 }}>
-                  <span style={{ color: plan.color, fontWeight:800, fontSize:14, flexShrink:0 }}>✓</span>
-                  <span style={{ color:'#475569', fontSize:13, lineHeight:1.4 }}>{f}</span>
+        {/* Plans */}
+        <div>
+          <h2 className="text-xl font-bold text-[#1E3A5F] mb-4">Subscription Plans</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {plans.map(plan => (
+              <div key={plan.key} className={`relative rounded-2xl border-2 p-5 shadow-sm flex flex-col gap-3 ${plan.key === 'pro_yearly' ? 'border-[#D4AF37] bg-[#FDF6E3]' : 'border-gray-200 bg-white'}`}>
+                {plan.key === 'pro_yearly' && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#D4AF37] text-[#0F2140] text-xs font-bold px-3 py-0.5 rounded-full">BEST VALUE</span>
+                )}
+                <div>
+                  <p className="font-bold text-[#1E3A5F] text-lg">{plan.label}</p>
+                  <p className="text-3xl font-black text-[#D4AF37]">₹{plan.price_inr}</p>
+                  <p className="text-gray-500 text-xs mt-1">{plan.description}</p>
                 </div>
-              ))}
-              <button onClick={() => handleBuy(plan)}
-                style={{ width:'100%', marginTop:16, padding:'13px', borderRadius:14, border:'none', cursor:'pointer', background: plan.popular ? 'linear-gradient(135deg,#1E3A5F,#0F2140)' : `linear-gradient(135deg,${plan.color},${plan.color}CC)`, color: plan.popular?'#D4AF37':'#fff', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:14 }}>
-                {plan.cta}
-              </button>
-            </div>
+                <button disabled className="mt-auto w-full py-2 rounded-xl bg-gray-200 text-gray-400 font-semibold text-sm cursor-not-allowed">
+                  Coming Soon
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
 
-      {/* FAQ */}
-      <div style={{ background:'#F8FAFC', borderRadius:22, padding:24, border:'1.5px solid #E2E8F0' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:18, marginBottom:18 }}>Frequently Asked</p>
-        {[
-          ['Can I cancel anytime?','Yes. Cancel from Settings → Subscription. No questions asked. Access continues until end of billing period.'],
-          ['Does the ₹19 trial auto-renew?','No. It\'s a one-time ₹19 payment. No automatic charges. You choose to upgrade after.'],
-          ['Are my 6 equity tiers really free forever?','Yes, 100%. Verified Hope Scholars, Divyang, Swachhta Warriors, Veer Nari families, Transgender youth, and Agrarian Distress families get full Pro access for life.'],
-          ['Can I switch plans mid-month?','Yes. Upgrade instantly. Downgrade at end of billing period. Prorated credits applied.'],
-        ].map(([q,a],i) => (
-          <div key={i} style={{ marginBottom: i<3?16:0, paddingBottom: i<3?16:0, borderBottom: i<3?'1px solid #E2E8F0':'none' }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:6 }}>❓ {q}</p>
-            <p style={{ color:'#64748B', fontSize:13, lineHeight:1.65 }}>{a}</p>
+        {/* Coin packs */}
+        <div>
+          <h2 className="text-xl font-bold text-[#1E3A5F] mb-1">Coin Packs</h2>
+          <p className="text-gray-500 text-sm mb-4">Use coins for hints, brain games, and exclusive rewards.</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {coins.map(pack => (
+              <div key={pack.key} className="bg-white rounded-2xl border border-gray-200 p-4 shadow-sm flex flex-col gap-2">
+                <div className="text-2xl">🪙</div>
+                <p className="font-bold text-[#1E3A5F]">{pack.label}</p>
+                <p className="text-xl font-black text-[#D4AF37]">₹{pack.price_inr}</p>
+                <p className="text-gray-400 text-xs">{pack.description}</p>
+                <button disabled className="mt-auto w-full py-1.5 rounded-xl bg-gray-200 text-gray-400 font-semibold text-xs cursor-not-allowed">
+                  Coming Soon
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+
+        <p className="text-center text-gray-400 text-xs pb-4">Payments powered by Razorpay · Secure · INR only · No hidden charges</p>
       </div>
     </AppLayout>
   )

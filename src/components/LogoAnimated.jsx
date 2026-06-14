@@ -10,10 +10,10 @@ export default function LogoAnimated({ size = 'md', mode = 'auto', dark = true, 
   // Design-time widths (used as viewBox coordinate system —
   // internal math stays identical to V4, only RENDERED size changes)
   const SIZES = {
-    sm:     { width: 110, clamp: 'clamp(70px, 20vw, 90px)'  },
-    md:     { width: 160, clamp: 'clamp(100px, 25vw, 120px)' },
-    lg:     { width: 220, clamp: 'clamp(140px, 35vw, 180px)' },
-    xl:     { width: 300, clamp: 'clamp(1800px, 65vw, 240px)' },
+    sm:     { width: 110, clamp: 'clamp(90px, 28vw, 110px)'  },
+    md:     { width: 160, clamp: 'clamp(120px, 38vw, 160px)' },
+    lg:     { width: 220, clamp: 'clamp(160px, 50vw, 220px)' },
+    xl:     { width: 300, clamp: 'clamp(200px, 65vw, 300px)' },
     splash: { width: 340, clamp: 'clamp(220px, 78vw, 340px)' },
   }
   const cfg = SIZES[size] || SIZES.md
@@ -276,4 +276,3 @@ export default function LogoAnimated({ size = 'md', mode = 'auto', dark = true, 
     </div>
   )
 }
-

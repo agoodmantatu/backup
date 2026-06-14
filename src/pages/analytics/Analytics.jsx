@@ -1,130 +1,299 @@
+// src/pages/analytics/Analytics.jsx
 import { useState } from 'react'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
-const WEEKLY_DATA = [
-  { day:'Mon', score:72, questions:45 },
-  { day:'Tue', score:68, questions:38 },
-  { day:'Wed', score:81, questions:52 },
-  { day:'Thu', score:75, questions:41 },
-  { day:'Fri', score:85, questions:60 },
-  { day:'Sat', score:79, questions:55 },
-  { day:'Sun', score:88, questions:67 },
+const SAMPLE_TRENDS = [62, 70, 67, 78, 74, 83, 88]
+const TREND_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+const WEAK_TOPICS = [
+  { name: 'Profit & Loss', subject: 'Quantitative Aptitude', accuracy: 38, emoji: '📉' },
+  { name: 'Data Interpretation', subject: 'Reasoning', accuracy: 44, emoji: '📊' },
+  { name: 'Modern Indian History', subject: 'General Studies', accuracy: 51, emoji: '🏛️' },
+  { name: 'Mensuration', subject: 'Mathematics', accuracy: 33, emoji: '📐' },
+  { name: 'Computer Networks', subject: 'Computer Awareness', accuracy: 49, emoji: '🌐' },
 ]
 
-const SUBJECT_DATA = [
-  { name:'Reasoning', accuracy:90, attempted:142, correct:128, trend:'up',   color:'#22C55E' },
-  { name:'Quant',     accuracy:82, attempted:118, correct:97,  trend:'up',   color:'#22C55E' },
-  { name:'GK',        accuracy:75, attempted:96,  correct:72,  trend:'up',   color:'#D4AF37' },
-  { name:'English',   accuracy:68, attempted:88,  correct:60,  trend:'down', color:'#F59E0B' },
-  { name:'Science',   accuracy:55, attempted:74,  correct:41,  trend:'down', color:'#EF4444' },
+const TIME_BREAKDOWN = [
+  { subject: 'Quantitative Aptitude', hours: 4.5, color: '#1E3A5F', pct: 36 },
+  { subject: 'Reasoning', hours: 3.0, color: '#D4AF37', pct: 24 },
+  { subject: 'General Studies', hours: 2.5, color: '#064E3B', pct: 20 },
+  { subject: 'English', hours: 2.0, color: '#4C1D95', pct: 16 },
+  { subject: 'Current Affairs', hours: 0.5, color: '#7C2D12', pct: 4 },
 ]
 
-const RANK_HISTORY = [8432,6210,4890,3421,2890,2341,1890,1521,1243]
+function SVGLineChart({ data, labels }) {
+  const w = 500
+  const h = 160
+  const pad = { top: 20, right: 20, bottom: 30, left: 40 }
+  const innerW = w - pad.left - pad.right
+  const innerH = h - pad.top - pad.bottom
+
+  const min = Math.min(...data) - 10
+  const max = 100
+  const range = max - min
+
+  const points = data.map((v, i) => ({
+    x: pad.left + (i / (data.length - 1)) * innerW,
+    y: pad.top + innerH - ((v - min) / range) * innerH,
+    v,
+  }))
+
+  const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x},${p.y}`).join(' ')
+  const areaD = `${pathD} L${points[points.length - 1].x},${pad.top + innerH} L${points[0].x},${pad.top + innerH} Z`
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="w-full" style={{ maxHeight: 180 }}>
+      {/* Y gridlines */}
+      {[0, 25, 50, 75, 100].map((v) => {
+        const y = pad.top + innerH - ((v - min) / range) * innerH
+        if (y < pad.top || y > pad.top + innerH) return null
+        return (
+          <g key={v}>
+            <line x1={pad.left} x2={pad.left + innerW} y1={y} y2={y} stroke="#F1F5F9" strokeWidth="1" />
+            <text x={pad.left - 6} y={y + 4} fontSize="10" fill="#94A3B8" textAnchor="end">{v}</text>
+          </g>
+        )
+      })}
+      {/* Area fill */}
+      <path d={areaD} fill="#1E3A5F" fillOpacity="0.07" />
+      {/* Line */}
+      <path d={pathD} fill="none" stroke="#1E3A5F" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Points */}
+      {points.map((p, i) => (
+        <g key={i}>
+          <circle cx={p.x} cy={p.y} r={4} fill="#D4AF37" stroke="white" strokeWidth="2" />
+          <text x={p.x} y={p.y - 10} fontSize="10" fill="#1E3A5F" textAnchor="middle" fontWeight="600">
+            {p.v}%
+          </text>
+        </g>
+      ))}
+      {/* X labels */}
+      {points.map((p, i) => (
+        <text key={i} x={p.x} y={pad.top + innerH + 18} fontSize="10" fill="#94A3B8" textAnchor="middle">
+          {labels[i]}
+        </text>
+      ))}
+    </svg>
+  )
+}
 
 export default function Analytics() {
   const { user } = useAuth()
-  const [period, setPeriod] = useState('week')
-  const maxScore = Math.max(...WEEKLY_DATA.map(d=>d.score))
+  const navigate = useNavigate()
+
+  if (!user) return null
+
+  const hasSubjects = user.subjects && user.subjects.length > 0
+  const hasTests = user.testsCompleted > 0
+
+  const subjects = hasSubjects
+    ? user.subjects
+    : [
+        { name: 'Quantitative Aptitude', accuracy: 72, trend: 'up', emoji: '🔢' },
+        { name: 'Reasoning', accuracy: 65, trend: 'up', emoji: '🧩' },
+        { name: 'General Studies', accuracy: 58, trend: 'down', emoji: '📚' },
+        { name: 'English', accuracy: 80, trend: 'stable', emoji: '✍️' },
+        { name: 'Current Affairs', accuracy: 55, trend: 'up', emoji: '📰' },
+      ]
+
+  const maxAcc = Math.max(...subjects.map((s) => s.accuracy), 1)
 
   return (
-    <AppLayout>
-      <div style={{ marginBottom:20 }}>
-        <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28 }}>📊 My Analytics</h1>
-        <p style={{ color:'#94A3B8', fontSize:14, marginTop:2 }}>Track your progress. Identify weak areas. Rise faster.</p>
-      </div>
+    <AppLayout title="Analytics">
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+        {/* Section 1: Subject Accuracy */}
+        <section>
+          <h2
+            className="text-xl font-bold text-[#1E3A5F] mb-1"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            Subject Accuracy
+          </h2>
+          <p className="text-gray-400 text-sm mb-4">Performance breakdown across your subjects</p>
 
-      {/* Top stats */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,180px),1fr))', gap:12, marginBottom:20 }}>
-        {[
-          { e:'📝', v:user?.testsCompleted, l:'Tests Taken',      c:'#1E3A5F' },
-          { e:'📊', v:`${user?.avgScore}%`, l:'Average Score',    c:'#D4AF37' },
-          { e:'🏆', v:`#${user?.rank.toLocaleString()}`, l:'Current Rank', c:'#D4AF37' },
-          { e:'📈', v:'+142',              l:'Rank Gained',       c:'#22C55E' },
-          { e:'🔥', v:`${user?.streak}d`,   l:'Study Streak',     c:'#F97316' },
-          { e:'⏱️', v:'48h',               l:'Study Time',        c:'#8B5CF6' },
-        ].map(s => (
-          <div key={s.l} style={{ background:'#fff', borderRadius:18, padding:'14px 12px', textAlign:'center', border:'1.5px solid #E2E8F0', boxShadow:'0 2px 8px rgba(0,0,0,0.04)' }}>
-            <p style={{ fontSize:26, marginBottom:4 }}>{s.e}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:s.c, fontSize:20 }}>{s.v}</p>
-            <p style={{ color:'#94A3B8', fontSize:11, marginTop:2 }}>{s.l}</p>
-          </div>
-        ))}
-      </div>
+          {!hasSubjects && (
+            <div className="bg-amber-50 border border-amber-100 rounded-2xl px-4 py-2 text-amber-700 text-sm font-medium mb-4">
+              Showing sample data — take a test to unlock your real analytics.
+            </div>
+          )}
 
-      {/* Score chart */}
-      <div style={{ background:'#fff', borderRadius:22, padding:22, marginBottom:16, border:'1.5px solid #E2E8F0', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:18, flexWrap:'wrap', gap:8 }}>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:16 }}>Score Trend — Last 7 Days</p>
-          <div style={{ display:'flex', gap:6 }}>
-            {['week','month'].map(p => (
-              <button key={p} onClick={() => setPeriod(p)} style={{ padding:'6px 14px', borderRadius:20, border:'none', cursor:'pointer', background: period===p?'#1E3A5F':'#F1F5F9', color: period===p?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12 }}>
-                {p.charAt(0).toUpperCase()+p.slice(1)}
-              </button>
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-4">
+            {subjects.map((sub) => (
+              <div key={sub.name}>
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-semibold text-gray-700 flex items-center gap-1.5">
+                    {sub.emoji} {sub.name}
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span
+                      className={`text-xs font-bold ${
+                        sub.trend === 'up'
+                          ? 'text-green-600'
+                          : sub.trend === 'down'
+                          ? 'text-red-500'
+                          : 'text-gray-400'
+                      }`}
+                    >
+                      {sub.trend === 'up' ? '↑' : sub.trend === 'down' ? '↓' : '→'}
+                    </span>
+                    <span className="text-sm font-bold text-[#1E3A5F]">{sub.accuracy}%</span>
+                  </div>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-2.5">
+                  <div
+                    className="h-2.5 rounded-full transition-all duration-700"
+                    style={{
+                      width: `${(sub.accuracy / maxAcc) * 100}%`,
+                      background:
+                        sub.accuracy >= 70
+                          ? '#064E3B'
+                          : sub.accuracy >= 50
+                          ? '#D4AF37'
+                          : '#7C2D12',
+                    }}
+                  />
+                </div>
+              </div>
             ))}
           </div>
-        </div>
-        {/* Bar chart */}
-        <div style={{ display:'flex', alignItems:'flex-end', gap:8, height:120 }}>
-          {WEEKLY_DATA.map((d,i) => (
-            <div key={i} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:4 }}>
-              <span style={{ fontSize:11, color:'#94A3B8', fontWeight:600 }}>{d.score}%</span>
-              <div style={{ width:'100%', borderRadius:'6px 6px 0 0', transition:'height 0.5s ease',
-                height:`${(d.score/100)*90}px`,
-                background: d.score>=80 ? 'linear-gradient(180deg,#22C55E,#16A34A)' : d.score>=70 ? 'linear-gradient(180deg,#D4AF37,#C9A020)' : 'linear-gradient(180deg,#F59E0B,#D97706)',
-                minHeight:8 }}/>
-              <span style={{ fontSize:10, color:'#94A3B8' }}>{d.day}</span>
-            </div>
-          ))}
-        </div>
-      </div>
+        </section>
 
-      {/* Rank history */}
-      <div style={{ background:'#fff', borderRadius:22, padding:22, marginBottom:16, border:'1.5px solid #E2E8F0', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:16 }}>Rank Journey (Last 9 Tests)</p>
-        <div style={{ display:'flex', alignItems:'flex-end', gap:6, height:80, position:'relative' }}>
-          {RANK_HISTORY.map((rank,i) => {
-            const maxRank = Math.max(...RANK_HISTORY)
-            const h = ((maxRank - rank) / maxRank) * 65 + 15
-            return (
-              <div key={i} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:3 }}>
-                <span style={{ fontSize:9, color:'#94A3B8' }}>#{(rank/1000).toFixed(1)}k</span>
-                <div style={{ width:'100%', borderRadius:'4px 4px 0 0', height:`${h}px`,
-                  background: i===RANK_HISTORY.length-1 ? '#D4AF37' : 'linear-gradient(180deg,#1E3A5F,#0F2140)' }}/>
-              </div>
-            )
-          })}
-        </div>
-        <div style={{ marginTop:8, display:'flex', justifyContent:'space-between' }}>
-          <span style={{ color:'#94A3B8', fontSize:11 }}>Start: #8,432</span>
-          <span style={{ color:'#22C55E', fontWeight:700, fontSize:12 }}>Now: #1,243 ↑</span>
-        </div>
-      </div>
+        {/* Section 2: Score Trend */}
+        <section>
+          <h2
+            className="text-xl font-bold text-[#1E3A5F] mb-1"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            Score Trend
+          </h2>
+          <p className="text-gray-400 text-sm mb-4">Your score percentage over the last 7 days</p>
 
-      {/* Subject breakdown */}
-      <div style={{ background:'#fff', borderRadius:22, padding:22, border:'1.5px solid #E2E8F0', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:16 }}>Subject Performance</p>
-        {SUBJECT_DATA.map(s => (
-          <div key={s.name} style={{ marginBottom:14 }}>
-            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6, alignItems:'center' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:14 }}>{s.name}</span>
-                <span style={{ color: s.trend==='up'?'#22C55E':'#EF4444', fontSize:14, fontWeight:700 }}>{s.trend==='up'?'↑':'↓'}</span>
-              </div>
-              <div style={{ display:'flex', gap:12, alignItems:'center' }}>
-                <span style={{ color:'#94A3B8', fontSize:12 }}>{s.correct}/{s.attempted}</span>
-                <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:s.color, fontSize:15 }}>{s.accuracy}%</span>
-              </div>
+          {!hasTests ? (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
+              <div className="text-5xl mb-3">📈</div>
+              <p className="text-gray-500 font-semibold">No test data yet</p>
+              <p className="text-gray-400 text-sm mt-1 mb-4">
+                Take a few tests to see your score trend here.
+              </p>
+              <button
+                onClick={() => navigate('/test-engine')}
+                className="bg-[#1E3A5F] text-white px-6 py-2.5 rounded-2xl font-semibold text-sm hover:bg-[#0F2140] transition-all"
+              >
+                Take a Test →
+              </button>
             </div>
-            <div style={{ width:'100%', height:10, background:'#F1F5F9', borderRadius:5 }}>
-              <div style={{ width:`${s.accuracy}%`, height:10, borderRadius:5, background:s.color, transition:'width 1s ease' }}/>
+          ) : (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+              <SVGLineChart data={SAMPLE_TRENDS} labels={TREND_LABELS} />
+            </div>
+          )}
+
+          {hasTests && (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+              <SVGLineChart data={SAMPLE_TRENDS} labels={TREND_LABELS} />
+            </div>
+          )}
+
+          {!hasTests && null /* already rendered above */}
+        </section>
+
+        {/* Section 3: Time Spent */}
+        <section>
+          <h2
+            className="text-xl font-bold text-[#1E3A5F] mb-1"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            Time Spent
+          </h2>
+          <p className="text-gray-400 text-sm mb-4">How you've distributed your study hours</p>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+            {/* Segmented bar */}
+            <div className="flex rounded-xl overflow-hidden h-6 mb-5">
+              {TIME_BREAKDOWN.map((t) => (
+                <div
+                  key={t.subject}
+                  style={{ width: `${t.pct}%`, backgroundColor: t.color }}
+                  title={`${t.subject}: ${t.hours}h`}
+                />
+              ))}
+            </div>
+            <div className="space-y-2.5">
+              {TIME_BREAKDOWN.map((t) => (
+                <div key={t.subject} className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: t.color }} />
+                    <span className="text-sm text-gray-600">{t.subject}</span>
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">{t.hours}h</span>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-        <div style={{ background:'#FEF3C7', borderRadius:14, padding:'12px 16px', marginTop:16 }}>
-          <p style={{ color:'#92400E', fontWeight:700, fontSize:13 }}>💡 Focus on English</p>
-          <p style={{ color:'#92400E', fontSize:12, marginTop:4 }}>Improving English from 68% to 78% would jump your rank by ~400 positions based on current competition data.</p>
-        </div>
+        </section>
+
+        {/* Section 4: Weak Topics */}
+        <section>
+          <h2
+            className="text-xl font-bold text-[#1E3A5F] mb-1"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            Weak Topics
+          </h2>
+          <p className="text-gray-400 text-sm mb-4">Focus here to maximise your score gains</p>
+
+          {!hasTests ? (
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-10 text-center">
+              <div className="text-5xl mb-3">🎯</div>
+              <p className="text-gray-500 font-semibold">No weak topics identified yet</p>
+              <p className="text-gray-400 text-sm mt-1 mb-4">
+                Complete a test to see where you need to improve.
+              </p>
+              <button
+                onClick={() => navigate('/test-engine')}
+                className="bg-[#1E3A5F] text-white px-6 py-2.5 rounded-2xl font-semibold text-sm hover:bg-[#0F2140] transition-all"
+              >
+                Take a Test →
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {WEAK_TOPICS.map((t) => (
+                <div
+                  key={t.name}
+                  className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 flex items-center justify-between gap-3"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl">{t.emoji}</span>
+                    <div>
+                      <p className="font-semibold text-[#1E3A5F] text-sm">{t.name}</p>
+                      <p className="text-xs text-gray-400">{t.subject}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="text-xs font-bold px-2 py-1 rounded-full"
+                      style={{
+                        background: '#FFF3D6',
+                        color: '#92400E',
+                      }}
+                    >
+                      {t.accuracy}% accuracy
+                    </span>
+                    <button
+                      onClick={() => navigate('/test-engine')}
+                      className="text-xs font-semibold text-[#1E3A5F] hover:text-[#D4AF37] transition-all whitespace-nowrap"
+                    >
+                      Practice →
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </section>
       </div>
     </AppLayout>
   )

@@ -1,162 +1,332 @@
-import { useState, useEffect, useRef } from 'react'
-import AppLayout from '../../components/layout/AppLayout'
-import { useToast } from '../../context/ToastContext'
+// src/pages/focus-mode/FocusMode.jsx
+// NOTE: This page is intentionally NOT wrapped in AppLayout (distraction-free, full-screen)
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
-const DURATIONS = [15,25,45,60]
-const SOUNDS = [
-  { id:'rain',    label:'🌧️ Rain',    desc:'Gentle rain on a tin roof'   },
-  { id:'forest',  label:'🌿 Forest',  desc:'Birds and rustling leaves'   },
-  { id:'cafe',    label:'☕ Café',    desc:'Soft background café chatter' },
-  { id:'silence', label:'🤫 Silence', desc:'No sound — pure focus'       },
-  { id:'ocean',   label:'🌊 Ocean',  desc:'Slow ocean waves'             },
+const SUBJECTS = [
+  'Quantitative Aptitude',
+  'Reasoning',
+  'General Studies',
+  'English',
+  'Current Affairs',
+  'Mathematics',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Computer Science',
 ]
-const SUBJECTS = ['Quantitative Aptitude','Reasoning','English','General Knowledge','Science','Current Affairs','Custom']
+
+const THEMES = [
+  { id: 'navy', label: 'Deep Focus', bg: '#0F2140', accent: '#D4AF37', text: '#E2E8F0', ring: '#1E3A5F' },
+  { id: 'forest', label: 'Forest Calm', bg: '#052E16', accent: '#4ADE80', text: '#D1FAE5', ring: '#064E3B' },
+  { id: 'amethyst', label: 'Amethyst', bg: '#1E1030', accent: '#A78BFA', text: '#EDE9FE', ring: '#4C1D95' },
+  { id: 'ember', label: 'Ember', bg: '#1C0A00', accent: '#FB923C', text: '#FFEDD5', ring: '#7C2D12' },
+]
+
+const WORK_SECS = 25 * 60
+const BREAK_SECS = 5 * 60
 
 export default function FocusMode() {
-  const { showToast } = useToast()
-  const [duration, setDuration] = useState(25)
-  const [sound, setSound] = useState('rain')
-  const [subject, setSubject] = useState('Quantitative Aptitude')
+  const { user, addCoins } = useAuth()
+  const navigate = useNavigate()
+
+  const [subject, setSubject] = useState(SUBJECTS[0])
+  const [themeId, setThemeId] = useState('navy')
+  const [phase, setPhase] = useState('work') // 'work' | 'break'
+  const [timeLeft, setTimeLeft] = useState(WORK_SECS)
   const [running, setRunning] = useState(false)
-  const [remaining, setRemaining] = useState(25 * 60)
-  const [sessions, setSessions] = useState(3)
-  const [totalCoins, setCoins] = useState(75)
+  const [cyclesCompleted, setCyclesCompleted] = useState(0)
+  const [sessionsTotal, setSessionsTotal] = useState(0)
+  const [workSecs, setWorkSecs] = useState(25)
+  const [breakSecs, setBreakSecs] = useState(5)
+  const [showSettings, setShowSettings] = useState(false)
+  const [coinFlash, setCoinFlash] = useState(false)
   const intervalRef = useRef(null)
 
-  const pct = ((duration*60 - remaining) / (duration*60)) * 100
-  const mins = Math.floor(remaining/60)
-  const secs = remaining % 60
-
-  const start = () => {
-    setRemaining(duration * 60)
-    setRunning(true)
-    showToast('success', `🎯 Focus session started! Studying: ${subject}`)
-  }
-  const stop = () => {
-    setRunning(false)
-    clearInterval(intervalRef.current)
-    showToast('info', 'Session paused.')
-  }
-  const finish = () => {
-    setRunning(false)
-    setSessions(s => s+1)
-    setCoins(c => c+25)
-    setRemaining(duration*60)
-    showToast('success', '🎉 Session complete! +25 coins earned!')
-  }
+  const theme = THEMES.find((t) => t.id === themeId) || THEMES[0]
 
   useEffect(() => {
-    if (!running) { clearInterval(intervalRef.current); return }
-    intervalRef.current = setInterval(() => {
-      setRemaining(r => {
-        if (r <= 1) { clearInterval(intervalRef.current); finish(); return 0 }
-        return r - 1
-      })
-    }, 1000)
-    return () => clearInterval(intervalRef.current)
-  }, [running])
+    const stored = parseInt(localStorage.getItem('tryit_focus_sessions') || '0', 10)
+    setSessionsTotal(stored)
+  }, [])
 
-  const circumference = 2 * Math.PI * 90
-  const strokeDash = circumference - (pct / 100) * circumference
+  const totalSecs = phase === 'work' ? workSecs * 60 : breakSecs * 60
+  const pct = timeLeft / totalSecs
+
+  const handleCycleComplete = useCallback(() => {
+    setRunning(false)
+    clearInterval(intervalRef.current)
+    if (phase === 'work') {
+      // Completed a work session → give coins, increment
+      addCoins(10)
+      setCoinFlash(true)
+      setTimeout(() => setCoinFlash(false), 2000)
+      const newTotal = sessionsTotal + 1
+      setSessionsTotal(newTotal)
+      localStorage.setItem('tryit_focus_sessions', String(newTotal))
+      setCyclesCompleted((c) => c + 1)
+      setPhase('break')
+      setTimeLeft(breakSecs * 60)
+    } else {
+      setPhase('work')
+      setTimeLeft(workSecs * 60)
+    }
+  }, [phase, addCoins, sessionsTotal, workSecs, breakSecs])
+
+  useEffect(() => {
+    if (running) {
+      intervalRef.current = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            handleCycleComplete()
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    } else {
+      clearInterval(intervalRef.current)
+    }
+    return () => clearInterval(intervalRef.current)
+  }, [running, handleCycleComplete])
+
+  function handleReset() {
+    setRunning(false)
+    setPhase('work')
+    setTimeLeft(workSecs * 60)
+  }
+
+  function handleStartPause() {
+    setRunning((r) => !r)
+  }
+
+  function applySettings() {
+    setRunning(false)
+    setTimeLeft(workSecs * 60)
+    setPhase('work')
+    setShowSettings(false)
+  }
+
+  const mins = String(Math.floor(timeLeft / 60)).padStart(2, '0')
+  const secs = String(timeLeft % 60).padStart(2, '0')
+
+  // Circular ring dimensions
+  const R = 110
+  const CIRC = 2 * Math.PI * R
 
   return (
-    <AppLayout>
-      <div style={{ marginBottom:20 }}>
-        <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28 }}>🎯 Focus Mode</h1>
-        <p style={{ color:'#94A3B8', fontSize:14, marginTop:2 }}>Pomodoro timer · Ambient sounds · Earn coins while you study</p>
+    <div
+      className="min-h-screen flex flex-col items-center justify-center relative transition-colors duration-700"
+      style={{ backgroundColor: theme.bg, color: theme.text }}
+    >
+      {/* Exit button */}
+      <button
+        onClick={() => navigate('/dashboard')}
+        className="absolute top-5 right-5 text-2xl opacity-50 hover:opacity-100 transition-opacity"
+        aria-label="Exit focus mode"
+      >
+        ✕
+      </button>
+
+      {/* Settings button */}
+      <button
+        onClick={() => setShowSettings(true)}
+        className="absolute top-5 left-5 text-xl opacity-50 hover:opacity-100 transition-opacity"
+        aria-label="Settings"
+      >
+        ⚙️
+      </button>
+
+      {/* Coin flash */}
+      {coinFlash && (
+        <div
+          className="absolute top-16 left-1/2 -translate-x-1/2 px-5 py-2 rounded-full text-sm font-bold animate-bounce"
+          style={{ backgroundColor: theme.accent, color: theme.bg }}
+        >
+          🪙 +10 coins earned!
+        </div>
+      )}
+
+      {/* Phase label */}
+      <p
+        className="text-xs font-bold uppercase tracking-[0.2em] mb-6 opacity-60"
+        style={{ color: theme.accent }}
+      >
+        {phase === 'work' ? `Studying · ${subject}` : 'Short Break'}
+      </p>
+
+      {/* Timer ring */}
+      <div className="relative flex items-center justify-center mb-8">
+        <svg width="280" height="280" viewBox="0 0 280 280">
+          {/* Track */}
+          <circle
+            cx="140" cy="140" r={R}
+            fill="none"
+            stroke={theme.ring}
+            strokeWidth="10"
+          />
+          {/* Progress */}
+          <circle
+            cx="140" cy="140" r={R}
+            fill="none"
+            stroke={theme.accent}
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeDasharray={CIRC}
+            strokeDashoffset={CIRC * (1 - pct)}
+            style={{ transform: 'rotate(-90deg)', transformOrigin: '140px 140px', transition: 'stroke-dashoffset 0.5s ease' }}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span
+            className="font-bold leading-none"
+            style={{ fontFamily: 'Poppins, sans-serif', fontSize: '3.5rem', color: theme.text }}
+          >
+            {mins}:{secs}
+          </span>
+          <span className="text-sm opacity-50 mt-1">
+            {phase === 'work' ? `${cyclesCompleted} session${cyclesCompleted !== 1 ? 's' : ''} done` : 'Take a breather'}
+          </span>
+        </div>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,300px),1fr))', gap:20 }}>
+      {/* Controls */}
+      <div className="flex items-center gap-4 mb-10">
+        <button
+          onClick={handleReset}
+          className="w-12 h-12 rounded-full flex items-center justify-center text-lg opacity-50 hover:opacity-100 transition-all"
+          style={{ border: `2px solid ${theme.ring}` }}
+        >
+          ↺
+        </button>
+        <button
+          onClick={handleStartPause}
+          className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold shadow-xl transition-all hover:scale-105"
+          style={{ backgroundColor: theme.accent, color: theme.bg }}
+        >
+          {running ? '⏸' : '▶'}
+        </button>
+        <button
+          onClick={() => { setPhase(phase === 'work' ? 'break' : 'work'); setTimeLeft(phase === 'work' ? breakSecs * 60 : workSecs * 60); setRunning(false) }}
+          className="w-12 h-12 rounded-full flex items-center justify-center text-lg opacity-50 hover:opacity-100 transition-all"
+          style={{ border: `2px solid ${theme.ring}` }}
+        >
+          ⏭
+        </button>
+      </div>
 
-        {/* Timer */}
-        <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:24, padding:28, display:'flex', flexDirection:'column', alignItems:'center', gap:20, border:'1.5px solid rgba(212,175,55,0.3)' }}>
-          <div style={{ position:'relative', width:210, height:210 }}>
-            <svg width="210" height="210" style={{ transform:'rotate(-90deg)' }}>
-              <circle cx="105" cy="105" r="90" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="8"/>
-              <circle cx="105" cy="105" r="90" fill="none" stroke="#D4AF37" strokeWidth="8" strokeLinecap="round"
-                strokeDasharray={circumference} strokeDashoffset={strokeDash}
-                style={{ transition:'stroke-dashoffset 1s linear' }}/>
-            </svg>
-            <div style={{ position:'absolute', inset:0, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center' }}>
-              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#fff', fontSize:48, lineHeight:1 }}>
-                {String(mins).padStart(2,'0')}:{String(secs).padStart(2,'0')}
-              </p>
-              <p style={{ color:'#D4AF37', fontSize:13, marginTop:4 }}>{subject.slice(0,18)}</p>
-              {running && <div style={{ width:8, height:8, borderRadius:'50%', background:'#22C55E', marginTop:8, animation:'pulse 1s infinite' }}/>}
-            </div>
-          </div>
+      {/* Stats row */}
+      <div
+        className="flex items-center gap-8 text-center text-sm opacity-70 mb-8"
+      >
+        <div>
+          <p className="font-bold text-lg" style={{ color: theme.accent }}>{sessionsTotal}</p>
+          <p>total sessions</p>
+        </div>
+        <div className="w-px h-8 opacity-20" style={{ backgroundColor: theme.text }} />
+        <div>
+          <p className="font-bold text-lg" style={{ color: theme.accent }}>{Math.round(sessionsTotal * workSecs / 60 * 10) / 10}h</p>
+          <p>hours focused</p>
+        </div>
+        <div className="w-px h-8 opacity-20" style={{ backgroundColor: theme.text }} />
+        <div>
+          <p className="font-bold text-lg" style={{ color: theme.accent }}>{sessionsTotal * 10}</p>
+          <p>coins earned</p>
+        </div>
+      </div>
 
-          <div style={{ display:'flex', gap:8, flexWrap:'wrap', justifyContent:'center' }}>
-            {DURATIONS.map(d => (
-              <button key={d} onClick={() => { if(!running){ setDuration(d); setRemaining(d*60) } }}
-                disabled={running}
-                style={{ padding:'7px 14px', borderRadius:20, border:'none', cursor: running?'not-allowed':'pointer',
-                  background: duration===d ? 'rgba(212,175,55,0.2)' : 'rgba(255,255,255,0.08)',
-                  color: duration===d ? '#D4AF37' : 'rgba(255,255,255,0.5)',
-                  fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13 }}>
-                {d} min
+      {/* Subject selector */}
+      <div className="flex flex-wrap justify-center gap-2 max-w-md px-4 mb-6">
+        {SUBJECTS.slice(0, 6).map((s) => (
+          <button
+            key={s}
+            onClick={() => setSubject(s)}
+            className="text-xs px-3 py-1.5 rounded-full transition-all font-medium"
+            style={{
+              backgroundColor: subject === s ? theme.accent : theme.ring,
+              color: subject === s ? theme.bg : theme.text,
+              opacity: subject === s ? 1 : 0.5,
+            }}
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      {/* Theme selector */}
+      <div className="flex gap-3">
+        {THEMES.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setThemeId(t.id)}
+            className="w-7 h-7 rounded-full transition-all border-2"
+            style={{
+              backgroundColor: t.accent,
+              borderColor: themeId === t.id ? 'white' : 'transparent',
+              opacity: themeId === t.id ? 1 : 0.5,
+            }}
+            title={t.label}
+          />
+        ))}
+      </div>
+
+      {/* Settings modal */}
+      {showSettings && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 px-4">
+          <div className="bg-white rounded-2xl p-7 w-full max-w-sm shadow-2xl">
+            <h3 className="font-bold text-[#1E3A5F] text-lg mb-5" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              Timer Settings
+            </h3>
+
+            <label className="block mb-4">
+              <span className="text-sm text-gray-600 font-medium">Work duration (minutes)</span>
+              <input
+                type="number" min={1} max={90}
+                value={workSecs}
+                onChange={(e) => setWorkSecs(Math.max(1, Math.min(90, Number(e.target.value))))}
+                className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2 text-[#1E3A5F] font-semibold focus:outline-none focus:border-[#1E3A5F]"
+              />
+            </label>
+
+            <label className="block mb-6">
+              <span className="text-sm text-gray-600 font-medium">Break duration (minutes)</span>
+              <input
+                type="number" min={1} max={30}
+                value={breakSecs}
+                onChange={(e) => setBreakSecs(Math.max(1, Math.min(30, Number(e.target.value))))}
+                className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2 text-[#1E3A5F] font-semibold focus:outline-none focus:border-[#1E3A5F]"
+              />
+            </label>
+
+            <label className="block mb-6">
+              <span className="text-sm text-gray-600 font-medium">Subject</span>
+              <select
+                value={subject}
+                onChange={(e) => setSubject(e.target.value)}
+                className="mt-1 w-full border border-gray-200 rounded-xl px-4 py-2 text-[#1E3A5F] font-semibold focus:outline-none focus:border-[#1E3A5F]"
+              >
+                {SUBJECTS.map((s) => <option key={s}>{s}</option>)}
+              </select>
+            </label>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowSettings(false)}
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-500 font-semibold hover:border-gray-400 transition-all"
+              >
+                Cancel
               </button>
-            ))}
-          </div>
-
-          {!running ? (
-            <button onClick={start} style={{ width:'100%', background:'linear-gradient(135deg,#D4AF37,#E8C84A)', border:'none', borderRadius:14, padding:'14px', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:'#1E3A5F', cursor:'pointer' }}>
-              ▶ Start Focus Session
-            </button>
-          ) : (
-            <div style={{ display:'flex', gap:10, width:'100%' }}>
-              <button onClick={stop} style={{ flex:1, background:'rgba(255,255,255,0.1)', border:'1px solid rgba(255,255,255,0.2)', borderRadius:12, padding:'12px', color:'rgba(255,255,255,0.7)', cursor:'pointer', fontFamily:'Poppins,sans-serif', fontWeight:700 }}>⏸ Pause</button>
-              <button onClick={finish} style={{ flex:1, background:'rgba(34,197,94,0.2)', border:'1px solid rgba(34,197,94,0.3)', borderRadius:12, padding:'12px', color:'#4ADE80', cursor:'pointer', fontFamily:'Poppins,sans-serif', fontWeight:700 }}>✓ Finish</button>
+              <button
+                onClick={applySettings}
+                className="flex-1 py-2.5 rounded-xl bg-[#1E3A5F] text-white font-semibold hover:bg-[#0F2140] transition-all"
+              >
+                Apply
+              </button>
             </div>
-          )}
-
-          <div style={{ display:'flex', gap:16 }}>
-            {[['📅',sessions,'Sessions today'],['🪙',totalCoins,'Coins earned']].map(([e,v,l]) => (
-              <div key={l} style={{ textAlign:'center' }}>
-                <p style={{ fontSize:20 }}>{e}</p>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#D4AF37', fontSize:18 }}>{v}</p>
-                <p style={{ color:'rgba(255,255,255,0.4)', fontSize:10 }}>{l}</p>
-              </div>
-            ))}
           </div>
         </div>
-
-        {/* Settings */}
-        <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
-          {/* Subject */}
-          <div style={{ background:'#fff', borderRadius:20, padding:18, border:'1.5px solid #E2E8F0' }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>📚 What are you studying?</p>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-              {SUBJECTS.map(s => (
-                <button key={s} onClick={() => setSubject(s)} style={{ padding:'7px 14px', borderRadius:20, border:'none', cursor:'pointer', background: subject===s?'#1E3A5F':'#F1F5F9', color: subject===s?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12 }}>{s}</button>
-              ))}
-            </div>
-          </div>
-
-          {/* Ambient sound */}
-          <div style={{ background:'#fff', borderRadius:20, padding:18, border:'1.5px solid #E2E8F0' }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>🎵 Ambient Sound</p>
-            <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-              {SOUNDS.map(s => (
-                <button key={s.id} onClick={() => setSound(s.id)} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 14px', borderRadius:14, border:`1.5px solid ${sound===s.id?'#D4AF37':'#E2E8F0'}`, background: sound===s.id?'rgba(212,175,55,0.06)':'#F8FAFC', cursor:'pointer', textAlign:'left', width:'100%' }}>
-                  <span style={{ fontSize:20 }}>{s.label.split(' ')[0]}</span>
-                  <div>
-                    <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:13 }}>{s.label}</p>
-                    <p style={{ color:'#94A3B8', fontSize:11 }}>{s.desc}</p>
-                  </div>
-                  {sound===s.id && <span style={{ marginLeft:'auto', color:'#D4AF37', fontWeight:800 }}>✓</span>}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Coins info */}
-          <div style={{ background:'linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05))', borderRadius:18, padding:16, border:'1.5px solid rgba(212,175,55,0.25)' }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:14, marginBottom:6 }}>🪙 Earn While You Study</p>
-            <p style={{ color:'#64748B', fontSize:13, lineHeight:1.6 }}>Complete a 25-min session → +25 coins. Complete 4 sessions → bonus +50 coins. Coins can be spent on premium tests and features.</p>
-          </div>
-        </div>
-      </div>
-    </AppLayout>
+      )}
+    </div>
   )
 }

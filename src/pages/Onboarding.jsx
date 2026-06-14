@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth, onboardingKey } from '../context/AuthContext'
-import LogoAnimated from '../components/LogoAnimated'
+import Logo from '../components/Logo'
 
 // ─── Static data ────────────────────────────────────────────────────────────
 
@@ -573,15 +573,7 @@ export default function Onboarding() {
     const email = user?.email || localStorage.getItem('tryit_email')
     localStorage.setItem(onboardingKey(email), '1')
 
-    // Route to the right home base per role — this was the bug
-    // sending everyone to the student dashboard.
-    const ROLE_HOME = {
-      student: '/dashboard',
-      mentor: '/mentor-hub',
-      institution: '/centre/dashboard',
-      family: '/family',
-    }
-    navigate(ROLE_HOME[role] || '/dashboard')
+    navigate('/dashboard')
   }
 
   function handleNext() {
@@ -611,7 +603,7 @@ export default function Onboarding() {
         <div className="rounded-2xl p-8 shadow-2xl" style={{ background: '#F8FAFC' }}>
           {/* Header */}
           <div className="flex flex-col items-center mb-6">
-            <LogoAnimated size="xs" mode="auto" dark={false} />
+            <Logo dark={false} height={40} />
             <p className="mt-2 text-xs font-medium tracking-widest uppercase" style={{ color: '#D4AF37', fontFamily: 'Poppins, sans-serif' }}>
               Setting up your profile
             </p>

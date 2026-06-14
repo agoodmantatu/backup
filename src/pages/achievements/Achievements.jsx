@@ -1,138 +1,283 @@
-import { useState } from 'react'
+// src/pages/achievements/Achievements.jsx
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
-import { BADGES, LEVELS } from '../../data/mockSeeds'
+
+const BADGES = [
+  {
+    id: 'first_test',
+    emoji: '🎯',
+    name: 'First Shot',
+    desc: 'Completed your very first test',
+    unlock: (u) => u.testsCompleted >= 1,
+    color: '#1E3A5F',
+    bg: '#EFF6FF',
+  },
+  {
+    id: 'streak_3',
+    emoji: '🔥',
+    name: '3-Day Streak',
+    desc: 'Studied 3 days in a row',
+    unlock: (u) => u.streak >= 3,
+    color: '#7C2D12',
+    bg: '#FFF7ED',
+  },
+  {
+    id: 'streak_7',
+    emoji: '🔥🔥',
+    name: '7-Day Streak',
+    desc: 'Studied 7 days in a row — relentless!',
+    unlock: (u) => u.streak >= 7,
+    color: '#7C2D12',
+    bg: '#FFF7ED',
+  },
+  {
+    id: 'streak_30',
+    emoji: '💥',
+    name: '30-Day Warrior',
+    desc: 'A full month of unbroken study',
+    unlock: (u) => u.streak >= 30,
+    color: '#7C2D12',
+    bg: '#FFF7ED',
+  },
+  {
+    id: 'level_3',
+    emoji: '📈',
+    name: 'The Riser',
+    desc: 'Reached Level 3',
+    unlock: (u) => u.level >= 3,
+    color: '#064E3B',
+    bg: '#ECFDF5',
+  },
+  {
+    id: 'level_5',
+    emoji: '💪',
+    name: 'The Grinder',
+    desc: 'Reached Level 5 — half-way to legend',
+    unlock: (u) => u.level >= 5,
+    color: '#064E3B',
+    bg: '#ECFDF5',
+  },
+  {
+    id: 'level_10',
+    emoji: '🌟',
+    name: 'The Legend',
+    desc: 'Maximum level achieved',
+    unlock: (u) => u.level >= 10,
+    color: '#064E3B',
+    bg: '#ECFDF5',
+  },
+  {
+    id: 'tests_10',
+    emoji: '📚',
+    name: '10 Tests Strong',
+    desc: 'Completed 10 tests',
+    unlock: (u) => u.testsCompleted >= 10,
+    color: '#4C1D95',
+    bg: '#F5F3FF',
+  },
+  {
+    id: 'tests_50',
+    emoji: '🏆',
+    name: 'Century Chaser',
+    desc: 'Completed 50 tests — formidable',
+    unlock: (u) => u.testsCompleted >= 50,
+    color: '#4C1D95',
+    bg: '#F5F3FF',
+  },
+  {
+    id: 'tests_100',
+    emoji: '💯',
+    name: '100 Tests Veteran',
+    desc: '100 tests completed — you are unstoppable',
+    unlock: (u) => u.testsCompleted >= 100,
+    color: '#4C1D95',
+    bg: '#F5F3FF',
+  },
+  {
+    id: 'guru_first',
+    emoji: '🧑‍🏫',
+    name: 'First Guru Answer',
+    desc: 'Answered your first question on Guru Hub',
+    unlock: (u) => u.guruPoints >= 5,
+    color: '#D4AF37',
+    bg: '#FDF6E3',
+  },
+  {
+    id: 'guru_100',
+    emoji: '🦁',
+    name: 'Baahuveer of Knowledge',
+    desc: 'Earned 100+ Guru Points helping others',
+    unlock: (u) => u.guruPoints >= 100,
+    color: '#D4AF37',
+    bg: '#FDF6E3',
+  },
+  {
+    id: 'coins_500',
+    emoji: '🪙',
+    name: 'Coin Collector',
+    desc: 'Accumulated 500 coins',
+    unlock: (u) => u.coins >= 500,
+    color: '#1E3A5F',
+    bg: '#EFF6FF',
+  },
+  {
+    id: 'pro_member',
+    emoji: '👑',
+    name: 'Pro Member',
+    desc: 'Upgraded to TryIT Pro',
+    unlock: (u) => u.isPro,
+    color: '#D4AF37',
+    bg: '#FDF6E3',
+  },
+  {
+    id: 'avg_score_80',
+    emoji: '⭐',
+    name: 'High Scorer',
+    desc: 'Maintained 80%+ average score',
+    unlock: (u) => u.avgScore >= 80,
+    color: '#064E3B',
+    bg: '#ECFDF5',
+  },
+]
 
 export default function Achievements() {
   const { user } = useAuth()
-  const [tab, setTab] = useState('badges')
-  const earned = BADGES.filter(b=>b.earned)
-  const pending = BADGES.filter(b=>!b.earned)
+  if (!user) return null
+
+  const evaluated = BADGES.map((b) => ({
+    ...b,
+    unlocked: b.unlock(user),
+  }))
+
+  const unlockedCount = evaluated.filter((b) => b.unlocked).length
+  const totalCount = evaluated.length
 
   return (
-    <AppLayout>
-      <div style={{ marginBottom:20 }}>
-        <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28 }}>🏅 Achievements</h1>
-        <p style={{ color:'#94A3B8', fontSize:14, marginTop:2 }}>
-          {earned.length}/{BADGES.length} badges earned · {user?.xp.toLocaleString()} total XP
-        </p>
-      </div>
-
-      {/* XP progress */}
-      <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', borderRadius:22, padding:22, marginBottom:20, border:'1.5px solid rgba(212,175,55,0.3)' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:16, marginBottom:16 }}>
-          <div style={{ fontSize:44 }}>{user?.levelEmoji}</div>
-          <div style={{ flex:1 }}>
-            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:20 }}>Level {user?.level} — {user?.levelTitle}</p>
-            <p style={{ color:'rgba(255,255,255,0.5)', fontSize:13, marginTop:2 }}>
-              {(user?.xpToNext - user?.xp).toLocaleString()} XP to {LEVELS[user?.level]?.title || 'Max'} {LEVELS[user?.level]?.emoji || '🏆'}
+    <AppLayout title="Achievements">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Progress header */}
+        <div
+          className="rounded-2xl p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
+          style={{ background: 'linear-gradient(135deg, #1E3A5F 0%, #0F2140 100%)' }}
+        >
+          <div className="text-center sm:text-left flex-1">
+            <p className="text-[#D4AF37] text-xs font-bold uppercase tracking-widest mb-1">
+              Your Progress
+            </p>
+            <h1
+              className="text-2xl font-bold text-white mb-1"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
+            >
+              {unlockedCount} / {totalCount} Unlocked
+            </h1>
+            <p className="text-blue-200 text-sm">
+              Keep learning to unlock all {totalCount} achievements!
             </p>
           </div>
-          <div style={{ textAlign:'right' }}>
-            <p style={{ color:'#D4AF37', fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:22 }}>{user?.xp.toLocaleString()}</p>
-            <p style={{ color:'rgba(255,255,255,0.4)', fontSize:11 }}>/ {user?.xpToNext.toLocaleString()} XP</p>
+
+          {/* Circular progress */}
+          <div className="relative w-24 h-24 flex-shrink-0">
+            <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
+              <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="8" />
+              <circle
+                cx="40" cy="40" r="32"
+                fill="none"
+                stroke="#D4AF37"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${(unlockedCount / totalCount) * 201} 201`}
+              />
+            </svg>
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <span className="text-white font-bold text-lg">{Math.round((unlockedCount / totalCount) * 100)}%</span>
+            </div>
           </div>
         </div>
-        <div style={{ height:10, background:'rgba(255,255,255,0.1)', borderRadius:5 }}>
-          <div style={{ width:`${(user?.xp/user?.xpToNext)*100}%`, height:10, borderRadius:5, background:'linear-gradient(90deg,#D4AF37,#E8C84A)', transition:'width 1s ease' }}/>
-        </div>
-      </div>
 
-      {/* Cinematic levels */}
-      <div style={{ background:'#fff', borderRadius:22, padding:20, marginBottom:16, border:'1.5px solid #E2E8F0', boxShadow:'0 2px 12px rgba(0,0,0,0.05)' }}>
-        <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:14 }}>🎬 Cinematic Level Journey</p>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,140px),1fr))', gap:10 }}>
-          {LEVELS.map(lv => {
-            const isActive = lv.level === user?.level
-            const isDone = lv.level < user?.level
-            return (
-              <div key={lv.level} style={{ borderRadius:16, padding:'12px 10px', textAlign:'center',
-                background: isActive ? 'linear-gradient(135deg,#1E3A5F,#0F2140)' : isDone ? 'rgba(30,58,95,0.06)' : '#F8FAFC',
-                border: `1.5px solid ${isActive ? '#D4AF37' : isDone ? 'rgba(30,58,95,0.2)' : '#E2E8F0'}`,
-                opacity: lv.level > user?.level + 2 ? 0.5 : 1,
-              }}>
-                <span style={{ fontSize:26 }}>{lv.emoji}</span>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:11,
-                  color: isActive ? '#D4AF37' : isDone ? '#1E3A5F' : '#94A3B8',
-                  marginTop:6 }}>{lv.title}</p>
-                {lv.cinema && <p style={{ color: isActive ? 'rgba(212,175,55,0.7)' : '#94A3B8', fontSize:9, fontStyle:'italic' }}>🎬 {lv.cinema}</p>}
-                <span style={{ display:'inline-block', marginTop:4, background: isActive ? 'rgba(212,175,55,0.2)' : '#F1F5F9',
-                  color: isActive ? '#D4AF37' : '#94A3B8', fontSize:9, fontWeight:700,
-                  padding:'2px 8px', borderRadius:20 }}>
-                  {isActive ? 'CURRENT' : isDone ? '✓' : `Lv ${lv.level}`}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      {/* Tabs */}
-      <div style={{ display:'flex', gap:8, marginBottom:16 }}>
-        {[['badges',`🏅 Badges (${earned.length}/${BADGES.length})`],['xp-log','⭐ XP Log']].map(([k,l]) => (
-          <button key={k} onClick={() => setTab(k)} style={{ padding:'9px 18px', borderRadius:20, border:'none', cursor:'pointer', background: tab===k?'#1E3A5F':'#fff', color: tab===k?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:13 }}>{l}</button>
-        ))}
-      </div>
-
-      {tab === 'badges' && (
-        <div>
-          {earned.length > 0 && (
-            <div style={{ marginBottom:24 }}>
-              <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', marginBottom:12 }}>Earned ✅</p>
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,160px),1fr))', gap:12 }}>
-                {earned.map(b => (
-                  <div key={b.id} style={{ background:'linear-gradient(135deg,rgba(212,175,55,0.1),rgba(212,175,55,0.05))', borderRadius:18, padding:'16px 14px', textAlign:'center', border:'1.5px solid rgba(212,175,55,0.3)' }}>
-                    <span style={{ fontSize:36 }}>{b.emoji}</span>
-                    <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E3A5F', fontSize:13, marginTop:8 }}>{b.name}</p>
-                    <p style={{ color:'#94A3B8', fontSize:11, marginTop:3 }}>{b.desc}</p>
-                    <p style={{ color:'#22C55E', fontSize:11, fontWeight:600, marginTop:6 }}>✅ {b.earnedDate}</p>
+        {/* Unlocked section */}
+        {unlockedCount > 0 && (
+          <div className="mb-8">
+            <h2
+              className="text-lg font-bold text-[#1E3A5F] mb-4"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
+            >
+              ✅ Earned
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {evaluated
+                .filter((b) => b.unlocked)
+                .map((badge) => (
+                  <div
+                    key={badge.id}
+                    className="rounded-2xl p-4 text-center shadow-sm border"
+                    style={{ backgroundColor: badge.bg, borderColor: `${badge.color}22` }}
+                  >
+                    <div className="text-4xl mb-2">{badge.emoji}</div>
+                    <p
+                      className="font-bold text-sm mb-1 leading-snug"
+                      style={{ color: badge.color, fontFamily: 'Poppins, sans-serif' }}
+                    >
+                      {badge.name}
+                    </p>
+                    <p className="text-xs text-gray-400 leading-snug">{badge.desc}</p>
                   </div>
                 ))}
-              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Locked section */}
+        <div>
+          <h2
+            className="text-lg font-bold text-gray-400 mb-4"
+            style={{ fontFamily: 'Poppins, sans-serif' }}
+          >
+            🔒 Locked
+          </h2>
+
+          {evaluated.filter((b) => !b.unlocked).length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-5xl mb-3">🌟</div>
+              <p className="text-[#D4AF37] font-bold text-xl">All achievements unlocked!</p>
+              <p className="text-gray-500 text-sm mt-2">You are an absolute legend.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {evaluated
+                .filter((b) => !b.unlocked)
+                .map((badge) => (
+                  <div
+                    key={badge.id}
+                    className="rounded-2xl p-4 text-center bg-gray-50 border border-gray-100"
+                  >
+                    <div className="text-4xl mb-2 grayscale opacity-40">{badge.emoji}</div>
+                    <div className="text-gray-400 mb-1">
+                      <span className="text-base">🔒</span>
+                    </div>
+                    <p
+                      className="font-bold text-sm text-gray-400 mb-1 leading-snug"
+                      style={{ fontFamily: 'Poppins, sans-serif' }}
+                    >
+                      {badge.name}
+                    </p>
+                    <p className="text-xs text-gray-300 leading-snug">{badge.desc}</p>
+                  </div>
+                ))}
             </div>
           )}
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#64748B', marginBottom:12 }}>In Progress</p>
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,160px),1fr))', gap:12 }}>
-            {pending.map(b => (
-              <div key={b.id} style={{ background:'#F8FAFC', borderRadius:18, padding:'16px 14px', textAlign:'center', border:'1.5px solid #E2E8F0', opacity:0.8 }}>
-                <span style={{ fontSize:36, filter:'grayscale(0.6)' }}>{b.emoji}</span>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#64748B', fontSize:13, marginTop:8 }}>{b.name}</p>
-                <p style={{ color:'#94A3B8', fontSize:11, marginTop:3 }}>{b.desc}</p>
-                {b.progress !== undefined && (
-                  <div style={{ marginTop:8 }}>
-                    <div style={{ height:5, background:'#E2E8F0', borderRadius:3 }}>
-                      <div style={{ width:`${(b.progress/b.target)*100}%`, height:5, borderRadius:3, background:'#D4AF37' }}/>
-                    </div>
-                    <p style={{ color:'#94A3B8', fontSize:10, marginTop:3 }}>{b.progress}/{b.target}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
         </div>
-      )}
 
-      {tab === 'xp-log' && (
-        <div style={{ background:'#fff', borderRadius:22, overflow:'hidden', border:'1.5px solid #E2E8F0' }}>
-          {[
-            { action:'Completed SSC CGL Mock 4', xp:'+120', date:'Today',      icon:'📝' },
-            { action:'Answered a Guru Hub doubt', xp:'+25',  date:'Today',      icon:'🎓' },
-            { action:'7-day streak bonus',         xp:'+50',  date:'Yesterday', icon:'🔥' },
-            { action:'Brain Game — Math Blitz',    xp:'+15',  date:'Yesterday', icon:'🎮' },
-            { action:'Focus Mode — 2 hrs',          xp:'+30',  date:'2 days ago',icon:'🎯' },
-            { action:'Completed IBPS PO Mock',      xp:'+110', date:'3 days ago',icon:'📝' },
-          ].map((item,i) => (
-            <div key={i} style={{ display:'flex', alignItems:'center', gap:12, padding:'13px 18px', borderBottom:'1px solid #F8FAFC' }}>
-              <span style={{ fontSize:22, flexShrink:0 }}>{item.icon}</span>
-              <div style={{ flex:1 }}>
-                <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:600, color:'#1E293B', fontSize:13 }}>{item.action}</p>
-                <p style={{ color:'#94A3B8', fontSize:11 }}>{item.date}</p>
-              </div>
-              <span style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#22C55E', fontSize:16 }}>{item.xp}</span>
-            </div>
-          ))}
-        </div>
-      )}
+        {/* Empty state for fresh user */}
+        {unlockedCount === 0 && (
+          <div className="mt-8 bg-[#FDF6E3] border border-[#D4AF37] border-opacity-30 rounded-2xl p-6 text-center">
+            <div className="text-4xl mb-2">🚀</div>
+            <p className="font-semibold text-[#1E3A5F]">Your journey starts now!</p>
+            <p className="text-gray-500 text-sm mt-1">
+              Take your first test to unlock your first badge.
+            </p>
+          </div>
+        )}
+      </div>
     </AppLayout>
   )
 }

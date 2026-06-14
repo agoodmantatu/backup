@@ -1,68 +1,222 @@
-// Change the default height from 44 to 32 here:
-export default function Logo({ height = 32, dark = false }) {
-  const W = height * 2.6
-  const H = height
-  const NAVY = dark ? '#FFFFFF' : '#1E3A5F'
-  const GOLD = '#D4AF37'
+/**
+ * TryIT Educations — Official Brand Logo Component
+ * Hand-traced pure React inline SVG vector.
+ * Props:
+ *   dark   — boolean (default false) — inverts "TRY" / "EDUCATIONS" text to white
+ *   height — number  (default 54)    — controls rendered height; width scales proportionally
+ */
 
-  const sunCX = W * 0.595
-  const sunCY = H * 0.31
-  const sunR  = W * 0.082
-  const rays = [-85,-60,-35,-10,15,40,65,90]
+export default function Logo({ dark = false, height = 54 }) {
+  // The SVG artboard is 520 × 320 (aspect ratio ≈ 1.625)
+  const W = 520;
+  const H = 320;
+  const width = (height * W) / H;
+
+  // Brand colours
+  const navy = dark ? "#FFFFFF" : "#1A2E5A";
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} width={W} height={H}
-      style={{ display:'block', flexShrink:0 }}
-      aria-label="TryIT Educations">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${W} ${H}`}
+      width={width}
+      height={height}
+      role="img"
+      aria-label="TryIT Educations"
+    >
+      {/* ─────────────────────────────────────────────
+          DEFS  –  gradients + animation
+      ───────────────────────────────────────────── */}
       <defs>
-        <linearGradient id="sGold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%"  stopColor="#B8860B"/>
-          <stop offset="50%" stopColor="#F5D76E"/>
-          <stop offset="100%" stopColor="#D4AF37"/>
+
+        {/* ── 24K Liquid-Gold shimmer gradient (vertical, for text fills) ── */}
+        <linearGradient id="goldV" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="#F5E27A" />
+          <stop offset="14%"  stopColor="#E8C84A" />
+          <stop offset="28%"  stopColor="#FFFFF0" />   {/* white-hot glare */}
+          <stop offset="42%"  stopColor="#D4A017" />
+          <stop offset="58%"  stopColor="#C9A84C" />
+          <stop offset="72%"  stopColor="#F0D060" />
+          <stop offset="84%"  stopColor="#B8860B" />
+          <stop offset="100%" stopColor="#8B6914" />
         </linearGradient>
-        <filter id="sGlow">
-          <feGaussianBlur stdDeviation="1" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
+
+        {/* ── Gold shimmer for accent bars (horizontal) ── */}
+        <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#8B6914" />
+          <stop offset="20%"  stopColor="#C9A84C" />
+          <stop offset="40%"  stopColor="#FFFFF0" />
+          <stop offset="60%"  stopColor="#D4A017" />
+          <stop offset="80%"  stopColor="#C9A84C" />
+          <stop offset="100%" stopColor="#8B6914" />
+        </linearGradient>
+
+        {/* ── Arrow radial gloss ── */}
+        <linearGradient id="goldArrow" x1="0" y1="1" x2="1" y2="0">
+          <stop offset="0%"   stopColor="#8B6914" />
+          <stop offset="30%"  stopColor="#C9A84C" />
+          <stop offset="55%"  stopColor="#FFFFF0" />
+          <stop offset="80%"  stopColor="#D4A017" />
+          <stop offset="100%" stopColor="#C9A84C" />
+        </linearGradient>
+
+        {/* ── Sun rays gradient ── */}
+        <linearGradient id="goldRay" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor="#F5E27A" />
+          <stop offset="50%"  stopColor="#C9A84C" />
+          <stop offset="100%" stopColor="#8B6914" />
+        </linearGradient>
+
+        {/* ── CSS keyframe: arrow soars up-right then softly resets ── */}
+        <style>{`
+          @keyframes arrowSoar {
+            0%   { transform: translate(0px,  0px)  scale(1);    opacity: 1; }
+            60%  { transform: translate(7px, -7px)  scale(1.08); opacity: 1; }
+            80%  { transform: translate(11px,-11px) scale(1.11); opacity: 0.7; }
+            100% { transform: translate(0px,  0px)  scale(1);    opacity: 1; }
+          }
+          .tryit-arrow {
+            animation: arrowSoar 2.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+            transform-origin: 318px 68px;   /* pivot = base of arrow shaft */
+          }
+        `}</style>
       </defs>
 
-      {/* Rays */}
-      {rays.map((deg,i) => {
-        const rad = (deg * Math.PI) / 180
-        const inner = sunR * 1.4, outer = sunR * 2.5
-        return (
-          <line key={i}
-            x1={sunCX + Math.cos(rad)*inner} y1={sunCY + Math.sin(rad)*inner}
-            x2={sunCX + Math.cos(rad)*outer} y2={sunCY + Math.sin(rad)*outer}
-            stroke="url(#sGold)" strokeWidth={H*0.018} strokeLinecap="round" opacity={0.85}/>
-        )
-      })}
+      {/* ═══════════════════════════════════════════
+          RISING SUN  (centre ≈ x:318, y:82)
+          Semicircle + 8 rays, all gold
+      ═══════════════════════════════════════════ */}
 
-      {/* Sun */}
-      <circle cx={sunCX} cy={sunCY} r={sunR} fill="url(#sGold)" filter="url(#sGlow)"/>
-      <circle cx={sunCX - sunR*0.25} cy={sunCY - sunR*0.25} r={sunR*0.32} fill="rgba(255,255,255,0.4)"/>
+      {/* Sun disc – upper half only */}
+      <path
+        d="M 292 98 A 26 26 0 0 1 344 98 Z"
+        fill="url(#goldV)"
+      />
+      {/* Sun disc base horizontal bar */}
+      <rect x="290" y="96" width="56" height="5" rx="2" fill="url(#goldV)" />
 
-      {/* Arrow accent */}
-      <line x1={sunCX + sunR*0.4} y1={sunCY - sunR*0.4}
-            x2={sunCX + sunR*1.9} y2={sunCY - sunR*1.9}
-            stroke="url(#sGold)" strokeWidth={H*0.022} strokeLinecap="round" filter="url(#sGlow)"/>
-      <polygon
-        points={`${sunCX+sunR*1.9},${sunCY-sunR*1.9} ${sunCX+sunR*1.35},${sunCY-sunR*1.85} ${sunCX+sunR*1.85},${sunCY-sunR*1.35}`}
-        fill="url(#sGold)"/>
+      {/* 8 rays: hand-placed around the semicircle */}
+      {/* Top-centre */}
+      <rect x="316" y="55" width="5"  height="16" rx="2" fill="url(#goldRay)" />
+      {/* Top-left ~-45° */}
+      <rect
+        x="307" y="57" width="5" height="16" rx="2" fill="url(#goldRay)"
+        transform="rotate(-45 309 65)"
+      />
+      {/* Top-right ~+45° */}
+      <rect
+        x="325" y="57" width="5" height="16" rx="2" fill="url(#goldRay)"
+        transform="rotate(45 327 65)"
+      />
+      {/* Far-left ~-75° */}
+      <rect
+        x="295" y="61" width="5" height="15" rx="2" fill="url(#goldRay)"
+        transform="rotate(-70 297 68)"
+      />
+      {/* Far-right ~+75° */}
+      <rect
+        x="338" y="61" width="5" height="15" rx="2" fill="url(#goldRay)"
+        transform="rotate(70 340 68)"
+      />
+      {/* Far-left ~-90° (horizontal ray left) */}
+      <rect x="274" y="78" width="14" height="5" rx="2" fill="url(#goldRay)" />
+      {/* Far-right ~+90° (horizontal ray right) */}
+      <rect x="350" y="78" width="14" height="5" rx="2" fill="url(#goldRay)" />
+      {/* Extra left-mid */}
+      <rect
+        x="283" y="66" width="5" height="14" rx="2" fill="url(#goldRay)"
+        transform="rotate(-57 285 72)"
+      />
+
+      {/* ═══════════════════════════════════════════
+          GROWTH ARROW  (animated, top-right of sun)
+          Diagonal shaft + arrowhead pointing NE
+      ═══════════════════════════════════════════ */}
+      <g className="tryit-arrow">
+        {/* Arrow shaft – diagonal line rendered as a thick rotated rect */}
+        <line
+          x1="341" y1="89"
+          x2="374" y2="53"
+          stroke="url(#goldArrow)"
+          strokeWidth="5.5"
+          strokeLinecap="round"
+        />
+        {/* Arrowhead – filled triangle pointing NE */}
+        <polygon
+          points="374,40  387,56  360,52"
+          fill="url(#goldArrow)"
+        />
+      </g>
+
+      {/* ═══════════════════════════════════════════
+          MAIN WORDMARK  "TRY IT"
+          Baseline y ≈ 185
+          "TRY" navy, "IT" gold
+          Using heavyweight geometric letterforms
+          hand-drawn as <text> with tight tracking
+      ═══════════════════════════════════════════ */}
+
+      {/*
+        We use SVG <text> with font-weight 900 for max fidelity.
+        The font stack falls back gracefully everywhere.
+        "TRY" ends around x:272; "IT" starts at x:278 (slight kern gap).
+      */}
 
       {/* TRY */}
-      <text x={W*0.015} y={H*0.62} fontFamily="'Arial Black',Impact,Arial,sans-serif"
-        fontWeight="900" fontSize={H*0.5} fill={NAVY} letterSpacing={-1}>TRY</text>
-      {/* IT */}
-      <text x={W*0.395} y={H*0.62} fontFamily="'Arial Black',Impact,Arial,sans-serif"
-        fontWeight="900" fontSize={H*0.5} fill="url(#sGold)" filter="url(#sGlow)" letterSpacing={-1}>IT</text>
+      <text
+        x="30"
+        y="190"
+        fontFamily="'Arial Black', 'Franklin Gothic Heavy', 'Impact', sans-serif"
+        fontWeight="900"
+        fontSize="130"
+        letterSpacing="-3"
+        fill={navy}
+        dominantBaseline="auto"
+      >
+        TRY
+      </text>
 
-      {/* underline */}
-      <rect x={W*0.015} y={H*0.70} width={W*0.62} height={Math.max(1.5,H*0.035)} rx={H*0.017} fill="url(#sGold)"/>
-      
-      {/* EDUCATIONS (Adjusted y coordinate from 0.93 to 0.89 so it doesn't clip) */}
-      <text x={W*0.015} y={H*0.89} fontFamily="Arial,'Helvetica Neue',sans-serif"
-        fontWeight="800" fontSize={H*0.155} letterSpacing={H*0.025} fill={dark ? 'rgba(255,255,255,0.85)' : '#1E3A5F'}>EDUCATIONS</text>
+      {/* IT  – gold gradient */}
+      <text
+        x="283"
+        y="190"
+        fontFamily="'Arial Black', 'Franklin Gothic Heavy', 'Impact', sans-serif"
+        fontWeight="900"
+        fontSize="130"
+        letterSpacing="-2"
+        fill="url(#goldV)"
+        dominantBaseline="auto"
+      >
+        IT
+      </text>
+
+      {/* ═══════════════════════════════════════════
+          GOLD ACCENT BARS
+          Two horizontal bars flanking "EDUCATIONS"
+      ═══════════════════════════════════════════ */}
+      {/* Top bar */}
+      <rect x="28" y="200" width="466" height="5" rx="2" fill="url(#goldH)" />
+      {/* Bottom bar */}
+      <rect x="28" y="277" width="466" height="5" rx="2" fill="url(#goldH)" />
+
+      {/* ═══════════════════════════════════════════
+          "EDUCATIONS"  subtitle text
+          Centred between the two gold bars
+      ═══════════════════════════════════════════ */}
+      <text
+        x="261"
+        y="268"
+        fontFamily="'Arial Black', 'Franklin Gothic Heavy', 'Impact', sans-serif"
+        fontWeight="900"
+        fontSize="52"
+        letterSpacing="6"
+        fill={navy}
+        textAnchor="middle"
+        dominantBaseline="auto"
+      >
+        EDUCATIONS
+      </text>
+
     </svg>
-  )
+  );
 }

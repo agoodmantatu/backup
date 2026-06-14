@@ -1,94 +1,283 @@
-import { useState } from 'react'
+// src/pages/current-affairs/CurrentAffairs.jsx
+import { useState, useEffect } from 'react'
 import AppLayout from '../../components/layout/AppLayout'
-import { useToast } from '../../context/ToastContext'
+import { useAuth } from '../../context/AuthContext'
 
-const CATEGORIES = ['All','National','International','Economy','Science','Sports','Awards','Environment']
+const IS_DEV =
+  !import.meta.env.VITE_SUPABASE_URL ||
+  import.meta.env.VITE_SUPABASE_URL.includes('placeholder')
 
-const NEWS = [
-  { id:1, cat:'National', emoji:'🇮🇳', title:'India Signs Free Trade Agreement with UK', date:'Jun 10, 2026', tags:['UPSC','SSC','IBPS'], preview:"India and the United Kingdom formally signed a comprehensive Free Trade Agreement after 3 years of negotiations, covering goods, services, and digital trade.", important:true },
-  { id:2, cat:'Economy', emoji:'💰', title:'RBI Keeps Repo Rate Unchanged at 6.25%', date:'Jun 9, 2026', tags:['IBPS','RBI','Banking'], preview:"The Reserve Bank of India's MPC voted 4-2 to keep the repo rate steady, citing balanced inflation risks and support for growth.", important:true },
-  { id:3, cat:'Science', emoji:'🚀', title:'ISRO Successfully Launches NISAR Satellite', date:'Jun 8, 2026', tags:['UPSC','SSC'], preview:"ISRO and NASA jointly launched the NISAR earth observation satellite, the world's most expensive Earth imaging satellite at $1.5 billion.", important:true },
-  { id:4, cat:'Sports', emoji:'🏏', title:'India Wins T20 World Cup 2026', date:'Jun 7, 2026', tags:['GK','All Exams'], preview:"India defeated South Africa by 7 wickets in the ICC T20 World Cup final held in the West Indies, clinching their second T20 World Cup.", important:false },
-  { id:5, cat:'Awards', emoji:'🏆', title:'Dr. Pankaj Advani Receives Padma Bhushan', date:'Jun 6, 2026', tags:['UPSC','SSC'], preview:"Billiards and snooker legend Dr. Pankaj Advani has been awarded the Padma Bhushan for his outstanding contribution to Indian sports.", important:false },
-  { id:6, cat:'Environment', emoji:'🌍', title:'India Achieves 200 GW Solar Capacity Target', date:'Jun 5, 2026', tags:['UPSC','SSC','Environment'], preview:"India has achieved its ambitious 200 GW solar power capacity target, cementing its position as the third largest solar market globally.", important:true },
-  { id:7, cat:'International', emoji:'🌐', title:"India Joins G7 as Permanent Observer", date:'Jun 4, 2026', tags:['UPSC','IR'], preview:"India has been granted permanent observer status at the G7, marking a significant elevation of India's global diplomatic standing.", important:true },
-  { id:8, cat:'Economy', emoji:'📊', title:'India GDP Growth at 7.2% for FY26', date:'Jun 3, 2026', tags:['UPSC','IBPS','Economy'], preview:"India's GDP grew by 7.2% in FY2025-26, making it the fastest-growing major economy for the third consecutive year.", important:true },
+const CATEGORIES = [
+  'All',
+  'National',
+  'International',
+  'Economy',
+  'Science & Tech',
+  'Sports',
+  'Awards',
+  'Environment',
+  'Defence',
+]
+
+const FALLBACK_ARTICLES = [
+  {
+    id: 'ca1',
+    title: 'India Launches GSAT-20 Communication Satellite',
+    summary:
+      'ISRO successfully launched GSAT-20, India\'s heaviest communication satellite, aboard SpaceX\'s Falcon-9 rocket. The satellite will boost in-flight internet and remote broadband across India.',
+    source: 'ISRO Press Release',
+    date: '2024-11-18',
+    category: 'Science & Tech',
+    emoji: '🛰️',
+  },
+  {
+    id: 'ca2',
+    title: 'India Retains 3rd Largest Economy Status by GDP-PPP',
+    summary:
+      'IMF\'s World Economic Outlook confirms India is now the third-largest economy in PPP terms, surpassing Japan. GDP growth forecast for FY25 stands at 7%, highest among G20 nations.',
+    source: 'IMF World Economic Outlook',
+    date: '2024-11-15',
+    category: 'Economy',
+    emoji: '📈',
+  },
+  {
+    id: 'ca3',
+    title: 'COP29 Concludes with $300B Climate Finance Agreement',
+    summary:
+      'The UN Climate Conference in Baku reached a landmark deal where developed nations committed $300 billion annually by 2035 to help developing nations tackle climate change and fund green transitions.',
+    source: 'UNFCCC',
+    date: '2024-11-22',
+    category: 'Environment',
+    emoji: '🌍',
+  },
+  {
+    id: 'ca4',
+    title: 'Praveen Kumar Wins Gold at Paris Paralympics',
+    summary:
+      'India\'s Praveen Kumar won gold in high jump at the Paris 2024 Paralympic Games, setting a new Asian record. India finished with 7 gold medals — its best-ever Paralympic performance.',
+    source: 'Sports Authority of India',
+    date: '2024-09-05',
+    category: 'Sports',
+    emoji: '🥇',
+  },
+  {
+    id: 'ca5',
+    title: 'PM Modi Visits Kyiv — First Indian PM to Visit Ukraine',
+    summary:
+      'Prime Minister Narendra Modi visited Kyiv, becoming the first Indian PM to visit Ukraine. He met President Zelensky and reaffirmed India\'s commitment to peace and dialogue to end the Russia-Ukraine conflict.',
+    source: 'Ministry of External Affairs',
+    date: '2024-08-23',
+    category: 'International',
+    emoji: '✈️',
+  },
+  {
+    id: 'ca6',
+    title: 'Defence Ministry Approves ₹1.44 Lakh Crore Procurement Plan',
+    summary:
+      'The Defence Acquisition Council approved 10 major capital acquisition proposals worth ₹1.44 lakh crore, including Pinaka rocket systems, advanced torpedoes, and next-gen frigate ships.',
+    source: 'Ministry of Defence',
+    date: '2024-11-10',
+    category: 'Defence',
+    emoji: '🛡️',
+  },
+  {
+    id: 'ca7',
+    title: 'Nobel Peace Prize 2024 Awarded to Nihon Hidankyo',
+    summary:
+      'The Norwegian Nobel Committee awarded the 2024 Nobel Peace Prize to Nihon Hidankyo, a Japanese grassroots organisation of atomic bomb survivors (Hibakusha), for their efforts toward a world free of nuclear weapons.',
+    source: 'Nobel Foundation',
+    date: '2024-10-11',
+    category: 'Awards',
+    emoji: '🕊️',
+  },
+  {
+    id: 'ca8',
+    title: 'Centre Announces Unified Pension Scheme (UPS) for Govt Employees',
+    summary:
+      'Cabinet approved the Unified Pension Scheme effective April 2025, assuring 50% of average basic pay as pension for central government employees with 25+ years of service — a major departure from NPS.',
+    source: 'Press Information Bureau',
+    date: '2024-08-24',
+    category: 'National',
+    emoji: '📋',
+  },
+  {
+    id: 'ca9',
+    title: 'OpenAI Launches GPT-4o Realtime API for Live Voice Conversations',
+    summary:
+      'OpenAI unveiled its Realtime API enabling developers to build low-latency voice and text applications using GPT-4o, marking a leap forward in human-AI conversational interfaces for mobile and web.',
+    source: 'OpenAI Blog',
+    date: '2024-10-01',
+    category: 'Science & Tech',
+    emoji: '🤖',
+  },
+  {
+    id: 'ca10',
+    title: 'India\'s Unemployment Rate Falls to 7.8% — PLFS Report',
+    summary:
+      'The Periodic Labour Force Survey (PLFS) annual report showed India\'s unemployment rate declined to 7.8% in FY2023-24, with significant improvement in rural female labour force participation.',
+    source: 'Ministry of Statistics & PI',
+    date: '2024-09-25',
+    category: 'Economy',
+    emoji: '💼',
+  },
 ]
 
 export default function CurrentAffairs() {
-  const { showToast } = useToast()
-  const [cat, setCat] = useState('All')
-  const [saved, setSaved] = useState(new Set())
+  const { user, addCoins } = useAuth()
+  const [articles, setArticles] = useState([])
+  const [activeCategory, setActiveCategory] = useState('All')
   const [expanded, setExpanded] = useState(null)
+  const [readArticles, setReadArticles] = useState({})
+  const [loading, setLoading] = useState(true)
 
-  const filtered = cat==='All' ? NEWS : NEWS.filter(n=>n.cat===cat)
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('tryit_ca_read') || '{}')
+      setReadArticles(stored)
+    } catch {}
+  }, [])
 
-  const save = (id) => {
-    setSaved(p => {
-      const n = new Set(p)
-      n.has(id) ? n.delete(id) : n.add(id)
-      return n
-    })
-    showToast('success', saved.has(id) ? 'Removed from saved' : '🔖 Saved for revision!')
+  useEffect(() => {
+    async function fetchArticles() {
+      if (IS_DEV) {
+        setArticles(FALLBACK_ARTICLES)
+        setLoading(false)
+        return
+      }
+      try {
+        // TODO: replace with Supabase current_affairs table query once populated
+        // const { data } = await supabase.from('current_affairs').select('*').order('date', { ascending: false })
+        setArticles(FALLBACK_ARTICLES)
+      } catch {
+        setArticles(FALLBACK_ARTICLES)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchArticles()
+  }, [])
+
+  if (!user) return null
+
+  const filtered =
+    activeCategory === 'All'
+      ? articles
+      : articles.filter((a) => a.category === activeCategory)
+
+  function handleExpand(id) {
+    if (expanded === id) {
+      setExpanded(null)
+      return
+    }
+    setExpanded(id)
+    if (!readArticles[id]) {
+      const updated = { ...readArticles, [id]: true }
+      setReadArticles(updated)
+      localStorage.setItem('tryit_ca_read', JSON.stringify(updated))
+      addCoins(5)
+    }
   }
 
   return (
-    <AppLayout>
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20, flexWrap:'wrap', gap:12 }}>
-        <div>
-          <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'#1E3A5F', fontSize:28 }}>📰 Current Affairs</h1>
-          <p style={{ color:'#94A3B8', fontSize:14, marginTop:2 }}>Daily updates · Exam-tagged · One-line summaries</p>
-        </div>
-        <button onClick={() => showToast('success','Opening Daily Quiz...')}
-          style={{ background:'linear-gradient(135deg,#D4AF37,#E8C84A)', border:'none', borderRadius:14, padding:'11px 22px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:14, color:'#1E3A5F', cursor:'pointer' }}>
-          🎯 Daily Quiz +50 coins
-        </button>
-      </div>
-
-      {/* Date badge */}
-      <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(30,58,95,0.06)', border:'1px solid rgba(30,58,95,0.15)', borderRadius:20, padding:'6px 14px', marginBottom:16 }}>
-        <span style={{ width:7, height:7, borderRadius:'50%', background:'#22C55E', display:'inline-block' }}/>
-        <span style={{ color:'#1E3A5F', fontSize:12, fontWeight:700, fontFamily:'Poppins,sans-serif' }}>June 10, 2026 — Today's Edition</span>
-      </div>
-
-      {/* Category filter */}
-      <div style={{ display:'flex', gap:8, marginBottom:20, overflowX:'auto', paddingBottom:4 }}>
-        {CATEGORIES.map(c => (
-          <button key={c} onClick={() => setCat(c)} style={{ padding:'8px 16px', borderRadius:20, border:'none', cursor:'pointer', whiteSpace:'nowrap', flexShrink:0, background: cat===c?'#1E3A5F':'#fff', color: cat===c?'#fff':'#64748B', fontFamily:'Poppins,sans-serif', fontWeight:600, fontSize:12, boxShadow:'0 1px 6px rgba(0,0,0,0.06)' }}>{c}</button>
-        ))}
-      </div>
-
-      {/* News cards */}
-      <div style={{ display:'flex', flexDirection:'column', gap:12 }}>
-        {filtered.map(n => (
-          <div key={n.id} style={{ background:'#fff', borderRadius:20, border:`1.5px solid ${n.important?'rgba(212,175,55,0.3)':'#E2E8F0'}`, boxShadow:'0 2px 10px rgba(0,0,0,0.04)', overflow:'hidden' }}>
-            <div style={{ padding:'16px 18px', cursor:'pointer' }} onClick={() => setExpanded(expanded===n.id?null:n.id)}>
-              <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
-                <span style={{ fontSize:26, flexShrink:0 }}>{n.emoji}</span>
-                <div style={{ flex:1 }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:6 }}>
-                    <span style={{ background:'rgba(30,58,95,0.08)', color:'#1E3A5F', fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:20 }}>{n.cat}</span>
-                    {n.important && <span style={{ background:'#FEF3C7', color:'#92400E', fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:20 }}>⭐ Important</span>}
-                    <span style={{ color:'#94A3B8', fontSize:11, marginLeft:'auto' }}>{n.date}</span>
-                  </div>
-                  <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700, color:'#1E293B', fontSize:15, marginBottom:8, lineHeight:1.4 }}>{n.title}</p>
-                  {expanded === n.id && (
-                    <p style={{ color:'#475569', fontSize:13, lineHeight:1.7, marginBottom:10 }}>{n.preview}</p>
-                  )}
-                  <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-                    {n.tags.map(t => (
-                      <span key={t} style={{ background:'#EDE9FE', color:'#7C3AED', fontSize:10, fontWeight:600, padding:'2px 8px', borderRadius:20 }}>{t}</span>
-                    ))}
-                  </div>
-                </div>
-                <button onClick={(e) => { e.stopPropagation(); save(n.id) }}
-                  style={{ background:'none', border:'none', fontSize:20, cursor:'pointer', color: saved.has(n.id)?'#D4AF37':'#CBD5E1', flexShrink:0 }}>
-                  {saved.has(n.id)?'★':'☆'}
-                </button>
-              </div>
-            </div>
+    <AppLayout title="Current Affairs">
+      <div className="max-w-3xl mx-auto px-4 py-8">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-[#1E3A5F]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              Current Affairs
+            </h1>
+            <p className="text-gray-400 text-sm mt-0.5">Earn +5 coins for each article you read</p>
           </div>
-        ))}
+          <span className="text-3xl">📰</span>
+        </div>
+
+        {/* Category filter chips */}
+        <div className="flex flex-wrap gap-2 mb-6">
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-3 py-1 rounded-full text-xs font-semibold transition-all ${
+                activeCategory === cat
+                  ? 'bg-[#1E3A5F] text-white'
+                  : 'bg-white border border-gray-200 text-gray-600 hover:border-[#1E3A5F] hover:text-[#1E3A5F]'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {loading && (
+          <div className="text-center py-16 text-gray-400">Loading articles…</div>
+        )}
+
+        {!loading && filtered.length === 0 && (
+          <div className="text-center py-16">
+            <div className="text-5xl mb-3">📭</div>
+            <p className="text-gray-500 font-semibold">No articles in this category yet.</p>
+            <p className="text-gray-400 text-sm mt-1">Check back soon!</p>
+          </div>
+        )}
+
+        <div className="space-y-3">
+          {filtered.map((article) => {
+            const isRead = readArticles[article.id]
+            const isOpen = expanded === article.id
+            return (
+              <div
+                key={article.id}
+                className={`bg-white rounded-2xl border transition-all ${
+                  isOpen ? 'border-[#D4AF37] shadow-md' : 'border-gray-100 shadow-sm'
+                }`}
+              >
+                <button
+                  onClick={() => handleExpand(article.id)}
+                  className="w-full text-left p-5"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl flex-shrink-0">{article.emoji}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="text-xs font-semibold bg-[#F8FAFC] border border-gray-200 text-gray-500 px-2 py-0.5 rounded-full">
+                          {article.category}
+                        </span>
+                        {isRead && (
+                          <span className="text-xs font-semibold text-[#D4AF37]">
+                            ✓ Read · +5 coins earned
+                          </span>
+                        )}
+                      </div>
+                      <h3
+                        className="font-bold text-[#1E3A5F] text-base leading-snug"
+                        style={{ fontFamily: 'Poppins, sans-serif' }}
+                      >
+                        {article.title}
+                      </h3>
+                      <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
+                        <span>{article.source}</span>
+                        <span>·</span>
+                        <span>{new Date(article.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      </div>
+                    </div>
+                    <span className="text-gray-300 text-lg flex-shrink-0">{isOpen ? '▲' : '▼'}</span>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="px-5 pb-5 border-t border-gray-100 pt-4">
+                    <p className="text-gray-600 leading-relaxed">{article.summary}</p>
+                    {!isRead && (
+                      <div className="mt-3 text-xs text-[#D4AF37] font-semibold">
+                        🪙 +5 coins added to your wallet!
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
     </AppLayout>
   )
