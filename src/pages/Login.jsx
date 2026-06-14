@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth, onboardingKey } from '../context/AuthContext'
 import Logo from '../components/Logo'
 
-const IS_DEV =
-  !import.meta.env.VITE_SUPABASE_URL ||
-  import.meta.env.VITE_SUPABASE_URL.includes('placeholder')
+const IS_DEV = true // Dev mode until Supabase configured
 
 const ROLES = [
   { id: 'student',     label: 'Student',     emoji: '🎓', desc: 'Prepare for your exams' },
@@ -102,7 +100,14 @@ export default function Login() {
     try {
       await login(email.trim(), selectedRole)
       const done = localStorage.getItem(onboardingKey(email.trim()))
-      navigate(done ? '/dashboard' : '/onboarding')
+      const ROLE_HOME = {
+        student: '/dashboard',
+        mentor: '/mentor-hub',
+        institution: '/centre/dashboard',
+        family: '/family',
+      }
+      await new Promise(r => setTimeout(r, 200))
+      navigate(done ? (ROLE_HOME[selectedRole] || '/dashboard') : '/onboarding')
     } catch (err) {
       setError('Login failed. Please try again.')
     } finally {
@@ -123,7 +128,14 @@ export default function Login() {
     try {
       await login(mockEmail, selectedRole)
       const done = localStorage.getItem(onboardingKey(mockEmail))
-      navigate(done ? '/dashboard' : '/onboarding')
+      const ROLE_HOME = {
+        student: '/dashboard',
+        mentor: '/mentor-hub',
+        institution: '/centre/dashboard',
+        family: '/family',
+      }
+      await new Promise(r => setTimeout(r, 200))
+      navigate(done ? (ROLE_HOME[selectedRole] || '/dashboard') : '/onboarding')
     } catch (err) {
       setError('Google sign-in failed. Please try again.')
     } finally {

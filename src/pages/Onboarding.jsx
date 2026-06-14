@@ -470,7 +470,7 @@ function FamilyStep2({ data, setData }) {
 export default function Onboarding() {
   const navigate = useNavigate()
   const { user, updateUser } = useAuth()
-  const role = user?.role || 'student'
+  const role = user?.role || localStorage.getItem('tryit_role') || 'student'
 
   const [step, setStep] = useState(0)
   const [data, setData] = useState({})
@@ -573,13 +573,15 @@ export default function Onboarding() {
     const email = user?.email || localStorage.getItem('tryit_email')
     localStorage.setItem(onboardingKey(email), '1')
 
-  const ROLE_HOME = {
-  student: '/dashboard',
-  mentor: '/mentor-hub',
-  institution: '/centre/dashboard',
-  family: '/family',
-}
-navigate(ROLE_HOME[user?.role] || '/dashboard')
+    // Route to the right home base per role — this was the bug
+    // sending everyone to the student dashboard.
+    const ROLE_HOME = {
+      student: '/dashboard',
+      mentor: '/mentor-hub',
+      institution: '/centre/dashboard',
+      family: '/family',
+    }
+    navigate(ROLE_HOME[role] || '/dashboard')
   }
 
   function handleNext() {

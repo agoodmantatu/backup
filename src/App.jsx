@@ -1,8 +1,8 @@
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { ThemeProvider }  from './context/ThemeContext'
-import { ToastProvider }  from './context/ToastContext'
-import { AuthProvider }   from './context/AuthContext'
+import { ThemeProvider } from './context/ThemeContext'
+import { ToastProvider } from './context/ToastContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import ImpersonationBanner from './components/ImpersonationBanner'
 
 // ── AUTH / CORE ────────────────────────────────────────────────
@@ -81,13 +81,13 @@ const CashbackCenter  = lazy(() => import('./pages/mentor/CashbackCenter'))
 const MentorAnalytics = lazy(() => import('./pages/mentor/MentorAnalytics'))
 const CouponManager   = lazy(() => import('./pages/mentor/CouponManager'))
 
-// ── EQUITY / ACCESSIBILITY / IMPACT ────────────────────────────
+// ── EQUITY / ACCESSIBILITY / IMPACT ───────────────────────────
 const EquityTierSelector = lazy(() => import('./pages/equity/EquityTierSelector'))
 const EquityVerification = lazy(() => import('./pages/equity/EquityVerification'))
-const AccessibilityMode   = lazy(() => import('./pages/accessibility/AccessibilityMode'))
-const SchoolCircle        = lazy(() => import('./pages/circles/SchoolCircle'))
-const SisterhoodCircle    = lazy(() => import('./pages/circles/SisterhoodCircle'))
-const LiveImpactTracker   = lazy(() => import('./pages/impact/LiveImpactTracker'))
+const AccessibilityMode  = lazy(() => import('./pages/accessibility/AccessibilityMode'))
+const SchoolCircle       = lazy(() => import('./pages/circles/SchoolCircle'))
+const SisterhoodCircle   = lazy(() => import('./pages/circles/SisterhoodCircle'))
+const LiveImpactTracker  = lazy(() => import('./pages/impact/LiveImpactTracker'))
 
 // ── CENTRE / INSTITUTION ───────────────────────────────────────
 const CentreLogin     = lazy(() => import('./pages/centre/CentreLogin'))
@@ -104,7 +104,6 @@ const ChildDetail     = lazy(() => import('./pages/parent/ChildDetail'))
 const MyTestHistory   = lazy(() => import('./pages/student/MyTestHistory'))
 
 // ── ADMIN ──────────────────────────────────────────────────────
-// AdminLogin must set localStorage.tryit_admin = 'true' on success
 const AdminLogin      = lazy(() => import('./pages/admin/AdminLogin'))
 const AdminDashboard  = lazy(() => import('./pages/admin/AdminDashboard'))
 const ExamManager     = lazy(() => import('./pages/admin/ExamManager'))
@@ -112,14 +111,14 @@ const QuestionManager = lazy(() => import('./pages/admin/QuestionManager'))
 const UserManager     = lazy(() => import('./pages/admin/UserManager'))
 
 // ── SETTINGS ───────────────────────────────────────────────────
-const ThemeSelector   = lazy(() => import('./pages/settings/ThemeSelector'))
+const ThemeSelector = lazy(() => import('./pages/settings/ThemeSelector'))
 
 // ── LEGAL ──────────────────────────────────────────────────────
 const Terms              = lazy(() => import('./pages/legal/Terms'))
 const Privacy            = lazy(() => import('./pages/legal/Privacy'))
 const CommunityStandards = lazy(() => import('./pages/legal/CommunityStandards'))
 
-// ── Stub for routes with no page yet ──────────────────────────
+// ── Stub ───────────────────────────────────────────────────────
 const Stub = ({ title = 'Coming Soon' }) => (
   <div style={{
     minHeight:'100vh', display:'flex', flexDirection:'column',
@@ -139,7 +138,7 @@ const Stub = ({ title = 'Coming Soon' }) => (
   </div>
 )
 
-// ── Loader ───────────────────────────────────────────────────
+// ── Loader ─────────────────────────────────────────────────────
 const Loader = () => (
   <div style={{ minHeight:'100vh', display:'flex', alignItems:'center',
     justifyContent:'center', background:'linear-gradient(135deg,#1E3A5F,#0F2140)' }}>
@@ -153,139 +152,148 @@ const Loader = () => (
   </div>
 )
 
+// ── THE FIX: ThemedApp reads user AFTER AuthProvider mounts ────
+// ThemeProvider now gets the real user.level so theme unlocks work
+function ThemedApp() {
+  const { user } = useAuth()
+  return (
+    <ThemeProvider userLevel={user?.level ?? 1}>
+      <BrowserRouter>
+        <ImpersonationBanner />
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            {/* AUTH */}
+            <Route path="/"            element={<Splash />} />
+            <Route path="/landing"     element={<Landing />} />
+            <Route path="/login"       element={<Login />} />
+            <Route path="/onboarding"  element={<Onboarding />} />
+            <Route path="/role-select" element={<RoleSelect />} />
+
+            {/* CORE */}
+            <Route path="/dashboard"     element={<Dashboard />} />
+            <Route path="/profile"       element={<Profile />} />
+            <Route path="/settings"      element={<Settings />} />
+            <Route path="/notifications" element={<Notifications />} />
+            <Route path="/journey"       element={<JourneyPassport />} />
+
+            {/* TEST ENGINE */}
+            <Route path="/test-engine"        element={<TestLauncher />} />
+            <Route path="/test-engine/active" element={<ActiveTest />} />
+            <Route path="/test-engine/result" element={<ResultScreen />} />
+            <Route path="/test-engine/review" element={<ReviewScreen />} />
+
+            {/* EXAMS */}
+            <Route path="/exams"                  element={<AllExams />} />
+            <Route path="/exams/:examId/universe" element={<ExamUniverse />} />
+            <Route path="/exams/:examId"          element={<ExamDetail />} />
+            <Route path="/roadmap/:examId"        element={<RoadmapPage />} />
+            <Route path="/exam-alerts"            element={<ExamAlerts />} />
+
+            {/* GURU HUB */}
+            <Route path="/guru-hub"             element={<GuruHub />} />
+            <Route path="/guru-hub/my-doubts"   element={<MyDoubts />} />
+            <Route path="/guru-hub/post-doubt"  element={<PostDoubt />} />
+            <Route path="/guru-hub/:doubtId"    element={<DoubtThread />} />
+
+            {/* DISCOVERY */}
+            <Route path="/career-compass"    element={<CareerCompass />} />
+            <Route path="/scholarships"      element={<ScholarshipHub />} />
+            <Route path="/current-affairs"   element={<CurrentAffairs />} />
+            <Route path="/classroom"         element={<ClassroomHub />} />
+            <Route path="/classroom/planner" element={<StudyPlanner />} />
+            <Route path="/classroom/pdf"     element={<PDFLibrary />} />
+            <Route path="/ebooks"            element={<EbookStore />} />
+            <Route path="/ebooks/my"         element={<MyEbooks />} />
+            <Route path="/ebooks/upload"     element={<UploadEbook />} />
+            <Route path="/ebooks/:ebookId"   element={<EbookReader />} />
+            <Route path="/tryit-lab"         element={<TryITLab />} />
+            <Route path="/brain-teaser"      element={<BrainTeaser />} />
+
+            {/* COMPETITION */}
+            <Route path="/hall"                 element={<HallHub />} />
+            <Route path="/hall/create"          element={<CreateHall />} />
+            <Route path="/hall/leaderboard"     element={<HallLeaderboard />} />
+            <Route path="/hall/:hallId/battle"  element={<BattleArena />} />
+            <Route path="/hall/:hallId"         element={<HallHome />} />
+            <Route path="/leaderboard"          element={<FullLeaderboard />} />
+            <Route path="/tournaments"          element={<Tournaments />} />
+            <Route path="/games"                element={<GamesHub />} />
+            <Route path="/games/math-blitz"     element={<MathBlitz />} />
+            <Route path="/games/word-rush"      element={<WordRush />} />
+            <Route path="/games/gk-blitz"       element={<GKBlitz />} />
+            <Route path="/games/logic-grid"     element={<LogicGrid />} />
+
+            {/* PROGRESS */}
+            <Route path="/analytics"    element={<Analytics />} />
+            <Route path="/achievements" element={<Achievements />} />
+            <Route path="/focus-mode"   element={<FocusMode />} />
+
+            {/* SOCIAL */}
+            <Route path="/pro"      element={<PricingPage />} />
+            <Route path="/wallet"   element={<WalletPage />} />
+            <Route path="/family"   element={<FamilyHub />} />
+            <Route path="/referral" element={<ReferralPage />} />
+
+            {/* MENTOR */}
+            <Route path="/mentor-hub"           element={<MentorHub />} />
+            <Route path="/mentor-hub/cashback"  element={<CashbackCenter />} />
+            <Route path="/mentor-hub/analytics" element={<MentorAnalytics />} />
+            <Route path="/mentor-hub/coupons"   element={<CouponManager />} />
+
+            {/* EQUITY */}
+            <Route path="/equity"             element={<EquityTierSelector />} />
+            <Route path="/equity/verify"      element={<EquityVerification />} />
+            <Route path="/accessibility"      element={<AccessibilityMode />} />
+            <Route path="/circles/school"     element={<SchoolCircle />} />
+            <Route path="/circles/sisterhood" element={<SisterhoodCircle />} />
+            <Route path="/impact"             element={<LiveImpactTracker />} />
+            <Route path="/donate"             element={<Stub title="Donation Page 💛" />} />
+
+            {/* CENTRE */}
+            <Route path="/centre/login"        element={<CentreLogin />} />
+            <Route path="/centre/dashboard"    element={<CentreDashboard />} />
+            <Route path="/centre/analytics"    element={<CentreAnalytics />} />
+            <Route path="/centre/conduct-test" element={<ConductTest />} />
+            <Route path="/centre/students/:id" element={<StudentDetail />} />
+            <Route path="/centre/students"     element={<StudentHistory />} />
+
+            {/* PARENT */}
+            <Route path="/parent/login"         element={<ParentLogin />} />
+            <Route path="/parent/dashboard"     element={<ParentDashboard />} />
+            <Route path="/parent/child/:id"     element={<ChildDetail />} />
+            <Route path="/student/test-history" element={<MyTestHistory />} />
+
+            {/* ADMIN */}
+            <Route path="/admin/login"     element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/exams"     element={<ExamManager />} />
+            <Route path="/admin/questions" element={<QuestionManager />} />
+            <Route path="/admin/users"     element={<UserManager />} />
+
+            {/* SETTINGS */}
+            <Route path="/settings/themes" element={<ThemeSelector />} />
+
+            {/* LEGAL */}
+            <Route path="/terms"               element={<Terms />} />
+            <Route path="/privacy"             element={<Privacy />} />
+            <Route path="/community-standards" element={<CommunityStandards />} />
+
+            {/* CATCH-ALL */}
+            <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </ThemeProvider>
+  )
+}
+
+// ── Root App: AuthProvider wraps ThemedApp so user is available ─
 export default function App() {
   return (
-    <ThemeProvider>
-      <ToastProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <ImpersonationBanner />
-            <Suspense fallback={<Loader />}>
-              <Routes>
-                {/* AUTH */}
-                <Route path="/"            element={<Splash />} />
-                <Route path="/landing"     element={<Landing />} />
-                <Route path="/login"       element={<Login />} />
-                <Route path="/onboarding"  element={<Onboarding />} />
-                <Route path="/role-select" element={<RoleSelect />} />
-
-                {/* CORE */}
-                <Route path="/dashboard"     element={<Dashboard />} />
-                <Route path="/profile"       element={<Profile />} />
-                <Route path="/settings"      element={<Settings />} />
-                <Route path="/notifications" element={<Notifications />} />
-                <Route path="/journey"       element={<JourneyPassport />} />
-
-                {/* TEST ENGINE */}
-                <Route path="/test-engine"        element={<TestLauncher />} />
-                <Route path="/test-engine/active" element={<ActiveTest />} />
-                <Route path="/test-engine/result" element={<ResultScreen />} />
-                <Route path="/test-engine/review" element={<ReviewScreen />} />
-
-                {/* EXAMS — static before dynamic */}
-                <Route path="/exams"                  element={<AllExams />} />
-                <Route path="/exams/:examId/universe" element={<ExamUniverse />} />
-                <Route path="/exams/:examId"          element={<ExamDetail />} />
-                <Route path="/roadmap/:examId"        element={<RoadmapPage />} />
-                <Route path="/exam-alerts"            element={<ExamAlerts />} />
-
-                {/* GURU HUB — static before dynamic */}
-                <Route path="/guru-hub"             element={<GuruHub />} />
-                <Route path="/guru-hub/my-doubts"   element={<MyDoubts />} />
-                <Route path="/guru-hub/post-doubt"  element={<PostDoubt />} />
-                <Route path="/guru-hub/:doubtId"    element={<DoubtThread />} />
-
-                {/* DISCOVERY / LEARNING */}
-                <Route path="/career-compass"    element={<CareerCompass />} />
-                <Route path="/scholarships"      element={<ScholarshipHub />} />
-                <Route path="/current-affairs"   element={<CurrentAffairs />} />
-                <Route path="/classroom"         element={<ClassroomHub />} />
-                <Route path="/classroom/planner" element={<StudyPlanner />} />
-                <Route path="/classroom/pdf"     element={<PDFLibrary />} />
-                <Route path="/ebooks"            element={<EbookStore />} />
-                <Route path="/ebooks/my"         element={<MyEbooks />} />
-                <Route path="/ebooks/upload"     element={<UploadEbook />} />
-                <Route path="/ebooks/:ebookId"   element={<EbookReader />} />
-                <Route path="/tryit-lab"         element={<TryITLab />} />
-                <Route path="/brain-teaser"      element={<BrainTeaser />} />
-
-                {/* COMPETITION — static before dynamic */}
-                <Route path="/hall"                 element={<HallHub />} />
-                <Route path="/hall/create"          element={<CreateHall />} />
-                <Route path="/hall/leaderboard"     element={<HallLeaderboard />} />
-                <Route path="/hall/:hallId/battle"  element={<BattleArena />} />
-                <Route path="/hall/:hallId"         element={<HallHome />} />
-                <Route path="/leaderboard"          element={<FullLeaderboard />} />
-                <Route path="/tournaments"          element={<Tournaments />} />
-                <Route path="/games"                element={<GamesHub />} />
-                <Route path="/games/math-blitz"     element={<MathBlitz />} />
-                <Route path="/games/word-rush"      element={<WordRush />} />
-                <Route path="/games/gk-blitz"       element={<GKBlitz />} />
-                <Route path="/games/logic-grid"     element={<LogicGrid />} />
-
-                {/* PROGRESS */}
-                <Route path="/analytics"    element={<Analytics />} />
-                <Route path="/achievements" element={<Achievements />} />
-                <Route path="/focus-mode"   element={<FocusMode />} />
-
-                {/* SOCIAL / MONETISATION */}
-                <Route path="/pro"      element={<PricingPage />} />
-                <Route path="/wallet"   element={<WalletPage />} />
-                <Route path="/family"   element={<FamilyHub />} />
-                <Route path="/referral" element={<ReferralPage />} />
-
-                {/* MENTOR */}
-                <Route path="/mentor-hub"           element={<MentorHub />} />
-                <Route path="/mentor-hub/cashback"  element={<CashbackCenter />} />
-                <Route path="/mentor-hub/analytics" element={<MentorAnalytics />} />
-                <Route path="/mentor-hub/coupons"   element={<CouponManager />} />
-
-                {/* EQUITY / ACCESSIBILITY / IMPACT */}
-                <Route path="/equity"             element={<EquityTierSelector />} />
-                <Route path="/equity/verify"      element={<EquityVerification />} />
-                <Route path="/accessibility"      element={<AccessibilityMode />} />
-                <Route path="/circles/school"     element={<SchoolCircle />} />
-                <Route path="/circles/sisterhood" element={<SisterhoodCircle />} />
-                <Route path="/impact"             element={<LiveImpactTracker />} />
-                <Route path="/donate"             element={<Stub title="Donation Page 💛" />} />
-
-                {/* CENTRE */}
-                <Route path="/centre/login"        element={<CentreLogin />} />
-                <Route path="/centre/dashboard"    element={<CentreDashboard />} />
-                <Route path="/centre/analytics"    element={<CentreAnalytics />} />
-                <Route path="/centre/conduct-test" element={<ConductTest />} />
-                <Route path="/centre/students/:id" element={<StudentDetail />} />
-                <Route path="/centre/students"     element={<StudentHistory />} />
-
-                {/* PARENT / STUDENT */}
-                <Route path="/parent/login"          element={<ParentLogin />} />
-                <Route path="/parent/dashboard"      element={<ParentDashboard />} />
-                <Route path="/parent/child/:id"      element={<ChildDetail />} />
-                <Route path="/student/test-history"  element={<MyTestHistory />} />
-
-                {/* ADMIN */}
-                {/* AdminLogin must set localStorage.tryit_admin = 'true' on success */}
-                <Route path="/admin/login"     element={<AdminLogin />} />
-                <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/admin/exams"     element={<ExamManager />} />
-                <Route path="/admin/questions" element={<QuestionManager />} />
-                <Route path="/admin/users"     element={<UserManager />} />
-
-                {/* SETTINGS */}
-                <Route path="/settings/themes" element={<ThemeSelector />} />
-
-                {/* LEGAL */}
-                <Route path="/terms"               element={<Terms />} />
-                <Route path="/privacy"             element={<Privacy />} />
-                <Route path="/community-standards" element={<CommunityStandards />} />
-
-                {/* CATCH-ALL */}
-                <Route path="*" element={<Navigate to="/dashboard" replace />} />
-              </Routes>
-            </Suspense>
-          </BrowserRouter>
-        </AuthProvider>
-      </ToastProvider>
-    </ThemeProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <ThemedApp />
+      </AuthProvider>
+    </ToastProvider>
   )
 }

@@ -1,270 +1,261 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
-import { useAuth } from '../../context/AuthContext'
 
-// 10-week study plan template — reused and labelled per exam
-const buildPlan = (examName) => [
-  {
-    week: 1,
-    title: 'Foundation & Syllabus',
-    topics: [
-      { id: 't1', subject: 'General', topic: 'Download & study official syllabus', hours: 2 },
-      { id: 't2', subject: 'Quantitative Aptitude', topic: 'Number System & Simplification', hours: 3 },
-      { id: 't3', subject: 'Reasoning', topic: 'Analogy & Classification', hours: 2 },
-      { id: 't4', subject: 'English', topic: 'Grammar: Tenses & Articles', hours: 2 },
-    ],
-  },
-  {
-    week: 2,
-    title: 'Core Quant & Reasoning',
-    topics: [
-      { id: 't5', subject: 'Quantitative Aptitude', topic: 'Percentage & Profit-Loss', hours: 4 },
-      { id: 't6', subject: 'Reasoning', topic: 'Seating Arrangement & Puzzle', hours: 3 },
-      { id: 't7', subject: 'English', topic: 'Reading Comprehension (basic)', hours: 2 },
-    ],
-  },
-  {
-    week: 3,
-    title: 'Speed & Accuracy',
-    topics: [
-      { id: 't8', subject: 'Quantitative Aptitude', topic: 'Time, Work & Distance', hours: 4 },
-      { id: 't9', subject: 'Reasoning', topic: 'Coding-Decoding & Blood Relations', hours: 3 },
-      { id: 't10', subject: 'General Awareness', topic: 'Current Affairs — last 3 months', hours: 3 },
-    ],
-  },
-  {
-    week: 4,
-    title: 'Mock Test #1 + Weak Area',
-    topics: [
-      { id: 't11', subject: 'Mock Test', topic: 'Full-length Practice Test #1', hours: 3 },
-      { id: 't12', subject: 'Analysis', topic: 'Review mistakes, identify weak topics', hours: 2 },
-      { id: 't13', subject: 'Quantitative Aptitude', topic: 'Ratio, Proportion & Mixture', hours: 3 },
-    ],
-  },
-  {
-    week: 5,
-    title: 'Advanced Topics — Part 1',
-    topics: [
-      { id: 't14', subject: 'Quantitative Aptitude', topic: 'Algebra & Geometry basics', hours: 4 },
-      { id: 't15', subject: 'Reasoning', topic: 'Syllogism & Direction Sense', hours: 3 },
-      { id: 't16', subject: 'English', topic: 'Error Spotting & Sentence Correction', hours: 3 },
-    ],
-  },
-  {
-    week: 6,
-    title: 'General Awareness Deep Dive',
-    topics: [
-      { id: 't17', subject: 'General Awareness', topic: 'Indian Constitution & Polity', hours: 3 },
-      { id: 't18', subject: 'General Awareness', topic: 'History — Ancient to Modern', hours: 3 },
-      { id: 't19', subject: 'General Awareness', topic: 'Science & Technology', hours: 2 },
-    ],
-  },
-  {
-    week: 7,
-    title: 'Mock Test #2 + Revision',
-    topics: [
-      { id: 't20', subject: 'Mock Test', topic: 'Full-length Practice Test #2', hours: 3 },
-      { id: 't21', subject: 'Revision', topic: 'Quant formulas quick revision', hours: 2 },
-      { id: 't22', subject: 'Revision', topic: 'Reasoning shortcuts revision', hours: 2 },
-      { id: 't23', subject: 'English', topic: 'Vocabulary building — 20 words/day', hours: 2 },
-    ],
-  },
-  {
-    week: 8,
-    title: 'Intensive Practice',
-    topics: [
-      { id: 't24', subject: 'Quantitative Aptitude', topic: 'Speed drills — 50 Qs in 30 min', hours: 3 },
-      { id: 't25', subject: 'Reasoning', topic: 'Mixed practice — all topic types', hours: 3 },
-      { id: 't26', subject: 'General Awareness', topic: 'Current Affairs — last 6 months', hours: 3 },
-    ],
-  },
-  {
-    week: 9,
-    title: 'Full Mock Series',
-    topics: [
-      { id: 't27', subject: 'Mock Test', topic: 'Mock Test #3 — full exam pattern', hours: 3 },
-      { id: 't28', subject: 'Mock Test', topic: 'Mock Test #4 — speed focus', hours: 3 },
-      { id: 't29', subject: 'Analysis', topic: 'Sectional analysis + time management', hours: 2 },
-    ],
-  },
-  {
-    week: 10,
-    title: 'Final Revision & Strategy',
-    topics: [
-      { id: 't30', subject: 'Revision', topic: 'Formula & shortcut master sheet', hours: 2 },
-      { id: 't31', subject: 'Revision', topic: 'High-priority topics only', hours: 3 },
-      { id: 't32', subject: 'Strategy', topic: 'Exam day plan, time allocation per section', hours: 1 },
-      { id: 't33', subject: 'Mock Test', topic: 'Final full mock — timed, exam conditions', hours: 3 },
-    ],
-  },
-]
+// Generate an 8–12 week study plan structure per category
+const generatePlan = (exam) => {
+  const cat = exam?.category || ''
 
-const SUBJECT_COLORS = {
-  'Quantitative Aptitude': 'bg-blue-100 text-blue-700',
-  'Reasoning': 'bg-purple-100 text-purple-700',
-  'English': 'bg-green-100 text-green-700',
-  'General Awareness': 'bg-amber-100 text-amber-700',
-  'Mock Test': 'bg-red-100 text-red-700',
-  'Analysis': 'bg-pink-100 text-pink-700',
-  'Revision': 'bg-teal-100 text-teal-700',
-  'Strategy': 'bg-orange-100 text-orange-700',
-  'General': 'bg-gray-100 text-gray-600',
+  if (['medical'].includes(cat)) {
+    return [
+      { week: 1, title: 'Biology Foundations', hours: 14, topics: ['Cell Biology', 'Genetics Basics', 'Human Physiology Intro'] },
+      { week: 2, title: 'Chemistry Essentials', hours: 12, topics: ['Organic Chemistry Basics', 'Periodic Table', 'Chemical Bonding'] },
+      { week: 3, title: 'Physics for NEET', hours: 12, topics: ['Mechanics', 'Thermodynamics', 'Optics'] },
+      { week: 4, title: 'Plant & Animal Kingdom', hours: 10, topics: ['Classification', 'Morphology', 'Reproduction in Plants'] },
+      { week: 5, title: 'Human Physiology', hours: 14, topics: ['Digestion', 'Circulation', 'Respiration', 'Excretion'] },
+      { week: 6, title: 'Genetics & Evolution', hours: 12, topics: ['Mendel\'s Laws', 'Molecular Basis', 'Evolution Theory'] },
+      { week: 7, title: 'Ecology & Environment', hours: 10, topics: ['Ecosystem', 'Biodiversity', 'Environmental Issues'] },
+      { week: 8, title: 'Inorganic Chemistry', hours: 12, topics: ['d-block Elements', 'Coordination Compounds', 'Metallurgy'] },
+      { week: 9, title: 'Organic Chemistry II', hours: 14, topics: ['Reaction Mechanisms', 'Aldehydes & Ketones', 'Amines'] },
+      { week: 10, title: 'Full Mock Marathon', hours: 20, topics: ['3 Full-Length Tests', 'Analysis & Weak Area Drills', 'Previous Year Papers'] },
+      { week: 11, title: 'Revision Sprint', hours: 16, topics: ['Formula Sheets', 'High-Weightage Topics', 'NCERT Line-by-Line'] },
+      { week: 12, title: 'Final Lap', hours: 10, topics: ['Last 5 Years Papers', 'Time Management Practice', 'Exam Day Strategy'] },
+    ]
+  }
+
+  if (['engineering', 'engineering_pg'].includes(cat)) {
+    return [
+      { week: 1, title: 'Maths Foundations', hours: 14, topics: ['Linear Algebra', 'Calculus', 'Probability'] },
+      { week: 2, title: 'Core Subject I', hours: 14, topics: ['Data Structures', 'Algorithms', 'Time Complexity'] },
+      { week: 3, title: 'Core Subject II', hours: 12, topics: ['Operating Systems', 'Process Management', 'Memory Management'] },
+      { week: 4, title: 'Core Subject III', hours: 12, topics: ['DBMS', 'ER Model', 'SQL', 'Normalization'] },
+      { week: 5, title: 'Networks & Security', hours: 12, topics: ['OSI Model', 'TCP/IP', 'Cryptography'] },
+      { week: 6, title: 'Theory of Computation', hours: 10, topics: ['Automata', 'Context-Free Grammars', 'Turing Machines'] },
+      { week: 7, title: 'Compiler Design', hours: 10, topics: ['Lexical Analysis', 'Parsing', 'Code Generation'] },
+      { week: 8, title: 'Digital Logic & Architecture', hours: 12, topics: ['Boolean Algebra', 'Combinational Circuits', 'Pipelining'] },
+      { week: 9, title: 'Full Mock Tests', hours: 18, topics: ['3 Full-Length GATE Mocks', 'Section-wise Analysis', 'Previous Year 2023-24'] },
+      { week: 10, title: 'Revision & Weak Areas', hours: 16, topics: ['Formula Consolidation', 'Concept Maps', 'Shortcut Techniques'] },
+    ]
+  }
+
+  if (['banking'].includes(cat)) {
+    return [
+      { week: 1, title: 'Quant Basics', hours: 10, topics: ['Number System', 'Percentage', 'Ratio & Proportion'] },
+      { week: 2, title: 'Reasoning Fundamentals', hours: 10, topics: ['Analogies', 'Syllogism', 'Coding-Decoding'] },
+      { week: 3, title: 'English Language', hours: 8, topics: ['Reading Comprehension', 'Fill in the Blanks', 'Error Detection'] },
+      { week: 4, title: 'Advanced Quant', hours: 12, topics: ['Data Interpretation', 'Time-Speed-Distance', 'Probability'] },
+      { week: 5, title: 'Reasoning Advanced', hours: 10, topics: ['Puzzles', 'Seating Arrangement', 'Input-Output'] },
+      { week: 6, title: 'General Awareness', hours: 10, topics: ['Banking Awareness', 'Current Affairs Last 3 Months', 'Financial Terms'] },
+      { week: 7, title: 'Prelims Mock Tests', hours: 14, topics: ['5 Sectional Tests', '3 Full-Length Prelims', 'Speed Drills'] },
+      { week: 8, title: 'Mains Prep', hours: 12, topics: ['Advanced DI', 'GA Deep Dive', 'Descriptive Writing'] },
+      { week: 9, title: 'Mains Mock Marathon', hours: 16, topics: ['3 Full Mains Tests', 'Previous Year Analysis', 'Error Log Review'] },
+      { week: 10, title: 'Final Revision', hours: 10, topics: ['Formula Sheet', 'Trick Compilation', 'Mental Math Practice'] },
+    ]
+  }
+
+  // Default (govt/central/railways/defence/teaching etc.)
+  return [
+    { week: 1, title: 'Syllabus Mapping', hours: 8, topics: ['Read official notification', 'Create topic checklist', 'Gather study materials'] },
+    { week: 2, title: 'General Intelligence', hours: 10, topics: ['Analogies', 'Series', 'Classification', 'Matrix Problems'] },
+    { week: 3, title: 'Quantitative Aptitude I', hours: 12, topics: ['Number System', 'Percentage', 'Profit & Loss', 'Simple & Compound Interest'] },
+    { week: 4, title: 'Quantitative Aptitude II', hours: 12, topics: ['Time & Work', 'Speed & Distance', 'Data Interpretation'] },
+    { week: 5, title: 'General Awareness I', hours: 10, topics: ['Indian History', 'Geography', 'Constitution & Polity'] },
+    { week: 6, title: 'General Awareness II', hours: 10, topics: ['Economy', 'Science & Technology', 'Current Affairs'] },
+    { week: 7, title: 'English Language', hours: 8, topics: ['Grammar Rules', 'Vocabulary', 'RC & Comprehension'] },
+    { week: 8, title: 'Sectional Tests', hours: 12, topics: ['2 Quant Tests', '2 Reasoning Tests', '2 GA Tests'] },
+    { week: 9, title: 'Full Mock Marathon', hours: 16, topics: ['3 Full-Length Mocks', 'Error Analysis', 'Previous Year Papers'] },
+    { week: 10, title: 'Revision & Shortcut Sprint', hours: 12, topics: ['All formula sheets', 'Weak topics targeted', 'Speed drills'] },
+  ]
 }
 
 export default function RoadmapPage() {
   const { examId } = useParams()
   const navigate = useNavigate()
-  const { user } = useAuth()
-
   const [exam, setExam] = useState(null)
   const [plan, setPlan] = useState([])
-  const [checked, setChecked] = useState({})
-  const storageKey = `roadmap_${examId}`
+  const [checked, setChecked] = useState({}) // { 'w1-t0': true, ... }
+  const [loading, setLoading] = useState(true)
+
+  const STORAGE_KEY = `roadmap_${examId}`
 
   useEffect(() => {
     fetch('/data/exams.json')
       .then(r => r.json())
       .then(data => {
         const found = (data.exams || []).find(e => e.id === examId)
-        setExam(found || { name: examId })
+        setExam(found || null)
+        const generatedPlan = generatePlan(found)
+        setPlan(generatedPlan)
+        setLoading(false)
       })
+      .catch(() => setLoading(false))
+
+    // Load saved progress
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY)
+      if (saved) setChecked(JSON.parse(saved))
+    } catch {}
   }, [examId])
 
-  useEffect(() => {
-    const examName = exam?.name || examId
-    setPlan(buildPlan(examName))
-    try {
-      const saved = JSON.parse(localStorage.getItem(storageKey) || '{}')
-      setChecked(saved)
-    } catch {
-      setChecked({})
-    }
-  }, [exam])
-
-  if (!user) return null
-
-  const allTopics = plan.flatMap(w => w.topics)
-  const completedCount = allTopics.filter(t => checked[t.id]).length
-  const totalCount = allTopics.length
-  const progressPct = totalCount ? Math.round((completedCount / totalCount) * 100) : 0
-
-  const toggleTopic = (topicId) => {
+  const toggleTopic = (weekIdx, topicIdx) => {
+    const key = `w${weekIdx}-t${topicIdx}`
     setChecked(prev => {
-      const updated = { ...prev, [topicId]: !prev[topicId] }
-      localStorage.setItem(storageKey, JSON.stringify(updated))
+      const updated = { ...prev, [key]: !prev[key] }
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)) } catch {}
       return updated
     })
   }
 
-  const totalHours = (week) => week.topics.reduce((s, t) => s + t.hours, 0)
+  // Calculate overall progress
+  const totalTopics = plan.reduce((s, w) => s + w.topics.length, 0)
+  const doneTopics = Object.values(checked).filter(Boolean).length
+  const progressPct = totalTopics > 0 ? Math.round((doneTopics / totalTopics) * 100) : 0
+
+  if (loading) {
+    return (
+      <AppLayout title="Study Roadmap">
+        <div className="max-w-3xl mx-auto px-4 py-10">
+          <div className="h-40 bg-gray-100 rounded-2xl animate-pulse" />
+        </div>
+      </AppLayout>
+    )
+  }
+
+  if (!exam) {
+    return (
+      <AppLayout title="Study Roadmap">
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="text-5xl mb-4">🗺️</div>
+          <h2 className="text-xl font-bold text-[#1E3A5F] mb-2">Roadmap not found</h2>
+          <button onClick={() => navigate('/exams')} className="px-5 py-2 bg-[#1E3A5F] text-white rounded-xl text-sm font-semibold">
+            Back to Exams
+          </button>
+        </div>
+      </AppLayout>
+    )
+  }
 
   return (
-    <AppLayout title="Study Roadmap">
-      <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
+    <AppLayout title={`Roadmap — ${exam.name}`}>
+      <div className="max-w-3xl mx-auto px-4 py-6">
 
         {/* Header */}
-        <div className="bg-gradient-to-br from-[#1E3A5F] to-[#064E3B] rounded-2xl p-6 text-white">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-3xl">{exam?.emoji || '🗺️'}</span>
-            <div>
-              <h1 className="text-xl font-bold">{exam?.name || examId}</h1>
-              <p className="text-white/70 text-sm">10-Week Study Roadmap</p>
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-white/80">{completedCount} / {totalCount} topics completed</span>
-              <span className="font-bold text-[#D4AF37]">{progressPct}%</span>
-            </div>
-            <div className="h-3 bg-white/20 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#D4AF37] rounded-full transition-all duration-500"
-                style={{ width: `${progressPct}%` }}
-              />
-            </div>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="text-4xl">{exam.emoji || '🗺️'}</span>
+          <div>
+            <h1 className="text-xl font-bold text-[#1E3A5F]">{exam.name} Study Plan</h1>
+            <p className="text-xs text-gray-400">{plan.length}-week structured roadmap</p>
           </div>
         </div>
 
-        {/* Week-by-week plan */}
-        {plan.map((week) => {
-          const weekDone = week.topics.filter(t => checked[t.id]).length
-          const weekTotal = week.topics.length
-          const weekPct = Math.round((weekDone / weekTotal) * 100)
-          const isComplete = weekDone === weekTotal
-
-          return (
+        {/* Progress bar */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 mb-6">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm font-semibold text-[#1E3A5F]">Overall Progress</span>
+            <span className="text-xl font-bold text-[#D4AF37]">{progressPct}%</span>
+          </div>
+          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
             <div
-              key={week.week}
-              className={`bg-white rounded-2xl shadow-sm border overflow-hidden transition ${
-                isComplete ? 'border-green-200' : 'border-gray-100'
-              }`}
-            >
-              {/* Week header */}
-              <div className={`px-5 py-4 flex items-center justify-between ${isComplete ? 'bg-green-50' : 'bg-gray-50'}`}>
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                      isComplete ? 'bg-green-500 text-white' : 'bg-[#1E3A5F] text-white'
+              className="h-full bg-gradient-to-r from-[#D4AF37] to-[#E8C84A] rounded-full transition-all duration-500"
+              style={{ width: `${progressPct}%` }}
+            />
+          </div>
+          <p className="text-xs text-gray-400 mt-2">
+            {doneTopics} of {totalTopics} topics completed
+            {progressPct === 100 && ' 🎉 You\'re fully prepared!'}
+          </p>
+        </div>
+
+        {/* Week cards */}
+        <div className="space-y-4">
+          {plan.map((week, wi) => {
+            const weekDone = week.topics.filter((_, ti) => checked[`w${wi}-t${ti}`]).length
+            const weekComplete = weekDone === week.topics.length
+
+            return (
+              <div
+                key={week.week}
+                className={`bg-white rounded-2xl shadow-sm border transition-all ${
+                  weekComplete ? 'border-emerald-200 bg-emerald-50/30' : 'border-gray-100'
+                }`}
+              >
+                {/* Week header */}
+                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <span className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
+                      weekComplete ? 'bg-emerald-500 text-white' : 'bg-[#1E3A5F] text-white'
                     }`}>
-                      {isComplete ? '✓' : week.week}
+                      {weekComplete ? '✓' : `W${week.week}`}
                     </span>
-                    <span className="font-bold text-[#1E3A5F] text-sm">Week {week.week}: {week.title}</span>
-                  </div>
-                  <p className="text-xs text-gray-400 mt-1 ml-9">~{totalHours(week)} hrs · {weekDone}/{weekTotal} done</p>
-                </div>
-                <div className="text-sm font-bold text-gray-500">{weekPct}%</div>
-              </div>
-
-              {/* Topics */}
-              <div className="divide-y divide-gray-50">
-                {week.topics.map(topic => (
-                  <label
-                    key={topic.id}
-                    className="flex items-start gap-3 px-5 py-3 cursor-pointer hover:bg-gray-50 transition"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={!!checked[topic.id]}
-                      onChange={() => toggleTopic(topic.id)}
-                      className="mt-0.5 w-4 h-4 accent-[#D4AF37] shrink-0"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${SUBJECT_COLORS[topic.subject] || 'bg-gray-100 text-gray-500'}`}>
-                          {topic.subject}
-                        </span>
-                        <span className="text-xs text-gray-400">{topic.hours}h</span>
-                      </div>
-                      <p className={`text-sm mt-1 ${checked[topic.id] ? 'line-through text-gray-400' : 'text-gray-700'}`}>
-                        {topic.topic}
-                      </p>
+                    <div>
+                      <h3 className="font-bold text-[#1E3A5F] text-sm">{week.title}</h3>
+                      <p className="text-xs text-gray-400">~{week.hours} hrs · {week.topics.length} topics</p>
                     </div>
-                    {checked[topic.id] && <span className="text-green-500 text-sm mt-0.5 shrink-0">✓</span>}
-                  </label>
-                ))}
-              </div>
-            </div>
-          )
-        })}
+                  </div>
+                  <span className="text-xs text-gray-400 font-medium">
+                    {weekDone}/{week.topics.length}
+                  </span>
+                </div>
 
-        {/* Bottom CTAs */}
-        <div className="flex gap-3 pb-4">
+                {/* Topics */}
+                <div className="px-5 py-3 space-y-2">
+                  {week.topics.map((topic, ti) => {
+                    const key = `w${wi}-t${ti}`
+                    const isDone = !!checked[key]
+                    return (
+                      <button
+                        key={ti}
+                        onClick={() => toggleTopic(wi, ti)}
+                        className={`w-full flex items-center gap-3 py-2 px-3 rounded-xl transition-all text-left ${
+                          isDone ? 'bg-emerald-50' : 'hover:bg-gray-50'
+                        }`}
+                      >
+                        <span className={`w-5 h-5 rounded flex items-center justify-center shrink-0 border-2 transition-all ${
+                          isDone ? 'bg-emerald-500 border-emerald-500' : 'border-gray-300'
+                        }`}>
+                          {isDone && <span className="text-white text-xs">✓</span>}
+                        </span>
+                        <span className={`text-sm transition-all ${isDone ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                          {topic}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Footer CTAs */}
+        <div className="flex gap-3 mt-6">
           <button
             onClick={() => navigate(`/exams/${examId}/universe`)}
-            className="flex-1 py-3 border border-gray-300 text-gray-700 font-semibold rounded-2xl hover:bg-gray-50 transition text-sm"
+            className="flex-1 py-3 rounded-xl border-2 border-[#1E3A5F] text-[#1E3A5F] font-semibold text-sm hover:bg-[#1E3A5F] hover:text-white transition"
           >
-            🌌 Universe View
+            🌌 View Universe
           </button>
           <button
-            onClick={() => navigate('/test-engine', { state: { exam: examId } })}
-            className="flex-1 py-3 bg-[#D4AF37] text-white font-semibold rounded-2xl hover:bg-[#E8C84A] transition text-sm"
+            onClick={() => navigate('/test-engine', { state: { examId: exam.id } })}
+            className="flex-1 py-3 rounded-xl bg-[#D4AF37] text-[#1E3A5F] font-bold text-sm hover:bg-[#E8C84A] transition"
           >
-            ⚡ Practice Now
+            🚀 Practice Tests
           </button>
         </div>
+
+        {progressPct > 0 && (
+          <button
+            onClick={() => {
+              if (window.confirm('Reset all progress for this roadmap?')) {
+                setChecked({})
+                try { localStorage.removeItem(STORAGE_KEY) } catch {}
+              }
+            }}
+            className="w-full mt-3 text-center text-xs text-gray-300 hover:text-red-400 transition py-2"
+          >
+            Reset progress
+          </button>
+        )}
       </div>
     </AppLayout>
   )

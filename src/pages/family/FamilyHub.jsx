@@ -28,6 +28,12 @@ export default function FamilyHub() {
   const [emailInput, setEmailInput] = useState('')
   const [connected, setConnected] = useState(false)
 
+  if (loading) return (
+    <div style={{minHeight:'100vh',display:'flex',alignItems:'center',
+      justifyContent:'center',background:'linear-gradient(135deg,#1E3A5F,#0F2140)'}}>
+      <p style={{color:'#D4AF37',fontFamily:'Poppins,sans-serif',fontSize:18,fontWeight:700}}>Loading...</p>
+    </div>
+  )
   if (!user) return null
 
   const hasChild = !!user.childEmail || connected

@@ -79,7 +79,6 @@ export default function LogoAnimated({ size = 'md', mode = 'auto', dark = true, 
       <svg
         viewBox={`0 0 ${W} ${H}`}
         width="100%"
-        height="auto"
         preserveAspectRatio="xMidYMid meet"
         style={{ display:'block', overflow:'visible', maxWidth:'100%' }}
       >

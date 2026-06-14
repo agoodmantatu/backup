@@ -192,7 +192,7 @@ function StudentsTab({ students, centreCode }) {
 
 export default function CentreDashboard() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const [activeTab, setActiveTab] = useState('tests')
 
   // Derive display values — use real user fields where they exist, fall back gracefully
