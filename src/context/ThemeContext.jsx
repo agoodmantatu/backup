@@ -1,10 +1,11 @@
 // src/context/ThemeContext.jsx
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { THEMES } from '../lib/themes'
+import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react'
+import { THEMES, THEME_LIST, BASE_THEME_IDS } from '../lib/themes'
+import { getThemesWithStatus, findNewlyUnlocked, mergeUnlockedThemeIds } from '../lib/themeUnlocks'
 
-const THEME_LIST = Object.values(THEMES)
 const DEFAULT = 'default'
 const STORAGE_KEY = 'tryit_theme'
+const UNLOCKED_KEY = 'tryit_unlocked_themes'
 
 function hexToRgb(hex) {
   if (!hex) return null
@@ -69,7 +70,7 @@ function applyThemeToDOM(themeId) {
   const textRgb = hexToRgb(t.text)
   const bgRgb = hexToRgb(t.bg)
   const successRgb = hexToRgb(t.success || '#16A34A')
-  const errorRgb = hexToRgb(t.error || 'var(--color-error, #EF4444)')
+  const errorRgb = hexToRgb(t.error || '#EF4444')
   const warningRgb = hexToRgb(t.warning || '#F59E0B')
   const accentGlow = accentRgb
     ? `0 0 28px rgba(${accentRgb.r}, ${accentRgb.g}, ${accentRgb.b}, 0.2)`
@@ -98,7 +99,7 @@ function applyThemeToDOM(themeId) {
     '--color-on-dark-muted': onDarkTextMuted,
     '--color-on-light':      onLightText,
     '--color-on-light-muted':onLightTextMuted,
-    '--color-muted':         t.textLight || t.border || 'var(--color-muted, #64748B)',
+    '--color-muted':         t.textLight || t.border || '#64748B',
     '--color-border':        t.border,
     '--color-success':       t.success,
     '--color-error':         t.error,
@@ -161,7 +162,19 @@ function applyThemeToDOM(themeId) {
 
 const ThemeContext = createContext({})
 
-export function ThemeProvider({ children, userLevel = 1 }) {
+/**
+ * userStats: plain object of the metrics theme unlocks key off — see
+ * src/lib/themeUnlocks.js for the expected shape. Pass whatever you
+ * already have from AuthContext / CoinContext / your profile query;
+ * fields you don't have yet simply default to 0 and that theme stays
+ * locked until you wire the real number in.
+ *
+ * onThemeUnlocked: optional callback(theme) fired the moment a new
+ * theme crosses its unlock threshold — wire this to your celebration
+ * effect (confetti, coin burst, toast) in CoinContext or wherever you
+ * trigger reward moments.
+ */
+export function ThemeProvider({ children, userLevel = 1, userStats = {}, onThemeUnlocked = null }) {
   const [activeTheme, setActiveThemeState] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('tryit_active_theme')
@@ -170,11 +183,37 @@ export function ThemeProvider({ children, userLevel = 1 }) {
     return DEFAULT
   })
 
+  const [unlockedThemeIds, setUnlockedThemeIds] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(UNLOCKED_KEY) || '[]')
+      return Array.isArray(saved) ? saved : []
+    } catch {
+      return []
+    }
+  })
+
   const theme = THEMES[activeTheme] || THEMES[DEFAULT]
 
   useEffect(() => {
     applyThemeToDOM(activeTheme)
   }, [activeTheme])
+
+  // Whenever the stats that drive unlocks change (new test result,
+  // streak update, coins earned...), check for newly-crossed thresholds.
+  useEffect(() => {
+    const newly = findNewlyUnlocked(userStats, unlockedThemeIds)
+    if (newly.length === 0) return
+    setUnlockedThemeIds(prev => {
+      let next = prev
+      for (const t of newly) next = mergeUnlockedThemeIds(next, t)
+      try { localStorage.setItem(UNLOCKED_KEY, JSON.stringify(next)) } catch {}
+      return next
+    })
+    if (onThemeUnlocked) {
+      newly.forEach(t => onThemeUnlocked(t))
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(userStats)])
 
   const setActiveTheme = useCallback((id) => {
     if (!THEMES[id]) return
@@ -182,13 +221,25 @@ export function ThemeProvider({ children, userLevel = 1 }) {
     try { localStorage.setItem(STORAGE_KEY, id) } catch {}
   }, [])
 
+  const themesWithStatus = useMemo(
+    () => getThemesWithStatus(userStats, unlockedThemeIds),
+    [userStats, unlockedThemeIds]
+  )
+
+  const isThemeUnlocked = useCallback((id) => {
+    const t = themesWithStatus.find(th => th.id === id)
+    return t ? t.unlocked : BASE_THEME_IDS.includes(id)
+  }, [themesWithStatus])
+
   return (
     <ThemeContext.Provider value={{
       activeTheme,
       setActiveTheme,
       theme,
       themes: THEME_LIST,
-      isThemeUnlocked: () => true,
+      themesWithStatus,
+      isThemeUnlocked,
+      unlockedThemeIds,
       applyTheme: applyThemeToDOM,
       userLevel,
     }}>
