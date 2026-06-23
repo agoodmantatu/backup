@@ -13,7 +13,7 @@ export const LAYERS_EN = [
   {t:'❌ Why Option C (Freedom of Speech) is Wrong',c:'#F87171',content:'Article 19(1)(a) — Freedom of Speech — is a core Fundamental Right, the backbone of Indian democracy. While Article 19(2) allows reasonable restrictions, the right itself was never removed.'},
   {t:'❌ Why Option D (Constitutional Remedies) is Wrong',c:'#F87171',content:'Article 32 is called the "heart and soul of the Constitution" by Dr. Ambedkar. It gives citizens the right to directly approach the Supreme Court. Never removed permanently.'},
   {t:'🧠 Memory Formula',c:'#C9A84C',content:'44th Amendment (1978) = Right to Property REMOVED → Article 300A. 86th Amendment (2002) = Right to Education ADDED → Article 21A. One removed, one added. Both appear in every exam every year.'},
-  {t:'📖 Story to Remember',c:'#A78BFA',content:'1978, Bihar: A farmer's land was being acquired by the government. Before the 44th Amendment — he could approach the Supreme Court directly as a Fundamental Rights violation. After 1978 — only the High Court under Article 226. Less protection. This downgrade is exactly what examiners test.'},
+  {t:'📖 Story to Remember',c:'#A78BFA',content:'1978, Bihar: A farmer had land the government wanted to acquire. Before 1978 — Supreme Court directly. After the 44th Amendment — only High Court under Article 226. Less protection. This downgrade is exactly what examiners test.'},
   {t:'🎯 Cross-Exam Intelligence',c:'#60A5FA',content:'Appears in: UPSC Prelims GS2, SSC CGL GA, IBPS GK, RRB Group D, all State PSCs, NDA, CTET, CLAT. Key facts: (1) 44th Amendment 1978 (2) Article 300A (3) Legal Right not Fundamental Right (4) Cannot approach SC under Art 32 (5) Indira Gandhi government enacted it.'},
 ]
 
