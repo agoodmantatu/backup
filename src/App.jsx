@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react'
+import StudentDashboard from './pages/student/StudentDashboard'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { ToastProvider } from './context/ToastContext'
@@ -315,7 +316,8 @@ function ThemedApp() {
 
             {/* CATCH-ALL */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
+            <Route path='/student' element={<StudentDashboard/>}/>
+</Routes>
         </Suspense>
       </BrowserRouter>
     </ThemeProvider>
