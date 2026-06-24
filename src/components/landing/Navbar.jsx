@@ -5,13 +5,29 @@ import { useTheme } from '../../context/ThemeContext'
 import ThemeSwitcher from '../../components/ThemeSwitcher'
 
 // 5 base themes always free — shown as quick-access dots
+// Each dot has a light+dark pair
+// Clicking a dot applies the right variant for current mode
 const BASE_DOTS = [
-  { id:'default',       color:'#D4AF37', label:'Classic'       },
-  { id:'midnight',      color:'#818CF8', label:'Midnight'      },
-  { id:'sunrise',       color:'#F59E0B', label:'Sunrise'       },
-  { id:'ocean',         color:'#0EA5E9', label:'Ocean Deep'    },
-  { id:'high-contrast', color:'#e2e2e2', label:'High Contrast' },
+  { id:'default',        darkId:'midnight',       color:'#D4AF37', label:'Classic'       },
+  { id:'sunrise',        darkId:'sunrise-dark',   color:'#F59E0B', label:'Sunrise'       },
+  { id:'ocean',          darkId:'ocean-dark',     color:'#0EA5E9', label:'Ocean Deep'    },
+  { id:'midnight',       darkId:'midnight',       color:'#818CF8', label:'Midnight'      },
+  { id:'high-contrast',  darkId:'high-contrast',  color:'#e2e2e2', label:'High Contrast' },
 ]
+
+// Paired theme map for dark/light toggle
+const DARK_OF = {
+  'default':'midnight', 'midnight':'midnight',
+  'sunrise':'sunrise-dark', 'sunrise-dark':'sunrise-dark',
+  'ocean':'ocean-dark', 'ocean-dark':'ocean-dark',
+  'high-contrast':'high-contrast',
+}
+const LIGHT_OF = {
+  'midnight':'default', 'default':'default',
+  'sunrise-dark':'sunrise', 'sunrise':'sunrise',
+  'ocean-dark':'ocean', 'ocean':'ocean',
+  'high-contrast':'default',
+}
 
 const ROLES = [
   { id:'student',     label:'🎓 Student'     },
@@ -41,8 +57,13 @@ export default function Navbar() {
   // Dark / light quick toggle
   // Switches between midnight (dark) and default (light)
   const handleDarkToggle = () => {
-    if (isDark) { setActiveTheme('default');   applyTheme('default')   }
-    else        { setActiveTheme('midnight');  applyTheme('midnight')  }
+    if (isDark) {
+      const lightId = LIGHT_OF[activeTheme] || 'default'
+      setActiveTheme(lightId); applyTheme(lightId)
+    } else {
+      const darkId = DARK_OF[activeTheme] || 'midnight'
+      setActiveTheme(darkId); applyTheme(darkId)
+    }
   }
 
   const navBg = scrolled
@@ -128,7 +149,7 @@ export default function Navbar() {
                 width:15, height:15, borderRadius:'50%',
                 background: d.color,
                 border:'none', padding:0, cursor:'pointer',
-                outline: activeTheme===d.id
+                outline: (activeTheme===d.id||activeTheme===d.darkId)
                   ? `2.5px solid ${isDark?'#fff':d.color}`
                   : '2px solid transparent',
                 outlineOffset:2,
