@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 import { getMomentumInfo, hasCompletedDailyChallenge } from '../../lib/gameEngine'
-import { injectGameStyles } from '../../lib/gameJuice'
+import { injectGameStyles } from '../../lib/gameJuice.jsx'
 
 const NAVY='#1E3A5F', GOLD='#C9A84C', BG='#F8FAFC'
 
