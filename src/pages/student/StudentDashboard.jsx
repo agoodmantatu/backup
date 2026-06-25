@@ -98,8 +98,6 @@ const NAV = [
   {id:'analytics', icon:'📊',label:'Analytics',   path:'/student/analytics'},
   {id:'career',    icon:'🧭',label:'Career AI',   path:'/student/career'},
   {id:'community', icon:'💬',label:'Community',   path:'/student/community'},
-  {id:'profile',   icon:'👤',label:'Profile',     path:'/student/profile'},
-  {id:'settings',  icon:'⚙️',label:'Settings',    path:'/student/settings'},
 ]
 
 const FREE_LIMITS = {tests:3,games:3,doubts:3}
@@ -701,6 +699,22 @@ export default function StudentDashboard() {
                 borderRadius:'50%',background:'#F87171',
                 border:`2px solid ${isDark?primD:'#fff'}`}}/>
             </button>
+            {/* Profile avatar in header */}
+            <div onClick={()=>navigate('/student/settings')}
+              onContextMenu={e=>e.preventDefault()}
+              style={{
+                width:38,height:38,borderRadius:'50%',flexShrink:0,
+                background:`linear-gradient(135deg,${accent},${accentL})`,
+                border:`2px solid ${accent}`,
+                backgroundImage:profile?.avatar_url?`url(${profile.avatar_url})`:'',
+                backgroundSize:'cover',backgroundPosition:'center',
+                cursor:'pointer',display:'flex',alignItems:'center',
+                justifyContent:'center',fontWeight:900,fontSize:16,
+                color:primD,WebkitUserDrag:'none',userSelect:'none',
+                boxShadow:`0 0 0 2px ${accent}33`,
+              }}>
+              {!profile?.avatar_url&&(profile?.name?.[0]||'S')}
+            </div>
           </div>
         </div>
 
@@ -1239,7 +1253,7 @@ export default function StudentDashboard() {
           {icon:'📝',label:'Test',    path:'/student/test'},
           {icon:'🏆',label:'Rank',    path:'/student/rank'},
           {icon:'🎮',label:'Games',   path:'/student/games'},
-          {icon:'👤',label:'Profile', path:'/student/profile'},
+          {icon:'📊',label:'Analytics',path:'/student/analytics'},
         ].map((n,i)=>(
           <button key={i} onClick={()=>navigate(n.path)} style={{
             display:'flex',flexDirection:'column',

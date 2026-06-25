@@ -80,9 +80,9 @@ const SAMPLE_QUESTIONS = [
 ]
 
 const EXAM_TYPES = [
-  { id: 'quick',   label: '⚡ Quick Test',    questions: 10,  time: 10,  desc: '10 questions in 10 min' },
-  { id: 'subject', label: '📚 Subject Test',  questions: 25,  time: 25,  desc: '25 questions in 25 min' },
-  { id: 'mock',    label: '🎯 Full Mock',     questions: 100, time: 120, desc: '100 questions in 2 hours' },
+  { id: 'quick',   label: '⚡ Quick Test',    questions: 10,  time: 10,  desc: '10 questions · 1 min each' },
+  { id: 'subject', label: '📚 Subject Test',  questions: 25,  time: 25,  desc: '25 questions · 1 min each' },
+  { id: 'mock',    label: '🎯 Full Mock',     questions: 100, time: 108, desc: '100 questions · 108 min (exam time -10%)' },
 ]
 
 export default function StudentTest() {
@@ -129,11 +129,15 @@ export default function StudentTest() {
   const startTest = () => {
     const type = EXAM_TYPES.find(e => e.id === examType)
     const q = SAMPLE_QUESTIONS.slice(0, Math.min(type.questions, SAMPLE_QUESTIONS.length))
+    // 1 min per question for quick/subject, exam time -10% for mock
+    const timeSeconds = examType === 'mock'
+      ? Math.round(type.time * 60)
+      : q.length * 60
     setQuestions(q)
     setAnswers({})
     setCurrent(0)
-    setTimeLeft(type.time * 60)
-    setTotalTime(type.time * 60)
+    setTimeLeft(timeSeconds)
+    setTotalTime(timeSeconds)
     setPhase('active')
   }
 
