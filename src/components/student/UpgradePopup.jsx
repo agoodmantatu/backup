@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react'
 import { useTheme } from '../../context/ThemeContext'
 import { getPricing } from '../../lib/studentLib'
+import { payDayPass, paySubscription } from '../../lib/payment'
+import { useAuth } from '../../context/AuthContext'
 
 const LIMIT_MESSAGES = {
   tests:      { icon:'📝', title:'3 free tests used today',    sub:'Unlock unlimited tests'    },
@@ -13,6 +15,9 @@ const LIMIT_MESSAGES = {
 }
 
 export default function UpgradePopup({ type, category='ssc_railway', onClose, onUpgrade }) {
+  const { user: authUser } = useAuth()
+  const [paying, setPaying] = useState(false)
+  const [payMsg, setPayMsg] = useState('')
   const { theme } = useTheme()
   const isDark  = theme?.isDark ?? false
   const accent  = theme?.accent ?? '#C9A84C'
@@ -110,7 +115,36 @@ export default function UpgradePopup({ type, category='ssc_railway', onClose, on
           </p>
         </div>
 
-        <button onClick={()=>onUpgrade(selected)} style={{
+        <button onClick={async ()=>{
+          if (!authUser) { onClose(); return }
+          setPaying(true)
+          setPayMsg('')
+          const uid = authUser.id || authUser.userId
+          const isDay = selected.startsWith('day')
+          try {
+            if (isDay) {
+              const days = selected==='day1'?1:selected==='day3'?3:7
+              await payDayPass({
+                days, category,
+                userId: uid,
+                profile: authUser,
+                onSuccess: ()=>{ setPayMsg('✅ Unlocked!'); setTimeout(()=>{onClose();window.location.reload()},1500) },
+                onFailure: (e)=>setPayMsg('❌ Payment failed. Try again.'),
+                onDismiss: ()=>setPayMsg(''),
+              })
+            } else {
+              await paySubscription({
+                plan: selected, category,
+                userId: uid,
+                profile: authUser,
+                onSuccess: ()=>{ setPayMsg('✅ Pro activated!'); setTimeout(()=>{onClose();window.location.reload()},1500) },
+                onFailure: (e)=>setPayMsg('❌ Payment failed. Try again.'),
+                onDismiss: ()=>setPayMsg(''),
+              })
+            }
+          } catch(e) { setPayMsg('❌ Error. Try again.') }
+          finally { setPaying(false) }
+        }} style={{
           width:'100%',
           background:`linear-gradient(135deg,${accent},${accentL})`,
           border:'none',borderRadius:14,padding:'14px',
@@ -119,7 +153,7 @@ export default function UpgradePopup({ type, category='ssc_railway', onClose, on
           boxShadow:`0 6px 20px ${accent}44`,
           marginBottom:8
         }}>
-          Unlock Now →
+          {paying ? '⏳ Opening payment…' : payMsg || 'Unlock Now →'}
         </button>
         <button onClick={onClose} style={{
           width:'100%',background:'transparent',
