@@ -368,3 +368,45 @@ button:active {
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
+
+/* ── TryIT Global Button Polish ─────────────────────────── */
+button {
+  transition: all 0.15s cubic-bezier(0.23,1,0.32,1) !important;
+}
+button:hover {
+  filter: brightness(1.15) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+}
+button:active {
+  transform: translateY(0) scale(0.97) !important;
+  filter: brightness(0.95) !important;
+}
+
+/* ── Better text contrast everywhere ────────────────────── */
+:root {
+  --text-high: rgba(255,255,255,0.95);
+  --text-mid:  rgba(255,255,255,0.65);
+  --text-low:  rgba(255,255,255,0.35);
+}
+
+/* ── Sidebar nav button glow ─────────────────────────────── */
+.sidebar-desktop button:hover {
+  background: rgba(255,255,255,0.10) !important;
+  box-shadow: 0 0 16px rgba(201,168,76,0.15) !important;
+}
+
+/* ── Card hover lift ─────────────────────────────────────── */
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+.card-hover:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12) !important;
+}
+
+/* ── Scrollbar thin ──────────────────────────────────────── */
+* { scrollbar-width: thin; scrollbar-color: rgba(201,168,76,0.3) transparent; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
