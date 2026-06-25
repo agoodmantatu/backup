@@ -33,13 +33,11 @@ export default function StudentSettings() {
   const accentL = theme?.accentLight ?? '#E8C44A'
   const primary = theme?.primary ?? '#1E3A5F'
   const primD   = theme?.primaryDark ?? '#0F2140'
-  const txt     = isDark ? '#fff' : '#0F1020'
-  const muted   = isDark ? 'rgba(255,255,255,0.5)' : '#64748B'
-  const card    = isDark ? 'rgba(255,255,255,0.05)' : '#fff'
-  const bdr     = isDark ? 'rgba(255,255,255,0.08)' : '#E2E8F0'
-  const bg      = isDark
-    ? `radial-gradient(ellipse 80% 50% at 20% 0%,${primary}25,transparent),${primD}`
-    : '#F0F4F8'
+  const txt     = isDark ? '#F8FAFC' : '#0F1020'
+  const muted   = isDark ? 'rgba(255,255,255,0.65)' : '#475569'
+  const card    = isDark ? 'rgba(255,255,255,0.08)' : '#ffffff'
+  const bdr     = isDark ? 'rgba(255,255,255,0.15)' : '#CBD5E1'
+  const bg      = isDark ? primD : '#F0F4F8'
 
   const [profile,      setProfile]      = useState(null)
   const [name,         setName]         = useState('')
