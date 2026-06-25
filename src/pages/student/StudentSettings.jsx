@@ -5,6 +5,7 @@ import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 import { uploadAvatar } from '../../lib/studentLib'
+import { THEME_LIST } from '../../lib/themes'
 
 const LANGUAGES = [
   {code:'en',name:'English',native:'English'},
@@ -154,14 +155,14 @@ export default function StudentSettings() {
     { id: 'account',       label: 'Account',         icon: '⚙️' },
   ]
 
-  const allThemes = themesWithStatus || themes || []
-  const categories = ['All', ...new Set(allThemes.map(t => t.category))]
+  const allThemes = THEME_LIST
+  const categories = ['All', 'Base', 'Accessibility', 'Cinematic', 'Indian Cinema', 'Indian', 'Mood', 'Nature', 'Space']
 
   const filteredThemes = themeFilter === 'All'
     ? allThemes
     : allThemes.filter(t => t.category === themeFilter)
 
-  const isUnlocked = (t) => t.unlocked || t.tier === 'base' || t.plan === 'free'
+  const isUnlocked = (t) => t.tier === 'base' || !t.unlock
 
   const handleThemeClick = (t) => {
     if (!isUnlocked(t)) return
@@ -397,7 +398,9 @@ export default function StudentSettings() {
                         {/* Theme preview */}
                         <div style={{
                           height: 70,
-                          background: `linear-gradient(135deg,${t.primary||'#1E3A5F'},${t.bg||'#F8FAFC'})`,
+                          background: t.isDark
+                            ? `linear-gradient(135deg,${t.primaryDark||t.primary||'#0F2140'},${t.bg||'#1E293B'})`
+                            : `linear-gradient(135deg,${t.primary||'#1E3A5F'},${t.surface||'#fff'})`,
                           display: 'flex', alignItems: 'center',
                           justifyContent: 'center', fontSize: 28,
                           position: 'relative',
