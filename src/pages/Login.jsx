@@ -39,12 +39,12 @@ export default function Login() {
     if (user) {
       const done = localStorage.getItem(onboardingKey(user.email || ''))
       const ROLE_HOME = {
-        student: '/dashboard',
+        student: '/student',
         mentor: '/mentor-hub',
         institution: '/centre/dashboard',
         family: '/family',
       }
-      navigate(done ? (ROLE_HOME[user.role] || '/dashboard') : '/onboarding')
+      navigate(done ? (ROLE_HOME[user.role] || '/student') : '/onboarding')
     }
   }, [user, navigate])
 
@@ -125,12 +125,12 @@ export default function Login() {
       const done = localStorage.getItem(onboardingKey(generatedEmail))
       
       const ROLE_HOME = {
-        student: '/dashboard',
+        student: '/student',
         mentor: '/mentor-hub',
         institution: '/centre/dashboard',
         family: '/family',
       }
-      navigate(done ? (ROLE_HOME[selectedRole] || '/dashboard') : '/onboarding')
+      navigate(done ? (ROLE_HOME[selectedRole] || '/student') : '/onboarding')
     } catch (err) {
       setError('Something went wrong. Please try again.')
     } finally {
