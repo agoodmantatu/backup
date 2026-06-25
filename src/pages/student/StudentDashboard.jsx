@@ -579,7 +579,7 @@ export default function StudentDashboard() {
                     ?`linear-gradient(135deg,${accent}22,${accent}0a)`
                     :atLimit?'rgba(248,113,113,0.05)':'transparent',
                   borderLeft:active?`3px solid ${accent}`:'3px solid transparent',
-                  boxShadow:active?`0 0 12px ${accent}22`:'none',
+                  boxShadow:active?`0 0 20px ${accent}55,0 4px 12px rgba(0,0,0,0.3)`:'0 2px 6px rgba(0,0,0,0.15)',
                 }}
                 onMouseEnter={e=>{if(!active)e.currentTarget.style.background='rgba(255,255,255,0.06)'}}
                 onMouseLeave={e=>{if(!active)e.currentTarget.style.background='transparent'}}>

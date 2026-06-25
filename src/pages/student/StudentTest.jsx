@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
+import ExplanationPanel from '../../components/student/ExplanationPanel'
 
 const SAMPLE_QUESTIONS = [
   {
@@ -79,9 +80,9 @@ const SAMPLE_QUESTIONS = [
 ]
 
 const EXAM_TYPES = [
-  { id: 'quick',   label: '⚡ Quick Test',    questions: 10, time: 10, desc: '10 questions in 10 min' },
-  { id: 'subject', label: '📚 Subject Test',  questions: 25, time: 25, desc: '25 questions on one subject' },
-  { id: 'mock',    label: '🎯 Full Mock',     questions: 100,time: 120,desc: '100 questions in 2 hours' },
+  { id: 'quick',   label: '⚡ Quick Test',    questions: 10,  time: 10,  desc: '10 questions in 10 min' },
+  { id: 'subject', label: '📚 Subject Test',  questions: 25,  time: 25,  desc: '25 questions in 25 min' },
+  { id: 'mock',    label: '🎯 Full Mock',     questions: 100, time: 120, desc: '100 questions in 2 hours' },
 ]
 
 export default function StudentTest() {
@@ -531,3 +532,5 @@ export default function StudentTest() {
     </div>
   )
 }
+
+
