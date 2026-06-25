@@ -88,7 +88,7 @@ function getUsagePeriodKey(userId, feature, period) {
 //   'pro'   → unlimited explanations, no concept learning
 //   'ultra' → everything unlocked
 const MOCK_USER = {
-  id: 'usr-mock-001',
+  id: '4e6fcfaf-4ec5-4fc6-8047-351d8f3c82b0',
   name: '',
   initials: '?',
   email: localStorage.getItem('tryit_email') || '',
@@ -98,7 +98,7 @@ const MOCK_USER = {
   xp: 0, xpToNext: 500, coins: 0, streak: 0, streakFreezes: 2,
   level: 1, levelTitle: 'The Fierce One', levelEmoji: '🔥',
   isPro: false, plan: 'free',   // ← change 'free' to 'pro' or 'ultra' to test
-  userId: 'TRY-TN-00001-2026', joinDate: 'June 2026',
+  userId: '4e6fcfaf-4ec5-4fc6-8047-351d8f3c82b0', joinDate: 'June 2026',
   rank: null, testsCompleted: 0, avgScore: null,
   studyHours: '0h', guruPoints: 0,
   exams: [],
