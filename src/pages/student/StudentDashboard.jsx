@@ -266,7 +266,7 @@ export default function StudentDashboard() {
 
   return(
     <div style={{display:'flex',minHeight:'100vh',
-      background:isDark?`radial-gradient(ellipse 60% 40% at 20% 0%,${primary}25,transparent),${primD}`:'#F0F4F8',
+      background:isDark?`radial-gradient(ellipse 80% 60% at 20% -10%,${primary}40,transparent 60%),${primD}`:'#F0F4F8',
       fontFamily:'Inter,sans-serif',position:'relative'}}>
 
       {/* ── Overlays ──────────────────────────────────────────── */}
@@ -473,8 +473,9 @@ export default function StudentDashboard() {
 
         {/* User mini card */}
         <div style={{padding:'12px 10px',margin:'8px',
-          background:'rgba(255,255,255,0.05)',borderRadius:14,
-          border:'1px solid rgba(255,255,255,0.07)'}}>
+          background:'rgba(255,255,255,0.08)',borderRadius:14,
+          border:'1px solid rgba(255,255,255,0.15)',
+          backdropFilter:'blur(8px)'}}>
           <div style={{display:'flex',alignItems:'center',
             gap:sideVisible?10:0,justifyContent:sideVisible?'flex-start':'center'}}>
             <div onClick={handleAvatarClick}
@@ -591,7 +592,7 @@ export default function StudentDashboard() {
                 }}>{item.icon}</div>
                 {sideVisible&&(
                   <span style={{
-                    color:active?accent:atLimit?'#F87171':'rgba(255,255,255,0.55)',
+                    color:active?accent:atLimit?'#F87171':'rgba(255,255,255,0.88)',
                     fontSize:12,fontWeight:active?700:400,
                     transition:'color 0.15s',flex:1,textAlign:'left',
                     whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
@@ -614,8 +615,8 @@ export default function StudentDashboard() {
         {/* Upgrade CTA */}
         {!isPro&&sideVisible&&(
           <div style={{margin:'8px 10px 12px',
-            background:`linear-gradient(135deg,${accent}15,${accent}05)`,
-            border:`1px solid ${accent}25`,borderRadius:14,padding:'12px'}}>
+            background:`linear-gradient(135deg,${accent}25,${accent}10)`,
+            border:`1px solid ${accent}45`,borderRadius:14,padding:'12px'}}>
             <p style={{color:accent,fontWeight:700,fontSize:11,margin:'0 0 4px'}}>
               ⚡ Upgrade to Pro
             </p>
@@ -735,8 +736,9 @@ export default function StudentDashboard() {
                 {label:'Tests Done',val:attempts.length,display:attempts.length,
                   icon:'📝',color:'#60A5FA',ring:Math.min(100,attempts.length*10),sub:`Level ${lvl}`,anim:true},
               ].map((s,i)=>(
-                <div key={i} style={{background:card,
-                  border:`1px solid ${s.color}20`,borderRadius:18,
+                <div key={i} style={{background:isDark?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.9)',
+                  backdropFilter:'blur(12px)',
+                  border:`1px solid ${s.color}30`,borderRadius:18,
                   padding:'14px',
                   boxShadow:isDark?`0 4px 24px rgba(0,0,0,0.15),inset 0 1px 0 rgba(255,255,255,0.04)`:`0 2px 12px ${s.color}12`,
                   display:'flex',alignItems:'center',gap:12,
@@ -814,8 +816,9 @@ export default function StudentDashboard() {
                   return(
                     <button key={i}
                       onClick={()=>handleNav(a)}
-                      style={{background:atLimit?'transparent':card,
-                        border:`1.5px solid ${atLimit?'#F87171':a.color}22`,
+                      style={{background:atLimit?'rgba(248,113,113,0.05)':isDark?'rgba(255,255,255,0.07)':'rgba(255,255,255,0.85)',
+                        backdropFilter:'blur(8px)',
+                        border:`1.5px solid ${atLimit?'#F87171':a.color}35`,
                         borderRadius:16,padding:'13px 10px',
                         cursor:'pointer',textAlign:'left',
                         transition:'all 0.15s',
