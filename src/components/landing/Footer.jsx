@@ -163,10 +163,10 @@ export default function Footer() {
             fontFamily:'Inter,sans-serif', margin:0 }}>
             © 2026 TryIT Educations · Every Indian student deserves a fair shot.
           </p>
-          <a href="mailto:tryiteducations@gmail.com"
+          <a href="mailto:founder@tryiteducations.net"
             style={{ color:accent, fontSize:11, fontWeight:600,
               textDecoration:'none', fontFamily:'Inter,sans-serif' }}>
-            ✉️ tryiteducations@gmail.com
+            ✉️ founder@tryiteducations.net
           </a>
         </div>
       </div>

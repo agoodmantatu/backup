@@ -198,14 +198,14 @@ function FellowshipSection({ navigate }) {
               margin:'0 0 14px', lineHeight:1.7 }}>
               Write to us. We'll set everything up personally — free, within 48 hours.
             </p>
-            <a href="mailto:tryiteducations@gmail.com"
+            <a href="mailto:founder@tryiteducations.net"
               style={{ display:'inline-block',
                 background:'linear-gradient(135deg,var(--color-accent,#D4AF37),var(--color-accent-light,#E8C84A))',
                 borderRadius:12, padding:'10px 22px',
                 color:'var(--color-primary-dark,#1E3A5F)',
                 fontFamily:'Poppins,sans-serif', fontWeight:800,
                 fontSize:13, textDecoration:'none' }}>
-              ✉️ tryiteducations@gmail.com
+              ✉️ founder@tryiteducations.net
             </a>
           </div>
           <div style={{ background:'rgba(255,255,255,0.04)',
