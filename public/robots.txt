@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+Sitemap: https://tryiteducations.net/sitemap.xml
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*.json$

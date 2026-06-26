@@ -1,0 +1,14 @@
+{
+  "name": "TryIT Educations",
+  "short_name": "TryIT",
+  "description": "India's only lifelong exam platform. Class 1 to SWAYAM. 1,10,000+ exams in 42 languages.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F2140",
+  "theme_color": "#1E3A5F",
+  "orientation": "portrait",
+  "icons": [
+    {"src": "/tryit-logo.webp", "sizes": "192x192", "type": "image/webp"},
+    {"src": "/tryit-logo.webp", "sizes": "512x512", "type": "image/webp"}
+  ]
+}
