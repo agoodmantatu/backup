@@ -1,78 +1,9 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#0F2140" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+﻿src = open("index.html", encoding="utf-8").read()
 
-    <!-- CSP: allow scripts from our domains + Razorpay + CDN + Google Fonts -->
-    <meta http-equiv="Content-Security-Policy" content="
-      default-src 'self';
-      script-src  'self' 'unsafe-inline' 'unsafe-eval'
-                  https://checkout.razorpay.com
-                  https://static.cloudflareinsights.com
-                  https://www.googletagmanager.com
-                  https://cdn.razorpay.com;
-      style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
-      font-src    'self' https://fonts.gstatic.com data:;
-      img-src     'self' data: blob: https:;
-      connect-src 'self' https: wss:;
-      frame-src   https://api.razorpay.com https://checkout.razorpay.com;
-    "/>
+# Find head end - insert our SEO after existing meta tags but before closing head
+head_end = src.find("</head>")
 
-    <!-- SPA redirect handler: fixes 404 on page refresh -->
-    <script>
-      (function() {
-        var redirect = sessionStorage.redirect;
-        delete sessionStorage.redirect;
-        if (redirect && redirect !== location.href) {
-          history.replaceState(null, null, redirect);
-        }
-      })();
-    </script>
-
-    <title>TryIT Educations — Your Exam. Your Rank. Your Success.</title>
-    <meta name="description" content="India's most complete exam preparation platform. 1,10,000+ exam pathways in 40+ languages. Real All-India rankings. Free for 9 vulnerable communities."/>
-    <meta property="og:title" content="TryIT Educations"/>
-    <meta property="og:description" content="Your Exam. Your Rank. Your Success."/>
-    <meta property="og:url" content="https://tryiteducations.net"/>
-    <meta property="og:type" content="website"/>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
-
-    <!-- Razorpay -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
-    <style>
-    :root {
-      --color-primary:#1E3A5F;--color-primary-dark:#0F2140;
-      --color-accent:#D4AF37;--color-accent-light:#E8C44A;
-      --color-bg:#F8FAFC;--color-surface:#FFFFFF;
-      --color-text:#1E293B;--color-text-light:#64748B;
-      --color-muted:#64748B;--color-border:#E2E8F0;--color-success:#22C55E;
-      --color-error:#EF4444;--color-warning:#F59E0B;
-      --card-bg:#FFFFFF;--card-text:#1E293B;--card-accent:#D4AF37;
-      --id-card-bg:linear-gradient(135deg,#1E3A5F,#0F2140);
-      --id-card-text:#FFFFFF;--id-card-id:#D4AF37;
-      --id-card-border:rgba(212,175,55,0.4);--glow:none;
-      --glass-surface: rgba(255,255,255,0.72);
-      --glass-border: rgba(255,255,255,0.55);
-      --glass-shadow: 0 18px 60px rgba(15,23,42,0.12);
-      --glass-accent: rgba(212,175,55,0.16);
-      --button-surface: rgba(255,255,255,0.9);
-      --button-text: #1E293B;
-      --heading-color: #1E293B;
-      --subtext-color: #64748B;
-      --theme-transition-duration: 0.48s;
-    }
-    * { transition: background-color 0.2s, color 0.2s; box-sizing: border-box; }
-    body { background: var(--color-bg); color: var(--color-text); }
-  </style>
-
+SEO_INSERT = """
   <!-- ═══════════════════════════════════════════════
        TRYIT EDUCATIONS — MASTER SEO v2.0
   ═══════════════════════════════════════════════ -->
@@ -224,9 +155,13 @@
   }
   </script>
 
-</head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+"""
+
+if head_end > 0:
+    src = src[:head_end] + SEO_INSERT + src[head_end:]
+    print("SEO inserted before </head>")
+else:
+    print("head_end not found")
+
+open("index.html", "w", encoding="utf-8").write(src)
+print("Done")
