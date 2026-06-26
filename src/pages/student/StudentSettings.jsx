@@ -393,8 +393,8 @@ export default function StudentSettings() {
                         <div style={{
                           height: 70,
                           background: t.isDark
-                            ? `linear-gradient(135deg,${t.primaryDark||t.primary||'#0F2140'},${t.bg||'#1E293B'})`
-                            : `linear-gradient(135deg,${t.primary||'#1E3A5F'},${t.surface||'#fff'})`,
+                            ? `linear-gradient(135deg,${t.primaryDark||t.primary||'#0F2140'},${t.accent||'#C9A84C'}88)`
+                            : `linear-gradient(135deg,${t.bg||'#F8FAFC'},${t.accent||'#2563EB'}44)`,
                           display: 'flex', alignItems: 'center',
                           justifyContent: 'center', fontSize: 28,
                           position: 'relative',

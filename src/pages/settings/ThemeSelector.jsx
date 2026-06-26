@@ -96,7 +96,7 @@ function ThemeCard({ t, isActive, onSelect, onUpgradeClick }) {
       </p>
 
       <div style={{ display: 'flex', gap: 6, position: 'relative', zIndex: locked ? 0 : 1 }}>
-        {[t.primary, t.accent, t.bg, t.surface].map((c, i) => (
+        {[t.accent, t.primary].map((c, i) => (
           <div key={i} style={{ width: 28, height: 28, borderRadius: 8, background: c, border: '1px solid rgba(0,0,0,0.08)' }} />
         ))}
       </div>
