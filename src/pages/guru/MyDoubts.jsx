@@ -1,302 +1,168 @@
+// src/pages/guru/MyDoubts.jsx — Premium standalone
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AppLayout from '../../components/layout/AppLayout'
-import { useAuth } from '../../context/AuthContext'
+import { useTheme } from '../../context/ThemeContext'
 
-// Sample data scoped to the current user — in production these would
-// be filtered from Supabase by user.id
-const MY_POSTED_DOUBTS = [
-  {
-    id: 'doubt-009',
-    examTag: 'UPSC CSE',
-    subject: 'Polity',
-    title: 'Is the Speaker of Lok Sabha bound by party whip during a no-confidence motion?',
-    timeAgo: '2 days ago',
-    answers: 4,
-    hasAccepted: true,
-    status: 'resolved',
-  },
-  {
-    id: 'doubt-010',
-    examTag: 'UPSC CSE',
-    subject: 'Economics',
-    title: 'What exactly does "fiscal space" mean in the Budget context?',
-    timeAgo: '5 days ago',
-    answers: 1,
-    hasAccepted: false,
-    status: 'open',
-  },
+const MOCK_DOUBTS = [
+  {id:1,title:'Difference between Fundamental Rights and DPSP?',
+   exam:'UPSC CSE',subject:'Polity',answers:3,time:'2h ago',status:'answered'},
+  {id:2,title:'How to solve Time & Work problems in under 30 seconds?',
+   exam:'SSC CGL',subject:'Maths',answers:7,time:'4h ago',status:'answered'},
+  {id:3,title:'What is the significance of the Preamble?',
+   exam:'UPSC CSE',subject:'Polity',answers:0,time:'1h ago',status:'pending'},
+  {id:4,title:'Difference between NDA and CDS exam pattern?',
+   exam:'NDA',subject:'GK / GS',answers:2,time:'6h ago',status:'answered'},
+  {id:5,title:'How is the Rajya Sabha different from Lok Sabha in composition?',
+   exam:'TNPSC Group 1',subject:'Polity',answers:0,time:'30m ago',status:'pending'},
 ]
 
-const MY_ANSWERED_DOUBTS = [
-  {
-    id: 'doubt-002',
-    examTag: 'SSC CGL',
-    subject: 'Reasoning',
-    title: 'Blood relation puzzle — how to solve 3-generation problems quickly?',
-    timeAgo: '1 day ago',
-    wasAccepted: true,
-    coinsEarned: 5,
-  },
-  {
-    id: 'doubt-004',
-    examTag: 'TNPSC Group 2',
-    subject: 'Current Affairs',
-    title: 'PM Gati Shakti vs National Logistics Policy — what\'s the difference?',
-    timeAgo: '3 days ago',
-    wasAccepted: false,
-    coinsEarned: 0,
-  },
-]
+const FILTERS = ['All', 'Answered', 'Pending']
 
 export default function MyDoubts() {
-  const { user } = useAuth()
-  const navigate = useNavigate()
+  const nav = useNavigate()
+  const { theme } = useTheme()
+  const p = theme?.primary||'#1E3A5F'
+  const a = theme?.accent||'#C9A84C'
+  const t = theme?.text||'#1E293B'
+  const m = theme?.textLight||'#64748B'
+  const bg = theme?.background||'#F8FAFC'
+  const c = theme?.surface||'#FFFFFF'
+  const b = theme?.border||'#E2E8F0'
+  const isDark = theme?.isDark||false
 
-  if (!user) return null
+  const [filter, setFilter] = useState('All')
+
+  const filtered = MOCK_DOUBTS.filter(d => {
+    if (filter === 'All') return true
+    if (filter === 'Answered') return d.status === 'answered'
+    return d.status === 'pending'
+  })
 
   return (
-    <AppLayout title="My Doubts">
-      <div style={{ maxWidth: 800, margin: '0 auto', padding: '0 16px 60px' }}>
+    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
 
-        {/* Page Header */}
-        <div style={{ marginBottom: 28 }}>
-          <button
-            onClick={() => navigate('/guru-hub')}
-            style={{
-              background: 'transparent', border: 'none', cursor: 'pointer',
-              fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#64748b',
-              display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, padding: 0,
-            }}
-          >
-            ← Back to Guru Hub
-          </button>
-          <h1 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 800, fontSize: 24, color: 'var(--color-primary, #1E3A5F)', margin: 0 }}>
-            My Doubts
-          </h1>
-          <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748b', fontSize: 14, margin: '4px 0 0' }}>
-            Track questions you've asked and answers you've given.
-          </p>
+      {/* Header */}
+      <div style={{background:c,borderBottom:'1px solid '+b,padding:'16px 20px',
+        display:'flex',alignItems:'center',gap:12,position:'sticky',top:0,zIndex:10,
+        boxShadow:'0 1px 12px rgba(0,0,0,0.06)'}}>
+        <button onClick={()=>nav('/student/guruhub')}
+          style={{background:'transparent',border:'1px solid '+b,borderRadius:10,
+            padding:'7px 16px',color:m,fontSize:13,cursor:'pointer',fontWeight:600}}>
+          Back
+        </button>
+        <div style={{flex:1}}>
+          <h1 style={{color:t,fontSize:17,fontWeight:800,margin:0}}>My Doubts</h1>
+          <p style={{color:m,fontSize:11,margin:0}}>{MOCK_DOUBTS.length} doubts posted</p>
         </div>
-
-        {/* ── SECTION 1: Doubts I've Posted ── */}
-        <SectionHeading emoji="📝" title="Doubts I've Posted" count={MY_POSTED_DOUBTS.length} />
-
-        {MY_POSTED_DOUBTS.length === 0 ? (
-          <EmptyState
-            emoji="🤔"
-            message="You haven't asked anything yet — got a doubt?"
-            ctaLabel="Post a Doubt"
-            ctaPath="/guru-hub/post-doubt"
-            navigate={navigate}
-          />
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 36 }}>
-            {MY_POSTED_DOUBTS.map(d => (
-              <PostedDoubtCard key={d.id} doubt={d} onClick={() => navigate(`/guru-hub/${d.id}`)} />
-            ))}
-          </div>
-        )}
-
-        {/* ── SECTION 2: Doubts I've Answered ── */}
-        <SectionHeading emoji="💬" title="Doubts I've Answered" count={MY_ANSWERED_DOUBTS.length} />
-
-        {MY_ANSWERED_DOUBTS.length === 0 ? (
-          <EmptyState
-            emoji="🧑‍🏫"
-            message="You haven't answered any doubts yet — help a fellow aspirant!"
-            ctaLabel="Browse Doubts"
-            ctaPath="/guru-hub"
-            navigate={navigate}
-          />
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {MY_ANSWERED_DOUBTS.map(d => (
-              <AnsweredDoubtCard key={d.id} doubt={d} onClick={() => navigate(`/guru-hub/${d.id}`)} />
-            ))}
-          </div>
-        )}
+        <button onClick={()=>nav('/guru-hub/post-doubt')}
+          style={{background:'linear-gradient(135deg,'+p+','+a+')',border:'none',
+            borderRadius:12,padding:'9px 16px',color:'#fff',
+            fontWeight:700,fontSize:12,cursor:'pointer'}}>
+          + New Doubt
+        </button>
       </div>
-    </AppLayout>
-  )
-}
 
-// ── Sub-components ──────────────────────────────────────────────────
+      <div style={{padding:'20px',maxWidth:640,margin:'0 auto'}}>
 
-function SectionHeading({ emoji, title, count }) {
-  return (
-    <div style={{
-      display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14,
-      paddingBottom: 10, borderBottom: '2px solid var(--color-bg-muted-2, #F1F5F9)',
-    }}>
-      <span style={{ fontSize: 20 }}>{emoji}</span>
-      <span style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 16, color: 'var(--color-primary, #1E3A5F)' }}>
-        {title}
-      </span>
-      <span style={{
-        background: 'var(--color-bg-muted, #EFF6FF)', color: '#1d4ed8',
-        borderRadius: 20, padding: '1px 10px',
-        fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 12,
-      }}>
-        {count}
-      </span>
-    </div>
-  )
-}
-
-function EmptyState({ emoji, message, ctaLabel, ctaPath, navigate }) {
-  return (
-    <div style={{
-      background: '#F8FAFC', border: '1.5px dashed #cbd5e1',
-      borderRadius: 14, padding: '36px 24px', textAlign: 'center', marginBottom: 36,
-    }}>
-      <div style={{ fontSize: 40, marginBottom: 10 }}>{emoji}</div>
-      <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748b', fontSize: 14, marginBottom: 16 }}>
-        {message}
-      </p>
-      <button
-        onClick={() => navigate(ctaPath)}
-        style={{
-          background: 'var(--color-accent, #D4AF37)', border: 'none', borderRadius: 10,
-          padding: '9px 22px', color: 'var(--color-primary, #1E3A5F)',
-          fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 13, cursor: 'pointer',
-        }}
-      >
-        {ctaLabel} →
-      </button>
-    </div>
-  )
-}
-
-function PostedDoubtCard({ doubt, onClick }) {
-  const statusStyle = doubt.status === 'resolved'
-    ? { bg: '#ECFDF5', color: '#065f46', label: '✅ Resolved' }
-    : { bg: '#FEF9EC', color: '#92400e', label: '🟡 Open' }
-
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        background: '#fff', borderRadius: 12,
-        border: '1.5px solid #e2e8f0',
-        padding: '16px 18px', cursor: 'pointer',
-        transition: 'box-shadow 0.18s, border-color 0.18s',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,58,95,0.09)'
-        e.currentTarget.style.borderColor = 'var(--color-accent, #D4AF37)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.boxShadow = 'none'
-        e.currentTarget.style.borderColor = '#e2e8f0'
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-            <span style={{
-              background: 'var(--color-bg-muted, #EFF6FF)', color: '#1d4ed8', borderRadius: 6, padding: '1px 8px',
-              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 11,
-            }}>{doubt.examTag}</span>
-            <span style={{
-              background: 'var(--color-bg-muted-2, #F1F5F9)', color: '#475569', borderRadius: 6, padding: '1px 8px',
-              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 11,
-            }}>{doubt.subject}</span>
-          </div>
-          <div style={{
-            fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 14,
-            color: 'var(--color-primary, #1E3A5F)', marginBottom: 8,
-          }}>
-            {doubt.title}
-          </div>
-          <div style={{ display: 'flex', gap: 14 }}>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#94a3b8' }}>
-              {doubt.timeAgo}
-            </span>
-            <span style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 12,
-              color: doubt.answers > 0 ? '#059669' : '#94a3b8', fontWeight: doubt.answers > 0 ? 600 : 400,
-            }}>
-              💬 {doubt.answers} {doubt.answers === 1 ? 'answer' : 'answers'}
-            </span>
-          </div>
+        {/* Stats row */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10,marginBottom:20}}>
+          {[
+            {l:'Total',v:MOCK_DOUBTS.length,e:'📝'},
+            {l:'Answered',v:MOCK_DOUBTS.filter(d=>d.status==='answered').length,e:'✅'},
+            {l:'Pending',v:MOCK_DOUBTS.filter(d=>d.status==='pending').length,e:'⏳'},
+          ].map((s,i)=>(
+            <div key={i} style={{background:c,border:'1px solid '+b,borderRadius:14,
+              padding:'14px',textAlign:'center',
+              boxShadow:'0 2px 12px rgba(0,0,0,0.05)'}}>
+              <div style={{fontSize:20,marginBottom:4}}>{s.e}</div>
+              <p style={{color:t,fontWeight:800,fontSize:20,margin:'0 0 2px'}}>{s.v}</p>
+              <p style={{color:m,fontSize:10,margin:0}}>{s.l}</p>
+            </div>
+          ))}
         </div>
-        <span style={{
-          background: statusStyle.bg, color: statusStyle.color,
-          borderRadius: 8, padding: '3px 10px',
-          fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 11, whiteSpace: 'nowrap',
-        }}>
-          {statusStyle.label}
-        </span>
-      </div>
-    </div>
-  )
-}
 
-function AnsweredDoubtCard({ doubt, onClick }) {
-  return (
-    <div
-      onClick={onClick}
-      style={{
-        background: '#fff', borderRadius: 12,
-        border: '1.5px solid #e2e8f0',
-        padding: '16px 18px', cursor: 'pointer',
-        transition: 'box-shadow 0.18s, border-color 0.18s',
-      }}
-      onMouseEnter={e => {
-        e.currentTarget.style.boxShadow = '0 4px 16px rgba(30,58,95,0.09)'
-        e.currentTarget.style.borderColor = 'var(--color-accent, #D4AF37)'
-      }}
-      onMouseLeave={e => {
-        e.currentTarget.style.boxShadow = 'none'
-        e.currentTarget.style.borderColor = '#e2e8f0'
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-            <span style={{
-              background: 'var(--color-bg-muted, #EFF6FF)', color: '#1d4ed8', borderRadius: 6, padding: '1px 8px',
-              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 11,
-            }}>{doubt.examTag}</span>
-            <span style={{
-              background: 'var(--color-bg-muted-2, #F1F5F9)', color: '#475569', borderRadius: 6, padding: '1px 8px',
-              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 11,
-            }}>{doubt.subject}</span>
-          </div>
-          <div style={{
-            fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: 14,
-            color: 'var(--color-primary, #1E3A5F)', marginBottom: 8,
-          }}>
-            {doubt.title}
-          </div>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#94a3b8' }}>
-            Answered {doubt.timeAgo}
-          </span>
+        {/* Filter tabs */}
+        <div style={{display:'flex',gap:8,marginBottom:16}}>
+          {FILTERS.map(f=>(
+            <button key={f} onClick={()=>setFilter(f)}
+              style={{padding:'7px 18px',borderRadius:20,border:'none',cursor:'pointer',
+                fontSize:12,fontWeight:700,transition:'all 0.2s',
+                background:filter===f?'linear-gradient(135deg,'+p+','+a+')':'transparent',
+                color:filter===f?'#fff':m,
+                boxShadow:filter===f?'0 4px 12px '+p+'33':'none'}}>
+              {f}
+            </button>
+          ))}
         </div>
-        <div style={{ textAlign: 'right', flexShrink: 0 }}>
-          {doubt.wasAccepted ? (
-            <div>
-              <div style={{
-                background: '#ECFDF5', color: '#065f46',
-                borderRadius: 8, padding: '3px 10px',
-                fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 11, marginBottom: 4,
-              }}>
-                ✅ Accepted
+
+        {/* Doubt cards */}
+        <div style={{display:'flex',flexDirection:'column',gap:10}}>
+          {filtered.map(d=>(
+            <div key={d.id}
+              style={{background:c,border:'1px solid '+b,borderRadius:16,
+                padding:'16px',cursor:'pointer',transition:'all 0.2s',
+                boxShadow:'0 2px 12px rgba(0,0,0,0.04)'}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=a;
+                e.currentTarget.style.transform='translateY(-2px)';
+                e.currentTarget.style.boxShadow='0 8px 24px rgba(0,0,0,0.1)'}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor=b;
+                e.currentTarget.style.transform='translateY(0)';
+                e.currentTarget.style.boxShadow='0 2px 12px rgba(0,0,0,0.04)'}}>
+
+              <div style={{display:'flex',gap:8,marginBottom:8,flexWrap:'wrap'}}>
+                <span style={{background:p+'12',color:p,fontSize:9,fontWeight:700,
+                  padding:'3px 10px',borderRadius:20}}>{d.exam}</span>
+                <span style={{background:a+'15',color:a,fontSize:9,fontWeight:700,
+                  padding:'3px 10px',borderRadius:20}}>{d.subject}</span>
+                <span style={{background:d.status==='answered'?'#22C55E15':'#F59E0B15',
+                  color:d.status==='answered'?'#22C55E':'#F59E0B',
+                  fontSize:9,fontWeight:700,padding:'3px 10px',borderRadius:20,
+                  marginLeft:'auto'}}>
+                  {d.status==='answered'?'✓ Answered':'⏳ Pending'}
+                </span>
               </div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: 'var(--color-accent, #D4AF37)', fontWeight: 700 }}>
-                +{doubt.coinsEarned} coins earned
+
+              <p style={{color:t,fontWeight:600,fontSize:14,margin:'0 0 10px',lineHeight:1.5}}>
+                {d.title}
+              </p>
+
+              <div style={{display:'flex',gap:16,alignItems:'center'}}>
+                <span style={{color:m,fontSize:11}}>
+                  {d.answers > 0 ? '💬 '+d.answers+' answers' : '💬 No answers yet'}
+                </span>
+                <span style={{color:m,fontSize:11}}>🕐 {d.time}</span>
+                {d.status==='answered'&&(
+                  <span style={{marginLeft:'auto',color:a,fontSize:11,fontWeight:700,
+                    cursor:'pointer'}}
+                    onClick={()=>nav('/guru-hub/'+d.id)}>
+                    View answers →
+                  </span>
+                )}
               </div>
             </div>
-          ) : (
-            <span style={{
-              background: 'var(--color-bg-muted-2, #F1F5F9)', color: '#94a3b8',
-              borderRadius: 8, padding: '3px 10px',
-              fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 11,
-            }}>
-              Pending
-            </span>
-          )}
+          ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div style={{textAlign:'center',padding:'40px 20px',
+            background:c,border:'1.5px dashed '+b,borderRadius:18}}>
+            <div style={{fontSize:40,marginBottom:12}}>🤔</div>
+            <p style={{color:t,fontWeight:700,fontSize:15,margin:'0 0 6px'}}>
+              No {filter.toLowerCase()} doubts yet
+            </p>
+            <p style={{color:m,fontSize:12,margin:'0 0 16px'}}>
+              Post a doubt and get answers from mentors within 2 hours
+            </p>
+            <button onClick={()=>nav('/guru-hub/post-doubt')}
+              style={{background:'linear-gradient(135deg,'+p+','+a+')',
+                border:'none',borderRadius:12,padding:'10px 24px',
+                color:'#fff',fontWeight:700,fontSize:13,cursor:'pointer'}}>
+              Ask a Doubt →
+            </button>
+          </div>
+        )}
+
+        <div style={{height:80}}/>
       </div>
     </div>
   )
