@@ -197,7 +197,7 @@ function ThemedApp() {
         <ImpersonationBanner />
         <NotificationBar />
         <Suspense fallback={<Loader />}>
-          <AnimatePresence mode="wait">
+          <div style={{position:"relative",zIndex:1,minHeight:"100vh"}}><AnimatePresence mode="wait">
         <Routes>
             {/* AUTH */}
             <Route path="/"            element={<Splash />} />
@@ -374,7 +374,7 @@ function ThemedApp() {
             
             
 </Routes>
-        </AnimatePresence>
+        </AnimatePresence></div>
         </Suspense>
       </BrowserRouter>
     </ThemeProvider>
