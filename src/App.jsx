@@ -355,6 +355,12 @@ function ThemedApp() {
             <Route path='/student/classroom' element={<StudentClassroom/>}/>
             <Route path='/student/bookmarks' element={<StudentBookmarks/>}/>
             <Route path='/student/pulse' element={<StudentPulse/>}/>
+                        <Route path='/student/settings'      element={<StudentSettings/>}/>
+            <Route path='/student/mentor'         element={<StudentMentor/>}/>
+            <Route path='/student/career'         element={<StudentCareer/>}/>
+            <Route path='/student/community'      element={<StudentCommunity/>}/>
+            <Route path='/student/notifications'  element={<StudentNotifications/>}/>
+            <Route path='/student/profile'        element={<StudentProfile/>}/>
             <Route path='/student/analytics' element={<StudentAnalytics/>}/>
             <Route path='/student/career' element={<StudentCareer/>}/>
             <Route path='/student/community' element={<StudentCommunity/>}/>
@@ -384,4 +390,5 @@ export default function App() {
     </ToastProvider>
   )
 }
+
 
