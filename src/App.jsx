@@ -103,6 +103,8 @@ const PricingPage    = lazy(() => import('./pages/pricing/PricingPage'))
 const WalletPage     = lazy(() => import('./pages/wallet/WalletPage'))
 const FamilyHub      = lazy(() => import('./pages/family/FamilyHub'))
 const ReferralPage   = lazy(() => import('./pages/referral/ReferralPage'))
+const MentorLeaderboard   = lazy(() => import('./pages/mentor/MentorLeaderboard'))
+const MentorDoubts        = lazy(() => import('./pages/mentor/MentorDoubts'))
 const MentorHub      = lazy(() => import('./pages/mentor/MentorHub'))
 const CashbackCenter = lazy(() => import('./pages/mentor/CashbackCenter'))
 const MentorAnalytics= lazy(() => import('./pages/mentor/MentorAnalytics'))
@@ -295,6 +297,8 @@ function ThemedApp() {
             <Route path="/referral" element={<ReferralPage />} />
 
             {/* MENTOR */}
+                        <Route path='/mentor-hub/doubts'      element={<MentorDoubts/>}/>
+            <Route path='/mentor-hub/leaderboard'  element={<MentorLeaderboard/>}/>
             <Route path="/mentor-hub"           element={<MentorHub />} />
             <Route path="/mentor-hub/cashback"  element={<CashbackCenter />} />
             <Route path="/mentor-hub/analytics" element={<MentorAnalytics />} />

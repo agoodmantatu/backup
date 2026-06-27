@@ -4,82 +4,194 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 
 const MENTORS = [
-  {name:'Dr. Kavitha Rajan',exam:'UPSC',subject:'GS & Essay',rating:4.9,students:234,lang:'Tamil, English',exp:'8 yrs'},
-  {name:'Suresh Menon',exam:'SSC CGL',subject:'Reasoning & Maths',rating:4.8,students:189,lang:'English, Hindi',exp:'5 yrs'},
-  {name:'Priya Chandran',exam:'TNPSC',subject:'Tamil & Polity',rating:4.9,students:312,lang:'Tamil',exp:'6 yrs'},
-  {name:'Ramesh Kumar',exam:'IBPS',subject:'Banking & Economy',rating:4.7,students:156,lang:'Hindi, English',exp:'4 yrs'},
+  {id:1,name:'Dr. Kavitha Rajan',exam:'UPSC',subject:'Polity & GS',
+   rating:4.9,students:48,lang:'Tamil, English',city:'Chennai',
+   weekly:199,monthly:699,emoji:'🏛️',verified:true,
+   bio:'IAS Officer (Retd). 20+ years experience. Specializes in GS Paper 2 & Essay.'},
+  {id:2,name:'Suresh Menon',exam:'SSC CGL',subject:'Reasoning & Maths',
+   rating:4.8,students:36,lang:'English, Hindi',city:'Kochi',
+   weekly:149,monthly:499,emoji:'📐',verified:true,
+   bio:'SSC Coaching Faculty. 500+ students cleared CGL. Known for shortcut techniques.'},
+  {id:3,name:'Priya Chandran',exam:'TNPSC',subject:'Tamil & Polity',
+   rating:4.9,students:52,lang:'Tamil',city:'Madurai',
+   weekly:99,monthly:349,emoji:'🌿',verified:true,
+   bio:'TNPSC Group 1 Qualifier. Tamil medium specialist. Daily assignments + tests.'},
+  {id:4,name:'Ramesh Kumar',exam:'IBPS',subject:'Banking & Economy',
+   rating:4.7,students:29,lang:'Hindi, English',city:'Hyderabad',
+   weekly:149,monthly:499,emoji:'🏦',verified:true,
+   bio:'Bank Manager, SBI. Insider perspective on banking awareness & interviews.'},
 ]
+
+const PASS_COLORS = {weekly:'#3B82F6', monthly:'#8B5CF6'}
 
 export default function StudentMentor() {
   const nav = useNavigate()
-  const [filter, setFilter] = useState('All')
   const { theme } = useTheme()
   const p = theme?.primary||'#1E3A5F', a = theme?.accent||'#C9A84C'
   const t = theme?.text||'#1E293B', m = theme?.textLight||'#64748B'
-  const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF', b = theme?.border||'#E2E8F0'
-  return (
-    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
-      <div style={{background:c,borderBottom:`1px solid ${b}`,padding:'16px 20px',
-        display:'flex',alignItems:'center',gap:12,position:'sticky',top:0,zIndex:10}}>
-        <button onClick={()=>nav('/student')} style={{background:'transparent',border:`1px solid ${b}`,
-          borderRadius:10,padding:'6px 14px',color:m,fontSize:13,cursor:'pointer'}}>← Back</button>
+  const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF'
+  const b = theme?.border||'#E2E8F0'
+  const isDark = theme?.isDark||false
+
+  const [filter, setFilter] = useState('All')
+  const [selected, setSelected] = useState(null)
+  const [passType, setPassType] = useState('weekly')
+  const [payMethod, setPayMethod] = useState('razorpay')
+
+  const EXAMS = ['All','UPSC','SSC CGL','IBPS','TNPSC','RRB']
+  const filtered = MENTORS.filter(m2 => filter==='All' || m2.exam.includes(filter))
+
+  const MentorCard = ({mentor}) => (
+    <div style={{background:c,border:'1.5px solid '+(selected?.id===mentor.id?a:b),
+      borderRadius:18,padding:'20px',marginBottom:14,
+      boxShadow:'0 2px 12px rgba(0,0,0,0.05)',transition:'all 0.2s',cursor:'pointer'}}
+      onClick={()=>setSelected(selected?.id===mentor.id?null:mentor)}>
+
+      <div style={{display:'flex',gap:14,alignItems:'flex-start'}}>
+        <div style={{width:52,height:52,borderRadius:16,flexShrink:0,
+          background:'linear-gradient(135deg,'+p+','+a+')',
+          display:'flex',alignItems:'center',justifyContent:'center',fontSize:26}}>
+          {mentor.emoji}
+        </div>
         <div style={{flex:1}}>
-          <h1 style={{color:t,fontSize:18,fontWeight:800,margin:0}}>👨‍🏫 Find a Mentor</h1>
-          <p style={{color:m,fontSize:11,margin:0}}>Verified experts · Your language · Your exam</p>
+          <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
+            <p style={{color:t,fontWeight:700,fontSize:14,margin:0}}>{mentor.name}</p>
+            {mentor.verified&&(
+              <span style={{background:'#3B82F615',color:'#3B82F6',fontSize:9,
+                fontWeight:700,padding:'2px 8px',borderRadius:20}}>✓ Verified</span>
+            )}
+            <span style={{color:'#F59E0B',fontWeight:700,fontSize:12,marginLeft:'auto'}}>
+              ★ {mentor.rating}
+            </span>
+          </div>
+          <p style={{color:m,fontSize:12,margin:'0 0 6px'}}>
+            {mentor.subject} · 📍 {mentor.city} · 🌐 {mentor.lang}
+          </p>
+          <p style={{color:m,fontSize:11,margin:'0 0 8px',lineHeight:1.5}}>{mentor.bio}</p>
+          <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:10}}>
+            <span style={{background:p+'10',color:p,fontSize:9,fontWeight:700,
+              padding:'2px 8px',borderRadius:20}}>{mentor.exam}</span>
+            <span style={{background:'#22C55E15',color:'#22C55E',fontSize:9,fontWeight:700,
+              padding:'2px 8px',borderRadius:20}}>👥 {mentor.students} students</span>
+          </div>
+
+          {/* Pass options */}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+            <div style={{background:'#3B82F608',border:'1.5px solid '+(passType==='weekly'&&selected?.id===mentor.id?'#3B82F6':b),
+              borderRadius:12,padding:'10px',cursor:'pointer',textAlign:'center'}}
+              onClick={e=>{e.stopPropagation();setSelected(mentor);setPassType('weekly')}}>
+              <p style={{color:'#3B82F6',fontWeight:800,fontSize:15,margin:'0 0 2px'}}>
+                ₹{mentor.weekly}
+              </p>
+              <p style={{color:m,fontSize:10,margin:0}}>per week</p>
+            </div>
+            <div style={{background:'#8B5CF608',border:'1.5px solid '+(passType==='monthly'&&selected?.id===mentor.id?'#8B5CF6':b),
+              borderRadius:12,padding:'10px',cursor:'pointer',textAlign:'center'}}
+              onClick={e=>{e.stopPropagation();setSelected(mentor);setPassType('monthly')}}>
+              <p style={{color:'#8B5CF6',fontWeight:800,fontSize:15,margin:'0 0 2px'}}>
+                ₹{mentor.monthly}
+              </p>
+              <p style={{color:m,fontSize:10,margin:0}}>per month</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div style={{padding:'20px',maxWidth:760,margin:'0 auto'}}>
+
+      {/* Payment flow when selected */}
+      {selected?.id===mentor.id&&(
+        <div style={{marginTop:16,padding:'16px',background:isDark?'rgba(255,255,255,0.05)':bg,
+          borderRadius:14,border:'1px solid '+b}}
+          onClick={e=>e.stopPropagation()}>
+          <p style={{color:t,fontWeight:700,fontSize:13,margin:'0 0 10px'}}>
+            Pay via:
+          </p>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:12}}>
+            {[
+              {id:'razorpay',label:'💳 Razorpay',sub:'Cards, Net Banking, UPI'},
+              {id:'upi',label:'📱 Google Pay / UPI',sub:'Direct UPI payment'},
+            ].map(method=>(
+              <button key={method.id} onClick={()=>setPayMethod(method.id)}
+                style={{padding:'10px',borderRadius:12,border:'2px solid',cursor:'pointer',
+                  textAlign:'left',transition:'all 0.2s',
+                  borderColor:payMethod===method.id?a:b,
+                  background:payMethod===method.id?a+'10':c}}>
+                <p style={{color:t,fontWeight:600,fontSize:12,margin:'0 0 2px'}}>{method.label}</p>
+                <p style={{color:m,fontSize:10,margin:0}}>{method.sub}</p>
+              </button>
+            ))}
+          </div>
+          <button style={{width:'100%',
+            background:'linear-gradient(135deg,'+p+','+a+')',
+            border:'none',borderRadius:14,padding:'14px',
+            color:'#fff',fontWeight:800,fontSize:14,cursor:'pointer',
+            boxShadow:'0 4px 16px '+p+'33'}}>
+            {passType==='weekly'?'Get Weekly Pass — ₹'+mentor.weekly:'Get Monthly Pass — ₹'+mentor.monthly}
+          </button>
+          <p style={{color:m,fontSize:10,textAlign:'center',margin:'8px 0 0'}}>
+            Secure payment · Cancel anytime · Change mentor after 7 days
+          </p>
+        </div>
+      )}
+    </div>
+  )
+
+  return (
+    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
+      <div style={{background:c,borderBottom:'1px solid '+b,padding:'16px 20px',
+        display:'flex',alignItems:'center',gap:12,position:'sticky',top:0,zIndex:10}}>
+        <button onClick={()=>nav('/student')} style={{background:'transparent',
+          border:'1px solid '+b,borderRadius:10,padding:'6px 14px',
+          color:m,fontSize:13,cursor:'pointer',fontWeight:600}}>← Back</button>
+        <div style={{flex:1}}>
+          <h1 style={{color:t,fontSize:17,fontWeight:800,margin:0}}>👨‍🏫 Find a Mentor</h1>
+          <p style={{color:m,fontSize:11,margin:0}}>
+            Weekly or monthly · Cancel anytime · Change after 7 days
+          </p>
+        </div>
+        <button onClick={()=>nav('/mentor-hub/leaderboard')}
+          style={{background:'transparent',border:'1px solid '+b,borderRadius:10,
+            padding:'6px 14px',color:p,fontSize:12,fontWeight:700,cursor:'pointer'}}>
+          🏆 Top Mentors
+        </button>
+      </div>
+
+      <div style={{padding:'20px',maxWidth:680,margin:'0 auto'}}>
+
+        {/* How it works */}
+        <div style={{background:'linear-gradient(135deg,'+p+','+p+'cc)',
+          borderRadius:18,padding:'18px',marginBottom:20}}>
+          <p style={{color:a,fontWeight:700,fontSize:11,letterSpacing:'1px',margin:'0 0 6px'}}>
+            HOW MENTOR PASSES WORK
+          </p>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:10}}>
+            {[{e:'📚',t:'Daily Assignments',s:'Notes, PDFs, HW every day'},
+              {e:'📝',t:'Unit Tests',s:'Conducted by your mentor'},
+              {e:'💬',t:'Doubt Priority',s:'Answered within 2 hours'}
+            ].map((item,i)=>(
+              <div key={i} style={{background:'rgba(255,255,255,0.08)',borderRadius:12,padding:'10px',textAlign:'center'}}>
+                <div style={{fontSize:20,marginBottom:4}}>{item.e}</div>
+                <p style={{color:'#fff',fontWeight:600,fontSize:11,margin:'0 0 2px'}}>{item.t}</p>
+                <p style={{color:'rgba(255,255,255,0.6)',fontSize:9,margin:0}}>{item.s}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Filter */}
         <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4,marginBottom:16}}>
-          {['All','UPSC','SSC','IBPS','TNPSC'].map((f,i)=>(
-            <button key={i} onClick={()=>setFilter(f)}
-              style={{background:filter===f?`linear-gradient(135deg,${p},${a})`:`${b}55`,
-                border:'none',borderRadius:20,padding:'6px 14px',
-                color:filter===f?'#fff':m,fontWeight:600,fontSize:12,cursor:'pointer',
-                flexShrink:0,transition:'all 0.2s'}}>
+          {EXAMS.map(f=>(
+            <button key={f} onClick={()=>setFilter(f)}
+              style={{padding:'7px 16px',borderRadius:20,border:'none',cursor:'pointer',
+                fontSize:12,fontWeight:700,flexShrink:0,
+                background:filter===f?'linear-gradient(135deg,'+p+','+a+')':'transparent',
+                color:filter===f?'#fff':m}}>
               {f}
             </button>
           ))}
         </div>
-        {MENTORS.filter(x=>filter==='All'||x.exam.includes(filter)).map((me,i)=>(
-          <div key={i} style={{background:c,border:`1px solid ${b}`,borderRadius:18,
-            padding:'18px',marginBottom:12,transition:'all 0.2s'}}
-            onMouseEnter={e=>e.currentTarget.style.borderColor=a}
-            onMouseLeave={e=>e.currentTarget.style.borderColor=b}>
-            <div style={{display:'flex',gap:14,alignItems:'flex-start'}}>
-              <div style={{width:52,height:52,borderRadius:16,background:`linear-gradient(135deg,${p},${a})`,
-                display:'flex',alignItems:'center',justifyContent:'center',
-                fontWeight:900,fontSize:20,color:'#fff',flexShrink:0}}>
-                {me.name[0]}
-              </div>
-              <div style={{flex:1}}>
-                <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:4}}>
-                  <p style={{color:t,fontWeight:700,fontSize:14,margin:0}}>{me.name}</p>
-                  <span style={{color:'#F59E0B',fontWeight:700,fontSize:13}}>★ {me.rating}</span>
-                </div>
-                <p style={{color:m,fontSize:12,margin:'0 0 6px'}}>{me.subject} · {me.exam} · {me.exp}</p>
-                <div style={{display:'flex',gap:8,flexWrap:'wrap',marginBottom:10}}>
-                  <span style={{background:`${a}15`,color:a,fontSize:9,fontWeight:700,
-                    padding:'2px 8px',borderRadius:20}}>{me.exam}</span>
-                  <span style={{background:`${p}10`,color:p,fontSize:9,fontWeight:700,
-                    padding:'2px 8px',borderRadius:20}}>🌐 {me.lang}</span>
-                  <span style={{background:'#22C55E15',color:'#22C55E',fontSize:9,fontWeight:700,
-                    padding:'2px 8px',borderRadius:20}}>👥 {me.students} students</span>
-                </div>
-                <div style={{display:'flex',gap:8}}>
-                  <button style={{background:`linear-gradient(135deg,${p},${a})`,border:'none',
-                    borderRadius:10,padding:'8px 18px',color:'#fff',fontWeight:700,fontSize:12,cursor:'pointer'}}>
-                    Connect
-                  </button>
-                  <button style={{background:'transparent',border:`1px solid ${b}`,
-                    borderRadius:10,padding:'8px 14px',color:m,fontWeight:600,fontSize:12,cursor:'pointer'}}>
-                    View Profile
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-        <div style={{height:80}}/>
+
+        {filtered.map(mentor => <MentorCard key={mentor.id} mentor={mentor}/>)}
+        <div style={{height:60}}/>
       </div>
     </div>
   )

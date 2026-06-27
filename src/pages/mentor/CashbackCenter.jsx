@@ -1,78 +1,113 @@
 // src/pages/mentor/CashbackCenter.jsx
-import AppLayout from '../../components/layout/AppLayout'
-import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '../../context/ThemeContext'
 
-const HOW_IT_WORKS = [
-  { step: '1', text: 'You refer students to TryIT using your referral code.' },
-  { step: '2', text: 'When a referred student upgrades to Pro, you earn a cashback percentage of their payment.' },
-  { step: '3', text: 'Cashback is held for a 30-day qualification window before payout (to account for refunds).' },
-  { step: '4', text: 'Qualified earnings are paid out monthly to your registered UPI ID.' },
+const EARNINGS = [
+  {student:'Priya R.',plan:'Monthly ₹699',earned:'₹104',date:'Jun 1',status:'pending_payout'},
+  {student:'Karthik M.',plan:'Weekly ₹149',earned:'₹22',date:'Jun 10',status:'pending_payout'},
+  {student:'Anjali S.',plan:'Monthly ₹349',earned:'₹52',date:'May 15',status:'paid'},
+  {student:'Rahul V.',plan:'Weekly ₹149',earned:'₹22',date:'Jun 20',status:'pending_payout'},
 ]
 
 export default function CashbackCenter() {
-  const { user } = useAuth()
-  if (!user) return null
+  const nav = useNavigate()
+  const { theme } = useTheme()
+  const p = theme?.primary||'#1E3A5F', a = theme?.accent||'#C9A84C'
+  const t = theme?.text||'#1E293B', m = theme?.textLight||'#64748B'
+  const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF'
+  const b = theme?.border||'#E2E8F0'
 
-  const daysIntoMonth = new Date().getDate()
-  const qualProgress = Math.min(daysIntoMonth, 30)
+  const pending = EARNINGS.filter(e=>e.status==='pending_payout')
+  const paid = EARNINGS.filter(e=>e.status==='paid')
+  const pendingAmt = 148
+  const paidAmt = 52
 
   return (
-    <AppLayout title="Cashback Center">
-      <div className="max-w-2xl mx-auto space-y-6 p-4">
+    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
+      <div style={{background:c,borderBottom:'1px solid '+b,padding:'16px 20px',
+        display:'flex',alignItems:'center',gap:12,position:'sticky',top:0,zIndex:10}}>
+        <button onClick={()=>nav('/mentor-hub')} style={{background:'transparent',
+          border:'1px solid '+b,borderRadius:10,padding:'6px 14px',
+          color:m,fontSize:13,cursor:'pointer',fontWeight:600}}>← Back</button>
+        <h1 style={{color:t,fontSize:17,fontWeight:800,margin:0}}>💰 Earnings & Cashback</h1>
+      </div>
 
-        {/* Pending cashback */}
-        <div className="bg-gradient-to-br from-[var(--color-accent, #D4AF37)] to-[var(--color-accent-light, #E8C84A)] rounded-2xl p-6 text-[var(--color-primary-dark, #0F2140)] shadow-lg">
-          <p className="text-sm opacity-75">Pending Cashback</p>
-          <p className="text-5xl font-black mt-1">₹0.00</p>
-          <p className="text-sm mt-2 opacity-75">Refer students who upgrade to Pro to start earning.</p>
+      <div style={{padding:'20px',maxWidth:680,margin:'0 auto'}}>
+
+        {/* Summary cards */}
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:20}}>
+          {[
+            {l:'Total Earned',v:'₹'+( pendingAmt+paidAmt),e:'💰',c:'#22C55E'},
+            {l:'Pending Payout',v:'₹'+pendingAmt,e:'⏳',c:'#F59E0B'},
+            {l:'Already Paid',v:'₹'+paidAmt,e:'✅',c:'#3B82F6'},
+          ].map((s,i)=>(
+            <div key={i} style={{background:c,border:'1px solid '+b,borderRadius:16,
+              padding:'16px',textAlign:'center',boxShadow:'0 2px 12px rgba(0,0,0,0.04)'}}>
+              <div style={{fontSize:24,marginBottom:6}}>{s.e}</div>
+              <p style={{color:t,fontWeight:800,fontSize:18,margin:'0 0 2px'}}>{s.v}</p>
+              <p style={{color:m,fontSize:11,margin:0}}>{s.l}</p>
+            </div>
+          ))}
         </div>
 
-        {/* Qualification progress */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
-          <h2 className="font-bold text-[var(--color-primary, #1E3A5F)]">Monthly Qualification Window</h2>
-          <div className="flex justify-between text-sm text-gray-500 mb-1">
-            <span>Day {qualProgress} of 30</span>
-            <span className="font-semibold text-[var(--color-accent, #D4AF37)]">{Math.round((qualProgress/30)*100)}%</span>
-          </div>
-          <div className="h-3 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[var(--color-accent, #D4AF37)] rounded-full transition-all"
-              style={{ width: `${(qualProgress/30)*100}%` }}
-            />
-          </div>
-          <p className="text-xs text-gray-400">
-            Referrals from this month qualify for payout after the 30-day window ends.
-            Earnings with refunded subscriptions are automatically voided.
+        {/* Policy box */}
+        <div style={{background:a+'12',border:'1px solid '+a+'30',borderRadius:14,
+          padding:'14px 16px',marginBottom:20}}>
+          <p style={{color:a,fontWeight:700,fontSize:12,margin:'0 0 4px'}}>
+            📋 Cashback Policy
+          </p>
+          <p style={{color:m,fontSize:11,margin:0,lineHeight:1.7}}>
+            You earn 15% of each student's pass amount. Payout is released after
+            <strong style={{color:t}}> 30 days minimum</strong> per student
+            to ensure quality mentoring. Coupon code cashbacks are paid at month end.
           </p>
         </div>
 
-        {/* Payout history */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-          <div className="p-5 border-b border-gray-100">
-            <h2 className="font-bold text-[var(--color-primary, #1E3A5F)]">Payout History</h2>
-          </div>
-          <div className="text-center py-10 text-gray-400 px-6">
-            <p className="text-3xl mb-2">💳</p>
-            <p className="text-sm font-medium text-gray-500">No payouts yet</p>
-            <p className="text-xs mt-1">Your first payout will appear here after the 30-day qualification period.</p>
-          </div>
-        </div>
-
-        {/* How it works */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 space-y-3">
-          <h2 className="font-bold text-[var(--color-primary, #1E3A5F)]">How Cashback Works</h2>
-          {HOW_IT_WORKS.map(h => (
-            <div key={h.step} className="flex gap-3 items-start">
-              <span className="w-6 h-6 rounded-full bg-[var(--color-accent, #D4AF37)] text-[var(--color-primary-dark, #0F2140)] text-xs font-black flex items-center justify-center shrink-0">{h.step}</span>
-              <p className="text-sm text-gray-600">{h.text}</p>
+        {/* Breakdown */}
+        <p style={{color:t,fontWeight:700,fontSize:14,marginBottom:12}}>
+          Earnings Breakdown
+        </p>
+        {EARNINGS.map((e,i)=>(
+          <div key={i} style={{background:c,border:'1px solid '+b,borderRadius:14,
+            padding:'14px 16px',marginBottom:8,
+            display:'flex',alignItems:'center',gap:12}}>
+            <div style={{width:36,height:36,borderRadius:10,flexShrink:0,
+              background:'linear-gradient(135deg,'+p+','+a+')',
+              display:'flex',alignItems:'center',justifyContent:'center',
+              fontWeight:700,fontSize:14,color:'#fff'}}>
+              {e.student[0]}
             </div>
-          ))}
-          <div className="mt-2 bg-[#FDF6E3] rounded-xl p-3">
-            <p className="text-xs text-[#7C2D12] font-semibold">💡 Cashback rate: 10% of Pro subscription value per referral. Minimum payout threshold: ₹50.</p>
+            <div style={{flex:1}}>
+              <p style={{color:t,fontWeight:600,fontSize:13,margin:'0 0 2px'}}>{e.student}</p>
+              <p style={{color:m,fontSize:11,margin:0}}>{e.plan} · {e.date}</p>
+            </div>
+            <div style={{textAlign:'right'}}>
+              <p style={{color:'#22C55E',fontWeight:800,fontSize:14,margin:'0 0 2px'}}>{e.earned}</p>
+              <span style={{background:e.status==='paid'?'#22C55E15':'#F59E0B15',
+                color:e.status==='paid'?'#22C55E':'#F59E0B',
+                fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:20}}>
+                {e.status==='paid'?'✓ Paid':'⏳ Pending'}
+              </span>
+            </div>
           </div>
+        ))}
+
+        {/* Payout button */}
+        <div style={{background:'linear-gradient(135deg,'+p+','+p+'cc)',
+          borderRadius:18,padding:'20px',marginTop:16,textAlign:'center'}}>
+          <p style={{color:'rgba(255,255,255,0.7)',fontSize:12,margin:'0 0 4px'}}>
+            Available for payout after 30-day window
+          </p>
+          <p style={{color:a,fontWeight:900,fontSize:28,margin:'0 0 12px'}}>₹{paidAmt}</p>
+          <button style={{background:'linear-gradient(135deg,'+a+',#E8C44A)',border:'none',
+            borderRadius:12,padding:'12px 32px',color:p,fontWeight:800,
+            fontSize:14,cursor:'pointer'}}>
+            Request Payout
+          </button>
         </div>
 
+        <div style={{height:40}}/>
       </div>
-    </AppLayout>
+    </div>
   )
-}s
+}

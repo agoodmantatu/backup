@@ -1,177 +1,224 @@
-// FILE: src/pages/mentor/MentorHub.jsx — home page for role==='mentor'
-import { useMemo } from 'react'
+// src/pages/mentor/MentorHub.jsx
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import AppLayout from '../../components/layout/AppLayout'
-import ProtectedAvatar from '../../components/ProtectedAvatar'
+import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
-import { getPinnedAnswer, isMentorPinnedToday } from '../../lib/mentorReactions'
 
-const SAMPLE_DOUBTS = [
-  { id: 1, subject: 'Mathematics', question: 'How do I solve quadratic inequalities on a number line?', time: '12 min ago', coins: 5 },
-  { id: 2, subject: 'History',     question: 'What were the main causes of the 1857 revolt?',            time: '34 min ago', coins: 5 },
-  { id: 3, subject: 'Physics',     question: 'Explain Bernoulli\'s principle with a real-life example.',  time: '1 hr ago',   coins: 5 },
+const STATS = [
+  {icon:'👨‍🎓', label:'Active Students', val:'12', color:'#3B82F6'},
+  {icon:'💬', label:'Doubts Pending', val:'4', color:'#F59E0B'},
+  {icon:'⭐', label:'Avg Rating', val:'4.8', color:'#F59E0B'},
+  {icon:'💰', label:'This Month', val:'₹3,840', color:'#22C55E'},
 ]
 
-const QUICK_LINKS = [
-  { emoji: '✍️', label: 'Answer Doubts',    path: '/guru-hub',              desc: 'Help students & earn coins' },
-  { emoji: '📊', label: 'Analytics',         path: '/mentor-hub/analytics',  desc: 'Your impact metrics' },
-  { emoji: '💰', label: 'Cashback Center',   path: '/mentor-hub/cashback',   desc: 'Track your referral earnings' },
-  { emoji: '🎟️', label: 'Coupon Manager',   path: '/mentor-hub/coupons',    desc: 'Create discount codes' },
+const PENDING_DOUBTS = [
+  {student:'Priya R.',exam:'UPSC',q:'Explain Directive Principles vs Fundamental Rights',time:'10m ago'},
+  {student:'Karthik M.',exam:'SSC CGL',q:'Time and work shortcut for 3 workers?',time:'25m ago'},
+  {student:'Anjali S.',exam:'TNPSC',q:'What is the Panchayati Raj Amendment?',time:'1h ago'},
+  {student:'Rahul V.',exam:'IBPS PO',q:'Difference between CRR and SLR?',time:'2h ago'},
 ]
 
-const springTap = { type: 'spring', stiffness: 420, damping: 26 }
+const STUDENTS = [
+  {name:'Priya R.',exam:'UPSC',plan:'Monthly',joined:'Jun 1',status:'active',rating:5},
+  {name:'Karthik M.',exam:'SSC CGL',plan:'Weekly',joined:'Jun 10',status:'active',rating:4},
+  {name:'Anjali S.',exam:'TNPSC',plan:'Monthly',joined:'May 15',status:'active',rating:5},
+  {name:'Rahul V.',exam:'IBPS PO',plan:'Weekly',joined:'Jun 20',status:'active',rating:4},
+]
 
-/**
- * Banner shown at the top of every mentor's feed — visible to all
- * mentors, celebrating whichever mentor's ANSWER (not question) got
- * the highest weighted student reactions today. Reactions themselves
- * happen where students actually read answers (e.g. GuruHub /
- * doubt-thread view) — this banner is the recognition surface, not
- * the reacting surface.
- */
-function PinnedAnswerBanner({ pinned }) {
-  if (!pinned) return null
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: -8 }}
-      animate={{ opacity: 1, y: 0 }}
-      style={{
-        borderRadius: 20, padding: 16,
-        background: 'linear-gradient(135deg, var(--color-accent, #D4AF37), var(--color-accent-light, #E8C84A))',
-        display: 'flex', alignItems: 'center', gap: 12,
-        boxShadow: '0 12px 32px rgba(212,175,55,0.28)',
-      }}
-    >
-      <span style={{ fontSize: 28 }}>🏆</span>
-      <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 11, fontWeight: 800, letterSpacing: 0.5, color: 'var(--color-primary-dark, #1E3A5F)', textTransform: 'uppercase' }}>
-          Today's Top Answer
-        </p>
-        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--color-primary-dark, #1E3A5F)' }}>
-          {pinned.mentorName} · {pinned.subject}
-        </p>
-        <p style={{ fontSize: 12, color: 'rgba(15,23,42,0.65)', marginTop: 2 }}>
-          Score {pinned.score} — pinned for 24 hours
-        </p>
-      </div>
-    </motion.div>
-  )
-}
+const NAV = [
+  {icon:'🏠',label:'Dashboard',path:'/mentor-hub'},
+  {icon:'👥',label:'Students',path:'/mentor-hub/students'},
+  {icon:'💬',label:'Doubts',path:'/mentor-hub/doubts'},
+  {icon:'📚',label:'Materials',path:'/mentor-hub/materials'},
+  {icon:'🏆',label:'Leaderboard',path:'/mentor-hub/leaderboard'},
+  {icon:'💰',label:'Earnings',path:'/mentor-hub/cashback'},
+  {icon:'📊',label:'Analytics',path:'/mentor-hub/analytics'},
+]
 
 export default function MentorHub() {
-  const { user, loading } = useAuth()
-  const navigate = useNavigate()
-
-  const pinned = useMemo(() => getPinnedAnswer(), [])
-  const isPinnedMentor = useMemo(() => isMentorPinnedToday(user?.id), [user?.id])
-
-  if (loading) return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, var(--color-primary, #1E3A5F), var(--color-primary-dark, #0F2140))' }}>
-      <p style={{ color: 'var(--color-accent, #D4AF37)', fontFamily: 'Poppins,sans-serif', fontSize: 18 }}>Loading...</p>
-    </div>
-  )
-  if (!user) return null
+  const nav = useNavigate()
+  const { user } = useAuth()
+  const { theme } = useTheme()
+  const p = theme?.primary||'#1E3A5F'
+  const a = theme?.accent||'#C9A84C'
+  const t = theme?.text||'#1E293B'
+  const m = theme?.textLight||'#64748B'
+  const bg = theme?.background||'#F8FAFC'
+  const c = theme?.surface||'#FFFFFF'
+  const b = theme?.border||'#E2E8F0'
+  const isDark = theme?.isDark||false
+  const [tab, setTab] = useState('doubts')
 
   return (
-    <AppLayout title="Mentor Hub">
-      <div className="max-w-2xl mx-auto space-y-6 p-4">
+    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif',display:'flex'}}>
 
-        {pinned && <PinnedAnswerBanner pinned={pinned} />}
-
-        {/* Welcome */}
-        <div className="rounded-2xl p-5 flex items-center gap-4" style={{ background: 'linear-gradient(135deg, var(--color-primary-dark, #0F2140), var(--color-primary, #1E3A5F))', color: 'var(--color-on-dark, #FFFFFF)' }}>
-          <ProtectedAvatar user={user} size={56} />
-          <div>
-            <p className="text-sm" style={{ color: 'var(--color-on-dark-muted, rgba(255,255,255,0.7))' }}>Welcome back, Mentor</p>
-            <p className="text-2xl font-bold flex items-center gap-2">
-              {user.name} 🎓
-              {isPinnedMentor && (
-                <span style={{
-                  fontSize: 11, fontWeight: 800, padding: '2px 10px', borderRadius: 10,
-                  background: 'rgba(212,175,55,0.25)', color: 'var(--color-accent-light, #E8C84A)',
-                }}>
-                  🏆 Pinned Today
-                </span>
-              )}
-            </p>
-            {user.mentorSubjects && (
-              <p className="text-sm mt-1" style={{ color: 'var(--color-on-dark-muted, rgba(255,255,255,0.7))' }}>
-                Subjects: {Array.isArray(user.mentorSubjects) ? user.mentorSubjects.join(', ') : user.mentorSubjects}
+      {/* Sidebar */}
+      <div style={{width:220,background:p,minHeight:'100vh',position:'fixed',
+        top:0,left:0,zIndex:100,display:'flex',flexDirection:'column',padding:'0 0 20px'}}>
+        <div style={{padding:'20px 16px',borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
+          <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:4}}>
+            <div style={{width:36,height:36,borderRadius:'50%',background:a,
+              display:'flex',alignItems:'center',justifyContent:'center',
+              fontWeight:800,fontSize:14,color:p}}>
+              {user?.name?.[0]||'M'}
+            </div>
+            <div>
+              <p style={{color:'#fff',fontWeight:700,fontSize:13,margin:0}}>
+                {user?.name||'Mentor'}
               </p>
-            )}
+              <p style={{color:'rgba(255,255,255,0.6)',fontSize:10,margin:0}}>
+                ⭐ 4.8 · 12 students
+              </p>
+            </div>
           </div>
+        </div>
+        <div style={{flex:1,padding:'12px 8px'}}>
+          {NAV.map((n,i)=>(
+            <button key={i} onClick={()=>nav(n.path)}
+              style={{width:'100%',display:'flex',alignItems:'center',gap:10,
+                padding:'10px 12px',borderRadius:10,border:'none',cursor:'pointer',
+                marginBottom:2,textAlign:'left',
+                background:window.location.pathname===n.path
+                  ?'rgba(255,255,255,0.15)':'transparent',
+                color:window.location.pathname===n.path
+                  ?'#fff':'rgba(255,255,255,0.7)'}}>
+              <span style={{fontSize:16}}>{n.icon}</span>
+              <span style={{fontSize:13,fontWeight:600}}>{n.label}</span>
+            </button>
+          ))}
+        </div>
+        <div style={{padding:'12px'}}>
+          <button onClick={()=>nav('/student')}
+            style={{width:'100%',background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',
+              borderRadius:10,padding:'8px',color:'rgba(255,255,255,0.7)',
+              fontSize:12,cursor:'pointer',fontWeight:600}}>
+            Switch to Student
+          </button>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div style={{marginLeft:220,flex:1,padding:'24px'}}>
+
+        {/* Header */}
+        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:24}}>
+          <div>
+            <h1 style={{color:t,fontSize:22,fontWeight:800,margin:'0 0 4px'}}>
+              Good Morning, {user?.name||'Mentor'} 👋
+            </h1>
+            <p style={{color:m,fontSize:13,margin:0}}>
+              You have {PENDING_DOUBTS.length} pending doubts to answer today
+            </p>
+          </div>
+          <button onClick={()=>nav('/mentor-hub/doubts')}
+            style={{background:'linear-gradient(135deg,'+p+','+a+')',border:'none',
+              borderRadius:12,padding:'10px 20px',color:'#fff',fontWeight:700,
+              fontSize:13,cursor:'pointer'}}>
+            Answer Doubts →
+          </button>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-3 gap-3">
-          {[
-            { label: 'Answers Given',  value: user.guruPoints ?? 0, emoji: '✍️' },
-            { label: 'Coins Earned',   value: user.coins ?? 0,      emoji: '🪙' },
-            { label: 'Students Helped', value: 0,                   emoji: '👨‍🎓' },
-          ].map(s => (
-            <motion.div
-              key={s.label}
-              whileHover={{ y: -3 }}
-              transition={springTap}
-              className="rounded-2xl border p-4 text-center shadow-sm"
-              style={{ background: 'var(--color-surface, #FFFFFF)', borderColor: 'var(--color-border, #E2E8F0)' }}
-            >
-              <p className="text-2xl">{s.emoji}</p>
-              <p className="text-2xl font-black" style={{ color: 'var(--heading-color, var(--color-text, #1E3A5F))' }}>{s.value}</p>
-              <p className="text-xs mt-0.5" style={{ color: 'var(--subtext-color, #64748B)' }}>{s.label}</p>
-            </motion.div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:14,marginBottom:24}}>
+          {STATS.map((s,i)=>(
+            <div key={i} style={{background:c,border:'1px solid '+b,borderRadius:16,
+              padding:'18px',boxShadow:'0 2px 12px rgba(0,0,0,0.05)'}}>
+              <div style={{width:40,height:40,borderRadius:12,background:s.color+'15',
+                display:'flex',alignItems:'center',justifyContent:'center',
+                fontSize:20,marginBottom:10}}>
+                {s.icon}
+              </div>
+              <p style={{color:t,fontWeight:800,fontSize:20,margin:'0 0 2px'}}>{s.val}</p>
+              <p style={{color:m,fontSize:11,margin:0}}>{s.label}</p>
+            </div>
           ))}
         </div>
 
-        {/* Quick links */}
-        <div className="grid grid-cols-2 gap-3">
-          {QUICK_LINKS.map(l => (
-            <motion.button
-              key={l.label}
-              whileHover={{ y: -3 }}
-              whileTap={{ scale: 0.97 }}
-              transition={springTap}
-              onClick={() => navigate(l.path)}
-              className="rounded-2xl border shadow-sm p-4 text-left"
-              style={{ background: 'var(--color-surface, #FFFFFF)', borderColor: 'var(--color-border, #E2E8F0)', color: 'var(--heading-color, var(--color-text, #1E3A5F))' }}
-            >
-              <span className="text-2xl">{l.emoji}</span>
-              <p className="font-bold mt-2 text-sm" style={{ color: 'var(--heading-color, var(--color-text, #1E3A5F))' }}>{l.label}</p>
-              <p className="text-xs" style={{ color: 'var(--subtext-color, #64748B)' }}>{l.desc}</p>
-            </motion.button>
-          ))}
-        </div>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:20}}>
 
-        {/* Recent doubts — reactions happen in GuruHub once the mentor's
-            answer is posted, not here. This list is just "doubts you
-            can help with", same as before. */}
-        <div className="rounded-2xl shadow-sm" style={{ background: 'var(--color-surface, #FFFFFF)', border: '1px solid var(--color-border, #E2E8F0)' }}>
-          <div className="p-5 flex items-center justify-between" style={{ borderBottom: '1px solid var(--color-border, #E2E8F0)' }}>
-            <h2 className="font-bold" style={{ color: 'var(--heading-color, var(--color-text, #1E3A5F))' }}>Recent Doubts You Can Help</h2>
-            <button onClick={() => navigate('/guru-hub')} className="text-xs font-semibold hover:underline" style={{ color: 'var(--color-accent, #D4AF37)' }}>See all →</button>
-          </div>
-          <ul className="divide-y" style={{ borderColor: 'var(--color-bg, #F8FAFC)' }}>
-            {SAMPLE_DOUBTS.map(d => (
-              <li
-                key={d.id}
-                className="p-4 flex items-start gap-3 cursor-pointer transition"
-                onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-bg, #F8FAFC)'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                onClick={() => navigate('/guru-hub')}
-              >
-                <div className="flex-1">
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ background: 'rgba(212,175,55,0.12)', color: 'var(--color-accent, #D4AF37)' }}>{d.subject}</span>
-                  <p className="text-sm mt-1 line-clamp-2" style={{ color: 'var(--heading-color, var(--color-text, #1E3A5F))' }}>{d.question}</p>
-                  <p className="text-xs mt-1" style={{ color: 'var(--subtext-color, #64748B)' }}>{d.time}</p>
+          {/* Pending Doubts */}
+          <div style={{background:c,border:'1px solid '+b,borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'16px',borderBottom:'1px solid '+b,
+              display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <p style={{color:t,fontWeight:700,fontSize:14,margin:0}}>💬 Pending Doubts</p>
+              <button onClick={()=>nav('/mentor-hub/doubts')}
+                style={{background:'transparent',border:'none',color:a,
+                  fontSize:12,fontWeight:700,cursor:'pointer'}}>View All →</button>
+            </div>
+            {PENDING_DOUBTS.map((d,i)=>(
+              <div key={i} style={{padding:'12px 16px',borderBottom:'1px solid '+b,
+                cursor:'pointer',transition:'background 0.2s'}}
+                onMouseEnter={e=>e.currentTarget.style.background=a+'08'}
+                onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+                  <span style={{color:t,fontWeight:600,fontSize:12}}>{d.student}</span>
+                  <span style={{color:m,fontSize:10}}>{d.time}</span>
                 </div>
-                <span className="text-xs font-bold whitespace-nowrap" style={{ color: 'var(--color-accent, #D4AF37)' }}>+{d.coins} 🪙</span>
-              </li>
+                <p style={{color:m,fontSize:11,margin:'0 0 4px',lineHeight:1.4}}>{d.q}</p>
+                <span style={{background:a+'15',color:a,fontSize:9,fontWeight:700,
+                  padding:'2px 8px',borderRadius:20}}>{d.exam}</span>
+              </div>
             ))}
-          </ul>
+          </div>
+
+          {/* Active Students */}
+          <div style={{background:c,border:'1px solid '+b,borderRadius:18,overflow:'hidden'}}>
+            <div style={{padding:'16px',borderBottom:'1px solid '+b,
+              display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+              <p style={{color:t,fontWeight:700,fontSize:14,margin:0}}>👥 Active Students</p>
+              <button onClick={()=>nav('/mentor-hub/students')}
+                style={{background:'transparent',border:'none',color:a,
+                  fontSize:12,fontWeight:700,cursor:'pointer'}}>View All →</button>
+            </div>
+            {STUDENTS.map((s,i)=>(
+              <div key={i} style={{padding:'12px 16px',borderBottom:'1px solid '+b,
+                display:'flex',alignItems:'center',gap:10}}>
+                <div style={{width:32,height:32,borderRadius:'50%',
+                  background:'linear-gradient(135deg,'+p+','+a+')',
+                  display:'flex',alignItems:'center',justifyContent:'center',
+                  fontWeight:700,fontSize:12,color:'#fff',flexShrink:0}}>
+                  {s.name[0]}
+                </div>
+                <div style={{flex:1}}>
+                  <p style={{color:t,fontWeight:600,fontSize:12,margin:'0 0 2px'}}>{s.name}</p>
+                  <span style={{color:m,fontSize:10}}>{s.exam} · {s.plan}</span>
+                </div>
+                <div style={{textAlign:'right'}}>
+                  <p style={{color:'#F59E0B',fontSize:11,margin:'0 0 2px'}}>
+                    {'⭐'.repeat(s.rating)}
+                  </p>
+                  <span style={{background:'#22C55E15',color:'#22C55E',
+                    fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:20}}>
+                    Active
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
 
+        {/* Earnings summary */}
+        <div style={{background:'linear-gradient(135deg,'+p+','+p+'cc)',
+          borderRadius:18,padding:'20px',marginTop:20}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div>
+              <p style={{color:'rgba(255,255,255,0.7)',fontSize:11,fontWeight:700,
+                letterSpacing:'1px',margin:'0 0 4px'}}>EARNINGS THIS MONTH</p>
+              <p style={{color:'#fff',fontWeight:900,fontSize:28,margin:'0 0 4px'}}>₹3,840</p>
+              <p style={{color:'rgba(255,255,255,0.6)',fontSize:11,margin:0}}>
+                12 students × avg ₹320/student · Payout eligible after 30 days
+              </p>
+            </div>
+            <button onClick={()=>nav('/mentor-hub/cashback')}
+              style={{background:'linear-gradient(135deg,'+a+',#E8C44A)',border:'none',
+                borderRadius:12,padding:'10px 20px',color:p,fontWeight:800,
+                fontSize:13,cursor:'pointer'}}>
+              View Earnings →
+            </button>
+          </div>
+        </div>
       </div>
-    </AppLayout>
+    </div>
   )
 }
