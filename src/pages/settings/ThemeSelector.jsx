@@ -10,8 +10,8 @@ const springTap = { type: 'spring', stiffness: 400, damping: 28 }
 
 function ThemeCard({ t, isActive, onSelect, onUpgradeClick }) {
   const [pressed, setPressed] = useState(false)
-  const locked = !t.unlocked
-  const planLocked = t.planLocked
+  const locked = !t.unlocked && !isAdmin
+  const planLocked = t.planLocked && !isAdmin
 
   return (
     <motion.button

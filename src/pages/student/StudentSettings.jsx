@@ -160,7 +160,7 @@ export default function StudentSettings() {
     ? allThemes
     : allThemes.filter(t => t.category === themeFilter)
 
-  const isUnlocked = (t) => t.tier === 'base' || !t.unlock
+  const isUnlocked = (t) => isAdmin || t.tier === 'base' || !t.unlock
 
   const handleThemeClick = (t) => {
     if (!isUnlocked(t)) return
