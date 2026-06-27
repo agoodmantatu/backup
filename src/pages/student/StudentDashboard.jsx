@@ -1,9 +1,9 @@
 ﻿// src/pages/student/StudentDashboard.jsx
 // TRYIT PREMIUM DASHBOARD v3 â€” Full featured world-class
-import { withTimeout, useState, useEffect, useRef, useCallback } from 'react'
-import { withTimeout, useNavigate, useLocation } from 'react-router-dom'
-import { withTimeout, useTheme } from '../../context/ThemeContext'
-import { withTimeout, useAuth } from '../../context/AuthContext'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useTheme } from '../../context/ThemeContext'
+import { useAuth } from '../../context/AuthContext'
 import UpgradePopup from '../../components/student/UpgradePopup'
 import { withTimeout,
   getProfile, getStreak, getRecentAttempts,
@@ -1295,5 +1295,6 @@ export default function StudentDashboard() {
     </div>
   )
 }
+
 
 
