@@ -8,11 +8,11 @@ import ThemeSwitcher from '../../components/ThemeSwitcher'
 // Each dot has a light+dark pair
 // Clicking a dot applies the right variant for current mode
 const BASE_DOTS = [
-  { id:'default',        darkId:'midnight',       color:'#D4AF37', label:'Classic'       },
-  { id:'sunrise',        darkId:'sunrise-dark',   color:'#F59E0B', label:'Sunrise'       },
-  { id:'ocean',          darkId:'ocean-dark',     color:'#0EA5E9', label:'Ocean Deep'    },
-  { id:'midnight',       darkId:'midnight',       color:'#818CF8', label:'Midnight'      },
-  { id:'high-contrast',  darkId:'high-contrast',  color:'#e2e2e2', label:'High Contrast' },
+  { id:'blue-white',     darkId:'midnight',       color:'#2563EB', label:'Jasmine at Dawn'   },
+  { id:'rose-white',     darkId:'pink-dark',      color:'#EC4899', label:'Lotus in Bloom'    },
+  { id:'sky-fresh',      darkId:'midnight',       color:'#0EA5E9', label:'Andaman Sky'       },
+  { id:'default',        darkId:'midnight',       color:'#C9A84C', label:'TryIT Classic'     },
+  { id:'high-contrast',  darkId:'high-contrast',  color:'#6366F1', label:'Spashta Drishti'  },
 ]
 
 // Paired theme map for dark/light toggle
