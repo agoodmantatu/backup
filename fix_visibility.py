@@ -1,4 +1,126 @@
-// src/pages/student/StudentTournament.jsx
+import os
+
+def w(path, txt):
+    d = os.path.dirname(path)
+    if d: os.makedirs(d, exist_ok=True)
+    with open(path, 'w', encoding='utf-8') as f:
+        f.write(txt)
+    print('OK', path)
+
+# ============================================================
+# 1. MOTION CSS — make orbs invisible, keep ONLY shooting stars
+# ============================================================
+w('src/styles/motion-graphics.css', """/* =====================================================
+   TRYIT EDUCATIONS — SHOOTING STARS ONLY
+   ===================================================== */
+
+.mg-layer {
+  position: fixed; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+
+/* Very faint ambient colour — barely visible */
+.mg-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(140px); pointer-events: none;
+}
+.mg-orb-0 {
+  width:900px; height:900px; top:-300px; left:-300px;
+  background: var(--color-primary,#1E3A5F);
+  opacity: 0.03;
+  animation: mg-orb0 40s ease-in-out infinite;
+}
+.mg-orb-1 {
+  width:700px; height:700px; bottom:-200px; right:-200px;
+  background: var(--color-accent,#C9A84C);
+  opacity: 0.025;
+  animation: mg-orb1 50s ease-in-out infinite;
+}
+@keyframes mg-orb0 {
+  0%,100%{transform:translate(0,0);} 50%{transform:translate(80px,100px);}
+}
+@keyframes mg-orb1 {
+  0%,100%{transform:translate(0,0);} 50%{transform:translate(-80px,-80px);}
+}
+
+/* ── FLYING PLATES (shooting stars) ── */
+.mg-shoot {
+  position: absolute;
+  border-radius: 4px;
+  opacity: 0;
+  animation: mg-fly ease-out infinite;
+}
+.mg-shoot::before {
+  content:'';
+  position:absolute; right:0; top:50%;
+  transform:translateY(-50%);
+  width:9px; height:9px; border-radius:50%;
+  background:var(--color-accent,#C9A84C);
+  box-shadow:0 0 14px 5px var(--color-accent,#C9A84C);
+}
+.mg-shoot::after {
+  content:'';
+  position:absolute; right:9px; top:50%;
+  transform:translateY(-50%);
+  height:2px; border-radius:2px;
+  background:linear-gradient(90deg,transparent,var(--color-accent,#C9A84C));
+}
+.mg-shoot-0{width:180px;height:2px;top:7%;left:-15%;animation-duration:7s;animation-delay:0.5s;}
+.mg-shoot-0::after{width:140px;}
+.mg-shoot-1{width:110px;height:1.5px;top:19%;left:-12%;animation-duration:10s;animation-delay:3s;}
+.mg-shoot-1::after{width:85px;}
+.mg-shoot-1::before{width:6px;height:6px;}
+.mg-shoot-2{width:230px;height:2.5px;top:4%;left:-18%;animation-duration:12s;animation-delay:6s;}
+.mg-shoot-2::after{width:195px;}
+.mg-shoot-2::before{width:11px;height:11px;box-shadow:0 0 18px 7px var(--color-accent,#C9A84C);}
+.mg-shoot-3{width:90px;height:1px;top:32%;left:-10%;animation-duration:9s;animation-delay:9s;}
+.mg-shoot-3::after{width:70px;background:linear-gradient(90deg,transparent,var(--color-primary,#1E3A5F));}
+.mg-shoot-3::before{background:var(--color-primary,#1E3A5F);box-shadow:0 0 10px 3px var(--color-primary,#1E3A5F);}
+.mg-shoot-4{width:200px;height:2px;top:13%;left:-16%;animation-duration:15s;animation-delay:12s;}
+.mg-shoot-4::after{width:165px;}
+.mg-shoot-5{width:140px;height:1.5px;top:44%;left:-12%;animation-duration:11s;animation-delay:16s;}
+.mg-shoot-5::after{width:110px;}
+.mg-shoot-5::before{width:7px;height:7px;}
+
+@keyframes mg-fly {
+  0%    {transform:translateX(0) translateY(0) rotate(-26deg);opacity:0;}
+  3%    {opacity:1;}
+  50%   {opacity:0.85;}
+  90%   {opacity:0.3;}
+  100%  {transform:translateX(130vw) translateY(46vh) rotate(-26deg);opacity:0;}
+}
+
+/* Global body defaults — ALL pages get theme */
+body { color:var(--color-text,#1E293B); background:var(--color-background,#F8FAFC); }
+body.theme-dark  { color:var(--color-text,#F1F5F9); }
+body.theme-light { color:var(--color-text,#1E293B); }
+
+/* Scroll reveal */
+.mg-reveal{opacity:0;transform:translateY(24px);transition:opacity 0.5s ease,transform 0.5s ease;}
+.mg-reveal.mg-visible{opacity:1;transform:translateY(0);}
+.mg-reveal-delay-1{transition-delay:0.1s;} .mg-reveal-delay-2{transition-delay:0.2s;}
+.mg-reveal-delay-3{transition-delay:0.3s;} .mg-reveal-delay-4{transition-delay:0.4s;}
+
+/* Card hover */
+.mg-card{transition:transform 0.22s ease,box-shadow 0.22s ease;}
+.mg-card:hover{transform:translateY(-4px);box-shadow:0 18px 44px rgba(0,0,0,0.13);}
+
+/* Shimmer button */
+.mg-btn{position:relative;overflow:hidden;}
+.mg-btn::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+  background:rgba(255,255,255,0.18);transform:skewX(-20deg);transition:left 0.5s ease;}
+.mg-btn:hover::after{left:160%;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--color-primary,#1E3A5F)55;border-radius:2px;}
+""")
+
+# ============================================================
+# 2. StudentTournament.jsx — proper theme-aware contrast
+# ============================================================
+w('src/pages/student/StudentTournament.jsx', """// src/pages/student/StudentTournament.jsx
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 
@@ -162,3 +284,8 @@ export default function StudentTournament() {
     </div>
   )
 }
+""")
+
+print('')
+print('ALL DONE! Now run:')
+print('npm run build 2>&1 | Select-Object -Last 3')
