@@ -1,4 +1,4 @@
-import { CoinProvider } from './context/CoinContext.jsx'
+﻿import { CoinProvider } from './context/CoinContext.jsx'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
@@ -20,3 +20,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </AccessibilityProvider>
   </React.StrictMode>
 )
+
+// cache bust 152144
