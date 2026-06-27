@@ -1,64 +1,61 @@
-// FILE: src/pages/mentor/MentorAnalytics.jsx
-import { useState, useEffect } from 'react'
-import AppLayout from '../../components/layout/AppLayout'
-import { useAuth } from '../../context/AuthContext'
+// src/pages/mentor/MentorAnalytics.jsx
+import { useNavigate } from 'react-router-dom'
+import { useTheme } from '../../context/ThemeContext'
 
 export default function MentorAnalytics() {
-  const { user } = useAuth()
-  const [stats, setStats] = useState({
-    answersGiven: 0, acceptedAnswers: 0, coinsEarned: 0,
-    avgResponseTime: '—', studentsHelped: 0, rating: 0,
-  })
+  const nav = useNavigate()
+  const { theme } = useTheme()
+  const p = theme?.primary||'#1E3A5F', a = theme?.accent||'#C9A84C'
+  const t = theme?.text||'#1E293B', m = theme?.textLight||'#64748B'
+  const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF'
+  const b = theme?.border||'#E2E8F0'
 
-  useEffect(() => {
-    // Pull from localStorage mock data (real data would come from Supabase)
-    const data = JSON.parse(localStorage.getItem('tryit_mentor_stats') || 'null') || {
-      answersGiven: 0, acceptedAnswers: 0, coinsEarned: 0,
-      avgResponseTime: 'No data yet', studentsHelped: 0, rating: 0,
-    }
-    setStats(data)
-  }, [])
-
-  const CARDS = [
-    { emoji:'💬', label:'Answers Given',     value: stats.answersGiven },
-    { emoji:'⭐', label:'Accepted Answers',   value: stats.acceptedAnswers },
-    { emoji:'🪙', label:'Coins Earned',       value: stats.coinsEarned },
-    { emoji:'⏱️', label:'Avg Response Time',  value: stats.avgResponseTime },
-    { emoji:'🎓', label:'Students Helped',    value: stats.studentsHelped },
-    { emoji:'🌟', label:'Mentor Rating',      value: stats.rating ? `${stats.rating}/5` : '—' },
+  const METRICS = [
+    {label:'Avg Response Time', val:'42 min', target:'< 60 min', ok:true, icon:'⚡'},
+    {label:'Answer Quality Score', val:'87%', target:'> 80%', ok:true, icon:'⭐'},
+    {label:'Student Retention', val:'91%', target:'> 85%', ok:true, icon:'🔄'},
+    {label:'Doubt Resolution Rate', val:'94%', target:'> 90%', ok:true, icon:'✅'},
+    {label:'Avg Rating', val:'4.8 / 5', target:'> 4.5', ok:true, icon:'🏆'},
+    {label:'Monthly Active Students', val:'12', target:'Growing', ok:true, icon:'👥'},
   ]
 
   return (
-    <AppLayout>
-      <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'var(--heading-color, var(--color-text, #1E3A5F))', fontSize:28, marginBottom:6 }}>
-        📊 Mentor Analytics
-      </h1>
-      <p style={{ color:'var(--subtext-color, #64748B)', fontSize:14, marginBottom:20 }}>
-        Track your impact on the Guru Hub community.
-      </p>
-
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:12, marginBottom:24 }}>
-        {CARDS.map(c=>(
-          <div key={c.label} style={{ background:'var(--color-surface, #FFFFFF)', borderRadius:18, padding:18, border:'1.5px solid var(--color-border, #E2E8F0)', textAlign:'center' }}>
-            <p style={{ fontSize:28 }}>{c.emoji}</p>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'var(--heading-color, var(--color-text, #1E3A5F))', fontSize:20 }}>{c.value}</p>
-            <p style={{ color:'var(--subtext-color, #64748B)', fontSize:12 }}>{c.label}</p>
-          </div>
-        ))}
+    <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
+      <div style={{background:c,borderBottom:'1px solid '+b,padding:'16px 20px',
+        display:'flex',alignItems:'center',gap:12,position:'sticky',top:0,zIndex:10}}>
+        <button onClick={()=>nav('/mentor-hub')} style={{background:'transparent',
+          border:'1px solid '+b,borderRadius:10,padding:'6px 14px',
+          color:m,fontSize:13,cursor:'pointer',fontWeight:600}}>← Back</button>
+        <h1 style={{color:t,fontSize:17,fontWeight:800,margin:0}}>📊 My Analytics</h1>
       </div>
-
-      {stats.answersGiven === 0 && (
-        <div style={{ background:'rgba(212,175,55,0.08)', borderRadius:18, padding:20, border:'1px solid rgba(212,175,55,0.2)', textAlign:'center' }}>
-          <p style={{ fontSize:36, marginBottom:8 }}>🎯</p>
-          <p style={{ color:'var(--heading-color, var(--color-text, #1E3A5F))', fontWeight:700, fontFamily:'Poppins,sans-serif', marginBottom:6 }}>No activity yet</p>
-          <p style={{ color:'var(--subtext-color, #64748B)', fontSize:13, marginBottom:14 }}>
-            Head to Guru Hub and answer your first student doubt to start building your analytics.
-          </p>
-          <a href="/guru-hub" style={{ background:'linear-gradient(135deg, var(--color-primary-dark, #1E3A5F), var(--color-primary, #0F2140))', color:'var(--color-accent, #D4AF37)', borderRadius:14, padding:'10px 24px', fontFamily:'Poppins,sans-serif', fontWeight:700, fontSize:13, textDecoration:'none' }}>
-            Go to Guru Hub →
-          </a>
+      <div style={{padding:'20px',maxWidth:700,margin:'0 auto'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:20}}>
+          {METRICS.map((s,i)=>(
+            <div key={i} style={{background:c,border:'1px solid '+b,borderRadius:16,
+              padding:'16px',boxShadow:'0 2px 12px rgba(0,0,0,0.04)'}}>
+              <div style={{fontSize:24,marginBottom:8}}>{s.icon}</div>
+              <p style={{color:t,fontWeight:800,fontSize:16,margin:'0 0 2px'}}>{s.val}</p>
+              <p style={{color:m,fontSize:11,margin:'0 0 6px'}}>{s.label}</p>
+              <span style={{background:s.ok?'#22C55E15':'#EF444415',
+                color:s.ok?'#22C55E':'#EF4444',
+                fontSize:9,fontWeight:700,padding:'2px 8px',borderRadius:20}}>
+                Target: {s.target}
+              </span>
+            </div>
+          ))}
         </div>
-      )}
-    </AppLayout>
+        <div style={{background:'linear-gradient(135deg,'+p+','+p+'cc)',
+          borderRadius:18,padding:'20px',textAlign:'center'}}>
+          <p style={{color:a,fontWeight:700,fontSize:11,letterSpacing:'1px',margin:'0 0 6px'}}>
+            YOUR MENTOR SCORE
+          </p>
+          <p style={{color:'#fff',fontWeight:900,fontSize:48,margin:'0 0 4px'}}>91</p>
+          <p style={{color:'rgba(255,255,255,0.7)',fontSize:13,margin:0}}>
+            Top 8% of all mentors on TryIT
+          </p>
+        </div>
+        <div style={{height:40}}/>
+      </div>
+    </div>
   )
 }
