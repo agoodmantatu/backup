@@ -105,6 +105,9 @@ const FamilyHub      = lazy(() => import('./pages/family/FamilyHub'))
 const ReferralPage   = lazy(() => import('./pages/referral/ReferralPage'))
 const MentorLeaderboard   = lazy(() => import('./pages/mentor/MentorLeaderboard'))
 const MentorDoubts        = lazy(() => import('./pages/mentor/MentorDoubts'))
+const MentorMaterials  = lazy(() => import('./pages/mentor/MentorMaterials'))
+const MentorCommunity  = lazy(() => import('./pages/mentor/MentorCommunity'))
+const MentorSettings   = lazy(() => import('./pages/mentor/MentorSettings'))
 const MentorStudents = lazy(() => import('./pages/mentor/MentorStudents'))
 const MentorHub      = lazy(() => import('./pages/mentor/MentorHub'))
 const CashbackCenter = lazy(() => import('./pages/mentor/CashbackCenter'))
@@ -298,7 +301,10 @@ function ThemedApp() {
             <Route path="/referral" element={<ReferralPage />} />
 
             {/* MENTOR */}
-                        <Route path='/mentor-hub/students' element={<MentorStudents/>}/>
+                                    <Route path='/mentor-hub/materials'  element={<MentorMaterials/>}/>
+            <Route path='/mentor-hub/community'  element={<MentorCommunity/>}/>
+            <Route path='/mentor-hub/settings'   element={<MentorSettings/>}/>
+            <Route path='/mentor-hub/students' element={<MentorStudents/>}/>
             <Route path='/mentor-hub/doubts'      element={<MentorDoubts/>}/>
             <Route path='/mentor-hub/leaderboard'  element={<MentorLeaderboard/>}/>
             <Route path="/mentor-hub"           element={<MentorHub />} />

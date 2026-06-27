@@ -5,13 +5,16 @@ import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
 
 const NAV = [
-  {icon:'🏠', label:'Dashboard',   path:'/mentor-hub'},
-  {icon:'👥', label:'My Students', path:'/mentor-hub/students'},
-  {icon:'💬', label:'Doubts',      path:'/mentor-hub/doubts'},
-  {icon:'📁', label:'Materials',   path:'/mentor-hub/materials'},
-  {icon:'🏆', label:'Leaderboard', path:'/mentor-hub/leaderboard'},
-  {icon:'💰', label:'Earnings',    path:'/mentor-hub/cashback'},
-  {icon:'📊', label:'Analytics',   path:'/mentor-hub/analytics'},
+  {icon:'🏠', label:'Dashboard',    path:'/mentor-hub'},
+  {icon:'👥', label:'My Students',  path:'/mentor-hub/students'},
+  {icon:'💬', label:'Doubts',       path:'/mentor-hub/doubts'},
+  {icon:'📁', label:'Materials',    path:'/mentor-hub/materials'},
+  {icon:'🏆', label:'Leaderboard',  path:'/mentor-hub/leaderboard'},
+  {icon:'💰', label:'Earnings',     path:'/mentor-hub/cashback'},
+  {icon:'📊', label:'Analytics',    path:'/mentor-hub/analytics'},
+  {icon:'🎟️', label:'Coupons',      path:'/mentor-hub/coupons'},
+  {icon:'👥', label:'Community',    path:'/mentor-hub/community'},
+  {icon:'⚙️', label:'Settings',     path:'/mentor-hub/settings'},
 ]
 
 const STATS = [
