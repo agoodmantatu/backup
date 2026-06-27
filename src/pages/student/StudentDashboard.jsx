@@ -1,4 +1,4 @@
-﻿// src/pages/student/StudentDashboard.jsx
+// src/pages/student/StudentDashboard.jsx
 // TRYIT PREMIUM DASHBOARD v3 â€” Full featured world-class
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
