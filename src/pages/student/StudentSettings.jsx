@@ -23,6 +23,28 @@ const LANGUAGES = [
 ]
 
 export default function StudentSettings() {
+  // Trio role progress (for role lock display)
+  const TRIO_PROGRESS = {
+    testsCompleted: 47,
+    avgScore: 72,
+    daysOnPlatform: 28,
+    violations: 0,
+    totalAnswers: 0,
+    rating: 0,
+  }
+  const peerRequirements = {
+    tests: {needed:100, have:TRIO_PROGRESS.testsCompleted},
+    score: {needed:80, have:TRIO_PROGRESS.avgScore},
+    days: {needed:60, have:TRIO_PROGRESS.daysOnPlatform},
+  }
+  const peerProgress = Math.min(100,
+    Math.floor((
+      Math.min(TRIO_PROGRESS.testsCompleted/100,1) +
+      Math.min(TRIO_PROGRESS.avgScore/80,1) +
+      Math.min(TRIO_PROGRESS.daysOnPlatform/60,1)
+    )/3*100)
+  )
+
   const navigate  = useNavigate()
   const { theme, applyTheme, setActiveTheme, themes, themesWithStatus } = useTheme()
   const { user: authUser, logout } = useAuth()

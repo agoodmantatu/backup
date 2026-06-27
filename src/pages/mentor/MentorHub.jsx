@@ -1,5 +1,6 @@
 // src/pages/mentor/MentorHub.jsx
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import { useAuth } from '../../context/AuthContext'
@@ -50,6 +51,7 @@ export default function MentorHub() {
   const c = theme?.surface||'#FFFFFF'
   const b = theme?.border||'#E2E8F0'
 
+  const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const [audioFile, setAudioFile] = useState(null)
@@ -138,7 +140,7 @@ export default function MentorHub() {
       {/* Nav items */}
       <div style={{flex:1,padding:'12px 8px',overflowY:'auto'}}>
         {NAV.map((n,i) => {
-          const isActive = window.location.pathname === n.path
+          const isActive = location.pathname === n.path
           return (
             <button key={i} onClick={() => {
               nav(n.path)
@@ -208,12 +210,26 @@ export default function MentorHub() {
               {PENDING.length} doubts pending · Saturday, 27 June
             </p>
           </div>
-          <button onClick={()=>nav('/mentor-hub/doubts')}
-            style={{background:'linear-gradient(135deg,'+p+','+a+')',border:'none',
-              borderRadius:12,padding:'9px 18px',color:'#fff',fontWeight:700,
-              fontSize:13,cursor:'pointer'}}>
-            Answer Doubts →
-          </button>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <button onClick={()=>nav('/mentor-hub/settings')}
+              style={{background:'transparent',border:'1px solid '+b,borderRadius:10,
+                padding:'7px 12px',color:t,fontSize:13,cursor:'pointer'}}>
+              🎨
+            </button>
+            <button style={{position:'relative',background:'transparent',
+              border:'1px solid '+b,borderRadius:10,padding:'7px 12px',
+              color:t,fontSize:13,cursor:'pointer'}}>
+              🔔
+              <span style={{position:'absolute',top:4,right:4,width:7,height:7,
+                borderRadius:'50%',background:'#EF4444',border:'1.5px solid '+c}}/>
+            </button>
+            <button onClick={()=>nav('/mentor-hub/doubts')}
+              style={{background:'linear-gradient(135deg,'+p+','+a+')',border:'none',
+                borderRadius:12,padding:'9px 18px',color:'#fff',fontWeight:700,
+                fontSize:13,cursor:'pointer'}}>
+              Answer Doubts →
+            </button>
+          </div>
         </div>
 
         <div style={{padding:'20px',maxWidth:1000,margin:'0 auto'}}>

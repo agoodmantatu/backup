@@ -39,7 +39,19 @@ export default function StudentMentor() {
   const [payMethod, setPayMethod] = useState('razorpay')
 
   const EXAMS = ['All','UPSC','SSC CGL','IBPS','TNPSC','RRB']
-  const filtered = MENTORS.filter(m2 => filter==='All' || m2.exam.includes(filter))
+  const LANGS = ['All','Tamil','Hindi','English','Telugu','Malayalam']
+  const [search, setSearch] = useState('')
+  const [langFilter, setLangFilter] = useState('All')
+  const [minRating, setMinRating] = useState(0)
+  const [priceSort, setPriceSort] = useState('none')
+  const filtered = MENTORS
+    .filter(m2 => filter==='All' || m2.exam.includes(filter))
+    .filter(m2 => langFilter==='All' || m2.lang.includes(langFilter))
+    .filter(m2 => m2.rating >= minRating)
+    .filter(m2 => !search || m2.name.toLowerCase().includes(search.toLowerCase()) ||
+      m2.subject.toLowerCase().includes(search.toLowerCase()) ||
+      m2.city.toLowerCase().includes(search.toLowerCase()) ||
+      m2.exam.toLowerCase().includes(search.toLowerCase()))
 
   const MentorCard = ({mentor}) => (
     <div style={{background:c,border:'1.5px solid '+(selected?.id===mentor.id?a:b),
@@ -177,7 +189,39 @@ export default function StudentMentor() {
           </div>
         </div>
 
-        {/* Filter */}
+        {/* Search box */}
+        <div style={{position:'relative',marginBottom:12}}>
+          <span style={{position:'absolute',left:14,top:'50%',
+            transform:'translateY(-50%)',fontSize:16}}>🔍</span>
+          <input value={search} onChange={e=>setSearch(e.target.value)}
+            placeholder="Search by name, subject, topic, city..."
+            style={{width:'100%',padding:'11px 14px 11px 42px',borderRadius:14,
+              border:'1.5px solid '+b,background:c,color:t,
+              fontSize:13,outline:'none',fontFamily:'Poppins,sans-serif',
+              boxSizing:'border-box'}}/>
+        </div>
+
+        {/* Language filter */}
+        <div style={{display:'flex',gap:6,overflowX:'auto',paddingBottom:4,marginBottom:8}}>
+          {LANGS.map(l=>(
+            <button key={l} onClick={()=>setLangFilter(l)}
+              style={{padding:'5px 12px',borderRadius:20,border:'none',cursor:'pointer',
+                fontSize:11,fontWeight:700,flexShrink:0,
+                background:langFilter===l?p+'15':'transparent',
+                color:langFilter===l?p:m}}>
+              🌐 {l}
+            </button>
+          ))}
+          <select value={minRating} onChange={e=>setMinRating(Number(e.target.value))}
+            style={{marginLeft:'auto',padding:'5px 10px',borderRadius:20,border:'1px solid '+b,
+              background:c,color:t,fontSize:11,cursor:'pointer',outline:'none',flexShrink:0}}>
+            <option value={0}>All Ratings</option>
+            <option value={4.5}>4.5+ Stars</option>
+            <option value={4.8}>4.8+ Stars</option>
+          </select>
+        </div>
+
+        {/* Exam filter */}
         <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:4,marginBottom:16}}>
           {EXAMS.map(f=>(
             <button key={f} onClick={()=>setFilter(f)}

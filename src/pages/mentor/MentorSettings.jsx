@@ -25,7 +25,7 @@ const LANGS = ['Tamil','Hindi','English','Telugu','Malayalam','Kannada',
 export default function MentorSettings() {
   const nav = useNavigate()
   const { user } = useAuth()
-  const { theme, setActiveTheme, applyTheme } = useTheme()
+  const { theme, setActiveTheme } = useTheme()
   const p = theme?.primary||'#1E3A5F', a = theme?.accent||'#C9A84C'
   const t = theme?.text||'#1E293B', m = theme?.textLight||'#64748B'
   const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF'
@@ -240,7 +240,7 @@ export default function MentorSettings() {
           <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:10}}>
             {MENTOR_THEMES.map(th=>(
               <button key={th.id}
-                onClick={()=>{ setActiveTheme&&setActiveTheme(th.id); applyTheme&&applyTheme(th.id) }}
+                onClick={()=>{ if(setActiveTheme) setActiveTheme(th.id) }}
                 style={{background:theme?.id===th.id?a+'15':bg,
                   border:'2px solid '+(theme?.id===th.id?a:b),
                   borderRadius:14,padding:'12px 8px',cursor:'pointer',
