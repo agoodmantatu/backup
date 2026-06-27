@@ -369,7 +369,7 @@ function ThemedApp() {
             <Route path='/student/mentor' element={<StudentMentor/>}/>
             <Route path='/student/settings' element={<StudentSettings/>}/>
             <Route path='/student/profile' element={<StudentProfile/>}/>
-            <Route path="*" element={<Navigate to="/landing" replace />} />
+            <Route path="*" element={<Navigate to="/student" replace />} />
             
             
             
@@ -390,5 +390,6 @@ export default function App() {
     </ToastProvider>
   )
 }
+
 
 
