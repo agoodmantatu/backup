@@ -105,6 +105,11 @@ const FamilyHub      = lazy(() => import('./pages/family/FamilyHub'))
 const ReferralPage   = lazy(() => import('./pages/referral/ReferralPage'))
 const MentorLeaderboard   = lazy(() => import('./pages/mentor/MentorLeaderboard'))
 const MentorDoubts        = lazy(() => import('./pages/mentor/MentorDoubts'))
+const InstitutionDashboard = lazy(() => import('./pages/institution/InstitutionDashboard'))
+const InstitutionRegister  = lazy(() => import('./pages/institution/InstitutionRegister'))
+const InstitutionHalls     = lazy(() => import('./pages/institution/InstitutionHalls'))
+const InstitutionMentors   = lazy(() => import('./pages/institution/InstitutionMentors'))
+const InstitutionHomework  = lazy(() => import('./pages/institution/InstitutionHomework'))
 const ExamBoard    = lazy(() => import('./pages/exam-board/ExamBoard'))
 const ExamCourses  = lazy(() => import('./pages/exam-board/ExamCourses'))
 const MentorMaterials  = lazy(() => import('./pages/mentor/MentorMaterials'))
@@ -304,6 +309,11 @@ function ThemedApp() {
 
             {/* MENTOR */}
                                     <Route path='/exam-board/:examId/courses' element={<ExamCourses/>}/>
+                        <Route path='/institution'           element={<InstitutionDashboard/>}/>
+            <Route path='/institution/register'  element={<InstitutionRegister/>}/>
+            <Route path='/institution/halls'     element={<InstitutionHalls/>}/>
+            <Route path='/institution/mentors'   element={<InstitutionMentors/>}/>
+            <Route path='/institution/homework'  element={<InstitutionHomework/>}/>
             <Route path='/exam-board' element={<ExamBoard/>}/>
             <Route path='/mentor-hub/materials'  element={<MentorMaterials/>}/>
             <Route path='/mentor-hub/community'  element={<MentorCommunity/>}/>
