@@ -230,10 +230,10 @@ export default function QuestionDemo() {
                 <div style={{background:isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.05)',
                   borderRadius:12,padding:'9px 14px',marginBottom:14,display:'flex',gap:16,flexWrap:'wrap'}}>
                   <p style={{color:isDark?'rgba(255,255,255,0.65)':muted,fontSize:11,margin:0}}>
-                    📧 <strong style={{color:accent}}>tryiteducations@gmail.com</strong>
+                    📧 <strong style={{color:accent}}>support@tryiteducations.net</strong>
                   </p>
                   <p style={{color:isDark?'rgba(255,255,255,0.65)':muted,fontSize:11,margin:0}}>
-                    📞 <strong style={{color:accent}}>+91 98765 43210</strong>
+                    📞 <strong style={{color:accent}}>+91 9566698821</strong>
                   </p>
                 </div>
                 <button onClick={()=>setStep(1)}
