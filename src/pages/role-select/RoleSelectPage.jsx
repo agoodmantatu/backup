@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext'
 const ROLES = [
   { id:'student', emoji:'🎓', label:'Student', desc:'Access exams, tests, games, leaderboards and your personal study plan', home:'/dashboard' },
   { id:'mentor', emoji:'🧑‍🏫', label:'Mentor', desc:'Answer student doubts, earn cashback, manage coupons and track your impact', home:'/mentor-hub' },
-  { id:'institution', emoji:'🏫', label:'Institution', desc:'Manage your coaching centre, conduct tests and track student performance', home:'/centre/dashboard' },
+  { id:'institution', emoji:'🏫', label:'Institution', desc:'Manage your coaching centre, conduct tests and track student performance', home:'/institution' },
   { id:'family', emoji:'👨‍👩‍👧', label:'Family', desc:'Monitor your child\'s progress, connect accounts and stay informed', home:'/family' },
 ]
 

@@ -492,7 +492,9 @@ function FamilyStep2({ data, setData }) {
 export default function Onboarding() {
   const navigate = useNavigate()
   const { user, updateUser } = useAuth()
-  const role = user?.role || localStorage.getItem('tryit_role') || 'student'
+  // Admin role must not override the selected role from RoleSelect
+  const rawRole = user?.role === 'admin' ? null : user?.role
+  const role = rawRole || localStorage.getItem('tryit_role') || 'student'
 
   const [step, setStep] = useState(0)
   const [data, setData] = useState({ preferred_language: 'en', exams: [], strongSubjects: [], weakSubjects: [] })
@@ -533,6 +535,18 @@ export default function Onboarding() {
   }, [role])
 
   const total = steps.length
+
+  // Safety: unknown role gets redirected
+  useEffect(() => {
+    if (total === 0 && role) {
+      const home = role === 'institution' ? '/institution'
+        : role === 'mentor' ? '/mentor-hub'
+        : role === 'family' ? '/student'
+        : '/student'
+      navigate(home, { replace: true })
+    }
+  }, [total, role])
+
   const current = step + 1
   const isLast = step === total - 1
   const { Component } = steps[step] || {}
