@@ -33,8 +33,9 @@ function Ring({ pct=0, size=56, stroke=4, color='#C9A84C', children }) {
   const r = (size-stroke*2)/2
   const c = 2*Math.PI*r
   return (
-    <div className={sidebarOpen?"sidebar-open":""} style={{position:'relative',width:size,height:size,flexShrink:0}}>
-      <svg width={size} height={size} style={{transform:'rotate(-90deg)'}}>
+// ✅ AFTER
+<div style={{position:'relative',width:size,height:size,flexShrink:0}}>
+<svg width={size} height={size} style={{transform:'rotate(-90deg)'}}>
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth={stroke}/>
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={stroke}
           strokeDasharray={`${(pct/100)*c} ${c-(pct/100)*c}`} strokeLinecap="round"
