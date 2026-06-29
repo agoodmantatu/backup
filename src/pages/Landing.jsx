@@ -8,9 +8,8 @@ import StudentSection       from '../components/landing/StudentSection'
 import MentorSection        from '../components/landing/MentorSection'
 import InstitutionSection   from '../components/landing/InstitutionSection'
 import FamilySection        from '../components/landing/FamilySection'
-import QuestionDemo        from '../components/landing/QuestionDemo'
+import QuestionDemo         from '../components/landing/QuestionDemo'
 import EquityPricingSection from '../components/landing/EquityPricingSection'
-import DonationSection      from '../components/landing/DonationSection'
 
 // ── Count-up hook ─────────────────────────────────────────────────
 function useCountUp(target, duration = 1800) {
@@ -46,11 +45,11 @@ function StatsStrip() {
           { ref:r2, value:`${c2}+`,                  label:'Indian Languages' },
           { ref:null, value:'28/28',                 label:'States Covered' },
           { ref:null, value:'Class 1+',              label:'Primary to SWAYAM' },
-        ].map((s,i) => (
+        ].map((s, i) => (
           <div key={i} ref={s.ref}
             style={{ flex:'1 1 160px', textAlign:'center', padding:'18px 16px',
               borderRight:'1px solid rgba(255,255,255,0.06)',
-              borderLeft: i===0 ? '1px solid rgba(255,255,255,0.06)' : undefined }}>
+              borderLeft: i === 0 ? '1px solid rgba(255,255,255,0.06)' : undefined }}>
             <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
               fontSize:'clamp(24px,4vw,42px)', color:'var(--color-accent,#D4AF37)', lineHeight:1 }}>
               {s.value}
@@ -63,7 +62,6 @@ function StatsStrip() {
   )
 }
 
-
 // ── LEADERBOARD ───────────────────────────────────────────────────
 function LeaderboardPreview({ navigate }) {
   const ROWS = [
@@ -72,7 +70,7 @@ function LeaderboardPreview({ navigate }) {
     { rank:3,    name:'Aisha Mohammed', state:'Gujarat',   exam:'IBPS PO',  score:'93.1%', badge:'🦁 Baahuveer'   },
     { rank:4,    name:'Vikram Singh',   state:'Rajasthan', exam:'SSC CGL',  score:'92.6%', badge:'🥇 Gold King'   },
     { rank:5,    name:'Deepa Nair',     state:'TN',        exam:'NEET UG',  score:'91.9%', badge:'🌟 The Legend'  },
-    { rank:1243, name:'You (Preview)',  state:'—',         exam:'—',        score:'?',     badge:'⛏️ Start Now',  isYou:true },
+    { rank:1243, name:'You (Preview)',  state:'—',         exam:'—',        score:'?',     badge:'⛏️ Start Now', isYou:true },
   ]
   return (
     <section style={{ padding:'72px 20px',
@@ -100,18 +98,20 @@ function LeaderboardPreview({ navigate }) {
               borderBottom:'1px solid rgba(255,255,255,0.05)',
               display:'grid', gridTemplateColumns:'52px 1fr 100px 70px',
               gap:8, alignItems:'center',
-              background:r.isYou?'rgba(212,175,55,0.10)':'transparent',
-              borderLeft:r.isYou?'3px solid var(--color-accent,#D4AF37)':'3px solid transparent' }}>
+              background:r.isYou ? 'rgba(212,175,55,0.10)' : 'transparent',
+              borderLeft:r.isYou ? '3px solid var(--color-accent,#D4AF37)' : '3px solid transparent' }}>
               <span style={{ color:i===0?'var(--color-accent,#D4AF37)':i===1?'#9CA3AF':i===2?'#CD7F32':'rgba(255,255,255,0.4)',
-                fontSize:i<3?18:12, fontWeight:900 }}>
-                {i===0?'🥇':i===1?'🥈':i===2?'🥉':`#${r.rank.toLocaleString()}`}
+                fontSize:i < 3 ? 18 : 12, fontWeight:900 }}>
+                {i===0 ? '🥇' : i===1 ? '🥈' : i===2 ? '🥉' : `#${r.rank.toLocaleString()}`}
               </span>
               <div>
                 <div style={{ display:'flex', alignItems:'center', gap:6, flexWrap:'wrap' }}>
                   <span style={{ color:'#fff', fontWeight:600, fontSize:13 }}>{r.name}</span>
-                  {r.isYou && <span style={{ background:'var(--color-accent,#D4AF37)',
-                    color:'var(--color-primary-dark,#1E3A5F)',
-                    fontSize:9, fontWeight:800, padding:'2px 8px', borderRadius:20 }}>← YOU</span>}
+                  {r.isYou && (
+                    <span style={{ background:'var(--color-accent,#D4AF37)',
+                      color:'var(--color-primary-dark,#1E3A5F)',
+                      fontSize:9, fontWeight:800, padding:'2px 8px', borderRadius:20 }}>← YOU</span>
+                  )}
                 </div>
                 <span style={{ color:'rgba(255,255,255,0.35)', fontSize:11 }}>{r.badge} · {r.state}</span>
               </div>
@@ -139,14 +139,14 @@ function LeaderboardPreview({ navigate }) {
 // ── FELLOWSHIP / EQUITY ───────────────────────────────────────────
 function FellowshipSection({ navigate }) {
   const TIERS = [
-    { e:'🌱', n:'Hope Scholars',        s:'Orphans & Welfare Home Children',  free:true  },
-    { e:'♿', n:'Divyangjan',            s:'Blind · Deaf · Motor Challenged',  free:true  },
-    { e:'🧹', n:'Swachhta Warriors',    s:"Sanitation Workers' Children",      free:true  },
-    { e:'🎖️',n:"Martyrs' Families",    s:'Children of Fallen Soldiers',       free:true  },
-    { e:'🏳️‍⚧️',n:'Transgender Youth', s:'Via SMILE Portal — MoSJE',          free:true  },
-    { e:'🌾', n:'Agrarian Distress',    s:'Farmer Distress Families',         free:true  },
-    { e:'🪖', n:'Active Military',      s:'Serving Defence Personnel',        free:false },
-    { e:'🏥', n:'ASHA & Anganwadi',     s:'Grassroots Health Workers',        free:false },
+    { e:'🌱', n:'Hope Scholars',       s:'Orphans & Welfare Home Children', free:true  },
+    { e:'♿', n:'Divyangjan',           s:'Blind · Deaf · Motor Challenged', free:true  },
+    { e:'🧹', n:'Swachhta Warriors',   s:"Sanitation Workers' Children",    free:true  },
+    { e:'🎖️',n:"Martyrs' Families",   s:'Children of Fallen Soldiers',     free:true  },
+    { e:'🏳️‍⚧️',n:'Transgender Youth',s:'Via SMILE Portal — MoSJE',        free:true  },
+    { e:'🌾', n:'Agrarian Distress',   s:'Farmer Distress Families',        free:true  },
+    { e:'🪖', n:'Active Military',     s:'Serving Defence Personnel',       free:false },
+    { e:'🏥', n:'ASHA & Anganwadi',    s:'Grassroots Health Workers',       free:false },
   ]
   return (
     <section style={{ padding:'72px 20px',
@@ -156,19 +156,24 @@ function FellowshipSection({ navigate }) {
           <div style={{ fontSize:'clamp(28px,5vw,48px)', marginBottom:10 }}>🇮🇳</div>
           <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
             fontSize:'clamp(24px,4vw,40px)', color:'#ffffff', margin:'0 0 10px' }}>
-            TryIT Fellowship — <span style={{ color:'var(--color-accent,#D4AF37)' }}>1 Subscription = 1 Scholarship. Every premium user sponsors a deserving student.</span>
+            TryIT Fellowship —{' '}
+            <span style={{ color:'var(--color-accent,#D4AF37)' }}>
+              1 Subscription = 1 Scholarship. Every premium user sponsors a deserving student.
+            </span>
           </h2>
           <p style={{ color:'rgba(255,255,255,0.65)', fontSize:15,
             maxWidth:560, margin:'0 auto', lineHeight:1.8 }}>
-            Not charity — fellowship. Every paid subscription quietly sponsors a student who cannot afford it. Same platform. Same features. Zero cost to them.
+            Not charity — fellowship. Every paid subscription quietly sponsors a student who cannot afford it.
+            Same platform. Same features. Zero cost to them.
           </p>
         </div>
+
         <div style={{ display:'grid',
           gridTemplateColumns:'repeat(auto-fill,minmax(min(100%,240px),1fr))',
           gap:8, marginBottom:24 }}>
           {TIERS.map((t, i) => (
             <div key={i} style={{ background:'rgba(255,255,255,0.04)',
-              border:`1px solid ${t.free?'rgba(34,197,94,0.28)':'rgba(212,175,55,0.28)'}`,
+              border:`1px solid ${t.free ? 'rgba(34,197,94,0.28)' : 'rgba(212,175,55,0.28)'}`,
               borderRadius:14, padding:'12px 14px',
               display:'flex', alignItems:'center', gap:10 }}>
               <span style={{ fontSize:22, flexShrink:0 }}>{t.e}</span>
@@ -177,18 +182,20 @@ function FellowshipSection({ navigate }) {
                   fontWeight:700, fontSize:12, margin:0 }}>{t.n}</p>
                 <p style={{ color:'rgba(255,255,255,0.4)', fontSize:10, margin:'2px 0 0' }}>{t.s}</p>
               </div>
-              <span style={{ background:t.free?'rgba(34,197,94,0.15)':'rgba(212,175,55,0.15)',
-                color:t.free?'#4ADE80':'var(--color-accent,#D4AF37)',
+              <span style={{
+                background:t.free ? 'rgba(34,197,94,0.15)' : 'rgba(212,175,55,0.15)',
+                color:t.free ? '#4ADE80' : 'var(--color-accent,#D4AF37)',
                 fontSize:9, fontWeight:800, padding:'2px 8px', borderRadius:20, flexShrink:0 }}>
-                {t.free?'FREE':'30% OFF'}
+                {t.free ? 'FREE' : '30% OFF'}
               </span>
             </div>
           ))}
         </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,380px),1fr))', gap:14 }}>
+
+        <div style={{ display:'flex', justifyContent:'center' }}>
           <div style={{ background:'rgba(255,255,255,0.04)',
             border:'1.5px dashed rgba(212,175,55,0.4)',
-            borderRadius:18, padding:20, textAlign:'center' }}>
+            borderRadius:18, padding:20, textAlign:'center', maxWidth:480, width:'100%' }}>
             <div style={{ fontSize:28, marginBottom:8 }}>🏠</div>
             <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800,
               color:'#fff', fontSize:15, margin:'0 0 8px' }}>
@@ -208,34 +215,6 @@ function FellowshipSection({ navigate }) {
               ✉️ founder@tryiteducations.net
             </a>
           </div>
-          <div style={{ background:'rgba(255,255,255,0.04)',
-            border:'1px solid rgba(212,175,55,0.25)',
-            borderRadius:18, padding:20 }}>
-            <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900,
-              color:'#fff', fontSize:16, margin:'0 0 8px' }}>
-              Feel Free to Donate
-            </p>
-            <p style={{ color:'rgba(255,255,255,0.6)', fontSize:13,
-              margin:'0 0 16px', lineHeight:1.7 }}>
-              80 paise of every rupee reaches a student directly. Section 80G tax deduction certificate issued within 7 days.
-            </p>
-            <div style={{ display:'flex', gap:8 }}>
-              <button style={{ flex:1,
-                background:'linear-gradient(135deg,var(--color-accent,#D4AF37),var(--color-accent-light,#E8C84A))',
-                border:'none', borderRadius:12, padding:'10px',
-                color:'var(--color-primary-dark,#1E3A5F)',
-                fontWeight:800, fontSize:13, cursor:'pointer' }}>
-                💳 Razorpay
-              </button>
-              <button style={{ flex:1,
-                background:'rgba(255,255,255,0.07)',
-                border:'1px solid rgba(255,255,255,0.14)',
-                borderRadius:12, padding:'10px',
-                color:'#fff', fontWeight:700, fontSize:13, cursor:'pointer' }}>
-                📱 Pay via UPI
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -245,12 +224,12 @@ function FellowshipSection({ navigate }) {
 // ── TESTIMONIALS ──────────────────────────────────────────────────
 function Testimonials() {
   const ITEMS = [
-    { n:'Arjun K.',  s:'TN',      e:'SSC CGL',  r:'#1,243', sc:'89%', t:'"Moved from #8,432 to #1,243 in 30 days!"',          lv:'⛏️ Gold Miner' },
-    { n:'Priya S.',  s:'Kerala',  e:'NEET UG',  r:'#847',   sc:'94%', t:'"Studied in Malayalam. Crystal clear explanations!"', lv:'💪 Grinder'    },
-    { n:'Rahul M.',  s:'Bihar',   e:'UPSC CSE', r:'#2,341', sc:'82%', t:'"Career Compass pointed me to UPSC + BPSC. Best decision!"', lv:'📈 Riser' },
-    { n:'Zainab A.', s:'Hyd',     e:'IBPS PO',  r:'#519',   sc:'91%', t:'"Guru Hub answered my doubt at midnight in 7 minutes!"', lv:'🦁 Baahuveer' },
-    { n:'Deepika R.',s:'Manipur', e:'CTET',     r:'#1,021', sc:'87%', t:'"First platform with Manipuri language. Thank you TryIT!"', lv:'📈 Riser' },
-    { n:'Ravi T.',   s:'Punjab',  e:'NDA',      r:'#312',   sc:'88%', t:'"Hall battles kept my whole batch studying every night!"', lv:'🔥 Fierce' },
+    { n:'Arjun K.',   s:'TN',      e:'SSC CGL',  r:'#1,243', sc:'89%', t:'"Moved from #8,432 to #1,243 in 30 days!"',               lv:'⛏️ Gold Miner' },
+    { n:'Priya S.',   s:'Kerala',  e:'NEET UG',  r:'#847',   sc:'94%', t:'"Studied in Malayalam. Crystal clear explanations!"',      lv:'💪 Grinder'    },
+    { n:'Rahul M.',   s:'Bihar',   e:'UPSC CSE', r:'#2,341', sc:'82%', t:'"Career Compass pointed me to UPSC + BPSC. Best decision!"',lv:'📈 Riser'     },
+    { n:'Zainab A.',  s:'Hyd',     e:'IBPS PO',  r:'#519',   sc:'91%', t:'"Guru Hub answered my doubt at midnight in 7 minutes!"',   lv:'🦁 Baahuveer'  },
+    { n:'Deepika R.', s:'Manipur', e:'CTET',     r:'#1,021', sc:'87%', t:'"First platform with Manipuri language. Thank you TryIT!"',lv:'📈 Riser'      },
+    { n:'Ravi T.',    s:'Punjab',  e:'NDA',      r:'#312',   sc:'88%', t:'"Hall battles kept my whole batch studying every night!"',  lv:'🔥 Fierce'     },
   ]
   return (
     <section style={{ padding:'60px 0', background:'var(--color-surface,#fff)', overflow:'hidden' }}>
@@ -261,7 +240,7 @@ function Testimonials() {
         </h2>
       </div>
       <div style={{ display:'flex', animation:'scrollTicker 28s linear infinite', width:'max-content', gap:14 }}>
-        {[...ITEMS,...ITEMS].map((t, i) => (
+        {[...ITEMS, ...ITEMS].map((t, i) => (
           <div key={i} style={{ width:270, background:'#F8FAFC',
             border:'1.5px solid var(--color-border,#E2E8F0)',
             borderRadius:18, padding:16, flexShrink:0 }}>
@@ -270,7 +249,7 @@ function Testimonials() {
                 background:'linear-gradient(135deg,var(--color-primary,#1E3A5F),var(--color-primary-dark,#0F2140))',
                 display:'flex', alignItems:'center', justifyContent:'center',
                 color:'var(--color-accent,#D4AF37)', fontWeight:900, fontSize:11, flexShrink:0 }}>
-                {t.n.split(' ').map(x=>x[0]).join('')}
+                {t.n.split(' ').map(x => x[0]).join('')}
               </div>
               <div style={{ flex:1 }}>
                 <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:700,
@@ -342,14 +321,14 @@ function FinalCTA({ navigate }) {
 
 // ── MAIN PAGE ─────────────────────────────────────────────────────
 export default function Landing() {
-  const navigate  = useNavigate()
-  const location  = useLocation()
+  const navigate = useNavigate()
+  const location = useLocation()
   const [scrollPct, setScrollPct] = useState(0)
   const [showTop,   setShowTop]   = useState(false)
 
   useEffect(() => {
     const fn = () => {
-      const el  = document.documentElement
+      const el = document.documentElement
       setScrollPct((el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100)
       setShowTop(el.scrollTop > 500)
     }
@@ -372,23 +351,22 @@ export default function Landing() {
       <div style={{ position:'fixed', top:0, left:0, height:3, zIndex:9999,
         width:`${scrollPct}%`,
         background:'linear-gradient(90deg,var(--color-accent,#D4AF37),var(--color-accent-light,#E8C84A))',
-        transition:'width 0.1s', pointerEvents:'none' }}/>
+        transition:'width 0.1s', pointerEvents:'none' }} />
 
-      <Navbar/>
-      <Hero/>
-      <StatsStrip/>
-      <QuestionDemo/>
-      <LeaderboardPreview navigate={navigate}/>
-      <StudentSection/>
-      <MentorSection/>
-      <InstitutionSection/>
-      <FamilySection/>
-      <FellowshipSection navigate={navigate}/>
-      <EquityPricingSection/>
-      <DonationSection/>
+      <Navbar />
+      <Hero />
+      <StatsStrip />
+      <QuestionDemo />
+      <LeaderboardPreview navigate={navigate} />
+      <StudentSection />
+      <MentorSection />
+      <InstitutionSection />
+      <FamilySection />
+      <FellowshipSection navigate={navigate} />
+      <EquityPricingSection />
       {/* Testimonials hidden until real data available */}
-      <FinalCTA navigate={navigate}/>
-      <Footer/>
+      <FinalCTA navigate={navigate} />
+      <Footer />
 
       {showTop && (
         <button onClick={() => window.scrollTo({ top:0, behavior:'smooth' })}

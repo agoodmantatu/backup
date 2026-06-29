@@ -48,7 +48,7 @@ const ExamUniverse    = lazy(() => import('./pages/exams/ExamUniverse'))
 const RoadmapPage     = lazy(() => import('./pages/roadmap/RoadmapPage'))
 const ExamAlerts      = lazy(() => import('./pages/exam-alerts/ExamAlerts'))
 
-// â”€â”€ CONCEPT LEARNING (NEW) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── CONCEPT LEARNING ─────────────────────────────────────────────
 const ConceptCard        = lazy(() => import('./pages/concept/ConceptCard'))
 const ConceptCheckpoint  = lazy(() => import('./pages/concept/ConceptCheckpoint'))
 const PrepPathway        = lazy(() => import('./pages/roadmap/PrepPathway'))
@@ -148,12 +148,12 @@ const Stub = ({ title = 'Coming Soon' }) => (
     alignItems:'center', justifyContent:'center', gap:16, padding:24,
     fontFamily:'Poppins,sans-serif',
     background:'linear-gradient(135deg,#1E3A5F,#0F2140)' }}>
-    <div style={{ fontSize:56 }}>ðŸ”§</div>
+    <div style={{ fontSize:56 }}>🔧</div>
     <h2 style={{ color:'#C9A84C', fontSize:24, fontWeight:800, textAlign:'center' }}>{title}</h2>
     <p style={{ color:'rgba(255,255,255,0.6)', fontSize:14 }}>Being built. Check back soon!</p>
     <a href="/dashboard" style={{ background:'linear-gradient(135deg,#C9A84C,#E8C84A)',
       borderRadius:14, padding:'12px 28px', fontWeight:700, fontSize:15,
-      color:'#1E3A5F', textDecoration:'none', marginTop:8 }}>â† Back to Dashboard</a>
+      color:'#1E3A5F', textDecoration:'none', marginTop:8 }}>← Back to Dashboard</a>
   </div>
 )
 
@@ -204,198 +204,196 @@ function ThemedApp() {
         <ImpersonationBanner />
         <NotificationBar />
         <Suspense fallback={<Loader />}>
-          <div style={{position:"relative",zIndex:1,minHeight:"100vh"}}><AnimatePresence mode="wait">
-        <Routes>
-            {/* AUTH */}
-            <Route path="/"            element={<Splash />} />
-            <Route path="/landing"     element={<Landing />} />
-            <Route path="/login"       element={<Login />} />
-            <Route path="/onboarding"  element={<Onboarding />} />
-            <Route path="/role-select" element={<RoleSelect />} />
+          <div style={{position:"relative",zIndex:1,minHeight:"100vh"}}>
+            <AnimatePresence mode="wait">
+              <Routes>
+                {/* AUTH */}
+                <Route path="/"            element={<Splash />} />
+                <Route path="/landing"     element={<Landing />} />
+                <Route path="/login"       element={<Login />} />
+                <Route path="/onboarding"  element={<Onboarding />} />
+                <Route path="/role-select" element={<RoleSelect />} />
 
-            {/* CORE */}
-            <Route path="/dashboard"     element={<Navigate to="/student" replace/>} />
-            <Route path="/profile"       element={<Profile />} />
-            <Route path="/settings"      element={<Settings />} />
-            <Route path="/notifications" element={<Notifications />} />
-            <Route path="/journey"       element={<JourneyPassport />} />
+                {/* CORE */}
+                <Route path="/dashboard"     element={<Navigate to="/student" replace/>} />
+                <Route path="/profile"       element={<Profile />} />
+                <Route path="/settings"      element={<Settings />} />
+                <Route path="/notifications" element={<Notifications />} />
+                <Route path="/journey"       element={<JourneyPassport />} />
 
-            {/* TEST ENGINE */}
-            <Route path="/test-engine"        element={<TestLauncher />} />
-            <Route path="/test-engine/active" element={<ActiveTest />} />
-            <Route path="/test-engine/result" element={<ResultScreen />} />
-            <Route path="/test-engine/review" element={<ReviewScreen />} />
+                {/* TEST ENGINE */}
+                <Route path="/test-engine"        element={<TestLauncher />} />
+                <Route path="/test-engine/active" element={<ActiveTest />} />
+                <Route path="/test-engine/result" element={<ResultScreen />} />
+                <Route path="/test-engine/review" element={<ReviewScreen />} />
 
-            {/* CONCEPT LEARNING (NEW) */}
-            <Route path="/concept/:topicId/:level"            element={<ConceptCard />} />
-            <Route path="/concept/:topicId/:level/checkpoint" element={<ConceptCheckpoint />} />
+                {/* CONCEPT LEARNING */}
+                <Route path="/concept/:topicId/:level"            element={<ConceptCard />} />
+                <Route path="/concept/:topicId/:level/checkpoint" element={<ConceptCheckpoint />} />
 
-            {/* PREP PATHWAYS + BHARAT PULSE + COMMUNITY (NEW) */}
-            <Route path="/pathway/:pathwayId" element={<PrepPathway />} />
-            <Route path="/bharat-pulse" element={<BharatPulse />} />
-            <Route path="/community" element={<CommunityPage />} />
+                {/* PREP PATHWAYS + BHARAT PULSE + COMMUNITY */}
+                <Route path="/pathway/:pathwayId" element={<PrepPathway />} />
+                <Route path="/bharat-pulse"       element={<BharatPulse />} />
+                <Route path="/community"          element={<CommunityPage />} />
 
-            {/* EXAMS */}
-            <Route path="/exams"                  element={<AllExams />} />
-            <Route path="/exams/:examId/universe" element={<ExamUniverse />} />
-            <Route path="/exams/:examId"          element={<ExamDetail />} />
-            <Route path="/roadmap/:examId"        element={<RoadmapPage />} />
-            <Route path="/exam-alerts"            element={<ExamAlerts />} />
+                {/* EXAMS */}
+                <Route path="/exams"                  element={<AllExams />} />
+                <Route path="/exams/:examId/universe" element={<ExamUniverse />} />
+                <Route path="/exams/:examId"          element={<ExamDetail />} />
+                <Route path="/roadmap/:examId"        element={<RoadmapPage />} />
+                <Route path="/exam-alerts"            element={<ExamAlerts />} />
 
-            {/* GURU HUB */}
-            <Route path="/guru-hub"             element={<GuruHub />} />
-            <Route path="/guru-hub/my-doubts"   element={<MyDoubts />} />
-            <Route path="/guru-hub/post-doubt"  element={<PostDoubt />} />
-            <Route path="/guru-hub/:doubtId"    element={<DoubtThread />} />
+                {/* GURU HUB */}
+                <Route path="/guru-hub"             element={<GuruHub />} />
+                <Route path="/guru-hub/my-doubts"   element={<MyDoubts />} />
+                <Route path="/guru-hub/post-doubt"  element={<PostDoubt />} />
+                <Route path="/guru-hub/:doubtId"    element={<DoubtThread />} />
 
-            {/* DISCOVERY */}
-            <Route path="/career-compass"    element={<CareerCompass />} />
-            <Route path="/scholarships"      element={<ScholarshipHub />} />
-            <Route path="/current-affairs"   element={<CurrentAffairs />} />
-            <Route path="/classroom"         element={<ClassroomHub />} />
-            <Route path="/classroom/planner" element={<StudyPlanner />} />
-            <Route path="/classroom/pdf"     element={<PDFLibrary />} />
-            <Route path="/ebooks"            element={<EbookStore />} />
-            <Route path="/ebooks/my"         element={<MyEbooks />} />
-            <Route path="/ebooks/upload"     element={<UploadEbook />} />
-            <Route path="/ebooks/:ebookId"   element={<EbookReader />} />
-            <Route path="/tryit-lab"         element={<TryITLab />} />
-            <Route path="/brain-teaser"      element={<BrainTeaser />} />
+                {/* DISCOVERY */}
+                <Route path="/career-compass"    element={<CareerCompass />} />
+                <Route path="/scholarships"      element={<ScholarshipHub />} />
+                <Route path="/current-affairs"   element={<CurrentAffairs />} />
+                <Route path="/classroom"         element={<ClassroomHub />} />
+                <Route path="/classroom/planner" element={<StudyPlanner />} />
+                <Route path="/classroom/pdf"     element={<PDFLibrary />} />
+                <Route path="/ebooks"            element={<EbookStore />} />
+                <Route path="/ebooks/my"         element={<MyEbooks />} />
+                <Route path="/ebooks/upload"     element={<UploadEbook />} />
+                <Route path="/ebooks/:ebookId"   element={<EbookReader />} />
+                <Route path="/tryit-lab"         element={<TryITLab />} />
+                <Route path="/brain-teaser"      element={<BrainTeaser />} />
 
-            {/* COMPETITION */}
-            <Route path="/hall"                element={<HallHub />} />
-            <Route path="/hall/create"         element={<CreateHall />} />
-            <Route path="/hall/leaderboard"    element={<HallLeaderboard />} />
-            <Route path="/hall/:hallId/battle" element={<BattleArena />} />
-            <Route path="/hall/:hallId"        element={<HallHome />} />
-            <Route path="/leaderboard"         element={<FullLeaderboard />} />
-            <Route path="/tournaments"         element={<Tournaments />} />
-            <Route path="/tournament"          element={<TournamentHub />} />
-            <Route path="/tournament/:id/live"    element={<TournamentLive />} />
-            <Route path="/tournament/:id/results" element={<TournamentResults />} />
-            <Route path="/tournament/:id/review"  element={<TournamentReview />} />
-            <Route path="/games"               element={<GamesHub />} />
-            <Route path="/games/math-blitz"    element={<MathBlitz />} />
-            <Route path="/games/word-rush"     element={<WordRush />} />
-            <Route path="/games/gk-blitz"      element={<GKBlitz />} />
-            <Route path="/games/logic-grid"    element={<LogicGrid />} />
-            <Route path="/games/battle"        element={<Battle />} />
-            <Route path="/games/memory/:gameId" element={<MemoryMatch />} />
-            <Route path="/games/visual/:gameId" element={<VisualIdentify />} />
-            <Route path="/games/number-series" element={<NumberSeries />} />
-            <Route path="/games/speed-reading" element={<SpeedReading />} />
-            <Route path="/games/daily-challenge" element={<DailyChallengeGame />} />
-            <Route path="/games/current-affairs" element={<CurrentAffairsRapid />} />
-            <Route path="/games/sports-mastery" element={<SportsMastery />} />
-            <Route path="/games/levels/:gameId" element={<GameLevelRoadmap />} />
+                {/* COMPETITION */}
+                <Route path="/hall"                element={<HallHub />} />
+                <Route path="/hall/create"         element={<CreateHall />} />
+                <Route path="/hall/leaderboard"    element={<HallLeaderboard />} />
+                <Route path="/hall/:hallId/battle" element={<BattleArena />} />
+                <Route path="/hall/:hallId"        element={<HallHome />} />
+                <Route path="/leaderboard"         element={<FullLeaderboard />} />
+                <Route path="/tournaments"         element={<Tournaments />} />
+                <Route path="/tournament"          element={<TournamentHub />} />
+                <Route path="/tournament/:id/live"    element={<TournamentLive />} />
+                <Route path="/tournament/:id/results" element={<TournamentResults />} />
+                <Route path="/tournament/:id/review"  element={<TournamentReview />} />
+                <Route path="/games"               element={<GamesHub />} />
+                <Route path="/games/math-blitz"    element={<MathBlitz />} />
+                <Route path="/games/word-rush"     element={<WordRush />} />
+                <Route path="/games/gk-blitz"      element={<GKBlitz />} />
+                <Route path="/games/logic-grid"    element={<LogicGrid />} />
+                <Route path="/games/battle"        element={<Battle />} />
+                <Route path="/games/memory/:gameId"  element={<MemoryMatch />} />
+                <Route path="/games/visual/:gameId"  element={<VisualIdentify />} />
+                <Route path="/games/number-series"   element={<NumberSeries />} />
+                <Route path="/games/speed-reading"   element={<SpeedReading />} />
+                <Route path="/games/daily-challenge" element={<DailyChallengeGame />} />
+                <Route path="/games/current-affairs" element={<CurrentAffairsRapid />} />
+                <Route path="/games/sports-mastery"  element={<SportsMastery />} />
+                <Route path="/games/levels/:gameId"  element={<GameLevelRoadmap />} />
 
-            {/* PROGRESS */}
-            <Route path="/analytics"    element={<Analytics />} />
-            <Route path="/achievements" element={<Achievements />} />
-            <Route path="/focus-mode"   element={<FocusMode />} />
+                {/* PROGRESS */}
+                <Route path="/analytics"    element={<Analytics />} />
+                <Route path="/achievements" element={<Achievements />} />
+                <Route path="/focus-mode"   element={<FocusMode />} />
 
-            {/* SOCIAL */}
-            <Route path="/pro"      element={<PricingPage />} />
-            <Route path="/pricing"  element={<Navigate to="/pro" replace />} />
-            <Route path="/wallet"   element={<WalletPage />} />
-            <Route path="/family"   element={<FamilyHub />} />
-            <Route path="/referral" element={<ReferralPage />} />
+                {/* SOCIAL */}
+                <Route path="/pro"      element={<PricingPage />} />
+                <Route path="/pricing"  element={<Navigate to="/pro" replace />} />
+                <Route path="/wallet"   element={<WalletPage />} />
+                <Route path="/family"   element={<FamilyHub />} />
+                <Route path="/referral" element={<ReferralPage />} />
 
-            {/* MENTOR */}
-                                    <Route path='/exam-board/:examId/courses' element={<ExamCourses/>}/>
-                        {/* CENTRE → INSTITUTION REDIRECTS */}
-            <Route path="/centre/dashboard"  element={<Navigate to="/institution" replace/>}/>
-            <Route path="/centre/login"      element={<Navigate to="/institution/register" replace/>}/>
-            <Route path="/centre/onboarding" element={<Navigate to="/onboarding" replace/>}/>
-            <Route path="/centre/analytics"  element={<Navigate to="/institution" replace/>}/>
-            <Route path="/centre/conduct-test" element={<Navigate to="/institution/exams" replace/>}/>
-            <Route path="/centre/students"   element={<Navigate to="/institution/students" replace/>}/>
-            <Route path="/centre"            element={<Navigate to="/institution" replace/>}/>
+                {/* EXAM BOARD */}
+                <Route path="/exam-board"                element={<ExamBoard />} />
+                <Route path="/exam-board/:examId/courses" element={<ExamCourses />} />
 
-            <Route path='/institution'           element={<RoleGuard allowedRoles={['institution']}><InstitutionDashboard/></RoleGuard>}/>
-            <Route path='/institution/register'  element={<InstitutionRegister/>}/>
-            <Route path='/institution/halls'     element={<RoleGuard allowedRoles={['institution']}><InstitutionHalls/></RoleGuard>}/>
-            <Route path='/institution/mentors'   element={<RoleGuard allowedRoles={['institution']}><InstitutionMentors/></RoleGuard>}/>
-            <Route path='/institution/homework'  element={<RoleGuard allowedRoles={['institution']}><InstitutionHomework/></RoleGuard>}/>
-            <Route path='/exam-board' element={<ExamBoard/>}/>
-            <Route path='/mentor-hub/materials'  element={<RoleGuard allowedRoles={['mentor','institution']}><MentorMaterials/></RoleGuard>}/>
-            <Route path='/mentor-hub/community'  element={<RoleGuard allowedRoles={['mentor','institution']}><MentorCommunity/></RoleGuard>}/>
-            <Route path='/mentor-hub/settings'   element={<RoleGuard allowedRoles={['mentor','institution']}><MentorSettings/></RoleGuard>}/>
-            <Route path='/mentor-hub/students'   element={<RoleGuard allowedRoles={['mentor','institution']}><MentorStudents/></RoleGuard>}/>
-            <Route path='/mentor-hub/doubts'     element={<RoleGuard allowedRoles={['mentor','institution']}><MentorDoubts/></RoleGuard>}/>
-            <Route path='/mentor-hub/leaderboard' element={<RoleGuard allowedRoles={['mentor','institution']}><MentorLeaderboard/></RoleGuard>}/>
-            <Route path="/mentor-hub"            element={<RoleGuard allowedRoles={['mentor','institution']}><MentorHub/></RoleGuard>}/>
-            <Route path="/mentor-hub/cashback"   element={<RoleGuard allowedRoles={['mentor','institution']}><CashbackCenter/></RoleGuard>}/>
-            <Route path="/mentor-hub/analytics"  element={<RoleGuard allowedRoles={['mentor','institution']}><MentorAnalytics/></RoleGuard>}/>
-            <Route path="/mentor-hub/coupons"    element={<RoleGuard allowedRoles={['mentor','institution']}><CouponManager/></RoleGuard>}/>
+                {/* CENTRE → INSTITUTION REDIRECTS */}
+                <Route path="/centre/dashboard"    element={<Navigate to="/institution" replace/>} />
+                <Route path="/centre/login"        element={<Navigate to="/institution/register" replace/>} />
+                <Route path="/centre/onboarding"   element={<Navigate to="/onboarding" replace/>} />
+                <Route path="/centre/analytics"    element={<Navigate to="/institution" replace/>} />
+                <Route path="/centre/conduct-test" element={<Navigate to="/institution/exams" replace/>} />
+                <Route path="/centre/students"     element={<Navigate to="/institution/students" replace/>} />
+                <Route path="/centre"              element={<Navigate to="/institution" replace/>} />
 
-            {/* EQUITY */}
-            <Route path="/equity"             element={<EquityTierSelector />} />
-            <Route path="/equity/verify"      element={<EquityVerification />} />
-            <Route path="/accessibility"      element={<AccessibilityMode />} />
-            <Route path="/circles/school"     element={<SchoolCircle />} />
-            <Route path="/circles/sisterhood" element={<SisterhoodCircle />} />
-            <Route path="/impact"             element={<LiveImpactTracker />} />
-            <Route path="/donate"             element={<Stub title="Donation Page ðŸ’›" />} />
+                {/* INSTITUTION */}
+                <Route path="/institution"          element={<RoleGuard allowedRoles={['institution']}><InstitutionDashboard/></RoleGuard>} />
+                <Route path="/institution/register" element={<InstitutionRegister/>} />
+                <Route path="/institution/halls"    element={<RoleGuard allowedRoles={['institution']}><InstitutionHalls/></RoleGuard>} />
+                <Route path="/institution/mentors"  element={<RoleGuard allowedRoles={['institution']}><InstitutionMentors/></RoleGuard>} />
+                <Route path="/institution/homework" element={<RoleGuard allowedRoles={['institution']}><InstitutionHomework/></RoleGuard>} />
 
+                {/* MENTOR HUB */}
+                <Route path="/mentor-hub/materials"   element={<RoleGuard allowedRoles={['mentor','institution']}><MentorMaterials/></RoleGuard>} />
+                <Route path="/mentor-hub/community"   element={<RoleGuard allowedRoles={['mentor','institution']}><MentorCommunity/></RoleGuard>} />
+                <Route path="/mentor-hub/settings"    element={<RoleGuard allowedRoles={['mentor','institution']}><MentorSettings/></RoleGuard>} />
+                <Route path="/mentor-hub/students"    element={<RoleGuard allowedRoles={['mentor','institution']}><MentorStudents/></RoleGuard>} />
+                <Route path="/mentor-hub/doubts"      element={<RoleGuard allowedRoles={['mentor','institution']}><MentorDoubts/></RoleGuard>} />
+                <Route path="/mentor-hub/leaderboard" element={<RoleGuard allowedRoles={['mentor','institution']}><MentorLeaderboard/></RoleGuard>} />
+                <Route path="/mentor-hub"             element={<RoleGuard allowedRoles={['mentor','institution']}><MentorHub/></RoleGuard>} />
+                <Route path="/mentor-hub/cashback"    element={<RoleGuard allowedRoles={['mentor','institution']}><CashbackCenter/></RoleGuard>} />
+                <Route path="/mentor-hub/analytics"   element={<RoleGuard allowedRoles={['mentor','institution']}><MentorAnalytics/></RoleGuard>} />
+                <Route path="/mentor-hub/coupons"     element={<RoleGuard allowedRoles={['mentor','institution']}><CouponManager/></RoleGuard>} />
 
-            {/* PARENT */}
-            <Route path="/parent/login"         element={<ParentLogin />} />
-            <Route path="/parent/onboarding"    element={<ParentOnboarding />} />
-            <Route path="/parent/dashboard"     element={<ParentDashboard />} />
-            <Route path="/parent/child/:id"     element={<ChildDetail />} />
-            <Route path="/student/test-history" element={<MyTestHistory />} />
+                {/* EQUITY */}
+                <Route path="/equity"             element={<EquityTierSelector />} />
+                <Route path="/equity/verify"      element={<EquityVerification />} />
+                <Route path="/accessibility"      element={<AccessibilityMode />} />
+                <Route path="/circles/school"     element={<SchoolCircle />} />
+                <Route path="/circles/sisterhood" element={<SisterhoodCircle />} />
+                <Route path="/impact"             element={<LiveImpactTracker />} />
+                {/* <Route path="/donate" element={<Stub title="Donation Page 💛" />} /> */}
 
-            {/* ADMIN */}
-            <Route path="/admin/login"           element={<AdminLogin />} />
-            <Route path="/admin/dashboard"       element={<AdminDashboard />} />
-            <Route path="/admin/exams"           element={<ExamManager />} />
-            <Route path="/admin/questions"       element={<QuestionManager />} />
-            <Route path="/admin/users"           element={<UserManager />} />
-            <Route path="/admin/current-affairs" element={<CurrentAffairsManager />} />
+                {/* PARENT */}
+                <Route path="/parent/login"         element={<ParentLogin />} />
+                <Route path="/parent/onboarding"    element={<ParentOnboarding />} />
+                <Route path="/parent/dashboard"     element={<ParentDashboard />} />
+                <Route path="/parent/child/:id"     element={<ChildDetail />} />
+                <Route path="/student/test-history" element={<MyTestHistory />} />
 
-            {/* SETTINGS */}
-            <Route path="/settings/themes" element={<ThemeSelector />} />
+                {/* ADMIN */}
+                <Route path="/admin/login"           element={<AdminLogin />} />
+                <Route path="/admin/dashboard"       element={<AdminDashboard />} />
+                <Route path="/admin/exams"           element={<ExamManager />} />
+                <Route path="/admin/questions"       element={<QuestionManager />} />
+                <Route path="/admin/users"           element={<UserManager />} />
+                <Route path="/admin/current-affairs" element={<CurrentAffairsManager />} />
 
-            {/* LEGAL */}
-            <Route path="/terms"               element={<Terms />} />
-            <Route path="/privacy"             element={<Privacy />} />
-            <Route path="/community-standards" element={<CommunityStandards />} />
+                {/* SETTINGS */}
+                <Route path="/settings/themes" element={<ThemeSelector />} />
 
-            {/* CATCH-ALL */}
-            
-            <Route path='/student' element={<StudentDashboard/>}/>
-            <Route path='/student/test' element={<StudentTest/>}/>
-            <Route path='/student/rank' element={<StudentRank/>}/>
-            <Route path='/student/launchpad' element={<StudentLaunchpad/>}/>
-            <Route path='/student/launchpad/join' element={<StudentLaunchpadJoin/>}/>
-            <Route path='/student/games' element={<StudentGames/>}/>
-            <Route path='/student/hall' element={<StudentHall/>}/>
-            <Route path='/student/tournament' element={<StudentTournament/>}/>
-            <Route path='/student/guruhub' element={<StudentGuruHub/>}/>
-            <Route path='/student/classroom' element={<StudentClassroom/>}/>
-            <Route path='/student/bookmarks' element={<StudentBookmarks/>}/>
-            <Route path='/student/pulse' element={<StudentPulse/>}/>
-                        <Route path='/student/settings'      element={<StudentSettings/>}/>
-            <Route path='/student/mentor'         element={<StudentMentor/>}/>
-            <Route path='/student/career'         element={<StudentCareer/>}/>
-            <Route path='/student/community'      element={<StudentCommunity/>}/>
-            <Route path='/student/notifications'  element={<StudentNotifications/>}/>
-            <Route path='/student/profile'        element={<StudentProfile/>}/>
-            <Route path='/student/analytics' element={<StudentAnalytics/>}/>
-            <Route path='/student/career' element={<StudentCareer/>}/>
-            <Route path='/student/community' element={<StudentCommunity/>}/>
-            <Route path='/student/notifications' element={<StudentNotifications/>}/>
-            <Route path='/student/history' element={<MyHistory/>}/>
-            <Route path='/student/mentor' element={<StudentMentor/>}/>
-            <Route path='/student/settings' element={<StudentSettings/>}/>
-            <Route path='/student/profile' element={<StudentProfile/>}/>
-            <Route path="*" element={<Navigate to="/student" replace />} />
-            
-            
-            
-</Routes>
-        </AnimatePresence></div>
+                {/* LEGAL */}
+                <Route path="/terms"               element={<Terms />} />
+                <Route path="/privacy"             element={<Privacy />} />
+                <Route path="/community-standards" element={<CommunityStandards />} />
+
+                {/* STUDENT */}
+                <Route path="/student"                element={<StudentDashboard/>} />
+                <Route path="/student/test"           element={<StudentTest/>} />
+                <Route path="/student/rank"           element={<StudentRank/>} />
+                <Route path="/student/launchpad"      element={<StudentLaunchpad/>} />
+                <Route path="/student/launchpad/join" element={<StudentLaunchpadJoin/>} />
+                <Route path="/student/games"          element={<StudentGames/>} />
+                <Route path="/student/hall"           element={<StudentHall/>} />
+                <Route path="/student/tournament"     element={<StudentTournament/>} />
+                <Route path="/student/guruhub"        element={<StudentGuruHub/>} />
+                <Route path="/student/classroom"      element={<StudentClassroom/>} />
+                <Route path="/student/bookmarks"      element={<StudentBookmarks/>} />
+                <Route path="/student/pulse"          element={<StudentPulse/>} />
+                <Route path="/student/settings"       element={<StudentSettings/>} />
+                <Route path="/student/mentor"         element={<StudentMentor/>} />
+                <Route path="/student/career"         element={<StudentCareer/>} />
+                <Route path="/student/community"      element={<StudentCommunity/>} />
+                <Route path="/student/notifications"  element={<StudentNotifications/>} />
+                <Route path="/student/profile"        element={<StudentProfile/>} />
+                <Route path="/student/analytics"      element={<StudentAnalytics/>} />
+                <Route path="/student/history"        element={<MyHistory/>} />
+                <Route path="/student/test-history"   element={<MyTestHistory/>} />
+
+                {/* CATCH-ALL */}
+                <Route path="*" element={<Navigate to="/student" replace />} />
+              </Routes>
+            </AnimatePresence>
+          </div>
         </Suspense>
       </BrowserRouter>
     </ThemeProvider>
@@ -411,6 +409,3 @@ export default function App() {
     </ToastProvider>
   )
 }
-
-
-
