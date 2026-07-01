@@ -79,7 +79,7 @@ export function AccessibilityProvider({ children }) {
       highContrast,
       setHighContrast,
     }}>
-      {/* ARIA live region — announces changes to screen readers */}
+      {/* ARIA live region - announces changes to screen readers */}
       <div
         role="status"
         aria-live="polite"

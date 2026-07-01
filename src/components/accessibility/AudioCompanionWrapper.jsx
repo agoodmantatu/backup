@@ -23,7 +23,7 @@ export default function AudioCompanionWrapper({ children }) {
       role="main"
       aria-label="TryIT Audio Companion Mode"
       style={{
-        // Clean vertical stack — no sidebars, no floating elements
+        // Clean vertical stack - no sidebars, no floating elements
         display: 'flex', flexDirection: 'column',
         minHeight: '100vh',
         background: '#000',          // maximum contrast
@@ -35,7 +35,7 @@ export default function AudioCompanionWrapper({ children }) {
         gap: 0,
       }}
     >
-      {/* Skip to main content — WCAG 2.1 AA */}
+      {/* Skip to main content - WCAG 2.1 AA */}
       <a href="#main-content"
         style={{ position:'absolute', left:'-9999px',
           ':focus': { position:'static' } }}>
@@ -54,7 +54,7 @@ export default function AudioCompanionWrapper({ children }) {
         }}
       >
         <span aria-hidden="true">🎧</span>
-        <span>Audio Companion Mode — Screen Reader Optimised</span>
+        <span>Audio Companion Mode - Screen Reader Optimised</span>
       </div>
 
       <div id="main-content" style={{ flex:1 }}>

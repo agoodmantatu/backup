@@ -7,7 +7,7 @@
 //   { amount:499,  label:'3 months free for a Swachhta Warrior child' },
 //   { amount:999,  label:'Full year for a Veer Nari family member' },
 //   { amount:2499, label:'Support 3 students for a full year' },
-//   { amount:4999, label:'Support 7 students — one full circle' },
+//   { amount:4999, label:'Support 7 students - one full circle' },
 //   { amount:9999, label:'Sponsor an entire classroom (10 students)' },
 // ]
 
@@ -26,13 +26,13 @@
 //   const proceed = () => {
 //     if (!name.trim() || !email.trim()) return
 //     setLoading(true)
-//     // Razorpay integration stub — replace key with live key
+//     // Razorpay integration stub - replace key with live key
 //     const options = {
 //       key:         import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_placeholder',
 //       amount:      finalAmount * 100,
 //       currency:    'INR',
 //       name:        'TryIT Educations',
-//       description: `Donation — ${impactLabel}`,
+//       description: `Donation - ${impactLabel}`,
 //       image:       '/tryit-logo.webp',
 //       prefill:     { name, email },
 //       notes:       { pan: pan || 'Not provided', purpose:'TryIT Student Sponsorship' },
@@ -58,7 +58,7 @@
 //           gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,400px),1fr))',
 //           gap:40, alignItems:'center' }}>
 
-//           {/* Left — mission */}
+//           {/* Left - mission */}
 //           <div>
 //             <div style={{ display:'inline-flex', alignItems:'center', gap:8,
 //               background:'rgba(212,175,55,0.12)', border:'1px solid rgba(212,175,55,0.3)',
@@ -106,7 +106,7 @@
 //             </p>
 //           </div>
 
-//           {/* Right — donation form */}
+//           {/* Right - donation form */}
 //           <div style={{ background:'rgba(255,255,255,0.06)',
 //             border:'1.5px solid rgba(212,175,55,0.25)',
 //             borderRadius:24, padding:24 }}>

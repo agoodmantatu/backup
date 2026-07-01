@@ -6,7 +6,7 @@ import { getAvatarDecoration } from '../lib/avatarBadges'
 
 /**
  * Use this ONLY on a user's own profile page, viewed by themselves.
- * Same photo, same ring/badge decoration as ProtectedAvatar — but
+ * Same photo, same ring/badge decoration as ProtectedAvatar - but
  * tappable, opening a full-screen zoomable preview. This asymmetry
  * is intentional: only the account owner gets full access to their
  * own image; everyone else sees the protected, non-zoomable version.

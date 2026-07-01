@@ -1,9 +1,9 @@
 // FILE: src/lib/gameJuice.js
-// TryIT — The "Juice" Layer: sound, confetti, glitter, screen shake, sticker reveals
-// Zero audio files needed — all sounds synthesized live via Web Audio API
+// TryIT - The "Juice" Layer: sound, confetti, glitter, screen shake, sticker reveals
+// Zero audio files needed - all sounds synthesized live via Web Audio API
 // This is what makes games FEEL premium instead of just functioning correctly
 
-// ── WEB AUDIO SOUND ENGINE (no mp3/wav files — generated tones) ───────────
+// -- WEB AUDIO SOUND ENGINE (no mp3/wav files - generated tones) -----------
 let audioCtx = null
 function getCtx() {
   if (!audioCtx) {
@@ -13,7 +13,7 @@ function getCtx() {
   return audioCtx
 }
 
-// Simple tone generator — builds satisfying game sounds from sine/square waves
+// Simple tone generator - builds satisfying game sounds from sine/square waves
 function playTone(freq, duration, type = 'sine', volume = 0.15, delay = 0) {
   const ctx = getCtx()
   if (!ctx) return
@@ -29,17 +29,17 @@ function playTone(freq, duration, type = 'sine', volume = 0.15, delay = 0) {
   osc.stop(ctx.currentTime + delay + duration)
 }
 
-// ── SOUND LIBRARY (every game-relevant sound, synthesized) ────────────────
+// -- SOUND LIBRARY (every game-relevant sound, synthesized) ----------------
 export const SOUNDS = {
   correct: () => {
     playTone(523.25, 0.1, 'sine', 0.12)        // C5
-    playTone(783.99, 0.15, 'sine', 0.12, 0.08) // G5 — happy interval
+    playTone(783.99, 0.15, 'sine', 0.12, 0.08) // G5 - happy interval
   },
   incorrect: () => {
     playTone(200, 0.2, 'sawtooth', 0.08)
   },
   combo: (level = 1) => {
-    // Rising arpeggio — gets higher pitch with bigger combo
+    // Rising arpeggio - gets higher pitch with bigger combo
     const base = 440 + (level * 60)
     playTone(base, 0.08, 'square', 0.1)
     playTone(base * 1.25, 0.08, 'square', 0.1, 0.07)
@@ -86,7 +86,7 @@ export function playSound(name, ...args) {
 }
 
 
-// ── CONFETTI / PARTICLE BURST (canvas-based, lightweight) ─────────────────
+// -- CONFETTI / PARTICLE BURST (canvas-based, lightweight) -----------------
 export function burstConfetti(canvas, options = {}) {
   if (!canvas) return
   const ctx = canvas.getContext('2d')
@@ -146,7 +146,7 @@ export function burstConfetti(canvas, options = {}) {
   animate()
 }
 
-// ── GLITTER SPARKLE TRAIL (for correct answers — subtler than confetti) ───
+// -- GLITTER SPARKLE TRAIL (for correct answers - subtler than confetti) ---
 export function burstGlitter(canvas, x, y, options = {}) {
   if (!canvas) return
   const ctx = canvas.getContext('2d')
@@ -184,7 +184,7 @@ export function burstGlitter(canvas, x, y, options = {}) {
 }
 
 
-// ── SCREEN SHAKE (CSS-based, applied to a ref'd element) ──────────────────
+// -- SCREEN SHAKE (CSS-based, applied to a ref'd element) ------------------
 export function screenShake(element, intensity = 'medium') {
   if (!element) return
   const presets = {
@@ -248,7 +248,7 @@ export function injectGameStyles() {
 }
 
 
-// ── FLOATING SCORE POPUP (+10, +25 text that floats up and fades) ─────────
+// -- FLOATING SCORE POPUP (+10, +25 text that floats up and fades) ---------
 export function FloatingPoints({ points, isCorrect }) {
   if (points === null) return null
   return (
@@ -269,7 +269,7 @@ export function FloatingPoints({ points, isCorrect }) {
 }
 
 
-// ── STICKER COLLECTION SYSTEM ──────────────────────────────────────────────
+// -- STICKER COLLECTION SYSTEM ----------------------------------------------
 export const STICKER_CATALOG = [
   { id:'first_win',     emoji:'🎯', label:'First Victory',      rarity:'common',    condition:'Win your first game' },
   { id:'combo_3',        emoji:'🔥', label:'Hot Streak',         rarity:'common',    condition:'Hit a 3x combo' },

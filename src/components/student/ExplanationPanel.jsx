@@ -1,5 +1,5 @@
 ﻿// src/components/student/ExplanationPanel.jsx
-// 7-layer explanation — Pro/Ultra gets native language
+// 7-layer explanation - Pro/Ultra gets native language
 // Free users get 5 free explanations/day then paywall
 
 import { useState, useEffect } from 'react'
@@ -80,19 +80,19 @@ export default function ExplanationPanel({ question, userAnswer, isCorrect, lang
     const userAns = q?.options?.[userAnswer] || 'Not answered'
 
     const layers = [
-      // Layer 1 — Correct answer
+      // Layer 1 - Correct answer
       `✅ The correct answer is "${correct}".\n\n${q?.explanation || 'This is the right answer based on the topic.'}`,
-      // Layer 2 — Why others wrong
-      `❌ Why other options are wrong:\n\n${q?.options?.map((o, i) => i !== q.correct ? `• "${o}" — This is incorrect because it ${i === userAnswer ? '(your choice) ' : ''}does not satisfy the conditions of the question.` : null).filter(Boolean).join('\n\n')}`,
-      // Layer 3 — Memory formula
+      // Layer 2 - Why others wrong
+      `❌ Why other options are wrong:\n\n${q?.options?.map((o, i) => i !== q.correct ? `• "${o}" - This is incorrect because it ${i === userAnswer ? '(your choice) ' : ''}does not satisfy the conditions of the question.` : null).filter(Boolean).join('\n\n')}`,
+      // Layer 3 - Memory formula
       `🧠 Memory Formula:\n\nRemember: "${q?.subject}" → connect "${correct}" with a keyword or acronym.\n\nTip: Associate the answer with a real-world event or number you already know.`,
-      // Layer 4 — Story
+      // Layer 4 - Story
       `📖 Story to Remember:\n\nImagine a student preparing for ${q?.subject} exam. They encounter exactly this scenario: "${q?.question?.substring(0,60)}..."\n\nThe answer "${correct}" becomes unforgettable when you think of it as the only logical outcome.`,
-      // Layer 5 — Cross exam
-      `🔗 Cross-Exam Intelligence:\n\nThis topic appears in: UPSC Prelims, SSC CGL, IBPS, RRB, State PSC exams.\n\nSubject: ${q?.subject}\nFrequency: High — appears almost every year\nRelated topics to study next.`,
-      // Layer 6 — Frequency
+      // Layer 5 - Cross exam
+      `🔗 Cross-Exam Intelligence:\n\nThis topic appears in: UPSC Prelims, SSC CGL, IBPS, RRB, State PSC exams.\n\nSubject: ${q?.subject}\nFrequency: High - appears almost every year\nRelated topics to study next.`,
+      // Layer 6 - Frequency
       `📊 Exam Frequency Analysis:\n\n⭐⭐⭐⭐⭐ Very High Frequency\n\nThis question type has appeared in:\n• UPSC: 4 times in last 5 years\n• SSC CGL: Every year since 2018\n• State PSC: Regular appearance\n\nPriority: Must Know`,
-      // Layer 7 — Exam tip
+      // Layer 7 - Exam tip
       `🎯 Exam Tip:\n\nFor ${q?.subject} questions like this:\n\n1. Always eliminate obviously wrong options first\n2. Look for keywords in the question\n3. The correct answer "${correct}" can be remembered by its unique characteristic\n4. In exam, spend max 90 seconds on this type`,
     ]
     return layers[layerIndex] || ''
@@ -190,9 +190,9 @@ export default function ExplanationPanel({ question, userAnswer, isCorrect, lang
               </p>
               <p style={{ color:txt, fontSize:12, lineHeight:1.7, margin:0 }}>
                 {lang === 'Tamil'
-                  ? `அண்ணா/அக்கா — சரியான விடை "${question?.options?.[question?.correct] || ''}" ஆகும். ${question?.explanation || ''}`
+                  ? `அண்ணா/அக்கா - சரியான விடை "${question?.options?.[question?.correct] || ''}" ஆகும். ${question?.explanation || ''}`
                   : lang === 'Hindi'
-                  ? `भाई/बहन — सही उत्तर "${question?.options?.[question?.correct] || ''}" है। ${question?.explanation || ''}`
+                  ? `भाई/बहन - सही उत्तर "${question?.options?.[question?.correct] || ''}" है। ${question?.explanation || ''}`
                   : `${lang}: The correct answer is "${question?.options?.[question?.correct] || ''}". ${question?.explanation || ''}`
                 }
               </p>

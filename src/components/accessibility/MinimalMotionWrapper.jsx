@@ -1,4 +1,4 @@
-// Minimal Motion Mode — for motor / physically challenged users
+// Minimal Motion Mode - for motor / physically challenged users
 // Eliminates small tap targets, drag-drop, rapid timing
 // Enables voice control + adaptive switch access
 import { useEffect, useCallback } from 'react'
@@ -77,7 +77,7 @@ export default function MinimalMotionWrapper({ children }) {
         }}
       >
         <span style={{ fontSize:18, animation:'pulseDot 1.5s infinite' }}>🎙️</span>
-        <span>Voice Control Active — Say: "next", "back", "home", "submit"</span>
+        <span>Voice Control Active - Say: "next", "back", "home", "submit"</span>
       </div>
       <div style={{ paddingTop:44 }}>
         {children}

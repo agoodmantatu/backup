@@ -1,7 +1,7 @@
 /**
- * LocalDB — Device is the primary database (WhatsApp pattern)
+ * LocalDB - Device is the primary database (WhatsApp pattern)
  * IndexedDB for large data, localStorage for small/fast data
- * 99.97% of reads come from here — Supabase is just sync backup
+ * 99.97% of reads come from here - Supabase is just sync backup
  */
 
 const DB_NAME    = 'tryit_local_v2'
@@ -18,13 +18,13 @@ function openDB() {
       // User profile store
       if (!d.objectStoreNames.contains('profile'))
         d.createObjectStore('profile', { keyPath:'id' })
-      // Test results — device-first
+      // Test results - device-first
       if (!d.objectStoreNames.contains('test_results')) {
         const s = d.createObjectStore('test_results', { keyPath:'id' })
         s.createIndex('by_date', 'taken_at')
         s.createIndex('by_exam', 'exam_id')
       }
-      // Questions cache — 50k questions stored on device
+      // Questions cache - 50k questions stored on device
       if (!d.objectStoreNames.contains('questions')) {
         const s = d.createObjectStore('questions', { keyPath:'id' })
         s.createIndex('by_topic', 'topic_id')
@@ -33,16 +33,16 @@ function openDB() {
       // Exams cache
       if (!d.objectStoreNames.contains('exams'))
         d.createObjectStore('exams', { keyPath:'id' })
-      // Coins — all transactions local first
+      // Coins - all transactions local first
       if (!d.objectStoreNames.contains('coin_txs'))
         d.createObjectStore('coin_txs', { keyPath:'id', autoIncrement:true })
       // Doubts cache
       if (!d.objectStoreNames.contains('doubts'))
         d.createObjectStore('doubts', { keyPath:'id' })
-      // Outbox — pending syncs to server (Telegram pattern)
+      // Outbox - pending syncs to server (Telegram pattern)
       if (!d.objectStoreNames.contains('outbox'))
         d.createObjectStore('outbox', { keyPath:'id', autoIncrement:true })
-      // App state — restore exact UI state
+      // App state - restore exact UI state
       if (!d.objectStoreNames.contains('app_state'))
         d.createObjectStore('app_state', { keyPath:'key' })
     }
@@ -67,7 +67,7 @@ const idbGetAll = async (store, idx, query, limit=100) => new Promise(async (res
 const idbAdd    = async (store, val) => new Promise(async (res,rej) => { const r=(await tx(store,'readwrite')).add(val); r.onsuccess=()=>res(r.result); r.onerror=rej })
 const idbCount  = async (store) => new Promise(async (res,rej) => { const r=(await tx(store)).count(); r.onsuccess=()=>res(r.result); r.onerror=rej })
 
-// ── Profile ───────────────────────────────────────────────────
+// -- Profile ---------------------------------------------------
 export async function saveProfile(profile) {
   await idbPut('profile', profile)
   localStorage.setItem('tryit_profile_cache', JSON.stringify({ ...profile, _cached_at: Date.now() }))
@@ -82,7 +82,7 @@ export async function getProfile(userId) {
   return idbGet('profile', userId)
 }
 
-// ── Test Results ──────────────────────────────────────────────
+// -- Test Results ----------------------------------------------
 export async function saveTestResult(result) {
   const id = `result-${Date.now()}-${Math.random().toString(36).slice(2,5)}`
   await idbPut('test_results', { ...result, id, synced: false })
@@ -96,7 +96,7 @@ export async function getTestResults(examId, limit=20) {
   return idbGetAll('test_results', null, null, limit)
 }
 
-// ── App State (restore previous UI state) ─────────────────────
+// -- App State (restore previous UI state) ---------------------
 export async function saveAppState(key, value) {
   await idbPut('app_state', { key, value, saved_at: Date.now() })
   localStorage.setItem(`tryit_state_${key}`, JSON.stringify(value))
@@ -106,7 +106,7 @@ export function getAppStateFast(key) {
   try { return JSON.parse(localStorage.getItem(`tryit_state_${key}`) || 'null') } catch { return null }
 }
 
-// ── Outbox (Telegram pattern — batch sync) ────────────────────
+// -- Outbox (Telegram pattern - batch sync) --------------------
 export async function addToOutbox(item) {
   await idbAdd('outbox', { ...item, created_at: Date.now() })
 }
@@ -120,7 +120,7 @@ export async function clearOutboxItem(id) {
   s.delete(id)
 }
 
-// ── Questions cache ───────────────────────────────────────────
+// -- Questions cache -------------------------------------------
 export async function cacheQuestions(questions) {
   const store = await tx('questions', 'readwrite')
   for (const q of questions) store.put(q)
@@ -134,7 +134,7 @@ export async function getQuestionCount() {
   return idbCount('questions')
 }
 
-// ── Session restore data ──────────────────────────────────────
+// -- Session restore data --------------------------------------
 export function saveSession(data) {
   localStorage.setItem('tryit_session', JSON.stringify({ ...data, saved_at: Date.now() }))
 }

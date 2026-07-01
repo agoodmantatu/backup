@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 
 /*
  * BUG FIX APPLIED:
- * Never use {array.length && <Component />} — renders "0" when empty.
+ * Never use {array.length && <Component />} - renders "0" when empty.
  * Always use {array.length > 0 ? <Component /> : null}.
- * The same principle applies to number rendering — we use explicit
+ * The same principle applies to number rendering - we use explicit
  * ternary conditions for all conditional rendering below.
  */
 
@@ -50,7 +50,7 @@ function StatItem({ stat }) {
     <div ref={ref} className="flex flex-col items-center gap-1 px-6 py-4">
       <span className="font-poppins font-extrabold leading-none"
         style={{ fontSize: 'clamp(32px,4vw,48px)', color: 'var(--color-accent, #D4AF37)' }}>
-        {/* ── EXPLICIT TERNARY — never use `isNum && value` which renders "0" ── */}
+        {/* -- EXPLICIT TERNARY - never use `isNum && value` which renders "0" -- */}
         {isNum ? `${count.toLocaleString()}${stat.suffix}` : stat.display}
       </span>
       <span className="text-sm text-center leading-tight" style={{ color: 'var(--color-on-dark-muted, rgba(255,255,255,0.72))' }}>{stat.label}</span>

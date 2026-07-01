@@ -10,7 +10,7 @@ const NOTIFS = [
   { id:5, type:'hall',     icon:'⚔️', title:'IIT Chasers is WINNING the battle!',  body:'342 vs 298 against Physics Gang. Answer more questions to seal the win!', time:'6 hrs ago',  read:true  },
   { id:6, type:'coins',    icon:'🪙', title:'+50 coins: Daily Quiz Bonus',          body:'You scored 4/5 in today\'s Current Affairs quiz. Coins added!', time:'Yesterday', read:true  },
   { id:7, type:'streak',   icon:'🔥', title:'12-Day Streak! Don\'t break it.',      body:'Study at least 1 topic today to keep your streak alive.', time:'Yesterday', read:true  },
-  { id:8, type:'exam',     icon:'📡', title:'UPSC Prelims 2026 Notification Out',  body:'Notification released. Applications open Feb 15 – Mar 15. Check now.', time:'2 days ago',read:true  },
+  { id:8, type:'exam',     icon:'📡', title:'UPSC Prelims 2026 Notification Out',  body:'Notification released. Applications open Feb 15 - Mar 15. Check now.', time:'2 days ago',read:true  },
 ]
 
 const TYPE_COLOR = { badge:'bg-[var(--color-accent, #D4AF37)]', rank:'bg-green-500', doubt:'bg-blue-500',

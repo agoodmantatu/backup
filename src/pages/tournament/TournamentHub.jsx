@@ -1,5 +1,5 @@
 // FILE: src/pages/tournament/TournamentHub.jsx
-// TryIT Tournament Hub — Browse, Register, Vote for next exam
+// TryIT Tournament Hub - Browse, Register, Vote for next exam
 // Route: /tournament
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -11,12 +11,12 @@ const NAVY='#1E3A5F',GOLD='#C9A84C',BG='#F8FAFC'
 
 const MOCK_T=[
   {tournament_id:'t1',tournament_name:'All India SSC CGL Championship 2026',tournament_type:'national',exam_display_name:'SSC CGL Tier 1',exam_scheme_id:'ssc_cgl_t1',total_questions:100,registration_opens:'2026-06-15T00:00:00Z',registration_closes:'2026-06-22T07:00:00Z',exam_starts_at:'2026-06-22T09:00:00Z',results_at:'2026-06-22T20:00:00Z',status:'registration_open',total_registrations:84230,entry_fee_free_user:5,entry_fee_pro_ultra:0,cdn_question_url:null,question_sets_count:50},
-  {tournament_id:'t2',tournament_name:'IBPS PO Match Day — June 2026',tournament_type:'match_day',exam_display_name:'IBPS PO Prelims',exam_scheme_id:'ibps_po_pre',total_questions:100,registration_opens:'2026-06-25T00:00:00Z',registration_closes:'2026-06-26T07:00:00Z',exam_starts_at:'2026-06-26T09:00:00Z',results_at:'2026-06-26T20:00:00Z',status:'upcoming',total_registrations:0,entry_fee_free_user:5,entry_fee_pro_ultra:0,cdn_question_url:null,question_sets_count:50},
+  {tournament_id:'t2',tournament_name:'IBPS PO Match Day - June 2026',tournament_type:'match_day',exam_display_name:'IBPS PO Prelims',exam_scheme_id:'ibps_po_pre',total_questions:100,registration_opens:'2026-06-25T00:00:00Z',registration_closes:'2026-06-26T07:00:00Z',exam_starts_at:'2026-06-26T09:00:00Z',results_at:'2026-06-26T20:00:00Z',status:'upcoming',total_registrations:0,entry_fee_free_user:5,entry_fee_pro_ultra:0,cdn_question_url:null,question_sets_count:50},
 ]
 const MOCK_POLLS=[
   {poll_id:'p1',exam_name:'UPSC CSE Prelims',vote_count:1847,status:'open',description:'National UPSC mock tournament',min_votes_national:2000},
   {poll_id:'p2',exam_name:'JEE Main',vote_count:1234,status:'open',description:'All India JEE championship',min_votes_national:2000},
-  {poll_id:'p3',exam_name:'KPSC Group A',vote_count:623,status:'threshold_reached',description:'Karnataka PSC — votes reached!',min_votes_state:500,admin_note:'Scheduling for July 2026'},
+  {poll_id:'p3',exam_name:'KPSC Group A',vote_count:623,status:'threshold_reached',description:'Karnataka PSC - votes reached!',min_votes_state:500,admin_note:'Scheduling for July 2026'},
   {poll_id:'p4',exam_name:'RRB NTPC',vote_count:412,status:'open',description:'Railway NTPC national test',min_votes_national:2000},
 ]
 
@@ -241,7 +241,7 @@ function RegModal({tournament,planTier,user,onClose,onDone}){
       <div style={{background:'#fff',borderRadius:'20px 20px 0 0',padding:24,width:'100%',maxWidth:460}}>
         <h3 style={{fontFamily:'Poppins,sans-serif',fontWeight:800,color:NAVY,fontSize:16,marginBottom:4}}>Register for Tournament</h3>
         <p style={{fontSize:12,color:'#64748B',marginBottom:14}}>{tournament.tournament_name}</p>
-        <p style={{fontSize:11,fontWeight:700,color:'#64748B',marginBottom:6}}>Your Category (Private — only you see this)</p>
+        <p style={{fontSize:11,fontWeight:700,color:'#64748B',marginBottom:6}}>Your Category (Private - only you see this)</p>
         <div style={{display:'flex',flexWrap:'wrap',gap:5,marginBottom:12}}>
           {['general','obc','sc','st','ews','pwd_oh','pwd_vh','ex_servicemen'].map(c=>(
             <button key={c} onClick={()=>setCategory(c)} style={{padding:'6px 10px',borderRadius:8,border:'1.5px solid',fontSize:10,fontWeight:700,cursor:'pointer',borderColor:category===c?NAVY:'#E2E8F0',background:category===c?NAVY:'#fff',color:category===c?'#fff':'#64748B'}}>

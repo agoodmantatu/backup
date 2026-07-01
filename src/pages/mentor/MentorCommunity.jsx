@@ -20,14 +20,14 @@ const POSTS = [
    replies:8},
   {id:2, cat:'exams', author:'Suresh M.', city:'Kochi',
    verified:true, time:'5h ago',
-   title:'UPSC 2026 Prelims analysis — what topics were heavily asked',
+   title:'UPSC 2026 Prelims analysis - what topics were heavily asked',
    body:'Polity dominated with 28 questions. Environment had 15. Current affairs from Sept-Feb period. Prepare accordingly.',
    reactions:{fire:45,star:32,heart:8,thumb:56},
    replies:14},
   {id:3, cat:'income', author:'Priya C.', city:'Madurai',
    verified:false, time:'1d ago',
-   title:'Reached ₹25,000/month with 18 students — here is what worked',
-   body:'Mix of weekly and monthly passes. Focus on TNPSC students — they are very loyal and refer friends actively.',
+   title:'Reached ₹25,000/month with 18 students - here is what worked',
+   body:'Mix of weekly and monthly passes. Focus on TNPSC students - they are very loyal and refer friends actively.',
    reactions:{fire:67,star:41,heart:29,thumb:78},
    replies:22},
 ]
@@ -123,7 +123,7 @@ export default function MentorCommunity() {
               ))}
             </div>
             <input value={newTitle} onChange={e=>setNewTitle(e.target.value)}
-              placeholder="Post title — be specific and helpful"
+              placeholder="Post title - be specific and helpful"
               style={{width:'100%',padding:'11px 14px',borderRadius:12,
                 border:'1.5px solid '+b,background:bg,color:t,
                 fontSize:14,outline:'none',fontFamily:'Poppins,sans-serif',

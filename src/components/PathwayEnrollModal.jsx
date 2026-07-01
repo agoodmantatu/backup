@@ -10,13 +10,13 @@ import { useAuth } from '../context/AuthContext'
 const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 
-// ── CLASS → STAGE MAPPING for each pathway ───────────────────────────────
+// -- CLASS → STAGE MAPPING for each pathway -------------------------------
 const CLASS_TO_STAGE = {
   // JEE 7-Year: Class 6=Stage1, 7=Stage2... 12=Stage7
   jee_7yr: {
     'class_6':  { stage:1, message:"You're starting at the right age! Full 7-year journey ahead." },
     'class_7':  { stage:2, message:"Start at Class 7 stage. Stage 1 available as optional catch-up." },
-    'class_8':  { stage:3, message:"Start at Class 8. 5 stages remaining — still very doable!" },
+    'class_8':  { stage:3, message:"Start at Class 8. 5 stages remaining - still very doable!" },
     'class_9':  { stage:4, message:"Start at Class 9 Foundation. 4 stages to IIT. You've got this!" },
     'class_10': { stage:5, message:"Start at Class 10 Core stage. 3 stages to JEE." },
     'class_11': { stage:6, message:"Class 11 direct entry. Intense but very achievable!" },
@@ -37,16 +37,16 @@ const CLASS_TO_STAGE = {
   // UPSC 8-Year
   upsc_8yr: {
     'class_8':  { stage:1, message:"Excellent start for UPSC! Full 8-year journey." },
-    'class_10': { stage:2, message:"Pre-foundation stage — building NCERT mastery." },
+    'class_10': { stage:2, message:"Pre-foundation stage - building NCERT mastery." },
     'class_11': { stage:2, message:"Start at Pre-Foundation. Strong base for UPSC." },
     'class_12': { stage:2, message:"Start at Pre-Foundation. Good time to begin!" },
-    'graduation':{ stage:3, message:"Graduation entry — GS Fundamentals stage." },
+    'graduation':{ stage:3, message:"Graduation entry - GS Fundamentals stage." },
     'graduation_2':{ stage:4, message:"2nd year Graduation. Optional + GS Depth stage." },
     'post_grad': { stage:5, message:"Post-grad entry. Full integration phase." },
   },
   // Banking 2-Year
   banking_2yr: {
-    'graduation':    { stage:1, message:"Graduation entry — standard banking prep path." },
+    'graduation':    { stage:1, message:"Graduation entry - standard banking prep path." },
     'post_grad':     { stage:1, message:"Great time to start banking prep!" },
     'working_prof':  { stage:2, message:"Working professional? Start at mock phase directly." },
   },
@@ -54,7 +54,7 @@ const CLASS_TO_STAGE = {
   ssc_2yr: {
     'graduation':    { stage:1, message:"Standard SSC CGL prep path." },
     'post_grad':     { stage:1, message:"Start SSC preparation now." },
-    'class_12':      { stage:1, message:"12th pass entry — start building foundation." },
+    'class_12':      { stage:1, message:"12th pass entry - start building foundation." },
     'working_prof':  { stage:2, message:"Already know basics? Start at mock phase." },
   },
   // CA 6-Year
@@ -62,7 +62,7 @@ const CLASS_TO_STAGE = {
     'class_10':      { stage:1, message:"Perfect start for CA! 6-year journey begins." },
     'class_11':      { stage:1, message:"Good time to start CA Foundation prep." },
     'class_12':      { stage:2, message:"Direct CA Foundation entry." },
-    'graduation':    { stage:3, message:"Graduation entry — CA Intermediate Group 1." },
+    'graduation':    { stage:3, message:"Graduation entry - CA Intermediate Group 1." },
   },
 }
 
@@ -162,7 +162,7 @@ export default function PathwayEnrollModal({ pathway, onClose, onEnrolled }) {
       <div style={{ background:'#fff', borderRadius:'24px 24px 0 0', width:'100%', maxWidth:460,
         maxHeight:'90vh', overflowY:'auto', padding:24 }}>
 
-        {/* ── STEP 1: SELECT CURRENT CLASS ─────────────────────────────── */}
+        {/* -- STEP 1: SELECT CURRENT CLASS ------------------------------- */}
         {step === 1 && (
           <>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:6 }}>
@@ -177,7 +177,7 @@ export default function PathwayEnrollModal({ pathway, onClose, onEnrolled }) {
 
             <div style={{ background:'#FFF7E6', border:'1px solid #FDE68A', borderRadius:12, padding:12, marginBottom:16 }}>
               <p style={{ fontSize:13, color:'#92400E', margin:0, lineHeight:1.6 }}>
-                📍 Tell us what class/year you're in — we'll start you at the <strong>right stage</strong>, not from the beginning.
+                📍 Tell us what class/year you're in - we'll start you at the <strong>right stage</strong>, not from the beginning.
               </p>
             </div>
 
@@ -215,7 +215,7 @@ export default function PathwayEnrollModal({ pathway, onClose, onEnrolled }) {
           </>
         )}
 
-        {/* ── STEP 2: CONFIRM STAGE + CATCH-UP ────────────────────────── */}
+        {/* -- STEP 2: CONFIRM STAGE + CATCH-UP -------------------------- */}
         {step === 2 && targetStage && (
           <>
             <button onClick={() => setStep(1)}
@@ -276,7 +276,7 @@ export default function PathwayEnrollModal({ pathway, onClose, onEnrolled }) {
                 </p>
                 <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
                   {[
-                    { value:'skip', label:'Skip them — I already know this material', emoji:'⏭️',
+                    { value:'skip', label:'Skip them - I already know this material', emoji:'⏭️',
                       desc:'Stages will be marked available for reference anytime' },
                     { value:'review', label:'Keep them available for self-review', emoji:'📖',
                       desc:'You can revisit any earlier stage when you want to revise' },
@@ -318,7 +318,7 @@ export default function PathwayEnrollModal({ pathway, onClose, onEnrolled }) {
           </>
         )}
 
-        {/* ── STEP 3: ENROLLED CONFIRMATION ───────────────────────────── */}
+        {/* -- STEP 3: ENROLLED CONFIRMATION ----------------------------- */}
         {step === 3 && (
           <div style={{ textAlign:'center', padding:'10px 0' }}>
             <p style={{ fontSize:48, marginBottom:12 }}>🎉</p>

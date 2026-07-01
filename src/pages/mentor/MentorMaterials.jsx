@@ -16,7 +16,7 @@ const MATERIALS = [
 ]
 
 const BOOKS = [
-  {id:4,title:'Zero to UPSC — The 12-Month Blueprint',type:'book',price:299,
+  {id:4,title:'Zero to UPSC - The 12-Month Blueprint',type:'book',price:299,
    exam:'UPSC',pages:280,sold:42,rating:4.9,revenue:10626,
    desc:'Step-by-step 12-month UPSC preparation strategy with daily schedules, topic weightage and model answers.'},
   {id:5,title:'SSC CGL Complete Crash Course',type:'book',price:199,
@@ -318,7 +318,7 @@ export default function MentorMaterials() {
               </div>
               <div>
                 <label style={{display:'block',color:t,fontWeight:700,fontSize:11,marginBottom:6}}>
-                  Price (₹) — 0 for free
+                  Price (₹) - 0 for free
                 </label>
                 <input value={uploadForm.price} type="number" min="0"
                   onChange={e=>setUploadForm({...uploadForm,

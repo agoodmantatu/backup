@@ -1,5 +1,5 @@
 // FILE: src/pages/test-engine/TestLauncher.jsx
-// TryIT — Test Selection Screen
+// TryIT - Test Selection Screen
 // Smart exam search, mode selection, enrolled exams, PYQ access
 import { useState } from 'react'
 import { useNavigate }   from 'react-router-dom'
@@ -94,7 +94,7 @@ export default function TestLauncher() {
   return (
     <div style={{ minHeight:'100vh', background:BG, fontFamily:'Inter,sans-serif', paddingBottom:80 }}>
 
-      {/* ── HEADER ──────────────────────────────────────────────────────── */}
+      {/* -- HEADER -------------------------------------------------------- */}
       <div style={{ background:`linear-gradient(135deg,${NAVY},#0F2140)`, padding:'16px 16px 20px' }}>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
           <button onClick={() => navigate('/')}
@@ -136,7 +136,7 @@ export default function TestLauncher() {
 
       <div style={{ padding:'0 16px', maxWidth:480, margin:'0 auto' }}>
 
-        {/* ── TEST MODE ─────────────────────────────────────────────────── */}
+        {/* -- TEST MODE --------------------------------------------------- */}
         <p style={{ fontSize:11, fontWeight:700, color:'#94A3B8', letterSpacing:1.2,
           textTransform:'uppercase', marginTop:18, marginBottom:10 }}>
           SELECT MODE
@@ -176,7 +176,7 @@ export default function TestLauncher() {
           ))}
         </div>
 
-        {/* ── QUESTION COUNT ───────────────────────────────────────────────── */}
+        {/* -- QUESTION COUNT ------------------------------------------------- */}
         <p style={{ fontSize:11, fontWeight:700, color:'#94A3B8', letterSpacing:1.2,
           textTransform:'uppercase', marginTop:18, marginBottom:8 }}>
           NUMBER OF QUESTIONS
@@ -195,7 +195,7 @@ export default function TestLauncher() {
           ))}
         </div>
 
-        {/* ── DIFFICULTY ───────────────────────────────────────────────────── */}
+        {/* -- DIFFICULTY ----------------------------------------------------- */}
         <p style={{ fontSize:11, fontWeight:700, color:'#94A3B8', letterSpacing:1.2,
           textTransform:'uppercase', marginTop:18, marginBottom:8 }}>
           DIFFICULTY
@@ -219,7 +219,7 @@ export default function TestLauncher() {
           ))}
         </div>
 
-        {/* ── TOPIC / EXAM / PYQ TABS ──────────────────────────────────────── */}
+        {/* -- TOPIC / EXAM / PYQ TABS ---------------------------------------- */}
         <div style={{ display:'flex', marginTop:20, borderBottom:'1px solid #E2E8F0' }}>
           {[
             { id:'topic', label:'By Topic'    },
@@ -240,7 +240,7 @@ export default function TestLauncher() {
         {tab === 'topic' && (
           <div>
             <p style={{ fontSize:11, color:'#64748B', marginTop:12, marginBottom:10 }}>
-              Quick topic-wise practice — 20 questions, instant feedback:
+              Quick topic-wise practice - 20 questions, instant feedback:
             </p>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:8 }}>
               {QUICK_TOPICS.map(t => (
@@ -263,7 +263,7 @@ export default function TestLauncher() {
         {tab === 'exam' && (
           <div>
             <p style={{ fontSize:11, color:'#64748B', marginTop:12, marginBottom:10 }}>
-              Your enrolled exams — full mock with PYQ-aligned weightage:
+              Your enrolled exams - full mock with PYQ-aligned weightage:
             </p>
             {enrolled.map(exam => (
               <div key={exam.id} style={{ background:'#fff', borderRadius:12, padding:'12px 14px',
@@ -301,7 +301,7 @@ export default function TestLauncher() {
                 📄 Previous Year Questions (PYQ)
               </p>
               <p style={{ fontSize:12, color:'#78350F', margin:0, lineHeight:1.6 }}>
-                Real questions from past papers. Free users get unlimited PYQ access — no limit on these.
+                Real questions from past papers. Free users get unlimited PYQ access - no limit on these.
               </p>
             </div>
             {enrolled.map(exam => (
@@ -326,7 +326,7 @@ export default function TestLauncher() {
           </div>
         )}
 
-        {/* ── START BUTTON ─────────────────────────────────────────────────── */}
+        {/* -- START BUTTON --------------------------------------------------- */}
         <div style={{ marginTop:20 }}>
           {!access.allowed && !access.canByCoin ? (
             <div>
@@ -342,7 +342,7 @@ export default function TestLauncher() {
               <button onClick={() => navigate('/pro')}
                 style={{ width:'100%', padding:'14px', background:`linear-gradient(135deg,${GOLD},#E8C96A)`,
                   color:NAVY, border:'none', borderRadius:14, fontWeight:800, fontSize:15, cursor:'pointer' }}>
-                Upgrade to Pro — Unlimited Tests →
+                Upgrade to Pro - Unlimited Tests →
               </button>
             </div>
           ) : (
@@ -353,7 +353,7 @@ export default function TestLauncher() {
               <span style={{ fontSize:20 }}>
                 {mode==='practice'?'📝':mode==='speed'?'⚡':'🎯'}
               </span>
-              Start {mode.charAt(0).toUpperCase()+mode.slice(1)} — {count} Questions
+              Start {mode.charAt(0).toUpperCase()+mode.slice(1)} - {count} Questions
             </button>
           )}
         </div>

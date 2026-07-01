@@ -4,21 +4,21 @@ import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
 
 const SAMPLE_POSTS = [
-  { id: 1, author: 'Anjali R.', initials: 'AR', time: '1 hr ago',   content: 'Just scored 88% in the UPSC Geography mock 🎉 Consistency really is the key — 2 hours daily for 3 weeks made all the difference!' },
+  { id: 1, author: 'Anjali R.', initials: 'AR', time: '1 hr ago',   content: 'Just scored 88% in the UPSC Geography mock 🎉 Consistency really is the key - 2 hours daily for 3 weeks made all the difference!' },
   { id: 2, author: 'Deepa M.', initials: 'DM', time: '4 hrs ago',   content: 'Any tips for managing exam prep with household responsibilities? Balancing is tough but we\'re doing it 💪' },
-  { id: 3, author: 'Kavitha S.', initials: 'KS', time: '1 day ago', content: 'Sharing a free PDF for NDA Mathematics — helped me a lot. Will upload to GuruBooks shortly 📚' },
+  { id: 3, author: 'Kavitha S.', initials: 'KS', time: '1 day ago', content: 'Sharing a free PDF for NDA Mathematics - helped me a lot. Will upload to GuruBooks shortly 📚' },
 ]
 
 const RESOURCES = [
-  { emoji: '🎓', title: 'Scholarships for Women', desc: 'Pragati Scholarship (AICTE), Ishan Uday, INSPIRE — explore 40+ grants exclusively for female students.', link: '#' },
+  { emoji: '🎓', title: 'Scholarships for Women', desc: 'Pragati Scholarship (AICTE), Ishan Uday, INSPIRE - explore 40+ grants exclusively for female students.', link: '#' },
   { emoji: '👩‍🏫', title: "Women's Mentorship Program", desc: 'Connect with female mentors across UPSC, Engineering, Medical, and Banking on the Guru Hub.', link: '/guru-hub' },
   { emoji: '🛡️', title: 'Safety & Support Resources', desc: 'iCall Helpline: 9152987821 | Women\'s Helpline: 181 | Cybercrime: cybercrime.gov.in', link: null },
 ]
 
 const GUIDELINES = [
-  'Be kind, be real — this is a space of mutual support, not competition.',
+  'Be kind, be real - this is a space of mutual support, not competition.',
   'No hate speech, casteism, body shaming, or discriminatory remarks of any kind.',
-  'Respect each other\'s privacy — do not share personal information of other members.',
+  'Respect each other\'s privacy - do not share personal information of other members.',
   'Academic integrity: no cheating tips. Help each other learn, not shortcut.',
   'Violations are reported to our safety team immediately. Zero tolerance applies.',
 ]

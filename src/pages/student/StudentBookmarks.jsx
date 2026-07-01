@@ -77,7 +77,7 @@ export default function StudentBookmarks() {
         </div>
 
         {loading ? (
-          <div style={{ textAlign:'center', padding:'40px', color:muted }}>Loading…</div>
+          <div style={{ textAlign:'center', padding:'40px', color:muted }}>Loading...</div>
         ) : filtered.length === 0 ? (
           <div style={{ background:card, border:`1px dashed ${accent}35`,
             borderRadius:20, padding:'40px', textAlign:'center' }}>

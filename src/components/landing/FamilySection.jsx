@@ -35,7 +35,7 @@ export default function FamilySection() {
   const CONTENT = [
     {
       title:'Monitor All 4 Family Members',
-      desc:'One screen. Every family member\'s rank, last test, active streak, and weak subjects — all updated in real time. No switching apps, no asking the child every evening.',
+      desc:'One screen. Every family member\'s rank, last test, active streak, and weak subjects - all updated in real time. No switching apps, no asking the child every evening.',
       preview:(
         <div style={{background:isDark?`linear-gradient(135deg,${primD},${primary}60)`:primary,borderRadius:12,padding:14,border:`1px solid ${accent}25`}}>
           <p style={{color:'rgba(255,255,255,0.35)',fontSize:8,fontWeight:700,letterSpacing:'1px',margin:'0 0 10px'}}>SHARMA FAMILY · JUNE 2026</p>
@@ -58,7 +58,7 @@ export default function FamilySection() {
       desc:'Today vs last week. This month vs last month. This year vs last year. All visualised clearly for every member so you see real growth, not just marks on a paper.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
-          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 10px',letterSpacing:'1px'}}>ARJUN — SSC CGL · JAN vs JUN 2026</p>
+          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 10px',letterSpacing:'1px'}}>ARJUN - SSC CGL · JAN vs JUN 2026</p>
           {[{s:'Jan 2026',v:42,c:'#475569'},{s:'Jun 2026',v:82,c:'#4ADE80'}].map((r,i)=>(
             <div key={i} style={{marginBottom:8}}>
               <div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
@@ -81,16 +81,16 @@ export default function FamilySection() {
     },
     {
       title:'Weak Subject Early Alerts',
-      desc:'If any family member\'s score in any subject drops below their personal average — you get an automatic alert early enough to intervene. No more surprises on exam day.',
+      desc:'If any family member\'s score in any subject drops below their personal average - you get an automatic alert early enough to intervene. No more surprises on exam day.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <div style={{background:'rgba(248,113,113,0.08)',border:'1.5px solid rgba(248,113,113,0.28)',borderRadius:10,padding:'9px 11px',marginBottom:8}}>
-            <p style={{color:'#F87171',fontWeight:700,fontSize:10,margin:'0 0 2px'}}>⚠️ Alert — Arjun · 2 hours ago</p>
+            <p style={{color:'#F87171',fontWeight:700,fontSize:10,margin:'0 0 2px'}}>⚠️ Alert - Arjun · 2 hours ago</p>
             <p style={{color:isDark?'rgba(255,255,255,0.6)':'#475569',fontSize:9,margin:0,lineHeight:1.5}}>Algebra score dropped 8% vs his weekly average. This is the 2nd week in a row. Consider revision this weekend before it affects mock test results.</p>
           </div>
           <div style={{background:`${accent}10`,border:`1px solid ${accent}25`,borderRadius:10,padding:'9px 11px',marginBottom:8}}>
             <p style={{color:accent,fontWeight:700,fontSize:10,margin:'0 0 2px'}}>✅ Priya · Yesterday</p>
-            <p style={{color:isDark?'rgba(255,255,255,0.6)':'#475569',fontSize:9,margin:0,lineHeight:1.5}}>Biology score improved to 94% — highest ever this year! Great consistency this week across 3 practice tests.</p>
+            <p style={{color:isDark?'rgba(255,255,255,0.6)':'#475569',fontSize:9,margin:0,lineHeight:1.5}}>Biology score improved to 94% - highest ever this year! Great consistency this week across 3 practice tests.</p>
           </div>
           <div style={{background:'rgba(74,222,128,0.08)',border:'1px solid rgba(74,222,128,0.2)',borderRadius:10,padding:'7px 11px'}}>
             <p style={{color:'#4ADE80',fontSize:9,fontWeight:700,margin:0}}>📶 All 4 members studied today · Family streak: 12 days</p>
@@ -100,7 +100,7 @@ export default function FamilySection() {
     },
     {
       title:'Share Progress with School or Tutor',
-      desc:'Send any family member\'s monthly progress report to their school teacher or coaching centre in one tap — WhatsApp, PDF, or a shareable link. No manual reporting.',
+      desc:'Send any family member\'s monthly progress report to their school teacher or coaching centre in one tap - WhatsApp, PDF, or a shareable link. No manual reporting.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 10px',letterSpacing:'1px'}}>SHARE PRIYA\'S MONTHLY REPORT</p>
@@ -118,7 +118,7 @@ export default function FamilySection() {
       ),
     },
     {
-      title:'Family Plan — Save More Together',
+      title:'Family Plan - Save More Together',
       desc:'Family plan covers up to 4 members at special pricing. Referral cashback on every renewal. The more you learn together, the less you pay. Built for Indian households.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
@@ -141,7 +141,7 @@ export default function FamilySection() {
     },
     {
       title:'Convert Any Account to Family Anytime',
-      desc:'Your child already has a student account? Add them to your family plan instantly — no re-registration, no data loss, all their previous progress and ranks fully preserved.',
+      desc:'Your child already has a student account? Add them to your family plan instantly - no re-registration, no data loss, all their previous progress and ranks fully preserved.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 10px',letterSpacing:'1px'}}>ADD EXISTING ACCOUNT TO FAMILY</p>

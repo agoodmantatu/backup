@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
 
-// ── Sample thread data ─────────────────────────────────────────────
+// -- Sample thread data ---------------------------------------------
 // TODO: Replace with Supabase query: doubts table + answers table filtered by doubt_id
 const DOUBT_DB = {
   'doubt-001': {
@@ -18,7 +18,7 @@ const DOUBT_DB = {
     title: 'What is the significance of the Subsidiary Alliance System introduced by Wellesley?',
     description: `I understand it was used for territorial expansion, but how does it differ from the Doctrine of Lapse? 
 
-The NCERT explanation feels incomplete — it mentions that the Indian ruler had to maintain a British force but doesn't explain the financial and military consequences clearly. I also got confused in a previous mock test where both options looked similar.
+The NCERT explanation feels incomplete - it mentions that the Indian ruler had to maintain a British force but doesn't explain the financial and military consequences clearly. I also got confused in a previous mock test where both options looked similar.
 
 Could someone explain the key differences with a short comparison?`,
     views: 47,
@@ -33,7 +33,7 @@ Could someone explain the key differences with a short comparison?`,
     examTag: 'SSC CGL',
     subject: 'Reasoning',
     timeAgo: '38 min ago',
-    title: 'Blood relation puzzle — how to solve 3-generation problems quickly?',
+    title: 'Blood relation puzzle - how to solve 3-generation problems quickly?',
     description: `In the exam I always get confused when the question involves marriages across 3 generations. Is there a shortcut or a diagramming trick?
 
 For example: "A is the son of B. C is the mother of B. D is the husband of C." How do I quickly figure out the relation of A to D? I keep making diagrams but run out of time.`,
@@ -52,7 +52,7 @@ const ANSWERS_DB = {
       authorColor: 'var(--color-accent, #D4AF37)',
       isMentor: true,
       timeAgo: '8 min ago',
-      text: `Great question! Here's a quick comparison:\n\n**Subsidiary Alliance (1798, Wellesley):** The Indian ruler had to maintain a British force IN their territory — but the ruler PAID for it. This gave Britain a permanent military presence without spending their own money. If the ruler couldn't pay, they had to cede territory.\n\n**Doctrine of Lapse (Dalhousie, 1848):** Applied when an Indian ruler died without a natural heir. Adopted sons were not recognised. The state "lapsed" to British control automatically.\n\nKey difference: Subsidiary Alliance was about **military control + financial burden** on rulers. Doctrine of Lapse was about **succession and territory** after death. In exams, if the question says "no heir", it's Doctrine of Lapse. If it says "paying for British troops", it's Subsidiary Alliance.`,
+      text: `Great question! Here's a quick comparison:\n\n**Subsidiary Alliance (1798, Wellesley):** The Indian ruler had to maintain a British force IN their territory - but the ruler PAID for it. This gave Britain a permanent military presence without spending their own money. If the ruler couldn't pay, they had to cede territory.\n\n**Doctrine of Lapse (Dalhousie, 1848):** Applied when an Indian ruler died without a natural heir. Adopted sons were not recognised. The state "lapsed" to British control automatically.\n\nKey difference: Subsidiary Alliance was about **military control + financial burden** on rulers. Doctrine of Lapse was about **succession and territory** after death. In exams, if the question says "no heir", it's Doctrine of Lapse. If it says "paying for British troops", it's Subsidiary Alliance.`,
       upvotes: 24,
       isAccepted: true,
     },
@@ -64,7 +64,7 @@ const ANSWERS_DB = {
       authorColor: '#7C2D12',
       isMentor: false,
       timeAgo: '5 min ago',
-      text: 'Adding to the mentor\'s answer — a good mnemonic: **S**ubsidiary = **S**oldiers stay, **S**tate pays. **L**apse = **L**ast ruler, **L**and goes. Hope that sticks for the exam!',
+      text: 'Adding to the mentor\'s answer - a good mnemonic: **S**ubsidiary = **S**oldiers stay, **S**tate pays. **L**apse = **L**ast ruler, **L**and goes. Hope that sticks for the exam!',
       upvotes: 9,
       isAccepted: false,
     },
@@ -76,7 +76,7 @@ const ANSWERS_DB = {
       authorColor: 'var(--color-primary, #1E3A5F)',
       isMentor: false,
       timeAgo: '2 min ago',
-      text: 'Both were instruments of the Paramountcy doctrine. I\'d also add — Wellesley\'s system was more "voluntary" (the ruler signed), while Dalhousie\'s was imposed unilaterally by policy. That distinction sometimes appears in Prelims questions.',
+      text: 'Both were instruments of the Paramountcy doctrine. I\'d also add - Wellesley\'s system was more "voluntary" (the ruler signed), while Dalhousie\'s was imposed unilaterally by policy. That distinction sometimes appears in Prelims questions.',
       upvotes: 6,
       isAccepted: false,
     },
@@ -90,7 +90,7 @@ const ANSWERS_DB = {
       authorColor: 'var(--color-accent, #D4AF37)',
       isMentor: true,
       timeAgo: '30 min ago',
-      text: `The trick is to always draw a vertical tree, not a horizontal one — it maps generations spatially.\n\nFor your example:\n• Top row (Gen 1): C = D (couple)\n• Middle row (Gen 2): B (child of C and D)\n• Bottom row (Gen 3): A (son of B)\n\nSo D is A\'s maternal grandfather (Nana). Once you lock in the generation rows, the relationship is obvious.\n\nQuick rule: **count the generation gap and the gender** of the linking node. That gets you 90% of these questions in under 30 seconds.`,
+      text: `The trick is to always draw a vertical tree, not a horizontal one - it maps generations spatially.\n\nFor your example:\n• Top row (Gen 1): C = D (couple)\n• Middle row (Gen 2): B (child of C and D)\n• Bottom row (Gen 3): A (son of B)\n\nSo D is A\'s maternal grandfather (Nana). Once you lock in the generation rows, the relationship is obvious.\n\nQuick rule: **count the generation gap and the gender** of the linking node. That gets you 90% of these questions in under 30 seconds.`,
       upvotes: 31,
       isAccepted: true,
     },
@@ -216,7 +216,7 @@ export default function DoubtThread() {
           ← Back to Guru Hub
         </button>
 
-        {/* ── Doubt card ─── */}
+        {/* -- Doubt card --- */}
         <div style={{
           background: '#fff', borderRadius: 16,
           border: '1.5px solid #e2e8f0',
@@ -272,7 +272,7 @@ export default function DoubtThread() {
           </div>
         </div>
 
-        {/* ── Answers ─── */}
+        {/* -- Answers --- */}
         <div style={{ marginBottom: 32 }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
@@ -291,7 +291,7 @@ export default function DoubtThread() {
             }}>
               <div style={{ fontSize: 36, marginBottom: 8 }}>🧑‍🏫</div>
               <p style={{ fontFamily: 'Inter, sans-serif', color: '#64748b', fontSize: 14 }}>
-                No answers yet — be the first to help!
+                No answers yet - be the first to help!
               </p>
             </div>
           ) : (
@@ -310,7 +310,7 @@ export default function DoubtThread() {
           )}
         </div>
 
-        {/* ── Submit Answer ─── */}
+        {/* -- Submit Answer --- */}
         <div style={{
           background: '#fff', borderRadius: 16,
           border: '1.5px solid #e2e8f0',
@@ -331,7 +331,7 @@ export default function DoubtThread() {
           </div>
 
           <textarea
-            placeholder="Share your explanation, shortcut, or reference. Be clear and detailed — aspirants rely on you!"
+            placeholder="Share your explanation, shortcut, or reference. Be clear and detailed - aspirants rely on you!"
             value={answerText}
             onChange={e => { setAnswerText(e.target.value); setSubmitError('') }}
             rows={5}
@@ -363,7 +363,7 @@ export default function DoubtThread() {
               boxShadow: submitting ? 'none' : '0 4px 14px rgba(212,175,55,0.3)',
             }}
           >
-            {submitting ? 'Submitting…' : 'Submit Answer →'}
+            {submitting ? 'Submitting...' : 'Submit Answer →'}
           </button>
         </div>
       </div>
@@ -371,7 +371,7 @@ export default function DoubtThread() {
   )
 }
 
-// ── Answer Card ─────────────────────────────────────────────────────
+// -- Answer Card -----------------------------------------------------
 
 function AnswerCard({ answer, index, isDoubtAuthor, onAccept, onUpvote }) {
   return (

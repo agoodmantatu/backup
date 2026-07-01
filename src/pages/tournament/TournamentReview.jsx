@@ -1,11 +1,11 @@
 // FILE: src/pages/tournament/TournamentReview.jsx
-// TryIT — Tournament Question Review (unlocks at 8 PM)
+// TryIT - Tournament Question Review (unlocks at 8 PM)
 // Route: /tournament/:id/review
 //
 // Shows every question the student answered:
-//   ✅ Correct — confirmation + why it's right
-//   📚 Wrong   — what they chose, correct answer, why each option is a trap
-//   ⬜ Skipped — correct answer + full explanation
+//   ✅ Correct - confirmation + why it's right
+//   📚 Wrong   - what they chose, correct answer, why each option is a trap
+//   ⬜ Skipped - correct answer + full explanation
 //
 // Features:
 //   • Both languages: English + student's preferred language
@@ -39,7 +39,7 @@ const SUBJECT_COLORS = {
   general:   '#64748B',
 }
 
-// ── SUBJECT SCORECARD ─────────────────────────────────────────────────────
+// -- SUBJECT SCORECARD -----------------------------------------------------
 function SubjectCard({ subject, data }) {
   const color = SUBJECT_COLORS[subject] || '#64748B'
   const pct   = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
@@ -59,7 +59,7 @@ function SubjectCard({ subject, data }) {
   )
 }
 
-// ── SINGLE QUESTION REVIEW CARD ───────────────────────────────────────────
+// -- SINGLE QUESTION REVIEW CARD -------------------------------------------
 function QuestionCard({ pq, index, userLanguage, onAddToPractice, onShare }) {
   const [expanded,   setExpanded]   = useState(pq.result === 'incorrect')
   const [addedQueue, setAddedQueue] = useState(false)
@@ -170,7 +170,7 @@ function QuestionCard({ pq, index, userLanguage, onAddToPractice, onShare }) {
             </div>
           )}
 
-          {/* Full Explanation — English */}
+          {/* Full Explanation - English */}
           {pq.explanation_en && (
             <div style={{ background:'#EFF6FF', border:'1.5px solid #BFDBFE',
               borderRadius:12, padding:12, marginBottom:10 }}>
@@ -246,7 +246,7 @@ function QuestionCard({ pq, index, userLanguage, onAddToPractice, onShare }) {
   )
 }
 
-// ── MAIN REVIEW PAGE ──────────────────────────────────────────────────────
+// -- MAIN REVIEW PAGE ------------------------------------------------------
 export default function TournamentReview() {
   const { id }    = useParams()
   const navigate  = useNavigate()
@@ -430,7 +430,7 @@ export default function TournamentReview() {
     unattempted: reviewData.filter(p => p.result==='unattempted').length,
   }
 
-  // ── LOCKED STATE ─────────────────────────────────────────────────────
+  // -- LOCKED STATE -----------------------------------------------------
   if (locked) return (
     <div style={{ minHeight:'100vh', background:BG, display:'flex', flexDirection:'column',
       alignItems:'center', justifyContent:'center', fontFamily:'Inter,sans-serif', padding:24, textAlign:'center' }}>

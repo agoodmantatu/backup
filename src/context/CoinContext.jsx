@@ -40,7 +40,7 @@ export function CoinProvider({ children }) {
    * Call this from ThemeProvider's onThemeUnlocked callback (wire it
    * in App.jsx, e.g. <ThemeProvider onThemeUnlocked={celebrateThemeUnlock} ...>)
    * to fire the reward-moment animation. This is intentionally a
-   * bigger, slower, more deliberate celebration than the coin toast —
+   * bigger, slower, more deliberate celebration than the coin toast -
    * unlocking a theme is a milestone, not a routine transaction, and
    * the visual weight should reflect that difference.
    */
@@ -53,7 +53,7 @@ export function CoinProvider({ children }) {
     <CoinCtx.Provider value={{ balance, txs, earn, spend, refresh, recentMsg, celebrateThemeUnlock }}>
       {children}
 
-      {/* Routine coin earn/spend toast — small, quick, frequent */}
+      {/* Routine coin earn/spend toast - small, quick, frequent */}
       {recentMsg && (
         <div style={{
           position: 'fixed', bottom: 120, right: 20, zIndex: 9999,
@@ -67,7 +67,7 @@ export function CoinProvider({ children }) {
         </div>
       )}
 
-      {/* Theme unlock celebration — rare, deliberate, weighty. Kept
+      {/* Theme unlock celebration - rare, deliberate, weighty. Kept
           separate from the coin toast on purpose: if every event used
           the same visual treatment, milestones would stop feeling
           different from routine actions. */}

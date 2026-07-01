@@ -33,14 +33,14 @@ export default function ConceptCheckpoint() {
   const correctCount = answers.filter(a => a.passed).length
   const passed     = done && correctCount >= 2  // 2/3 or 3/3 to pass
 
-  // ── HANDLE ANSWER SELECT ──────────────────────────────────────────────────
+  // -- HANDLE ANSWER SELECT --------------------------------------------------
   const handleSelect = (idx) => {
     if (selected !== null) return  // already answered
     setSelected(idx)
     setShowResult(true)
   }
 
-  // ── NEXT QUESTION ─────────────────────────────────────────────────────────
+  // -- NEXT QUESTION ---------------------------------------------------------
   const handleNext = () => {
     const newAnswers = [...answers, {
       selected,
@@ -52,7 +52,7 @@ export default function ConceptCheckpoint() {
     setShowResult(false)
 
     if (isLast) {
-      // All done — save and show final result
+      // All done - save and show final result
       setDone(true)
       saveProgress(newAnswers)
     } else {
@@ -60,7 +60,7 @@ export default function ConceptCheckpoint() {
     }
   }
 
-  // ── SAVE PROGRESS TO SUPABASE ─────────────────────────────────────────────
+  // -- SAVE PROGRESS TO SUPABASE ---------------------------------------------
   const saveProgress = async (finalAnswers) => {
     const score  = finalAnswers.filter(a => a.passed).length
     const passed = score >= 2
@@ -113,7 +113,7 @@ export default function ConceptCheckpoint() {
     }
   }
 
-  // ── OPTION STYLE ──────────────────────────────────────────────────────────
+  // -- OPTION STYLE ----------------------------------------------------------
   const optStyle = (idx) => {
     const base = {
       width:'100%', textAlign:'left', padding:'14px 16px', borderRadius:14,
@@ -129,7 +129,7 @@ export default function ConceptCheckpoint() {
     return { ...base, borderColor:'#E2E8F0', color:'#94A3B8' }
   }
 
-  // ── IF NO CONCEPT DATA (direct URL navigation) ────────────────────────────
+  // -- IF NO CONCEPT DATA (direct URL navigation) ----------------------------
   if (!concept || questions.length === 0) {
     return (
       <div style={{ minHeight:'100vh', background:BG, display:'flex', flexDirection:'column',
@@ -146,7 +146,7 @@ export default function ConceptCheckpoint() {
     )
   }
 
-  // ── DONE SCREEN ───────────────────────────────────────────────────────────
+  // -- DONE SCREEN -----------------------------------------------------------
   if (done) {
     const emoji = passed
       ? correctCount === 3 ? '🏆' : '✅'
@@ -177,7 +177,7 @@ export default function ConceptCheckpoint() {
           <p style={{ fontSize:14, color:'#475569', marginBottom:20, lineHeight:1.7 }}>
             {passed
               ? `You got ${correctCount} out of ${totalQ} correct. You\'re ready for the Level ${lvl} test!`
-              : `You got ${correctCount} out of ${totalQ}. Read the concept once more — focus on ${correctCount === 0 ? 'the formula and examples' : 'the shortcut tricks'}.`
+              : `You got ${correctCount} out of ${totalQ}. Read the concept once more - focus on ${correctCount === 0 ? 'the formula and examples' : 'the shortcut tricks'}.`
             }
           </p>
 
@@ -189,7 +189,7 @@ export default function ConceptCheckpoint() {
                 borderBottom: i < answers.length-1 ? '1px solid #E2E8F0' : 'none' }}>
                 <span style={{ fontSize:14 }}>{a.passed ? '✅' : '❌'}</span>
                 <p style={{ fontSize:12, color:'#475569', flex:1 }}>
-                  Q{i+1}: {a.passed ? 'Correct' : `Wrong — correct was option ${String.fromCharCode(65+a.correct)}`}
+                  Q{i+1}: {a.passed ? 'Correct' : `Wrong - correct was option ${String.fromCharCode(65+a.correct)}`}
                 </p>
               </div>
             ))}
@@ -258,7 +258,7 @@ export default function ConceptCheckpoint() {
     )
   }
 
-  // ── QUESTION SCREEN ───────────────────────────────────────────────────────
+  // -- QUESTION SCREEN -------------------------------------------------------
   const progressPct = ((currentIdx) / totalQ) * 100
 
   return (
@@ -301,7 +301,7 @@ export default function ConceptCheckpoint() {
         <div style={{ background:'linear-gradient(135deg,#EFF6FF,#F0F9FF)', border:'1.5px solid #BFDBFE',
           borderRadius:16, padding:20, marginBottom:20, marginTop:8 }}>
           <p style={{ fontSize:11, fontWeight:700, color:'#1D4ED8', marginBottom:8, letterSpacing:0.5 }}>
-            QUICK CHECK — {currentIdx + 1}/{totalQ}
+            QUICK CHECK - {currentIdx + 1}/{totalQ}
           </p>
           <p style={{ fontSize:16, fontWeight:600, color:'#1E293B', lineHeight:1.7 }}>{q?.question}</p>
         </div>
@@ -351,7 +351,7 @@ export default function ConceptCheckpoint() {
         {/* Hint */}
         {!showResult && (
           <p style={{ textAlign:'center', color:'#94A3B8', fontSize:12, marginTop:16 }}>
-            Tap an option to answer — no penalty for wrong answers here
+            Tap an option to answer - no penalty for wrong answers here
           </p>
         )}
       </div>

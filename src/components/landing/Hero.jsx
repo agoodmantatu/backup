@@ -3,7 +3,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 
-// ── CSS-only India flag ───────────────────────────────────────────
+// -- CSS-only India flag -------------------------------------------
 function Flag({ s = 20 }) {
   const h = Math.round(s * 0.65)
   return (
@@ -18,7 +18,7 @@ function Flag({ s = 20 }) {
   )
 }
 
-// ── Animation A — Multicolour Star Burst ─────────────────────────
+// -- Animation A - Multicolour Star Burst -------------------------
 function AnimA({ a, aL, p, pD }) {
   const [tick, setTick] = useState(0)
   useEffect(() => { const t = setInterval(() => setTick(x => x + 1), 35); return () => clearInterval(t) }, [])
@@ -79,7 +79,7 @@ function AnimA({ a, aL, p, pD }) {
   )
 }
 
-// ── Animation B — Wheel Rings ─────────────────────────────────────
+// -- Animation B - Wheel Rings -------------------------------------
 function AnimB({ a, aL, p, pD }) {
   const [angle, setAngle] = useState(0)
   useEffect(() => { const t = setInterval(() => setAngle(x => (x + 0.9) % 360), 25); return () => clearInterval(t) }, [])
@@ -136,7 +136,7 @@ function AnimB({ a, aL, p, pD }) {
   )
 }
 
-// ── Animation D — Bharat Pulse (India tricolour) ──────────────────
+// -- Animation D - Bharat Pulse (India tricolour) ------------------
 function AnimD() {
   const [waves, setWaves] = useState([])
   const [tick, setTick] = useState(0)
@@ -208,31 +208,31 @@ function AnimD() {
   )
 }
 
-// ── Hero scripts ──────────────────────────────────────────────────
+// -- Hero scripts --------------------------------------------------
 const HEROES = [
   {
     badge:'Built for Every Indian. In Every Language. At Every Age.',
     lines:['Your Dream Doesn\'t','Speak English Only.','Neither Do We.'], ai:1,
-    sub:'The student from Manipur and the student from Chennai deserve the same shot at NEET, JEE, UPSC — in their own language, explained by a verified expert from their own region. No coaching fees. No YouTube rabbit holes. No stranger fear.',
+    sub:'The student from Manipur and the student from Chennai deserve the same shot at NEET, JEE, UPSC - in their own language, explained by a verified expert from their own region. No coaching fees. No YouTube rabbit holes. No stranger fear.',
     cta1:'Start Your Journey Free →', cta2:'See If You Qualify for Free Access',
   },
   {
-    badge:'India\'s Exam Platform — Built for 140 Crore Dreams',
+    badge:'India\'s Exam Platform - Built for 140 Crore Dreams',
     lines:['Bharat Produced','The World\'s Brightest.','Now It\'s Your Turn.'], ai:0,
-    sub:'From Kashmir to Kanyakumari — one platform, 1,10,000+ exams, 42+ languages, real All-India rankings after every test. No coaching fee. No fear. Your mentor, your hall, your All-India rank — all here.',
-    cta1:'Claim Your All-India Rank →', cta2:'See Where You Stand — Free',
+    sub:'From Kashmir to Kanyakumari - one platform, 1,10,000+ exams, 42+ languages, real All-India rankings after every test. No coaching fee. No fear. Your mentor, your hall, your All-India rank - all here.',
+    cta1:'Claim Your All-India Rank →', cta2:'See Where You Stand - Free',
   },
   {
     badge:'One Subscription. Two Students Study. Infinite Impact.',
     lines:['Stop Watching.','Start Ranking.','Start Winning.'], ai:2,
-    sub:'No YouTube. No coaching fee. When you subscribe — a student who cannot afford to, studies free alongside you. Topic-wise tests. Mentors in your language. Hall battles. Live rankings. Your one plan sponsors another Indian future.',
-    cta1:'Start Free — No Card Needed →', cta2:'My Plan Funds Another Student',
+    sub:'No YouTube. No coaching fee. When you subscribe - a student who cannot afford to, studies free alongside you. Topic-wise tests. Mentors in your language. Hall battles. Live rankings. Your one plan sponsors another Indian future.',
+    cta1:'Start Free - No Card Needed →', cta2:'My Plan Funds Another Student',
   },
 ]
 
-// ── Hero ──────────────────────────────────────────────────────────
+// -- Hero ----------------------------------------------------------
 export default function Hero() {
-  // ── 4-Theme Cycle System ─────────────────────────────────────
+  // -- 4-Theme Cycle System -------------------------------------
   const CYCLES = [
     {
       id: 'jasmine',
@@ -384,7 +384,7 @@ export default function Hero() {
         @keyframes theme-label-in{0%{opacity:0;transform:translateY(6px)}100%{opacity:1;transform:translateY(0)}}
       `}</style>
 
-      {/* ── Floating Particles per Cycle ── */}
+      {/* -- Floating Particles per Cycle -- */}
       {particles && particles.map(p => (
         <div key={p.id} style={{
           position:'absolute', pointerEvents:'none', zIndex:1,
@@ -404,7 +404,7 @@ export default function Hero() {
         }}/>
       ))}
 
-      {/* ── Progress Bar + Cycle Dots ── */}
+      {/* -- Progress Bar + Cycle Dots -- */}
       {typeof cycleIdx !== 'undefined' && C && (
         <div style={{
           position:'absolute', bottom:20, left:'50%',
@@ -443,7 +443,7 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Decorative rings — dark mode only */}
+      {/* Decorative rings - dark mode only */}
       {isDark && [380,620,860].map((s,i) => (
         <div key={i} style={{ position:'absolute', width:s, height:s, borderRadius:'50%',
           border:`1px solid ${accent}${i===0?'18':i===1?'0E':'07'}`,
@@ -456,7 +456,7 @@ export default function Hero() {
         display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,400px),1fr))',
         gap:'clamp(24px,4vw,56px)', alignItems:'center' }}>
 
-        {/* ── LEFT: rotating text ── */}
+        {/* -- LEFT: rotating text -- */}
         <div style={{ opacity:fade?1:0, transform:fade?'translateY(0)':'translateY(10px)',
           transition:'opacity 0.3s, transform 0.3s' }}>
 
@@ -535,7 +535,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* ── RIGHT: animation on dark glass canvas ── */}
+        {/* -- RIGHT: animation on dark glass canvas -- */}
         <div style={{ height:'clamp(280px,44vw,460px)', display:'flex',
           alignItems:'center', justifyContent:'center' }}>
           <div style={{

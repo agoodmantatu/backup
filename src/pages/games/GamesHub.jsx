@@ -1,9 +1,9 @@
 // FILE: src/pages/games/GamesHub.jsx
-// TryIT — Games Hub (catalog-driven, unlimited games via games_catalog table)
+// TryIT - Games Hub (catalog-driven, unlimited games via games_catalog table)
 // Route: /games
 // Tier gating EXACTLY matches theme system: Free=4, Pro=+10 (14 total), Ultra=all (24 total)
 // Exam-aware pinning: student's enrolled exam surfaces relevant games first
-// Any user can play any game — pinning is suggestion only, never a lock beyond tier.
+// Any user can play any game - pinning is suggestion only, never a lock beyond tier.
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
@@ -33,7 +33,7 @@ function getRoute(game) {
 }
 
 const MOCK_CATALOG = [
-  // FREE (4 — matches free theme count)
+  // FREE (4 - matches free theme count)
   { game_id:'gk_blitz', name:'GK Blitz', emoji:'🇮🇳', description:'10 GK questions, 60 seconds', color:'#1D4ED8', tier_required:'free', exam_tags:['all'], template_id:'blitz_quiz' },
   { game_id:'math_blitz', name:'Math Blitz', emoji:'➗', description:'Speed arithmetic, 90 seconds', color:'#7C3AED', tier_required:'free', exam_tags:['all'], template_id:'speed_calculate' },
   { game_id:'word_rush', name:'Word Rush', emoji:'📝', description:'Vocabulary & idioms, 2 min', color:'#059669', tier_required:'free', exam_tags:['all'], template_id:'blitz_quiz' },
@@ -150,7 +150,7 @@ export default function GamesHub(){
           <div style={{ background:'rgba(220,38,38,0.2)', border:'1.5px solid #EF4444', borderRadius:10,
             padding:'8px 12px', marginBottom:10 }}>
             <p style={{ fontSize:11, fontWeight:800, color:'#FCA5A5', margin:0 }}>
-              🛡️ ADMIN MODE — All tiers & levels unlocked for testing. No real coins spent.
+              🛡️ ADMIN MODE - All tiers & levels unlocked for testing. No real coins spent.
             </p>
           </div>
         )}
@@ -180,7 +180,7 @@ export default function GamesHub(){
         />
       </div>
 
-      {/* Daily Challenge banner — always pinned at top */}
+      {/* Daily Challenge banner - always pinned at top */}
       {!dailyDone && (
         <div onClick={() => navigate('/games/daily-challenge')}
           style={{ margin:'14px 16px 0', background:`linear-gradient(135deg,#D97706,#92400E)`, borderRadius:16,
@@ -231,7 +231,7 @@ export default function GamesHub(){
         {/* FREE TIER */}
         {grouped.free.length > 0 && (
           <div style={{ marginBottom:20 }}>
-            <p style={{ fontSize:12, fontWeight:800, color:'#64748B', marginBottom:10 }}>🆓 FREE — Available to Everyone</p>
+            <p style={{ fontSize:12, fontWeight:800, color:'#64748B', marginBottom:10 }}>🆓 FREE - Available to Everyone</p>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
               {grouped.free.map(g => <GameCard key={g.game_id} game={g} canPlay onPlay={() => handlePlay(g)} />)}
             </div>
@@ -242,7 +242,7 @@ export default function GamesHub(){
         {grouped.pro.length > 0 && (
           <div style={{ marginBottom:20 }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-              <p style={{ fontSize:12, fontWeight:800, color:'#1D4ED8', margin:0 }}>⭐ PRO — {grouped.pro.length} Games</p>
+              <p style={{ fontSize:12, fontWeight:800, color:'#1D4ED8', margin:0 }}>⭐ PRO - {grouped.pro.length} Games</p>
               {!isPro && <button onClick={() => navigate('/pro')} style={{ fontSize:11, color:'#1D4ED8', background:'none', border:'none', fontWeight:700, cursor:'pointer' }}>Unlock →</button>}
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
@@ -255,7 +255,7 @@ export default function GamesHub(){
         {grouped.ultra.length > 0 && (
           <div style={{ marginBottom:20 }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
-              <p style={{ fontSize:12, fontWeight:800, color:'#92400E', margin:0 }}>🏆 ULTRA — {grouped.ultra.length} Games (Exam-Specialized)</p>
+              <p style={{ fontSize:12, fontWeight:800, color:'#92400E', margin:0 }}>🏆 ULTRA - {grouped.ultra.length} Games (Exam-Specialized)</p>
               {!isUltra && <button onClick={() => navigate('/pro')} style={{ fontSize:11, color:'#92400E', background:'none', border:'none', fontWeight:700, cursor:'pointer' }}>Unlock →</button>}
             </div>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10 }}>
@@ -270,11 +270,11 @@ export default function GamesHub(){
           </div>
         )}
 
-        {/* Coming soon — community driven */}
+        {/* Coming soon - community driven */}
         <div style={{ background:'#fff', borderRadius:14, padding:14, border:'1.5px dashed #E2E8F0', textAlign:'center', marginTop:8 }}>
           <p style={{ fontSize:24, marginBottom:4 }}>🔜</p>
           <p style={{ fontSize:13, fontWeight:700, color:'#94A3B8', margin:'0 0 2px' }}>Unlimited games keep coming</p>
-          <p style={{ fontSize:11, color:'#94A3B8', margin:0 }}>New games added regularly — vote for what's next!</p>
+          <p style={{ fontSize:11, color:'#94A3B8', margin:0 }}>New games added regularly - vote for what's next!</p>
           <button onClick={() => navigate('/community')}
             style={{ marginTop:10, padding:'8px 16px', background:BG, color:NAVY, border:`1.5px solid ${NAVY}22`, borderRadius:8, fontSize:11, fontWeight:600, cursor:'pointer' }}>
             Vote for next game →

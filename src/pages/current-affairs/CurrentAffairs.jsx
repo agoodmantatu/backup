@@ -54,7 +54,7 @@ const FALLBACK_ARTICLES = [
     id: 'ca4',
     title: 'Praveen Kumar Wins Gold at Paris Paralympics',
     summary:
-      'India\'s Praveen Kumar won gold in high jump at the Paris 2024 Paralympic Games, setting a new Asian record. India finished with 7 gold medals — its best-ever Paralympic performance.',
+      'India\'s Praveen Kumar won gold in high jump at the Paris 2024 Paralympic Games, setting a new Asian record. India finished with 7 gold medals - its best-ever Paralympic performance.',
     source: 'Sports Authority of India',
     date: '2024-09-05',
     category: 'Sports',
@@ -62,7 +62,7 @@ const FALLBACK_ARTICLES = [
   },
   {
     id: 'ca5',
-    title: 'PM Modi Visits Kyiv — First Indian PM to Visit Ukraine',
+    title: 'PM Modi Visits Kyiv - First Indian PM to Visit Ukraine',
     summary:
       'Prime Minister Narendra Modi visited Kyiv, becoming the first Indian PM to visit Ukraine. He met President Zelensky and reaffirmed India\'s commitment to peace and dialogue to end the Russia-Ukraine conflict.',
     source: 'Ministry of External Affairs',
@@ -94,7 +94,7 @@ const FALLBACK_ARTICLES = [
     id: 'ca8',
     title: 'Centre Announces Unified Pension Scheme (UPS) for Govt Employees',
     summary:
-      'Cabinet approved the Unified Pension Scheme effective April 2025, assuring 50% of average basic pay as pension for central government employees with 25+ years of service — a major departure from NPS.',
+      'Cabinet approved the Unified Pension Scheme effective April 2025, assuring 50% of average basic pay as pension for central government employees with 25+ years of service - a major departure from NPS.',
     source: 'Press Information Bureau',
     date: '2024-08-24',
     category: 'National',
@@ -112,7 +112,7 @@ const FALLBACK_ARTICLES = [
   },
   {
     id: 'ca10',
-    title: 'India\'s Unemployment Rate Falls to 7.8% — PLFS Report',
+    title: 'India\'s Unemployment Rate Falls to 7.8% - PLFS Report',
     summary:
       'The Periodic Labour Force Survey (PLFS) annual report showed India\'s unemployment rate declined to 7.8% in FY2023-24, with significant improvement in rural female labour force participation.',
     source: 'Ministry of Statistics & PI',
@@ -209,7 +209,7 @@ export default function CurrentAffairs() {
         </div>
 
         {loading && (
-          <div className="text-center py-16 text-gray-400">Loading articles…</div>
+          <div className="text-center py-16 text-gray-400">Loading articles...</div>
         )}
 
         {!loading && filtered.length === 0 && (

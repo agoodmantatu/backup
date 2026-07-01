@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import localDb from '../lib/localDb'
 
-// ── PLAN RULES (Free / Pro / Ultra feature gates) ─────────────────────────
+// -- PLAN RULES (Free / Pro / Ultra feature gates) -------------------------
 const PLAN_RULES = {
   free: {
     pyq_questions:    { allowed: true,  limit: null, period: null,   coins: 0   },
@@ -82,7 +82,7 @@ function getUsagePeriodKey(userId, feature, period) {
   return `tryit_usage_${userId}_${feature}_${block}`
 }
 
-// ── MOCK USER ──────────────────────────────────────────────────────────────
+// -- MOCK USER --------------------------------------------------------------
 // Change plan here to test different tiers in dev mode:
 //   'free'  → 5 explanations per 6hr, no concept learning
 //   'pro'   → unlimited explanations, no concept learning
@@ -129,7 +129,7 @@ function makeInitials(name, email) {
   return '?'
 }
 
-// ── CONTEXT ────────────────────────────────────────────────────────────────
+// -- CONTEXT ----------------------------------------------------------------
 const AuthCtx = createContext({})
 
 export function AuthProvider({ children }) {
@@ -160,7 +160,7 @@ export function AuthProvider({ children }) {
         u = applyAdminGrant(u, email)
         u = grantSignupBonusIfNeeded(u, email)
 
-        // Derive isPro from plan — do NOT force override to pro_trial
+        // Derive isPro from plan - do NOT force override to pro_trial
         const tier = normalizePlan(u.plan)
         u = { ...u, isPro: tier !== 'free' }
 
@@ -202,7 +202,7 @@ export function AuthProvider({ children }) {
     return applyAdminGrant(u, profile.email)
   }
 
-  // ── AUTH ACTIONS ───────────────────────────────────────────────────────
+  // -- AUTH ACTIONS -------------------------------------------------------
   const login = async (email, role = 'student') => {
     const e = (email || '').trim().toLowerCase()
     if (!e) return { error: 'Email required' }
@@ -296,7 +296,7 @@ export function AuthProvider({ children }) {
   const isImpersonating = () =>
     localStorage.getItem('tryit_admin_impersonating') === '1'
 
-  // ── PLAN ACCESS FUNCTIONS ──────────────────────────────────────────────
+  // -- PLAN ACCESS FUNCTIONS ----------------------------------------------
 
   // canAccess('explanation') → { allowed, reason, coinCost, canByCoin, upgradeTo }
   const canAccess = (feature) => {
@@ -350,7 +350,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem(key, used + 1)
   }
 
-  // Deduct coins — returns true if successful, false if not enough
+  // Deduct coins - returns true if successful, false if not enough
   const spendCoins = (amount, reason = '') => {
     if (!user || (user.coins || 0) < amount) return false
     const newBal = (user.coins || 0) - amount
@@ -396,7 +396,7 @@ export function AuthProvider({ children }) {
     return Math.max(0, 5 - used)
   }
 
-  // ── DERIVED VALUES ─────────────────────────────────────────────────────
+  // -- DERIVED VALUES -----------------------------------------------------
   const planTier = normalizePlan(user?.plan)
 
   return (

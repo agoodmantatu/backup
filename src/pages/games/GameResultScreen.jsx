@@ -1,7 +1,7 @@
 // FILE: src/pages/games/GameResultScreen.jsx
-// TryIT — Shared Game End-Screen (used by ALL games — upgrade once, every game benefits)
+// TryIT - Shared Game End-Screen (used by ALL games - upgrade once, every game benefits)
 // THE SENSORY PAYOFF: confetti burst, synthesized victory sound, animated count-up score,
-// sticker unlock reveal, glow effects — this is what makes games feel premium.
+// sticker unlock reveal, glow effects - this is what makes games feel premium.
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState, useRef } from 'react'
 import { getGameTier, setLocalHighScore, getLocalHighScore } from '../../lib/gameEngine'
@@ -65,9 +65,9 @@ export default function GameResultScreen({ gameId, gameName, gameEmoji, score, m
     const isNew = setLocalHighScore(gameId, score)
     setIsNewHigh(isNew)
     if (!isAdminTest) addCoins?.(coinsEarned)
-    // Admin test plays never touch real coin balance — pure QA, zero economy impact
+    // Admin test plays never touch real coin balance - pure QA, zero economy impact
 
-    // ── THE PAYOFF MOMENT ──────────────────────────────────────────────
+    // -- THE PAYOFF MOMENT ----------------------------------------------
     if (pct >= 60) {
       playSound('win')
       if (canvasRef.current) burstConfetti(canvasRef.current, { count: pct >= 90 ? 120 : 80 })
@@ -76,7 +76,7 @@ export default function GameResultScreen({ gameId, gameName, gameEmoji, score, m
     }
     if (!isAdminTest) setTimeout(() => playSound('coinEarn'), 400)
 
-    // ── CHECK STICKER UNLOCKS (skipped for admin — no fake collection growth) ──
+    // -- CHECK STICKER UNLOCKS (skipped for admin - no fake collection growth) --
     if (!isAdminTest) {
       const earned = []
       if (correct === totalQuestions) earned.push('perfect_score')
@@ -101,7 +101,7 @@ export default function GameResultScreen({ gameId, gameName, gameEmoji, score, m
       })()
     }
 
-    // ── LEVEL PROGRESSION (if played via roadmap) ──────────────────────
+    // -- LEVEL PROGRESSION (if played via roadmap) ----------------------
     if (playedLevel) {
       unlockNextLevelFree(user?.id, gameId, playedLevel, score, maxPossible, isAdminTest).then(result => {
         setStarsEarned(result.stars)
@@ -153,7 +153,7 @@ export default function GameResultScreen({ gameId, gameName, gameEmoji, score, m
           <div style={{ background:'rgba(220,38,38,0.2)', border:'1.5px solid #EF4444', borderRadius:99,
             padding:'4px 16px', marginBottom:14, display:'inline-block' }}>
             <p style={{ fontSize:10, fontWeight:900, color:'#FCA5A5', margin:0, letterSpacing:1 }}>
-              🛡️ ADMIN TEST — NOT SAVED TO REAL DATA
+              🛡️ ADMIN TEST - NOT SAVED TO REAL DATA
             </p>
           </div>
         )}

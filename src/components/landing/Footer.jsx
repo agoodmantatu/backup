@@ -40,7 +40,7 @@ export default function Footer() {
   const primDark = theme?.primaryDark ?? '#0F2140'
 
   // Footer always uses a deep dark background derived from the theme's
-  // own primary colours — so it shifts with every theme change.
+  // own primary colours - so it shifts with every theme change.
   const footerBg = `linear-gradient(160deg, ${primDark} 0%, ${primary}cc 100%)`
   const borderTop = `1px solid ${accent}22`
 
@@ -50,7 +50,7 @@ export default function Footer() {
 
       <div style={{ maxWidth:1200, margin:'0 auto', padding:'0 clamp(16px,3vw,28px)' }}>
 
-        {/* ── Main grid ── */}
+        {/* -- Main grid -- */}
         <div style={{ display:'grid',
           gridTemplateColumns:'1.6fr repeat(4,1fr)',
           gap:28, marginBottom:40,
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {/* Brand column */}
           <div>
-            {/* Text logo — LogoAnimated reserved for Splash only */}
+            {/* Text logo - LogoAnimated reserved for Splash only */}
             <div onClick={() => navigate('/landing')}
               style={{ display:'flex', alignItems:'center', gap:8,
                 cursor:'pointer', marginBottom:14 }}>
@@ -140,7 +140,7 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* ── Language ticker ── */}
+        {/* -- Language ticker -- */}
         <div style={{ overflow:'hidden', marginBottom:20,
           borderTop:'1px solid rgba(255,255,255,0.06)',
           borderBottom:'1px solid rgba(255,255,255,0.06)',
@@ -156,7 +156,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ── Bottom bar ── */}
+        {/* -- Bottom bar -- */}
         <div style={{ display:'flex', justifyContent:'space-between',
           alignItems:'center', flexWrap:'wrap', gap:8 }}>
           <p style={{ color:'rgba(255,255,255,0.28)', fontSize:11,

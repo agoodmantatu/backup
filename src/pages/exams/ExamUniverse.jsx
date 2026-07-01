@@ -7,31 +7,31 @@ import { useAuth } from '../../context/AuthContext'
 const getMilestones = (category) => {
   if (['medical', 'engineering', 'engineering_pg'].includes(category)) {
     return [
-      { id: 1, phase: 'Foundation', icon: '🌱', color: '#064E3B', desc: 'Build core subject fundamentals', weeks: '1–4' },
-      { id: 2, phase: 'Subject Mastery', icon: '📘', color: 'var(--color-primary, #1E3A5F)', desc: 'Deep-dive into syllabus topics', weeks: '5–10' },
-      { id: 3, phase: 'Formula & Formula', icon: '🧪', color: '#4C1D95', desc: 'Formulas, shortcuts & problem types', weeks: '11–14' },
-      { id: 4, phase: 'Mock Tests', icon: '📝', color: '#7C2D12', desc: 'Full-length practice papers', weeks: '15–18' },
-      { id: 5, phase: 'Analysis & Revision', icon: '🔍', color: 'var(--color-accent, #D4AF37)', desc: 'Weak area targeting & speed drills', weeks: '19–22' },
+      { id: 1, phase: 'Foundation', icon: '🌱', color: '#064E3B', desc: 'Build core subject fundamentals', weeks: '1-4' },
+      { id: 2, phase: 'Subject Mastery', icon: '📘', color: 'var(--color-primary, #1E3A5F)', desc: 'Deep-dive into syllabus topics', weeks: '5-10' },
+      { id: 3, phase: 'Formula & Formula', icon: '🧪', color: '#4C1D95', desc: 'Formulas, shortcuts & problem types', weeks: '11-14' },
+      { id: 4, phase: 'Mock Tests', icon: '📝', color: '#7C2D12', desc: 'Full-length practice papers', weeks: '15-18' },
+      { id: 5, phase: 'Analysis & Revision', icon: '🔍', color: 'var(--color-accent, #D4AF37)', desc: 'Weak area targeting & speed drills', weeks: '19-22' },
       { id: 6, phase: 'Exam Day', icon: '🏆', color: 'var(--color-accent, #D4AF37)', desc: 'You are ready. Own it.', weeks: 'Final' },
     ]
   }
   if (['banking'].includes(category)) {
     return [
-      { id: 1, phase: 'Prelims Prep', icon: '🌱', color: '#064E3B', desc: 'Quant + Reasoning + English basics', weeks: '1–3' },
-      { id: 2, phase: 'Speed Building', icon: '⚡', color: 'var(--color-primary, #1E3A5F)', desc: 'Accuracy under time pressure', weeks: '4–6' },
-      { id: 3, phase: 'Mains Focus', icon: '📊', color: '#4C1D95', desc: 'GA + Advanced DI + Descriptive', weeks: '7–10' },
-      { id: 4, phase: 'Mock Marathon', icon: '📝', color: '#7C2D12', desc: '20+ full-length mocks with analysis', weeks: '11–14' },
-      { id: 5, phase: 'Interview Prep', icon: '🎤', color: 'var(--color-accent, #D4AF37)', desc: 'GD/PI practice for final round', weeks: '15–16' },
+      { id: 1, phase: 'Prelims Prep', icon: '🌱', color: '#064E3B', desc: 'Quant + Reasoning + English basics', weeks: '1-3' },
+      { id: 2, phase: 'Speed Building', icon: '⚡', color: 'var(--color-primary, #1E3A5F)', desc: 'Accuracy under time pressure', weeks: '4-6' },
+      { id: 3, phase: 'Mains Focus', icon: '📊', color: '#4C1D95', desc: 'GA + Advanced DI + Descriptive', weeks: '7-10' },
+      { id: 4, phase: 'Mock Marathon', icon: '📝', color: '#7C2D12', desc: '20+ full-length mocks with analysis', weeks: '11-14' },
+      { id: 5, phase: 'Interview Prep', icon: '🎤', color: 'var(--color-accent, #D4AF37)', desc: 'GD/PI practice for final round', weeks: '15-16' },
       { id: 6, phase: 'Selection', icon: '🏆', color: 'var(--color-accent, #D4AF37)', desc: 'Your rank, your bank, your career.', weeks: 'Final' },
     ]
   }
   // Default (govt/railways/defence/teaching etc.)
   return [
-    { id: 1, phase: 'Foundation', icon: '🌱', color: '#064E3B', desc: 'Syllabus mapping & study plan', weeks: '1–2' },
-    { id: 2, phase: 'Core Subjects', icon: '📚', color: 'var(--color-primary, #1E3A5F)', desc: 'GK, Reasoning, Quant, English', weeks: '3–7' },
-    { id: 3, phase: 'Prelims Ready', icon: '🎯', color: '#4C1D95', desc: 'Tier I practice & speed drills', weeks: '8–10' },
-    { id: 4, phase: 'Mains Prep', icon: '🔬', color: '#7C2D12', desc: 'Advanced topics & full-length mocks', weeks: '11–13' },
-    { id: 5, phase: 'Revision Sprint', icon: '🔁', color: 'var(--color-accent, #D4AF37)', desc: 'Revision + previous year paper analysis', weeks: '14–15' },
+    { id: 1, phase: 'Foundation', icon: '🌱', color: '#064E3B', desc: 'Syllabus mapping & study plan', weeks: '1-2' },
+    { id: 2, phase: 'Core Subjects', icon: '📚', color: 'var(--color-primary, #1E3A5F)', desc: 'GK, Reasoning, Quant, English', weeks: '3-7' },
+    { id: 3, phase: 'Prelims Ready', icon: '🎯', color: '#4C1D95', desc: 'Tier I practice & speed drills', weeks: '8-10' },
+    { id: 4, phase: 'Mains Prep', icon: '🔬', color: '#7C2D12', desc: 'Advanced topics & full-length mocks', weeks: '11-13' },
+    { id: 5, phase: 'Revision Sprint', icon: '🔁', color: 'var(--color-accent, #D4AF37)', desc: 'Revision + previous year paper analysis', weeks: '14-15' },
     { id: 6, phase: 'Exam Day', icon: '🏆', color: 'var(--color-accent, #D4AF37)', desc: 'Trust your preparation. Rank secured.', weeks: 'Final' },
   ]
 }
@@ -87,7 +87,7 @@ export default function ExamUniverse() {
   const activeMilestoneIdx = Math.floor((readiness / 100) * (milestones.length - 1))
 
   return (
-    <AppLayout title={`${exam.name} — Universe`}>
+    <AppLayout title={`${exam.name} - Universe`}>
       <div className="max-w-2xl mx-auto px-4 py-6">
 
         {/* Header */}

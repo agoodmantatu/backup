@@ -1,4 +1,4 @@
-﻿// src/pages/games/GKBlitz.jsx — Premium redesign with dopamine mechanics
+﻿// src/pages/games/GKBlitz.jsx - Premium redesign with dopamine mechanics
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
@@ -34,7 +34,7 @@ const QUESTIONS = [
     fact:"Goa is the smallest state of India by area at 3,702 sq km. Smallest by population is Sikkim." },
   { q:"The Preamble of the Indian Constitution begins with?",
     opts:["We the People","We the Citizens","We the Nation","We the Indians"], ans:0,
-    fact:"The Preamble begins with 'We the People of India' — borrowed from the US Constitution concept." },
+    fact:"The Preamble begins with 'We the People of India' - borrowed from the US Constitution concept." },
   { q:"Who is known as 'Iron Man of India'?",
     opts:["Bhagat Singh","Bal Gangadhar Tilak","Sardar Vallabhbhai Patel","Lala Lajpat Rai"], ans:2,
     fact:"Sardar Vallabhbhai Patel is called Iron Man of India for integrating 565 princely states." },
@@ -145,7 +145,7 @@ export default function GKBlitz() {
     else navigator.clipboard?.writeText(text)
   }
 
-  // ── INTRO ────────────────────────────────────────────────────────
+  // -- INTRO --------------------------------------------------------
   if (phase === 'intro') return (
     <div style={{ minHeight:'100vh', background:bg,
       display:'flex', flexDirection:'column',
@@ -171,7 +171,7 @@ export default function GKBlitz() {
         <p style={{ color:'rgba(255,255,255,0.55)', fontSize:14,
           margin:'0 0 28px', lineHeight:1.6 }}>
           10 GK questions · 60 seconds<br/>
-          Combo multiplier — answer fast, earn more!
+          Combo multiplier - answer fast, earn more!
         </p>
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr',
           gap:10, marginBottom:28 }}>
@@ -211,7 +211,7 @@ export default function GKBlitz() {
     </div>
   )
 
-  // ── RESULT ───────────────────────────────────────────────────────
+  // -- RESULT -------------------------------------------------------
   if (phase === 'result') return (
     <div style={{ minHeight:'100vh', background:bg,
       padding:24, fontFamily:'Inter,sans-serif' }}>
@@ -297,7 +297,7 @@ export default function GKBlitz() {
     </div>
   )
 
-  // ── PLAYING ──────────────────────────────────────────────────────
+  // -- PLAYING ------------------------------------------------------
   return (
     <div style={{ minHeight:'100vh', background:bg, fontFamily:'Inter,sans-serif' }}>
       <ParticleBurst active={burst} color="#3B82F6"/>
@@ -350,7 +350,7 @@ export default function GKBlitz() {
               border:'1px solid rgba(59,130,246,0.3)',
             }}>GK</span>
             <span style={{ color:'rgba(255,255,255,0.3)', fontSize:10 }}>
-              Combo {combo > 0 ? `🔥x${combo}` : '—'}
+              Combo {combo > 0 ? `🔥x${combo}` : '-'}
             </span>
           </div>
           <p style={{ color:'#fff', fontSize:16, fontWeight:600,

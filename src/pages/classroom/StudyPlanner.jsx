@@ -57,7 +57,7 @@ export default function StudyPlanner() {
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <div>
           <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">Weekly Study Plan 🗓️</h2>
-          <p className="text-slate-500">Build a consistent routine — small steps, big results.</p>
+          <p className="text-slate-500">Build a consistent routine - small steps, big results.</p>
         </div>
         <button
           onClick={() => setShowForm((s) => !s)}

@@ -37,7 +37,7 @@ export default function StudentRank() {
         <div style={{background:`linear-gradient(135deg,${p},${p}cc)`,borderRadius:18,
           padding:'18px',marginBottom:20,textAlign:'center'}}>
           <p style={{color:a,fontWeight:700,fontSize:11,letterSpacing:'1px',margin:'0 0 4px'}}>YOUR CURRENT RANK</p>
-          <p style={{color:'#fff',fontWeight:900,fontSize:36,margin:'0 0 4px'}}>—</p>
+          <p style={{color:'#fff',fontWeight:900,fontSize:36,margin:'0 0 4px'}}>-</p>
           <p style={{color:'rgba(255,255,255,0.6)',fontSize:12,margin:'0 0 12px'}}>
             Take a test to appear on the leaderboard
           </p>

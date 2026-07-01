@@ -1,5 +1,5 @@
 /**
- * Hardware Binding Lock — Pillar 5
+ * Hardware Binding Lock - Pillar 5
  * Binds free-tier accounts to ONE phone + ONE laptop
  * Prevents account sharing
  *

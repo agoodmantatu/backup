@@ -10,17 +10,17 @@ import { getAvatarDecoration } from '../lib/avatarBadges'
  * - Rendered as a div with background-image, NOT an <img> tag. This
  *   defeats the most common "save image" / drag-out-to-desktop flows
  *   that target <img> elements specifically.
- * - oncontextmenu disabled — no long-press / right-click "save image".
- * - draggable=false + onDragStart prevented — can't drag the element
+ * - oncontextmenu disabled - no long-press / right-click "save image".
+ * - draggable=false + onDragStart prevented - can't drag the element
  *   out to the desktop or another app.
- * - -webkit-touch-callout: none — disables the iOS long-press menu.
- * - user-select: none — prevents some assistive "copy image" flows.
- * - Pinch-zoom is prevented by NOT making this element interactive —
+ * - -webkit-touch-callout: none - disables the iOS long-press menu.
+ * - user-select: none - prevents some assistive "copy image" flows.
+ * - Pinch-zoom is prevented by NOT making this element interactive -
  *   no onClick, no modal, nothing to tap into. A static image with no
  *   affordance to enlarge stays small, so even a screenshot only
- *   captures a small, blurry-when-enlarged photo — the real backstop.
+ *   captures a small, blurry-when-enlarged photo - the real backstop.
  *
- * None of this stops OS-level screenshots (nothing can — see the
+ * None of this stops OS-level screenshots (nothing can - see the
  * conversation that led to this component). What it stops is the
  * *next* easiest path: an effortless full-resolution save or zoom.
  */
@@ -57,7 +57,7 @@ export default function ProtectedAvatar({ user, size = 48, showBadge = true }) {
           userSelect: 'none',
           WebkitUserSelect: 'none',
           WebkitTouchCallout: 'none',
-          pointerEvents: 'none', // no tap target at all — nothing to enlarge into
+          pointerEvents: 'none', // no tap target at all - nothing to enlarge into
         }}
       >
         {!photoUrl && (

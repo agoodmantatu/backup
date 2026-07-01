@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
-// ── Read admin-controlled prices from localStorage (set via Admin → Config) ──
+// -- Read admin-controlled prices from localStorage (set via Admin → Config) --
 function getConfig(key, fallback) {
   try {
     const cfg = JSON.parse(localStorage.getItem('tryit_admin_config') || '{}')
@@ -11,7 +11,7 @@ function getConfig(key, fallback) {
   } catch { return fallback }
 }
 
-// ── WHAT EACH TIER GETS ────────────────────────────────────────────────────
+// -- WHAT EACH TIER GETS ----------------------------------------------------
 const TIER_FEATURES = [
   { feature:'PYQ Questions (Past Year)',        free:true,   pro:true,   ultra:true  },
   { feature:'AI-Generated New Questions',       free:'10🪙', pro:true,   ultra:true  },
@@ -25,8 +25,8 @@ const TIER_FEATURES = [
   { feature:'Basic Games (after test)',          free:true,   pro:true,   ultra:true  },
   { feature:'Advanced Games',                   free:'100🪙',pro:true,   ultra:true  },
   { feature:'Offline Question Packs',           free:'50🪙', pro:true,   ultra:true  },
-  { feature:'Concept Learning (Level 1–10)',    free:false,  pro:false,  ultra:true  },
-  { feature:'Preparation Pathways (JEE/NEET…)',free:false,  pro:false,  ultra:true  },
+  { feature:'Concept Learning (Level 1-10)',    free:false,  pro:false,  ultra:true  },
+  { feature:'Preparation Pathways (JEE/NEET...)',free:false,  pro:false,  ultra:true  },
   { feature:'Spaced Repetition System',         free:false,  pro:false,  ultra:true  },
   { feature:'Mentor Doubt Resolution',          free:'100🪙',pro:'5/mo', ultra:true  },
 ]
@@ -75,13 +75,13 @@ export default function PricingPage() {
     if (!user) { navigate('/login'); return }
     // Razorpay integration via src/lib/payment.js
     // TODO: import and call initRazorpay({ plan: planName, amount, userId: user.id })
-    showToast(`Redirecting to payment for ${planName} (₹${amount})…`)
+    showToast(`Redirecting to payment for ${planName} (₹${amount})...`)
     // navigate to payment flow
   }
 
   const isCurrentPlan = (tier) => planTier === tier
 
-  // ── TIER CARD DATA ────────────────────────────────────────────────────────
+  // -- TIER CARD DATA --------------------------------------------------------
   const TIERS = [
     {
       id:       'free',
@@ -96,7 +96,7 @@ export default function PricingPage() {
       cta:      isCurrentPlan('free') ? 'Your Current Plan' : 'Get Started Free',
       ctaFn:    () => !user ? navigate('/login') : null,
       highlights: [
-        '✅ PYQ questions — unlimited',
+        '✅ PYQ questions - unlimited',
         '✅ 5 explanations per 6 hours',
         '✅ Daily current affairs',
         '✅ All India leaderboard',
@@ -140,7 +140,7 @@ export default function PricingPage() {
       ctaFn:    () => handleBuy('ultra', annual ? P.ultraYearly : P.ultraMonthly),
       highlights: [
         '✅ Everything in Pro',
-        '✅ Concept Learning (Level 1–10)',
+        '✅ Concept Learning (Level 1-10)',
         '✅ All 24 Preparation Pathways',
         '✅ Spaced Repetition System',
         '✅ Unlimited mentor doubts',
@@ -168,7 +168,7 @@ export default function PricingPage() {
 
       <div style={{ maxWidth:900, margin:'0 auto', padding:'32px 16px' }}>
 
-        {/* ── CURRENT PLAN BANNER ──────────────────────────────────────── */}
+        {/* -- CURRENT PLAN BANNER ---------------------------------------- */}
         {user && (
           <div style={{ background: planTier==='ultra' ? 'linear-gradient(135deg,#92400E,#B45309)'
                                   : planTier==='pro'   ? `linear-gradient(135deg,${NAVY},#0F2140)`
@@ -178,12 +178,12 @@ export default function PricingPage() {
             <div>
               <p style={{ color: planTier==='free'?'#475569':'#fff', fontWeight:700, fontSize:14 }}>
                 {planTier==='free'  ? '🆓 You are on the Free plan'  :
-                 planTier==='pro'   ? '⚡ You are on Pro — great choice!' :
-                                     '🏆 You are on Ultra — top tier!'}
+                 planTier==='pro'   ? '⚡ You are on Pro - great choice!' :
+                                     '🏆 You are on Ultra - top tier!'}
               </p>
               <p style={{ color: planTier==='free'?'#94A3B8':'rgba(255,255,255,0.7)', fontSize:12 }}>
                 {planTier==='free' ? 'Upgrade to unlock unlimited explanations and more'
-                                   : 'All features unlocked — keep going!'}
+                                   : 'All features unlocked - keep going!'}
               </p>
             </div>
             <div style={{ display:'flex', alignItems:'center', gap:8 }}>
@@ -195,7 +195,7 @@ export default function PricingPage() {
           </div>
         )}
 
-        {/* ── COMPETITOR SAVINGS BANNER ────────────────────────────────── */}
+        {/* -- COMPETITOR SAVINGS BANNER ---------------------------------- */}
         <div style={{ background:`linear-gradient(135deg,${NAVY},#0F2140)`, borderRadius:20,
           padding:'20px 24px', marginBottom:28, color:'#fff' }}>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:18, marginBottom:8, color:GOLD }}>
@@ -208,14 +208,14 @@ export default function PricingPage() {
                 <div key={c.name} style={{ background:'rgba(255,255,255,0.08)', borderRadius:12,
                   padding:'8px 14px', fontSize:12 }}>
                   <span style={{ color:'rgba(255,255,255,0.6)' }}>{c.name} ₹{c.yearly.toLocaleString('en-IN')}/yr</span>
-                  <span style={{ color:GOLD, fontWeight:700, marginLeft:6 }}>vs TryIT Ultra ₹{P.ultraYearly} — {savings}% off</span>
+                  <span style={{ color:GOLD, fontWeight:700, marginLeft:6 }}>vs TryIT Ultra ₹{P.ultraYearly} - {savings}% off</span>
                 </div>
               )
             })}
           </div>
         </div>
 
-        {/* ── ANNUAL / MONTHLY TOGGLE ──────────────────────────────────── */}
+        {/* -- ANNUAL / MONTHLY TOGGLE ------------------------------------ */}
         <div style={{ display:'flex', justifyContent:'center', marginBottom:24, gap:0 }}>
           <div style={{ background:'#fff', borderRadius:99, padding:4, border:'1.5px solid #E2E8F0',
             display:'flex', gap:0 }}>
@@ -240,7 +240,7 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* ── THREE TIER CARDS ─────────────────────────────────────────── */}
+        {/* -- THREE TIER CARDS ------------------------------------------- */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(250px,1fr))',
           gap:16, marginBottom:32 }}>
           {TIERS.map(tier => (
@@ -276,7 +276,7 @@ export default function PricingPage() {
                     <span style={{ fontSize:13, color:'#94A3B8' }}>/{annual?'year':'month'}</span>
                     {tier.yearlyEq && (
                       <p style={{ fontSize:11, color:'#059669', fontWeight:600, marginTop:2 }}>
-                        ≈ ₹{tier.yearlyEq}/month — best rate!
+                        ≈ ₹{tier.yearlyEq}/month - best rate!
                       </p>
                     )}
                   </div>
@@ -311,10 +311,10 @@ export default function PricingPage() {
           ))}
         </div>
 
-        {/* ── TRIAL PASSES (quick access) ──────────────────────────────── */}
+        {/* -- TRIAL PASSES (quick access) -------------------------------- */}
         <div style={{ background:'#fff', borderRadius:20, padding:20, border:'1.5px solid #E2E8F0', marginBottom:28 }}>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:NAVY, marginBottom:4 }}>
-            ⚡ Quick Access Passes — No Commitment
+            ⚡ Quick Access Passes - No Commitment
           </p>
           <p style={{ fontSize:13, color:'#94A3B8', marginBottom:14 }}>
             Try Pro or Ultra for a few days before committing to a full plan.
@@ -339,22 +339,22 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* ── TOPIC UNLOCK (₹25/topic) ─────────────────────────────────── */}
+        {/* -- TOPIC UNLOCK (₹25/topic) ----------------------------------- */}
         <div style={{ background:'linear-gradient(135deg,#FFF7E6,#FFFBF0)', borderRadius:20,
           padding:20, border:`1.5px solid ${GOLD}44`, marginBottom:28 }}>
           <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', flexWrap:'wrap', gap:12 }}>
             <div>
               <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:NAVY }}>
-                📖 Learn One Topic at a Time — ₹{P.topicUnlock}
+                📖 Learn One Topic at a Time - ₹{P.topicUnlock}
               </p>
               <p style={{ fontSize:13, color:'#92400E', marginBottom:10 }}>
-                Not ready for Ultra? Buy concept learning for one specific topic — permanently.
+                Not ready for Ultra? Buy concept learning for one specific topic - permanently.
               </p>
               <ul style={{ listStyle:'none', padding:0, margin:0, display:'flex', flexDirection:'column', gap:4 }}>
                 <li style={{ fontSize:12, color:'#92400E' }}>✅ All 10 concept levels for that topic</li>
                 <li style={{ fontSize:12, color:'#92400E' }}>✅ Cultural story + 7-layer explanation</li>
                 <li style={{ fontSize:12, color:'#92400E' }}>✅ Checkpoint quiz + spaced repetition</li>
-                <li style={{ fontSize:12, color:'#92400E' }}>✅ Lifetime access — no expiry</li>
+                <li style={{ fontSize:12, color:'#92400E' }}>✅ Lifetime access - no expiry</li>
               </ul>
             </div>
             <div style={{ textAlign:'center', minWidth:120 }}>
@@ -369,13 +369,13 @@ export default function PricingPage() {
           </div>
         </div>
 
-        {/* ── COIN PACKS ───────────────────────────────────────────────── */}
+        {/* -- COIN PACKS ------------------------------------------------- */}
         <div style={{ marginBottom:28 }}>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:18, color:NAVY, marginBottom:4 }}>
-            🪙 Coin Packs — Use Instantly
+            🪙 Coin Packs - Use Instantly
           </p>
           <p style={{ fontSize:13, color:'#94A3B8', marginBottom:14 }}>
-            Use coins to unlock individual explanations (20 coins each), games, or offline packs — any time, no plan needed.
+            Use coins to unlock individual explanations (20 coins each), games, or offline packs - any time, no plan needed.
           </p>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))', gap:12 }}>
             {[
@@ -409,7 +409,7 @@ export default function PricingPage() {
           </p>
         </div>
 
-        {/* ── FEATURE COMPARISON TABLE ──────────────────────────────────── */}
+        {/* -- FEATURE COMPARISON TABLE ------------------------------------ */}
         <div style={{ background:'#fff', borderRadius:20, border:'1.5px solid #E2E8F0', overflow:'hidden', marginBottom:28 }}>
           <div style={{ background:NAVY, padding:'14px 20px', display:'grid', gridTemplateColumns:'1fr 80px 80px 80px', gap:8 }}>
             <p style={{ color:'rgba(255,255,255,0.6)', fontSize:12, fontWeight:600 }}>Feature</p>
@@ -434,10 +434,10 @@ export default function PricingPage() {
           })}
         </div>
 
-        {/* ── REFERRAL SECTION ─────────────────────────────────────────── */}
+        {/* -- REFERRAL SECTION ------------------------------------------- */}
         <div style={{ background:`linear-gradient(135deg,${NAVY},#0F2140)`, borderRadius:20, padding:20, marginBottom:28, color:'#fff' }}>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:GOLD, marginBottom:4 }}>
-            🎁 Refer & Earn — Free Upgrades
+            🎁 Refer & Earn - Free Upgrades
           </p>
           <p style={{ fontSize:13, color:'rgba(255,255,255,0.7)', marginBottom:14 }}>
             Share your referral code. When your friend upgrades, YOU earn coins and cashback.
@@ -462,7 +462,7 @@ export default function PricingPage() {
           </button>
         </div>
 
-        {/* ── INSTITUTION CTA ──────────────────────────────────────────── */}
+        {/* -- INSTITUTION CTA -------------------------------------------- */}
         <div style={{ background:'#EFF6FF', borderRadius:20, padding:20, border:'1.5px solid #BFDBFE' }}>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, fontSize:16, color:NAVY, marginBottom:4 }}>
             🏫 For Schools & Coaching Institutes

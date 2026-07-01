@@ -147,7 +147,7 @@ export default function MentorDoubts() {
               selected === d.id ? (
                 <div>
                   <textarea value={answer} onChange={e=>setAnswer(e.target.value)}
-                    placeholder="Type a clear, helpful answer... Avoid sugarcoating — accuracy matters more than flattery."
+                    placeholder="Type a clear, helpful answer... Avoid sugarcoating - accuracy matters more than flattery."
                     rows={4}
                     style={{width:'100%',padding:'12px',borderRadius:12,
                       border:'1.5px solid '+a,background:bg,color:t,

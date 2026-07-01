@@ -1,5 +1,5 @@
 // FILE: src/pages/referral/ReferralPage.jsx
-// TryIT — Referral Program Page
+// TryIT - Referral Program Page
 // Route: /referral
 // Unique code per user. Rewards: coins + cashback on upgrades.
 import { useState, useEffect } from 'react'
@@ -70,7 +70,7 @@ export default function ReferralPage() {
   }
 
   const shareWhatsApp = () => {
-    const text = `🎓 Join me on TryIT Educations — India's best exam prep platform!\n\n` +
+    const text = `🎓 Join me on TryIT Educations - India's best exam prep platform!\n\n` +
       `✅ 1,10,000+ competitive exams\n` +
       `✅ PYQ-based practice tests\n` +
       `✅ All India Tournaments\n` +
@@ -81,7 +81,7 @@ export default function ReferralPage() {
   }
 
   const shareGeneral = async () => {
-    const text = `Join TryIT Educations — India's exam prep platform!\nUse code: ${refCode}\n${refLink}`
+    const text = `Join TryIT Educations - India's exam prep platform!\nUse code: ${refCode}\n${refLink}`
     if (navigator.share) {
       try { await navigator.share({ title:'TryIT Educations', text, url: refLink }) }
       catch {}
@@ -174,7 +174,7 @@ export default function ReferralPage() {
 
       <div style={{ padding:16, maxWidth:480, margin:'0 auto' }}>
 
-        {/* OVERVIEW — reward table */}
+        {/* OVERVIEW - reward table */}
         {tab === 'overview' && (
           <div>
             <p style={{ fontSize:12, color:'#64748B', marginBottom:14, lineHeight:1.6 }}>
@@ -312,7 +312,7 @@ export default function ReferralPage() {
 
             <div style={{ background:'#EFF6FF', border:'1px solid #BFDBFE', borderRadius:12, padding:12 }}>
               <p style={{ fontSize:12, color:'#1D4ED8', margin:'0 0 4px', fontWeight:600 }}>
-                💡 Coins vs Cash — What's the difference?
+                💡 Coins vs Cash - What's the difference?
               </p>
               <p style={{ fontSize:11, color:'#1D4ED8', lineHeight:1.6, margin:0 }}>
                 <strong>Coins</strong> unlock explanations, games, and extra features inside the app.<br/>

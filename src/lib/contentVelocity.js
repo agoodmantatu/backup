@@ -1,5 +1,5 @@
 /**
- * Content Velocity Limiter — Pillar 5
+ * Content Velocity Limiter - Pillar 5
  * Prevents automated scraping of the question bank
  * Free accounts: 50 questions/day | Pro: unlimited
  */

@@ -28,7 +28,7 @@ export default function MentorSection() {
 
   const CONTENT = [
     {
-      title:'Step 1 — Qualify With Your Expertise',
+      title:'Step 1 - Qualify With Your Expertise',
       desc:'No minimum years of experience required. No college degree needed. Just score 80%+ in a topic proficiency test for at least one subject and your mentor profile goes live immediately.',
       earn:null,
       preview:(
@@ -48,7 +48,7 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'Step 2 — Answer Doubts, Earn Per Rating',
+      title:'Step 2 - Answer Doubts, Earn Per Rating',
       desc:'Students post doubts. You answer in their language. Every 4★ or 5★ rating earns you coins and cashback automatically. Best Answer badge earns extra ₹5 cashback per answer.',
       earn:'₹5 cashback per Best Answer · 15 coins per 5★ rating',
       preview:(
@@ -68,9 +68,9 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'Step 3 — Auto Coupon at Every Milestone',
+      title:'Step 3 - Auto Coupon at Every Milestone',
       desc:'Cross 50 answers → TryIT auto-generates your personal coupon code. Student gets X% off their subscription. You earn the same X% as cashback. Both win. Completely automatic.',
-      earn:'10–25% cashback matching student discount',
+      earn:'10-25% cashback matching student discount',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           {[[50,'10%','#60A5FA','ACTIVE'],[100,'15%','#4ADE80','ACTIVE'],[250,'20%',accent,'1 away!'],[500,'25%','#A78BFA','Locked']].map(([ans,pct,c,status])=>(
@@ -89,7 +89,7 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'Step 4 — Sell Content, Keep 80%',
+      title:'Step 4 - Sell Content, Keep 80%',
       desc:'Upload question sets, study notes, PDFs, or books. Students buy with coins or direct payment. TryIT takes 20% platform fee. You keep 80% of every single sale.',
       earn:'80% revenue on every content sale',
       preview:(
@@ -108,13 +108,13 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'Step 5 — Conduct Paid Classes',
-      desc:'Live classes at ₹99–₹199 per student enrollment. Pan-India reach. Teach from your room. Unlimited students per class. You earn 80% of every enrollment.',
-      earn:'₹79–₹159 per enrollment (you keep 80%)',
+      title:'Step 5 - Conduct Paid Classes',
+      desc:'Live classes at ₹99-₹199 per student enrollment. Pan-India reach. Teach from your room. Unlimited students per class. You earn 80% of every enrollment.',
+      earn:'₹79-₹159 per enrollment (you keep 80%)',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>MY ACTIVE CLASSES</p>
-          {[{t:'NEET Bio Masterclass — June',e:67,pr:'₹149',earn:'₹9,988',c:'#4ADE80'},{t:'UPSC GS Paper 1 Crash',e:34,pr:'₹199',earn:'₹5,398',c:accent},{t:'SSC CGL Complete Course',e:112,pr:'₹99',earn:'₹8,870',c:'#60A5FA'}].map((cl,i)=>(
+          {[{t:'NEET Bio Masterclass - June',e:67,pr:'₹149',earn:'₹9,988',c:'#4ADE80'},{t:'UPSC GS Paper 1 Crash',e:34,pr:'₹199',earn:'₹5,398',c:accent},{t:'SSC CGL Complete Course',e:112,pr:'₹99',earn:'₹8,870',c:'#60A5FA'}].map((cl,i)=>(
             <div key={i} style={{padding:'7px 9px',borderRadius:9,border:`1px solid ${cl.c}22`,background:`${cl.c}08`,marginBottom:6}}>
               <div style={{display:'flex',justifyContent:'space-between'}}>
                 <p style={{color:txt,fontSize:10,fontWeight:700,margin:0}}>{cl.t}</p>
@@ -127,12 +127,12 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'Step 6 — Monthly UPI Payout',
-      desc:'All cashback transfers automatically to your bank or UPI on the 1st of every month — after a one-time government ID verification (Aadhaar / PAN / Driving Licence).',
+      title:'Step 6 - Monthly UPI Payout',
+      desc:'All cashback transfers automatically to your bank or UPI on the 1st of every month - after a one-time government ID verification (Aadhaar / PAN / Driving Licence).',
       earn:'Auto-transfer to UPI every month 1st',
       preview:(
         <div style={{background:isDark?`linear-gradient(135deg,${primD},${primary}60)`:primary,borderRadius:12,padding:14,border:`1px solid ${accent}25`}}>
-          <p style={{color:'rgba(255,255,255,0.4)',fontSize:8,fontWeight:700,letterSpacing:'1px',margin:'0 0 10px'}}>JULY 2026 PAYOUT — DEEPA NAIR</p>
+          <p style={{color:'rgba(255,255,255,0.4)',fontSize:8,fontWeight:700,letterSpacing:'1px',margin:'0 0 10px'}}>JULY 2026 PAYOUT - DEEPA NAIR</p>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7,marginBottom:10}}>
             {[['₹12,450','Answer Cashback',accent],['₹9,988','Class Revenue','#4ADE80'],['₹3,492','Content Sales','#60A5FA'],['July 1','Auto Payout','#F472B6']].map(([v,l,c])=>(
               <div key={l} style={{background:'rgba(255,255,255,0.08)',borderRadius:8,padding:'7px',textAlign:'center'}}>
@@ -149,7 +149,7 @@ export default function MentorSection() {
     },
     {
       title:'Graduate to Institution Partner',
-      desc:'After 500+ answers or 100+ class enrollments — upgrade to a full Institution partner dashboard with bulk student management and higher revenue tiers.',
+      desc:'After 500+ answers or 100+ class enrollments - upgrade to a full Institution partner dashboard with bulk student management and higher revenue tiers.',
       earn:'Institution-level revenue + full analytics dashboard',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
@@ -160,7 +160,7 @@ export default function MentorSection() {
             <span style={{color:accent,fontSize:10,fontWeight:700,flexShrink:0}}>249 / 500</span>
           </div>
           <p style={{color:muted,fontSize:9,margin:'0 0 10px'}}>251 more answers to unlock Institution Partner tier</p>
-          {[['🎓','Mentor — Current','Answer doubts · Sell content · Classes','#4ADE80'],['🏫','Institution Partner','Bulk students · Higher revenue · Full dashboard',accent]].map(([ic,t,d,c])=>(
+          {[['🎓','Mentor - Current','Answer doubts · Sell content · Classes','#4ADE80'],['🏫','Institution Partner','Bulk students · Higher revenue · Full dashboard',accent]].map(([ic,t,d,c])=>(
             <div key={t} style={{display:'flex',gap:8,padding:'7px 9px',borderRadius:9,background:`${c}08`,border:`1px solid ${c}22`,marginBottom:6}}>
               <span style={{fontSize:18}}>{ic}</span>
               <div><p style={{color:txt,fontSize:10,fontWeight:700,margin:0}}>{t}</p><p style={{color:muted,fontSize:8,margin:'1px 0 0'}}>{d}</p></div>
@@ -170,12 +170,12 @@ export default function MentorSection() {
       ),
     },
     {
-      title:'AI Policy — Zero Tolerance',
+      title:'AI Policy - Zero Tolerance',
       desc:'Any AI-generated answer detected = immediate warning. Second violation = 3-day account freeze. Third = 14-day suspension. Continued = permanent termination. Your expertise must be genuine.',
       earn:null,
       preview:(
         <div style={{background:'rgba(248,113,113,0.06)',border:'1.5px solid rgba(248,113,113,0.25)',borderRadius:12,padding:12}}>
-          <p style={{color:'#F87171',fontWeight:800,fontSize:11,margin:'0 0 10px',fontFamily:'Poppins,sans-serif'}}>🚫 Zero Tolerance — AI Detection Active</p>
+          <p style={{color:'#F87171',fontWeight:800,fontSize:11,margin:'0 0 10px',fontFamily:'Poppins,sans-serif'}}>🚫 Zero Tolerance - AI Detection Active</p>
           {[['⚠️','1st Detection','Warning sent. Answer flagged for review.','#F59E0B'],['❄️','2nd Violation','Account frozen 3 days. Earnings paused.','#60A5FA'],['🧊','3rd Violation','14-day suspension. Admin review initiated.','#A78BFA'],['🚫','Repeated','Permanent ban. Earnings withheld.','#F87171']].map(([ic,t,d,c])=>(
             <div key={t} style={{display:'flex',gap:8,padding:'6px 0',borderBottom:'1px solid rgba(248,113,113,0.10)'}}>
               <span style={{fontSize:14,flexShrink:0}}>{ic}</span>
@@ -201,7 +201,7 @@ export default function MentorSection() {
             Teach From Home. <span style={{color:accent}}>Earn Without Limits.</span>
           </h2>
           <p style={{color:muted,fontSize:14,maxWidth:560,margin:'0 auto',lineHeight:1.7}}>
-            Prove you know one subject deeply. Start answering doubts. Earn cashback. Unlock coupons. Conduct paid classes. Grow to an institution. Your knowledge is your income — from anywhere in India.
+            Prove you know one subject deeply. Start answering doubts. Earn cashback. Unlock coupons. Conduct paid classes. Grow to an institution. Your knowledge is your income - from anywhere in India.
           </p>
         </div>
 

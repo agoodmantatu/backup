@@ -33,7 +33,7 @@ function Content({ tierId, tierName }) {
         <h2 className="text-2xl font-bold text-[var(--color-primary, #1E3A5F)]">Application Submitted!</h2>
         <div className="bg-emerald-50 rounded-2xl p-5 text-left space-y-2">
           <p className="text-sm text-emerald-800 font-semibold">What happens next:</p>
-          <p className="text-sm text-emerald-700">Our team will verify your documents within <strong>3–5 business days</strong>. Your account will be automatically upgraded once approved — no action needed from you.</p>
+          <p className="text-sm text-emerald-700">Our team will verify your documents within <strong>3-5 business days</strong>. Your account will be automatically upgraded once approved - no action needed from you.</p>
           <p className="text-sm text-emerald-700">You'll receive a notification at your registered email.</p>
         </div>
         <button onClick={() => navigate('/dashboard')} className="w-full py-3 bg-[var(--color-accent, #D4AF37)] text-[var(--color-primary-dark, #0F2140)] font-bold rounded-2xl hover:bg-[var(--color-accent-light, #E8C84A)] transition">

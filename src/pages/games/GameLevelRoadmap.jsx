@@ -1,6 +1,6 @@
 // FILE: src/pages/games/GameLevelRoadmap.jsx
 // Route: /games/levels/:gameId
-// Thin wrapper — loads game info from catalog, renders cinematic roadmap,
+// Thin wrapper - loads game info from catalog, renders cinematic roadmap,
 // passes selected level into the actual game via navigation state.
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'

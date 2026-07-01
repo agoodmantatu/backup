@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 
-// ── SEED QUESTIONS (replace with Supabase query when DB is ready) ──────────
+// -- SEED QUESTIONS (replace with Supabase query when DB is ready) ----------
 const SEED_QUESTIONS = [
   {
     id: 'q1', topic_id: 'quant-basics', subject_id: 'maths_arithmetic',
@@ -19,7 +19,7 @@ const SEED_QUESTIONS = [
       common_mistake:'Confusing 15% with 1.5% (off by decimal)',
       shortcut:      'Split: 10% of 240 = 24; 5% = 12; total = 36',
       exam_relevance:'SSC CGL, IBPS PO Quantitative Aptitude',
-      story:         'Ramu got 15% off on a ₹240 item at the Chennai market — he saved ₹36.',
+      story:         'Ramu got 15% off on a ₹240 item at the Chennai market - he saved ₹36.',
       mnemonic:      'PHW = Part ÷ (Hundred × Whole). Remember: PHW like "Phew, that was easy!"',
     },
     tags: ['ssc-cgl', 'ibps-po'],
@@ -35,7 +35,7 @@ const SEED_QUESTIONS = [
       concept:       'Number series with increasing differences',
       formula:       'aₙ = aₙ₋₁ + (2n)',
       common_mistake:'Missing that differences themselves form an AP',
-      shortcut:      'Write differences first: 4,6,8,10 — clearly +2 each time',
+      shortcut:      'Write differences first: 4,6,8,10 - clearly +2 each time',
       exam_relevance:'SSC CHSL, Railway NTPC Reasoning',
       story:         'Priya arranged tiles in her Patna home: 2, 6, 12, 20, 30... the next row needs 42 tiles!',
       mnemonic:      'Difference of differences = constant. Two levels deep!',
@@ -50,7 +50,7 @@ const SEED_QUESTIONS = [
     correct_answer: 'Fluent and persuasive',
     explanation: 'Eloquent means fluent, forceful, and persuasive in speech.',
     explanation_factors: {
-      concept:       'Synonym — Latin root "eloqui" means to speak out',
+      concept:       'Synonym - Latin root "eloqui" means to speak out',
       formula:       'Eloquent → Elegant speaker who moves audience',
       common_mistake:"Confusing with 'elegant' (stylish/graceful)",
       shortcut:      'Root: "loqui" = speak (loquacious, colloquial)',
@@ -74,7 +74,7 @@ const SEED_QUESTIONS = [
       shortcut:      '14=Equality, 15=No discrimination, 16=Equal opportunity, 17=Untouchability abolished',
       exam_relevance:'UPSC, SSC CGL GK, State PSC exams',
       story:         'Dr. Ambedkar fought hard so that Article 17 would give dignity to every Indian citizen.',
-      mnemonic:      '17 sounds like "one seven" — ONE law that unites SEVEN crore oppressed.',
+      mnemonic:      '17 sounds like "one seven" - ONE law that unites SEVEN crore oppressed.',
     },
     tags: ['upsc', 'ssc-cgl', 'state-psc'],
   },
@@ -91,7 +91,7 @@ const SEED_QUESTIONS = [
       common_mistake:"Adding 25 directly (₹825) instead of 25% of CP",
       shortcut:      '25% of 800 = 200; SP = 800+200 = 1000',
       exam_relevance:'SSC, Banking, Railway Quant section',
-      story:         'Ramu bhai bought a kurta for ₹800 at Surat wholesale market and sold it at 25% profit — ₹1000!',
+      story:         'Ramu bhai bought a kurta for ₹800 at Surat wholesale market and sold it at 25% profit - ₹1000!',
       mnemonic:      'SP = CP + (P% of CP). Always % of CP, never direct add.',
     },
     tags: ['ssc-cgl', 'ibps-po', 'rrb-ntpc'],
@@ -109,7 +109,7 @@ const SEED_QUESTIONS = [
       common_mistake:'Adding all distances (26 km) instead of net',
       shortcut:      'Draw it: N10 → E6 → S10 = same latitude, 6 km east',
       exam_relevance:'SSC CHSL, Bank Clerk, Railway Reasoning',
-      story:         'Arjun took an auto in Chennai: 10 km north, 6 east, 10 south — still only 6 km from home!',
+      story:         'Arjun took an auto in Chennai: 10 km north, 6 east, 10 south - still only 6 km from home!',
       mnemonic:      'Opposite directions cancel like -10 + 10 = 0. Only the unique direction remains.',
     },
     tags: ['ssc-chsl', 'ibps-clerk', 'rrb'],
@@ -122,13 +122,13 @@ const SEED_QUESTIONS = [
     correct_answer: 'Accommodation',
     explanation: '"Accommodation" has double "c" and double "m".',
     explanation_factors: {
-      concept:       'Spelling — double consonants: ac-com-mo-da-tion',
+      concept:       'Spelling - double consonants: ac-com-mo-da-tion',
       formula:       'ACC + OMM + ODATION',
       common_mistake:'Single c or single m',
       shortcut:      'Two cots and two mattresses → 2c, 2m',
       exam_relevance:'SSC CGL English, Bank PO, IELTS',
-      story:         'The hotel in Ooty had accommodation for 200 guests — always remember the double cc and mm!',
-      mnemonic:      '"ACCOMmodation" — Accommodate = give room to two Cs and two Ms.',
+      story:         'The hotel in Ooty had accommodation for 200 guests - always remember the double cc and mm!',
+      mnemonic:      '"ACCOMmodation" - Accommodate = give room to two Cs and two Ms.',
     },
     tags: ['ssc-cgl', 'ibps-po', 'ielts'],
   },
@@ -143,7 +143,7 @@ const SEED_QUESTIONS = [
       concept:       'Greenhouse gases absorb and re-emit infrared radiation',
       formula:       'Primary GHGs: CO₂ > CH₄ > N₂O > H₂O vapour',
       common_mistake:'Saying Oxygen (O₂ is NOT a GHG)',
-      shortcut:      'CO₂ = Carbon footprint = climate change — they go together',
+      shortcut:      'CO₂ = Carbon footprint = climate change - they go together',
       exam_relevance:'UPSC, SSC, NEET Environmental Science',
       story:         'Meena explained to her class in Pune: every scooter puffing CO₂ is heating our planet.',
       mnemonic:      'CO₂ = COvers the Earth like a blanket = warming.',
@@ -163,7 +163,7 @@ const SEED_QUESTIONS = [
       common_mistake:'Adding days directly (30) instead of rates',
       shortcut:      'LCM(12,18)=36; A=3 units/day, B=2 → 5/day → 36/5=7.2',
       exam_relevance:'SSC CGL, IBPS PO, CAT Quant',
-      story:         'Suresh and his friend painted Kavitha\'s house in Trichy — alone 12 and 18 days, together just 7.2!',
+      story:         'Suresh and his friend painted Kavitha\'s house in Trichy - alone 12 and 18 days, together just 7.2!',
       mnemonic:      'Together → add RATES not DAYS. Rates = 1/days.',
     },
     tags: ['ssc-cgl', 'ibps-po', 'cat'],
@@ -176,7 +176,7 @@ const SEED_QUESTIONS = [
     correct_answer: '11',
     explanation: 'A standard cricket team consists of 11 players.',
     explanation_factors: {
-      concept:       'Sports GK — team composition',
+      concept:       'Sports GK - team composition',
       formula:       'Cricket = Football = 11 players (both British exports)',
       common_mistake:'Confusing with baseball (9) or volleyball (6)',
       shortcut:      'Cricket and Football both = 11',
@@ -191,7 +191,7 @@ const SEED_QUESTIONS = [
 const PER_QUESTION_TIME = 30
 const MOCK_TOTAL_TIME   = 10 * 60
 
-// ── FLAG TYPES ────────────────────────────────────────────────────────────
+// -- FLAG TYPES ------------------------------------------------------------
 const FLAG_TYPES = [
   { id:'wrong_answer',       emoji:'❌', label:'Wrong Answer',       desc:'Marked correct answer is wrong' },
   { id:'wrong_options',      emoji:'📝', label:'Options Error',      desc:'Options have errors or missing' },
@@ -206,7 +206,7 @@ const FLAG_TYPES = [
   { id:'other',              emoji:'💬', label:'Other',              desc:'Something else is wrong' },
 ]
 
-// ── EXPLANATION LAYER LABELS ──────────────────────────────────────────────
+// -- EXPLANATION LAYER LABELS ----------------------------------------------
 const EXPLANATION_LAYERS = [
   { key:'explanation',       icon:'🔍', label:'Solution' },
   { key:'concept',           icon:'💡', label:'Concept' },
@@ -230,7 +230,7 @@ export default function ActiveTest() {
   const config    = state || { mode: 'practice', count: 10, difficulty: 'adaptive' }
   const questions = SEED_QUESTIONS.slice(0, Math.min(Number(config.count) || 10, SEED_QUESTIONS.length))
 
-  // ── TEST STATE ────────────────────────────────────────────────────────
+  // -- TEST STATE --------------------------------------------------------
   const [currentIndex,     setCurrentIndex]     = useState(0)
   const [selectedAnswers,  setSelectedAnswers]  = useState({})
   const [bookmarked,       setBookmarked]       = useState({})  // local bookmark only
@@ -240,14 +240,14 @@ export default function ActiveTest() {
   const [showFeedback, setShowFeedback] = useState(false)
   const timerRef = useRef(null)
 
-  // ── EXPLANATION STATE ─────────────────────────────────────────────────
+  // -- EXPLANATION STATE -------------------------------------------------
   const [showExplanation,    setShowExplanation]    = useState(false)
   const [activeLayer,        setActiveLayer]        = useState(0)
   const [showCoinPrompt,     setShowCoinPrompt]     = useState(false)
   const [showUpgradePrompt,  setShowUpgradePrompt]  = useState(false)
   const [expLeft,            setExpLeft]            = useState(null)
 
-  // ── REPORT / FLAG STATE ───────────────────────────────────────────────
+  // -- REPORT / FLAG STATE -----------------------------------------------
   const [showReportModal,   setShowReportModal]   = useState(false)
   const [reportType,        setReportType]        = useState(null)
   const [reportDesc,        setReportDesc]        = useState('')
@@ -264,7 +264,7 @@ export default function ActiveTest() {
   const isBookmarked= bookmarked[currentQ?.id]
   const isHidden    = hiddenQuestions.has(currentQ?.id)
 
-  // ── TIMER ─────────────────────────────────────────────────────────────
+  // -- TIMER -------------------------------------------------------------
   useEffect(() => {
     if (isPractice) return
     timerRef.current = setInterval(() => {
@@ -304,14 +304,14 @@ export default function ActiveTest() {
     return `${m}:${s.toString().padStart(2,'0')}`
   }
 
-  // ── ANSWER SELECTION ──────────────────────────────────────────────────
+  // -- ANSWER SELECTION --------------------------------------------------
   const handleSelect = (option) => {
     if (selected && isPractice) return
     setSelectedAnswers(prev => ({ ...prev, [currentQ.id]: option }))
     if (isPractice) setShowFeedback(true)
   }
 
-  // ── SHOW EXPLANATION (with gating) ───────────────────────────────────
+  // -- SHOW EXPLANATION (with gating) -----------------------------------
   const handleShowExplanation = () => {
     const access = canAccess('explanation')
 
@@ -343,7 +343,7 @@ export default function ActiveTest() {
     }
   }
 
-  // ── REPORT TO MENTOR ──────────────────────────────────────────────────
+  // -- REPORT TO MENTOR --------------------------------------------------
   const handleReportSubmit = async () => {
     if (!reportType) return
     setReportSubmitting(true)
@@ -398,7 +398,7 @@ export default function ActiveTest() {
     }, 2000)
   }
 
-  // ── NAVIGATION ────────────────────────────────────────────────────────
+  // -- NAVIGATION --------------------------------------------------------
   const handleNext = (autoAdvance = false) => {
     setShowFeedback(false)
     if (isLast) finishTest()
@@ -415,7 +415,7 @@ export default function ActiveTest() {
 
   const progressPct = ((currentIndex + 1) / questions.length) * 100
 
-  // ── OPTION STYLES ─────────────────────────────────────────────────────
+  // -- OPTION STYLES -----------------------------------------------------
   const optionStyle = (opt) => {
     if (!selected)
       return 'border-gray-200 bg-white hover:border-[#1E3A5F] hover:bg-blue-50 cursor-pointer'
@@ -429,7 +429,7 @@ export default function ActiveTest() {
     return 'border-gray-200 bg-white text-gray-400'
   }
 
-  // ── GET LAYER VALUE ────────────────────────────────────────────────────
+  // -- GET LAYER VALUE ----------------------------------------------------
   const getLayerValue = (layer) => {
     if (layer.key === 'explanation') return currentQ.explanation
     return currentQ.explanation_factors?.[layer.key] || null
@@ -440,7 +440,7 @@ export default function ActiveTest() {
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col" style={{ fontFamily:'Inter,sans-serif' }}>
 
-      {/* ── TOP BAR ──────────────────────────────────────────────────── */}
+      {/* -- TOP BAR ---------------------------------------------------- */}
       <div className="bg-[#1E3A5F] text-white px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-sm font-semibold">
@@ -500,7 +500,7 @@ export default function ActiveTest() {
         />
       </div>
 
-      {/* ── MAIN CONTENT ─────────────────────────────────────────────── */}
+      {/* -- MAIN CONTENT ----------------------------------------------- */}
       <div className="flex-1 max-w-2xl mx-auto w-full px-4 py-6 flex flex-col gap-4">
 
         {/* Question reported banner */}
@@ -562,7 +562,7 @@ export default function ActiveTest() {
               ))}
             </div>
 
-            {/* ── EXPLANATION SECTION ───────────────────────────────────── */}
+            {/* -- EXPLANATION SECTION ------------------------------------- */}
             {isPractice && showFeedback && selected && (
               <div>
                 {/* Result banner */}
@@ -577,7 +577,7 @@ export default function ActiveTest() {
                   <p className="font-semibold text-sm">
                     {selected === currentQ.correct_answer
                       ? 'Correct!'
-                      : `Incorrect — Correct answer: ${currentQ.correct_answer}`
+                      : `Incorrect - Correct answer: ${currentQ.correct_answer}`
                     }
                   </p>
                 </div>
@@ -627,7 +627,7 @@ export default function ActiveTest() {
                             onClick={() => navigate('/wallet')}
                             className="mt-2 text-xs text-yellow-700 underline"
                           >
-                            Buy coins — ₹5 = 100 coins
+                            Buy coins - ₹5 = 100 coins
                           </button>
                         )}
                       </div>
@@ -640,7 +640,7 @@ export default function ActiveTest() {
                           🔒 Upgrade for unlimited explanations
                         </p>
                         <p className="text-xs text-gray-500 mb-3">
-                          Pro — ₹199/month | Or buy 100 coins for ₹5
+                          Pro - ₹199/month | Or buy 100 coins for ₹5
                         </p>
                         <div className="flex gap-2 justify-center flex-wrap">
                           <button
@@ -660,7 +660,7 @@ export default function ActiveTest() {
                     )}
                   </div>
                 ) : (
-                  /* ── 7-LAYER EXPLANATION ──────────────────────────────── */
+                  /* -- 7-LAYER EXPLANATION -------------------------------- */
                   <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                     {/* Layer tab bar */}
                     <div className="flex overflow-x-auto border-b border-gray-100 bg-gray-50">
@@ -729,7 +729,7 @@ export default function ActiveTest() {
               </div>
             )}
 
-            {/* ── BOTTOM ACTION ROW ─────────────────────────────────────── */}
+            {/* -- BOTTOM ACTION ROW --------------------------------------- */}
             <div className="flex items-center gap-3 mt-2">
               {currentIndex > 0 && (
                 <button
@@ -760,7 +760,7 @@ export default function ActiveTest() {
         )}
       </div>
 
-      {/* ── REPORT MODAL ─────────────────────────────────────────────────── */}
+      {/* -- REPORT MODAL --------------------------------------------------- */}
       {showReportModal && (
         <div
           className="fixed inset-0 bg-black/70 flex items-end sm:items-center justify-center z-50 p-4"
@@ -807,7 +807,7 @@ export default function ActiveTest() {
               <textarea
                 value={reportDesc}
                 onChange={e => setReportDesc(e.target.value)}
-                placeholder="Add details (optional) — helps our mentor fix it faster..."
+                placeholder="Add details (optional) - helps our mentor fix it faster..."
                 rows={2}
                 className="w-full px-3 py-2.5 text-sm border border-gray-200 rounded-xl resize-none outline-none focus:border-[#1E3A5F]"
               />

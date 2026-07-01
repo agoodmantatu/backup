@@ -1,5 +1,5 @@
 // FILE: src/pages/Profile.jsx
-// TryIT — User Profile Page
+// TryIT - User Profile Page
 // Route: /profile
 import { useState }     from 'react'
 import { useNavigate }  from 'react-router-dom'
@@ -115,7 +115,7 @@ export default function Profile() {
             <div style={{ display:'flex', alignItems:'center', gap:6 }}>
               <span style={{ fontSize:20 }}>{levelInfo[2]}</span>
               <div>
-                <p style={{ fontSize:12, fontWeight:800, color:'#fff', margin:0 }}>Level {level} — {levelInfo[1]}</p>
+                <p style={{ fontSize:12, fontWeight:800, color:'#fff', margin:0 }}>Level {level} - {levelInfo[1]}</p>
                 <p style={{ fontSize:10, color:'rgba(255,255,255,0.5)', margin:0 }}>
                   {(user?.xp||0).toLocaleString('en-IN')} / {(user?.xpToNext||500).toLocaleString('en-IN')} XP
                 </p>
@@ -135,7 +135,7 @@ export default function Profile() {
           { label:'Tests',    value:user?.testsCompleted||0,    emoji:'📝' },
           { label:'Avg Score',value:`${user?.avgScore||0}%`,    emoji:'🎯' },
           { label:'Streak',   value:`${user?.streak||0}d`,      emoji:'🔥' },
-          { label:'Rank',     value:`#${user?.rank||'—'}`,      emoji:'🏆' },
+          { label:'Rank',     value:`#${user?.rank||'-'}`,      emoji:'🏆' },
         ].map((s, i) => (
           <div key={s.label} style={{ padding:'12px 6px', textAlign:'center', borderRight: i<3?'1px solid #E2E8F0':'none' }}>
             <p style={{ fontSize:18, margin:'0 0 2px' }}>{s.emoji}</p>
@@ -171,7 +171,7 @@ export default function Profile() {
               {[
                 { label:'Study Hours',    value:user?.studyHours||'0h',  emoji:'⏱️', color:'#7C3AED' },
                 { label:'Coins Earned',   value:`${(coins||0).toLocaleString('en-IN')}🪙`, emoji:'🪙', color:'#92400E' },
-                { label:'Questions Done', value:'—',                     emoji:'❓', color:NAVY   },
+                { label:'Questions Done', value:'-',                     emoji:'❓', color:NAVY   },
                 { label:'Guru Points',    value:user?.guruPoints||0,     emoji:'⭐', color:GREEN  },
               ].map(s => (
                 <div key={s.label} style={{ background:'#fff', borderRadius:14, padding:14, border:'1.5px solid #E2E8F0', textAlign:'center' }}>
@@ -258,7 +258,7 @@ export default function Profile() {
               </p>
               <div style={{ display:'flex', gap:8, justifyContent:'center' }}>
                 <button onClick={() => {
-                  navigator.clipboard.writeText(`Join TryIT — India's best exam prep platform!\nUse my code: ${user?.name?.toUpperCase().replace(' ','').slice(0,8)||'TRYIT001'}\nhttps://tryiteducations.net`)
+                  navigator.clipboard.writeText(`Join TryIT - India's best exam prep platform!\nUse my code: ${user?.name?.toUpperCase().replace(' ','').slice(0,8)||'TRYIT001'}\nhttps://tryiteducations.net`)
                   alert('✅ Copied! Share with friends.')
                 }} style={{ padding:'8px 18px', background:GOLD, color:NAVY, border:'none', borderRadius:10, fontWeight:800, fontSize:12, cursor:'pointer' }}>
                   📋 Copy & Share

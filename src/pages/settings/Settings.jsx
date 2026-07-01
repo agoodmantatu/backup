@@ -1,5 +1,5 @@
 // FILE: src/pages/settings/Settings.jsx
-// TryIT — Settings Page
+// TryIT - Settings Page
 // Route: /settings
 // Language, notifications, theme, account, privacy, data export
 import { useState, useEffect } from 'react'
@@ -211,7 +211,7 @@ export default function Settings() {
         </SettingRow>
         <SettingRow
           label="Category Rank"
-          sublabel="Your OBC/SC/ST rank is always private — only you see it"
+          sublabel="Your OBC/SC/ST rank is always private - only you see it"
           arrow={false}>
           <span style={{ fontSize:11, color:GREEN, fontWeight:700 }}>Always Private 🔒</span>
         </SettingRow>
@@ -261,7 +261,7 @@ export default function Settings() {
           <SectionHeader title="Institution" />
           <div style={{ background:'#fff' }}>
             <SettingRow label="Copyright Agreement"
-              sublabel="All uploaded content is TryIT property — agreed at signup">
+              sublabel="All uploaded content is TryIT property - agreed at signup">
               <span style={{ fontSize:11, color:GREEN, fontWeight:700 }}>Agreed ✅</span>
             </SettingRow>
             <SettingRow label="Student Data Consent"

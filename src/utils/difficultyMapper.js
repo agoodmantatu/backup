@@ -1,5 +1,5 @@
 /**
- * computeDifficulty — Dynamic 1-10 difficulty based on:
+ * computeDifficulty - Dynamic 1-10 difficulty based on:
  *   examName           : string  (e.g. "SSC CGL")
  *   topic              : string  (e.g. "profit-loss")
  *   syllabusWeightage  : number  0-1 (how important is this topic in the exam)
@@ -68,7 +68,7 @@ export function computeDifficulty(examId, topic, syllabusWeightage = 0.1, studen
 }
 
 /**
- * filterByDifficulty — Select questions matching a target difficulty (±1 range)
+ * filterByDifficulty - Select questions matching a target difficulty (±1 range)
  */
 export function filterByDifficulty(questions, targetDifficulty, examId, studentPerf = {}, range = 1) {
   return questions.filter(q => {
@@ -78,7 +78,7 @@ export function filterByDifficulty(questions, targetDifficulty, examId, studentP
 }
 
 /**
- * getDifficultyLabel — human readable
+ * getDifficultyLabel - human readable
  */
 export function getDifficultyLabel(d) {
   if (d <= 2) return { label: 'Beginner',    color: 'var(--color-success, #22C55E)', emoji: '🟢' }

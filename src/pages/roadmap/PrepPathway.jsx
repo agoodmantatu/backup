@@ -11,48 +11,48 @@ const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 const BG   = '#F8FAFC'
 
-// ── ALL 24 PATHWAYS (mock data — DB has full data after 11_prep_pathways_schema.sql) ──
+// -- ALL 24 PATHWAYS (mock data - DB has full data after 11_prep_pathways_schema.sql) --
 const ALL_PATHWAYS = {
   jee_7yr: {
     pathway_id: 'jee_7yr', icon_emoji:'🏆', color_primary:'#1E3A5F',
     pathway_name: 'JEE 7-Year Master Journey',
-    tagline: 'From Class 6 to IIT — your complete roadmap',
+    tagline: 'From Class 6 to IIT - your complete roadmap',
     entry_point: 'Class 6', exit_point: 'Class 12',
     total_stages: 7, total_months: 84, ideal_start_age: 11,
     difficulty: 'hard', category: 'school_to_jee',
     target_exam_ids: ['JEE Main', 'JEE Advanced'],
     stages: [
-      { stage_number:1, stage_name:'Class 6 — Foundation', class_or_phase:'class_6', duration_weeks:52,
+      { stage_number:1, stage_name:'Class 6 - Foundation', class_or_phase:'class_6', duration_weeks:52,
         stage_icon:'🌱', difficulty_range:'L1', coins_reward:300, badge_name:'Foundation Builder',
-        focus_summary:'Build number sense, logical thinking, basic science curiosity. No pressure — just love for learning.',
+        focus_summary:'Build number sense, logical thinking, basic science curiosity. No pressure - just love for learning.',
         milestone_test:'300 questions + Olympiad Mock',
         topics:['Basic Arithmetic','Simple Geometry','Science Curiosity','Reading Habits'] },
-      { stage_number:2, stage_name:'Class 7 — Growing Roots', class_or_phase:'class_7', duration_weeks:52,
+      { stage_number:2, stage_name:'Class 7 - Growing Roots', class_or_phase:'class_7', duration_weeks:52,
         stage_icon:'🌿', difficulty_range:'L1-L2', coins_reward:350, badge_name:'Root Grower',
         focus_summary:'Fractions, decimals, algebra basics, motion & forces, simple chemistry. IMO/NSO Level 1.',
         milestone_test:'500 questions + IMO Level 1 mock',
         topics:['Fractions & Decimals','Basic Algebra','Forces & Motion','Chemical Changes'] },
-      { stage_number:3, stage_name:'Class 8 — Pre-Foundation', class_or_phase:'class_8', duration_weeks:52,
+      { stage_number:3, stage_name:'Class 8 - Pre-Foundation', class_or_phase:'class_8', duration_weeks:52,
         stage_icon:'🌳', difficulty_range:'L1-L2', coins_reward:400, badge_name:'Pre-Foundation Star',
         focus_summary:'Algebraic expressions, quadrilaterals, light & sound, atoms & molecules. NTSE foundation.',
         milestone_test:'700 questions + NTSE mock',
         topics:['Algebraic Expressions','Quadrilaterals','Light & Sound','Atoms & Molecules'] },
-      { stage_number:4, stage_name:'Class 9 — JEE Foundation', class_or_phase:'class_9', duration_weeks:52,
+      { stage_number:4, stage_name:'Class 9 - JEE Foundation', class_or_phase:'class_9', duration_weeks:52,
         stage_icon:'🚀', difficulty_range:'L2', coins_reward:500, badge_name:'JEE Foundation',
         focus_summary:'Coordinate geometry, quadratics, laws of motion, chemical reactions. NTSE Stage 1 target.',
         milestone_test:'1000 questions + NTSE Stage 1 mock',
         topics:['Coordinate Geometry','Quadratic Equations','Laws of Motion','Chemical Reactions'] },
-      { stage_number:5, stage_name:'Class 10 — Core Building', class_or_phase:'class_10', duration_weeks:52,
+      { stage_number:5, stage_name:'Class 10 - Core Building', class_or_phase:'class_10', duration_weeks:52,
         stage_icon:'⚡', difficulty_range:'L2-L3', coins_reward:600, badge_name:'Core Builder',
         focus_summary:'Trigonometry, circles, electricity, carbon compounds. Board + NTSE Stage 2.',
         milestone_test:'1500 questions + Board Mock + NTSE Stage 2',
         topics:['Trigonometry','Circles & Geometry','Electricity','Carbon Compounds'] },
-      { stage_number:6, stage_name:'Class 11 — JEE Main Syllabus', class_or_phase:'class_11', duration_weeks:52,
+      { stage_number:6, stage_name:'Class 11 - JEE Main Syllabus', class_or_phase:'class_11', duration_weeks:52,
         stage_icon:'🔥', difficulty_range:'L3-L4', coins_reward:800, badge_name:'JEE Warrior',
         focus_summary:'Full PCM: Mechanics, Electrostatics, Organic, Sets to Calculus. 15+ JEE mock tests.',
         milestone_test:'3000 questions + 15 JEE Main mocks',
         topics:['Physics Mechanics','Electrostatics','Organic Chemistry','Differential Calculus'] },
-      { stage_number:7, stage_name:'Class 12 — JEE Advanced Conquest', class_or_phase:'class_12', duration_weeks:52,
+      { stage_number:7, stage_name:'Class 12 - JEE Advanced Conquest', class_or_phase:'class_12', duration_weeks:52,
         stage_icon:'👑', difficulty_range:'L4-L5', coins_reward:1000, badge_name:'IIT Conqueror',
         focus_summary:'Complete Boards + JEE Main + JEE Advanced. Multi-concept problems. 25 full mocks.',
         milestone_test:'5000 questions + 25 JEE mocks + 10 Advanced mocks',
@@ -62,43 +62,43 @@ const ALL_PATHWAYS = {
   neet_7yr: {
     pathway_id: 'neet_7yr', icon_emoji:'🩺', color_primary:'#DC2626',
     pathway_name: 'NEET 7-Year Medical Journey',
-    tagline: 'From Class 6 to MBBS — complete medical career roadmap',
+    tagline: 'From Class 6 to MBBS - complete medical career roadmap',
     entry_point: 'Class 6', exit_point: 'Class 12',
     total_stages: 7, total_months: 84, ideal_start_age: 11,
     difficulty: 'hard', category: 'school_to_neet',
     target_exam_ids: ['NEET UG'],
     stages: [
-      { stage_number:1, stage_name:'Class 6 — Life Sciences Foundation', class_or_phase:'class_6', duration_weeks:52,
+      { stage_number:1, stage_name:'Class 6 - Life Sciences Foundation', class_or_phase:'class_6', duration_weeks:52,
         stage_icon:'🌱', difficulty_range:'L1', coins_reward:300, badge_name:'Bio Curious',
         focus_summary:'Cell basics, plants & animals, nutrition, body systems intro. Science curiosity building.',
         milestone_test:'300 questions + NSO Level 1 mock',
         topics:['Cell Structure Basics','Plants & Animals','Nutrition','Human Body Intro'] },
-      { stage_number:2, stage_name:'Class 7 — Body Systems & Chemistry', class_or_phase:'class_7', duration_weeks:52,
+      { stage_number:2, stage_name:'Class 7 - Body Systems & Chemistry', class_or_phase:'class_7', duration_weeks:52,
         stage_icon:'🌿', difficulty_range:'L1-L2', coins_reward:350, badge_name:'Body Explorer',
         focus_summary:'Transportation in plants/animals, motion & time, acids & bases.',
         milestone_test:'500 questions + NSO mock',
         topics:['Transportation in Living Things','Motion & Time','Acids & Bases','Body Systems'] },
-      { stage_number:3, stage_name:'Class 8 — Pre-NEET Foundation', class_or_phase:'class_8', duration_weeks:52,
+      { stage_number:3, stage_name:'Class 8 - Pre-NEET Foundation', class_or_phase:'class_8', duration_weeks:52,
         stage_icon:'🔬', difficulty_range:'L1-L2', coins_reward:400, badge_name:'Cell Scientist',
         focus_summary:'Cell structure & function, microorganisms, combustion. NTSE bio+chem foundation.',
         milestone_test:'700 questions + NTSE bio mock',
         topics:['Cell Structure & Function','Microorganisms','Combustion','Reproduction Basics'] },
-      { stage_number:4, stage_name:'Class 9 — NEET Foundation', class_or_phase:'class_9', duration_weeks:52,
+      { stage_number:4, stage_name:'Class 9 - NEET Foundation', class_or_phase:'class_9', duration_weeks:52,
         stage_icon:'🧬', difficulty_range:'L2', coins_reward:500, badge_name:'NEET Foundation',
         focus_summary:'Tissues, diversity in living organisms, atoms & molecules. NTSE Stage 1.',
         milestone_test:'1000 questions + NTSE S1',
         topics:['Tissues','Diversity in Living Organisms','Atoms & Molecules','Laws of Motion'] },
-      { stage_number:5, stage_name:'Class 10 — Complete Life Processes', class_or_phase:'class_10', duration_weeks:52,
+      { stage_number:5, stage_name:'Class 10 - Complete Life Processes', class_or_phase:'class_10', duration_weeks:52,
         stage_icon:'💉', difficulty_range:'L2-L3', coins_reward:600, badge_name:'Life Processor',
         focus_summary:'Life processes, control & coordination, heredity, carbon compounds. Boards + NTSE S2.',
         milestone_test:'1500 questions + Board + NTSE S2',
         topics:['Life Processes','Control & Coordination','Heredity & Evolution','Carbon Compounds'] },
-      { stage_number:6, stage_name:'Class 11 — NEET Syllabus Part 1', class_or_phase:'class_11', duration_weeks:52,
+      { stage_number:6, stage_name:'Class 11 - NEET Syllabus Part 1', class_or_phase:'class_11', duration_weeks:52,
         stage_icon:'🏥', difficulty_range:'L3-L4', coins_reward:800, badge_name:'NEET Warrior',
         focus_summary:'Full Bio (Botany+Zoology Class 11) + Physics Mechanics + Organic Chem. 10 NEET mocks.',
         milestone_test:'3000 questions + 10 NEET mocks',
         topics:['Diversity of Life','Structural Organisation','Cell Biology','Biomolecules'] },
-      { stage_number:7, stage_name:'Class 12 — NEET Final Conquest', class_or_phase:'class_12', duration_weeks:52,
+      { stage_number:7, stage_name:'Class 12 - NEET Final Conquest', class_or_phase:'class_12', duration_weeks:52,
         stage_icon:'👨‍⚕️', difficulty_range:'L4-L5', coins_reward:1000, badge_name:'Doctor in Making',
         focus_summary:'Complete Class 12 + full integration. Genetics, Evolution, Ecology. 25 NEET mocks.',
         milestone_test:'5000 questions + 25 NEET mocks + PYQ 15yr',
@@ -108,33 +108,33 @@ const ALL_PATHWAYS = {
   upsc_8yr: {
     pathway_id: 'upsc_8yr', icon_emoji:'🇮🇳', color_primary:'#1E3A5F',
     pathway_name: 'UPSC Civil Services 8-Year Journey',
-    tagline: "From Class 8 to IAS/IPS/IFS — India's ultimate career roadmap",
+    tagline: "From Class 8 to IAS/IPS/IFS - India's ultimate career roadmap",
     entry_point: 'Class 8', exit_point: 'Post Graduation',
     total_stages: 8, total_months: 96, ideal_start_age: 13,
     difficulty: 'very_hard', category: 'school_to_upsc',
     target_exam_ids: ['UPSC CSE Prelims', 'UPSC CSE Mains'],
     stages: [
-      { stage_number:1, stage_name:'Class 8-10 — GK Foundation', class_or_phase:'class_8', duration_weeks:104,
+      { stage_number:1, stage_name:'Class 8-10 - GK Foundation', class_or_phase:'class_8', duration_weeks:104,
         stage_icon:'📰', difficulty_range:'L1', coins_reward:300, badge_name:'GK Foundation',
         focus_summary:'Build general awareness: current affairs reading habit, basic polity, geography maps, history timelines.',
         milestone_test:'500 GK + CA questions + NTSE mock',
         topics:['Indian History Timeline','World Geography Maps','Basic Polity','Current Affairs Habit'] },
-      { stage_number:2, stage_name:'Class 11-12 — Pre-Foundation', class_or_phase:'class_11', duration_weeks:104,
+      { stage_number:2, stage_name:'Class 11-12 - Pre-Foundation', class_or_phase:'class_11', duration_weeks:104,
         stage_icon:'📚', difficulty_range:'L2', coins_reward:400, badge_name:'NCERT Master',
         focus_summary:'NCERT mastery (History/Geography/Polity/Economics). Board + competitive awareness.',
         milestone_test:'2000 NCERT-based questions',
         topics:['NCERT History','NCERT Geography','NCERT Polity','NCERT Economics'] },
-      { stage_number:3, stage_name:'Graduation Year 1 — GS Fundamentals', class_or_phase:'graduation_1', duration_weeks:52,
+      { stage_number:3, stage_name:'Graduation Year 1 - GS Fundamentals', class_or_phase:'graduation_1', duration_weeks:52,
         stage_icon:'🌍', difficulty_range:'L3', coins_reward:500, badge_name:'GS Builder',
         focus_summary:'Modern History deep dive, Constitutional Law, Basic Economics, World Geography. 100 CA tests.',
         milestone_test:'3000 GS questions + 5 CSAT mocks',
         topics:['Modern Indian History','Constitution & Polity','Indian Economy','Environment & Ecology'] },
-      { stage_number:4, stage_name:'Graduation Year 2 — Optional + GS Depth', class_or_phase:'graduation_2', duration_weeks:52,
+      { stage_number:4, stage_name:'Graduation Year 2 - Optional + GS Depth', class_or_phase:'graduation_2', duration_weeks:52,
         stage_icon:'📝', difficulty_range:'L3-L4', coins_reward:600, badge_name:'Answer Writer',
         focus_summary:'Optional subject start + GS Paper 2 (Polity/IR/Governance) + Paper 3. Answer writing.',
         milestone_test:'3000 questions + answer writing practice',
         topics:['Governance & IR','Science & Technology','Disaster Management','Optional Paper 1'] },
-      { stage_number:5, stage_name:'Graduation Year 3 — Full Integration', class_or_phase:'graduation_3', duration_weeks:52,
+      { stage_number:5, stage_name:'Graduation Year 3 - Full Integration', class_or_phase:'graduation_3', duration_weeks:52,
         stage_icon:'🎯', difficulty_range:'L4', coins_reward:700, badge_name:'Integrator',
         focus_summary:'Complete all 4 GS papers + Optional Paper 1+2 + Essay. Daily CA notes.',
         milestone_test:'4000 questions + 10 Prelims mocks',
@@ -159,23 +159,23 @@ const ALL_PATHWAYS = {
   banking_2yr: {
     pathway_id: 'banking_2yr', icon_emoji:'🏦', color_primary:'#1D4ED8',
     pathway_name: 'Banking 2-Year Journey',
-    tagline: 'From Graduation to Bank PO — systematic and fast',
+    tagline: 'From Graduation to Bank PO - systematic and fast',
     entry_point: 'Graduation', exit_point: 'Post-Graduation',
     total_stages: 4, total_months: 24, ideal_start_age: 21,
     difficulty: 'medium', category: 'graduation_to_banking',
     target_exam_ids: ['IBPS PO', 'SBI PO'],
     stages: [
-      { stage_number:1, stage_name:'Foundation — All 3 Subjects', class_or_phase:'graduation_1', duration_weeks:12,
+      { stage_number:1, stage_name:'Foundation - All 3 Subjects', class_or_phase:'graduation_1', duration_weeks:12,
         stage_icon:'📐', difficulty_range:'L2-L3', coins_reward:400, badge_name:'Bank Foundation',
         focus_summary:'Arithmetic (all chapters), Seating/Puzzles, RC + Error Detection. 10 questions per topic daily.',
         milestone_test:'2000 questions across subjects',
         topics:['Arithmetic Basics','Seating Arrangement','Reading Comprehension','Error Detection'] },
-      { stage_number:2, stage_name:'Prelims Ready — Speed + Accuracy', class_or_phase:'graduation_1', duration_weeks:8,
+      { stage_number:2, stage_name:'Prelims Ready - Speed + Accuracy', class_or_phase:'graduation_1', duration_weeks:8,
         stage_icon:'⚡', difficulty_range:'L3', coins_reward:500, badge_name:'Prelims Ready',
         focus_summary:'Speed drills. 20 Prelims mocks. Sectional cutoff mastery.',
         milestone_test:'1500 questions + 20 Prelims mocks',
         topics:['Speed Drills','Sectional Practice','Cutoff Strategy','Mock Analysis'] },
-      { stage_number:3, stage_name:'Mains — DI + Banking Awareness', class_or_phase:'graduation_2', duration_weeks:8,
+      { stage_number:3, stage_name:'Mains - DI + Banking Awareness', class_or_phase:'graduation_2', duration_weeks:8,
         stage_icon:'📊', difficulty_range:'L3-L4', coins_reward:600, badge_name:'Mains Star',
         focus_summary:'Advanced DI (table/graph/caselet), Data Sufficiency, Banking Awareness. 15 mains mocks.',
         milestone_test:'1500 DI/CA questions + 15 mains mocks',
@@ -190,13 +190,13 @@ const ALL_PATHWAYS = {
   ssc_2yr: {
     pathway_id: 'ssc_2yr', icon_emoji:'📋', color_primary:'#059669',
     pathway_name: 'SSC CGL 2-Year Journey',
-    tagline: 'Crack SSC CGL Tier 1+2+3 — systematic approach',
+    tagline: 'Crack SSC CGL Tier 1+2+3 - systematic approach',
     entry_point: 'Graduation', exit_point: 'Graduation',
     total_stages: 4, total_months: 24, ideal_start_age: 21,
     difficulty: 'medium', category: 'graduation_to_civil',
     target_exam_ids: ['SSC CGL Tier 1', 'SSC CGL Tier 2'],
     stages: [
-      { stage_number:1, stage_name:'Foundation — All 4 Subjects', class_or_phase:'graduation_1', duration_weeks:12,
+      { stage_number:1, stage_name:'Foundation - All 4 Subjects', class_or_phase:'graduation_1', duration_weeks:12,
         stage_icon:'📚', difficulty_range:'L2-L3', coins_reward:400, badge_name:'SSC Foundation',
         focus_summary:'Quantitative Aptitude (all chapters), Reasoning (full), English (grammar+vocab), GK (all static topics).',
         milestone_test:'3000 questions (750 per subject)',
@@ -206,12 +206,12 @@ const ALL_PATHWAYS = {
         focus_summary:'60-minute Tier 1 pattern. 25 full Tier 1 mocks. Section-wise time analysis.',
         milestone_test:'25 full Tier 1 mocks',
         topics:['Tier 1 Mock Practice','Time Management','Sectional Strategy','Weak Area Focus'] },
-      { stage_number:3, stage_name:'Tier 2 — Advanced Maths + English', class_or_phase:'graduation_2', duration_weeks:12,
+      { stage_number:3, stage_name:'Tier 2 - Advanced Maths + English', class_or_phase:'graduation_2', duration_weeks:12,
         stage_icon:'🔢', difficulty_range:'L3-L4', coins_reward:600, badge_name:'Tier 2 Star',
         focus_summary:'Advance Maths (geometry/trig/DI), English (RC+Cloze+Para), 15 Tier 2 mocks.',
         milestone_test:'2000 Maths + 1000 English + 15 Tier 2 mocks',
         topics:['Advanced Mathematics','Advanced English','Data Interpretation','Tier 2 Mocks'] },
-      { stage_number:4, stage_name:'Tier 3 — Descriptive Writing', class_or_phase:'graduation_2', duration_weeks:4,
+      { stage_number:4, stage_name:'Tier 3 - Descriptive Writing', class_or_phase:'graduation_2', duration_weeks:4,
         stage_icon:'✍️', difficulty_range:'L3', coins_reward:700, badge_name:'SSC Complete',
         focus_summary:'Essay (250 words), Letter/Application (150 words). 10 writing exercises.',
         milestone_test:'10 essays + 10 letters graded',
@@ -221,13 +221,13 @@ const ALL_PATHWAYS = {
   ca_6yr: {
     pathway_id: 'ca_6yr', icon_emoji:'💰', color_primary:'#92400E',
     pathway_name: 'CA 6-Year Professional Journey',
-    tagline: 'Class 10 to Chartered Accountant — India\'s prestige professional',
+    tagline: 'Class 10 to Chartered Accountant - India\'s prestige professional',
     entry_point: 'Class 10', exit_point: 'Graduation',
     total_stages: 6, total_months: 72, ideal_start_age: 15,
     difficulty: 'very_hard', category: 'class10_to_professional',
     target_exam_ids: ['CA Foundation', 'CA Intermediate', 'CA Final'],
     stages: [
-      { stage_number:1, stage_name:'Class 10-12 — Commerce Foundation', class_or_phase:'class_10', duration_weeks:104,
+      { stage_number:1, stage_name:'Class 10-12 - Commerce Foundation', class_or_phase:'class_10', duration_weeks:104,
         stage_icon:'📊', difficulty_range:'L1-L2', coins_reward:300, badge_name:'Commerce Foundation',
         focus_summary:'Accountancy, Business Studies, Economics (Class 11-12). Clear concepts before CA Foundation.',
         milestone_test:'1500 Commerce questions',
@@ -308,7 +308,7 @@ export default function PrepPathway() {
   const [showEnroll, setShowEnroll] = useState(false)
   const [enrolled,   setEnrolled]   = useState(false)
 
-  // ── LOAD PATHWAY ──────────────────────────────────────────────────────────
+  // -- LOAD PATHWAY ----------------------------------------------------------
   useEffect(() => {
     ;(async () => {
       setLoading(true)
@@ -347,7 +347,7 @@ export default function PrepPathway() {
     })()
   }, [pathwayId, user?.id])
 
-  // ── ENROLL ────────────────────────────────────────────────────────────────
+  // -- ENROLL ----------------------------------------------------------------
   const handleEnroll = async () => {
     if (!isUltra) { navigate('/pro'); return }
     const init = {}
@@ -368,7 +368,7 @@ export default function PrepPathway() {
 
   if (loading) return (
     <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:BG }}>
-      <p style={{ color:'#94A3B8' }}>Loading pathway…</p>
+      <p style={{ color:'#94A3B8' }}>Loading pathway...</p>
     </div>
   )
 
@@ -394,7 +394,7 @@ export default function PrepPathway() {
   return (
     <div style={{ minHeight:'100vh', background:BG, fontFamily:'Inter,sans-serif', paddingBottom:100 }}>
 
-      {/* ── HEADER ──────────────────────────────────────────────────────── */}
+      {/* -- HEADER -------------------------------------------------------- */}
       <div style={{ background:`linear-gradient(135deg,${pathway.color_primary},${pathway.color_primary}CC)`,
         color:'#fff', padding:'20px 16px 24px' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:14 }}>
@@ -426,7 +426,7 @@ export default function PrepPathway() {
           {[
             { label:'Entry', value: pathway.entry_point },
             { label:'Stages', value: `${totalStages} stages` },
-            { label:'Target', value: pathway.target_exam_ids?.[0] || '—' },
+            { label:'Target', value: pathway.target_exam_ids?.[0] || '-' },
             { label:'Start Age', value: `${pathway.ideal_start_age}+` },
           ].map(stat => (
             <div key={stat.label} style={{ background:'rgba(255,255,255,0.12)', borderRadius:10, padding:'8px 6px', textAlign:'center' }}>
@@ -453,7 +453,7 @@ export default function PrepPathway() {
         )}
       </div>
 
-      {/* ── ENROLL CTA (if not enrolled) ────────────────────────────────── */}
+      {/* -- ENROLL CTA (if not enrolled) ---------------------------------- */}
       {!enrolled && (
         <div style={{ margin:16 }}>
           {!isUltra ? (
@@ -496,11 +496,11 @@ export default function PrepPathway() {
   />
 )}
 
-      {/* ── STAGES LIST ──────────────────────────────────────────────────── */}
+      {/* -- STAGES LIST ---------------------------------------------------- */}
       <div style={{ padding:'8px 16px' }}>
         <p style={{ fontSize:11, fontWeight:700, color:'#94A3B8', letterSpacing:1.2,
           textTransform:'uppercase', marginBottom:12 }}>
-          Your Roadmap — {totalStages} Stages
+          Your Roadmap - {totalStages} Stages
         </p>
 
         {pathway.stages?.map((stage, idx) => {
@@ -642,7 +642,7 @@ export default function PrepPathway() {
         </div>
       </div>
 
-      {/* ── ALL PATHWAYS BUTTON ──────────────────────────────────────────── */}
+      {/* -- ALL PATHWAYS BUTTON -------------------------------------------- */}
       <div style={{ padding:'16px 16px 0' }}>
         <button onClick={() => navigate(-1)}
           style={{ width:'100%', padding:'12px', background:'#F1F5F9', color:'#475569',

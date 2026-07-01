@@ -1,5 +1,5 @@
 // FILE: src/components/SmartExamSearch.jsx
-// Smart Exam Search — fuzzy match, typo tolerance, suggestions,
+// Smart Exam Search - fuzzy match, typo tolerance, suggestions,
 // state filter, "Exam Not Listed?" 48hr promise
 //
 // HOW TO USE anywhere in the app:
@@ -14,7 +14,7 @@ import { supabase } from '../lib/supabase'
 const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 
-// ── CATEGORY ICONS ────────────────────────────────────────────────────────
+// -- CATEGORY ICONS --------------------------------------------------------
 const CAT_ICONS = {
   central_govt:      '🏛️',
   state_govt:        '🏢',
@@ -38,7 +38,7 @@ const CAT_ICONS = {
   pg_level:          '🎓',
 }
 
-// ── POPULAR EXAMS (shown before typing) ───────────────────────────────────
+// -- POPULAR EXAMS (shown before typing) -----------------------------------
 const POPULAR_EXAMS = [
   { id:'upsc_cse_pre',   name:'UPSC Civil Services (IAS)',   category:'central_govt',     state:''   },
   { id:'ssc_cgl_t1',     name:'SSC CGL',                     category:'central_govt',     state:''   },
@@ -57,7 +57,7 @@ const POPULAR_EXAMS = [
   { id:'nift_ug_gat',    name:'NIFT Entrance',               category:'design_arts',      state:''   },
 ]
 
-// ── FUZZY MATCH (Levenshtein + token match) ───────────────────────────────
+// -- FUZZY MATCH (Levenshtein + token match) -------------------------------
 function levenshtein(a, b) {
   const m = a.length, n = b.length
   const dp = Array.from({ length:m+1 }, (_, i) => Array.from({ length:n+1 }, (_, j) => i||j))
@@ -102,7 +102,7 @@ function fuzzyScore(query, target) {
 <SmartExamSearch onSelect={(exam) => navigate(`/exams/${exam.id}`)} />
 
 
-// ── COMMON TYPO CORRECTIONS ───────────────────────────────────────────────
+// -- COMMON TYPO CORRECTIONS -----------------------------------------------
 const TYPO_MAP = {
   'ssc cjl': 'ssc cgl', 'ssc cjg': 'ssc cgl', 'ssc cgl ': 'ssc cgl',
   'ibps op': 'ibps po', 'ipbs po': 'ibps po', 'ibps p0': 'ibps po',
@@ -138,7 +138,7 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
 
   const debounceRef = useRef(null)
 
-  // ── SEARCH LOGIC ──────────────────────────────────────────────────────────
+  // -- SEARCH LOGIC ----------------------------------------------------------
   const search = useCallback(async (rawQuery) => {
     const corrected = correctTypo(rawQuery)
     const q         = corrected.trim()
@@ -217,14 +217,14 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
     return () => clearTimeout(debounceRef.current)
   }, [query, search])
 
-  // ── SAVE RECENT SEARCH ────────────────────────────────────────────────────
+  // -- SAVE RECENT SEARCH ----------------------------------------------------
   const saveRecent = (examName) => {
     const updated = [examName, ...recentSearches.filter(r => r !== examName)].slice(0, 5)
     setRecentSearches(updated)
     localStorage.setItem('tryit_recent_searches', JSON.stringify(updated))
   }
 
-  // ── HANDLE SELECT ─────────────────────────────────────────────────────────
+  // -- HANDLE SELECT ---------------------------------------------------------
   const handleSelect = (exam) => {
     saveRecent(exam.exam_name || exam.name)
     setOpen(false)
@@ -239,7 +239,7 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
   return (
     <div style={{ position:'relative', width:'100%', fontFamily:'Inter,sans-serif' }}>
 
-      {/* ── SEARCH INPUT ──────────────────────────────────────────────────── */}
+      {/* -- SEARCH INPUT ---------------------------------------------------- */}
       <div style={{ display:'flex', gap:8, marginBottom: open?0:0 }}>
         <div style={{ flex:1, position:'relative' }}>
           <span style={{ position:'absolute', left:13, top:'50%', transform:'translateY(-50%)',
@@ -250,7 +250,7 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
             onChange={e => { setQuery(e.target.value); setOpen(true) }}
             onFocus={() => setOpen(true)}
             onBlur={() => setTimeout(() => setOpen(false), 200)}
-            placeholder={placeholder || 'Search any exam — SSC, UPSC, NEET, Bank, Railway...'}
+            placeholder={placeholder || 'Search any exam - SSC, UPSC, NEET, Bank, Railway...'}
             style={{ width:'100%', padding:'12px 14px 12px 40px', borderRadius:14,
               border:`2px solid ${open ? GOLD : '#E2E8F0'}`,
               fontSize:14, outline:'none', background:'#fff', boxSizing:'border-box',
@@ -283,14 +283,14 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
         </button>
       </div>
 
-      {/* ── TYPO CORRECTION HINT ─────────────────────────────────────────── */}
+      {/* -- TYPO CORRECTION HINT ------------------------------------------- */}
       {query.length >= 2 && correctTypo(query) !== query.toLowerCase().trim() && (
         <p style={{ fontSize:11, color:GOLD, marginTop:4 }}>
           🔄 Showing results for "<strong>{correctTypo(query)}</strong>"
         </p>
       )}
 
-      {/* ── DROPDOWN ─────────────────────────────────────────────────────── */}
+      {/* -- DROPDOWN ------------------------------------------------------- */}
       {open && (
         <div style={{ position:'absolute', top:'calc(100% + 6px)', left:0, right:0, zIndex:500,
           background:'#fff', borderRadius:16, border:'1.5px solid #E2E8F0',
@@ -384,12 +384,12 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
                 onClick={() => { setOpen(false); setShowNotListed(true) }}
                 style={{ padding:'10px 20px', background:NAVY, color:'#fff',
                   border:'none', borderRadius:10, fontWeight:700, fontSize:13, cursor:'pointer' }}>
-                📋 Request This Exam — We'll Add in 48hrs
+                📋 Request This Exam - We'll Add in 48hrs
               </button>
             </div>
           )}
 
-          {/* "Exam not listed?" — always show at bottom when typing */}
+          {/* "Exam not listed?" - always show at bottom when typing */}
           {query.length >= 2 && results.length > 0 && (
             <div style={{ padding:'10px 14px', borderTop:'1px solid #F1F5F9', background:'#FAFAFA' }}>
               <button
@@ -397,14 +397,14 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
                 style={{ display:'flex', alignItems:'center', gap:8, background:'none',
                   border:'none', cursor:'pointer', color:'#64748B', fontSize:12, fontWeight:600 }}>
                 <span style={{ fontSize:16 }}>➕</span>
-                Don't see your exam? Tell us — we'll add it within 48 hours
+                Don't see your exam? Tell us - we'll add it within 48 hours
               </button>
             </div>
           )}
         </div>
       )}
 
-      {/* ── EXAM NOT LISTED MODAL ─────────────────────────────────────────── */}
+      {/* -- EXAM NOT LISTED MODAL ------------------------------------------- */}
       {showNotListed && (
         <ExamNotListedModal
           initialName={query}
@@ -416,7 +416,7 @@ export default function SmartExamSearch({ onSelect, placeholder, showPopular = t
   )
 }
 
-// ── HIGHLIGHT MATCH IN TEXT ───────────────────────────────────────────────
+// -- HIGHLIGHT MATCH IN TEXT -----------------------------------------------
 function highlightMatch(text, query) {
   if (!query) return text
   const q   = correctTypo(query).toLowerCase()
@@ -433,7 +433,7 @@ function highlightMatch(text, query) {
   )
 }
 
-// ── EXAM NOT LISTED MODAL ─────────────────────────────────────────────────
+// -- EXAM NOT LISTED MODAL -------------------------------------------------
 function ExamNotListedModal({ initialName, onClose, userId }) {
   const [form, setForm] = useState({
     exam_name:       initialName || '',
@@ -487,7 +487,7 @@ function ExamNotListedModal({ initialName, onClose, userId }) {
         maxHeight:'90vh', overflowY:'auto' }}>
 
         {submitted ? (
-          // ── SUCCESS STATE ─────────────────────────────────────────────────
+          // -- SUCCESS STATE -------------------------------------------------
           <div style={{ textAlign:'center', padding:'10px 0' }}>
             <p style={{ fontSize:48, marginBottom:12 }}>🎉</p>
             <h3 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:NAVY, fontSize:18, marginBottom:8 }}>
@@ -514,7 +514,7 @@ function ExamNotListedModal({ initialName, onClose, userId }) {
             </button>
           </div>
         ) : (
-          // ── FORM ──────────────────────────────────────────────────────────
+          // -- FORM ----------------------------------------------------------
           <>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:16 }}>
               <div>
@@ -522,7 +522,7 @@ function ExamNotListedModal({ initialName, onClose, userId }) {
                   📋 Request an Exam
                 </h3>
                 <p style={{ fontSize:12, color:'#94A3B8', margin:'4px 0 0' }}>
-                  We'll add it within <strong style={{ color:GOLD }}>48 hours</strong> — guaranteed
+                  We'll add it within <strong style={{ color:GOLD }}>48 hours</strong> - guaranteed
                 </p>
               </div>
               <button onClick={onClose}
@@ -584,7 +584,7 @@ function ExamNotListedModal({ initialName, onClose, userId }) {
               style={{ width:'100%', padding:'13px', background:`linear-gradient(135deg,${NAVY},#0F2140)`,
                 color:'#fff', border:'none', borderRadius:12, fontWeight:800, fontSize:14, cursor:'pointer',
                 opacity: submitting ? 0.7 : 1 }}>
-              {submitting ? '⏳ Submitting...' : '📤 Submit — Add Within 48 Hours'}
+              {submitting ? '⏳ Submitting...' : '📤 Submit - Add Within 48 Hours'}
             </button>
           </>
         )}

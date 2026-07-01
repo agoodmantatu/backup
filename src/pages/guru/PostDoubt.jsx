@@ -1,4 +1,4 @@
-// src/pages/guru/PostDoubt.jsx — Premium standalone
+// src/pages/guru/PostDoubt.jsx - Premium standalone
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
@@ -100,7 +100,7 @@ export default function PostDoubt() {
               <select value={exam} onChange={e=>setExam(e.target.value)}
                 style={{...inputStyle,cursor:'pointer',
                   border:'1.5px solid '+(exam?a:b)}}>
-                <option value="">— Choose your exam —</option>
+                <option value="">- Choose your exam -</option>
                 {EXAMS.map(e=><option key={e} value={e}>{e}</option>)}
               </select>
             </div>

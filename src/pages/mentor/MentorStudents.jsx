@@ -141,7 +141,7 @@ export default function MentorStudents() {
               borderRadius:18,marginBottom:12,overflow:'hidden',
               boxShadow:'0 2px 12px rgba(0,0,0,0.05)',transition:'all 0.2s'}}>
 
-            {/* Student row — click to expand */}
+            {/* Student row - click to expand */}
             <div style={{padding:'16px',display:'flex',alignItems:'center',
               gap:12,cursor:'pointer'}}
               onClick={()=>setExpanded(expanded===student.id?null:student.id)}>

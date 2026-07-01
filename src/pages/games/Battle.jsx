@@ -1,7 +1,7 @@
 // FILE: src/pages/games/Battle.jsx
-// TryIT — 1v1 Battle: live duel vs random student, 10 questions
+// TryIT - 1v1 Battle: live duel vs random student, 10 questions
 // Route: /games/battle
-// Mixed subject — highest dopamine game (real opponent, live race)
+// Mixed subject - highest dopamine game (real opponent, live race)
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'

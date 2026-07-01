@@ -25,7 +25,7 @@ export default function RoleSelectPage() {
     <AppLayout title="Switch Role">
       <div className="mb-8" style={{ textAlign:'center' }}>
         <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'var(--color-primary, #1E3A5F)', fontSize:26, marginBottom:4 }}>Switch Your Role</h1>
-        <p style={{ color:'var(--color-muted, #64748B)', fontSize:15 }}>Currently: <strong style={{ color:'var(--color-accent, #D4AF37)' }}>{user.role}</strong> — pick a different context to switch how you use TryIT</p>
+        <p style={{ color:'var(--color-muted, #64748B)', fontSize:15 }}>Currently: <strong style={{ color:'var(--color-accent, #D4AF37)' }}>{user.role}</strong> - pick a different context to switch how you use TryIT</p>
       </div>
 
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))', gap:16, maxWidth:800, margin:'0 auto' }}>

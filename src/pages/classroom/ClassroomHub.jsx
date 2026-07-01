@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const HUB_CARDS = [
   { id: 'planner', title: 'Study Planner', desc: 'Plan your week, track sessions, build consistency.', emoji: '🗓️', color: 'from-[var(--color-primary, #1E3A5F)] to-[var(--color-primary-dark, #0F2140)]', path: '/classroom/planner' },
-  { id: 'pdf', title: 'PDF Library', desc: 'Notes, previous papers, and study material — all in one place.', emoji: '📚', color: 'from-[#064E3B] to-[#0B6B53]', path: '/classroom/pdf' },
+  { id: 'pdf', title: 'PDF Library', desc: 'Notes, previous papers, and study material - all in one place.', emoji: '📚', color: 'from-[#064E3B] to-[#0B6B53]', path: '/classroom/pdf' },
   { id: 'ebooks', title: 'Ebook Store', desc: 'Browse, read, and collect ebooks for every exam.', emoji: '📖', color: 'from-[#7C2D12] to-[#9A3F1F]', path: '/ebooks' },
 ];
 
@@ -32,7 +32,7 @@ export default function ClassroomHub() {
     <AppLayout title="Classroom">
       <div className="mb-6">
         <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">Your Classroom 🎓</h2>
-        <p className="text-slate-500">Plan, study, and read — everything you need to prep.</p>
+        <p className="text-slate-500">Plan, study, and read - everything you need to prep.</p>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
@@ -60,7 +60,7 @@ export default function ClassroomHub() {
         {todaysPlan.length === 0 ? (
           <div className="text-center py-6">
             <div className="text-4xl mb-2">🗓️</div>
-            <p className="text-slate-500 mb-4">No study blocks for today — plan your day!</p>
+            <p className="text-slate-500 mb-4">No study blocks for today - plan your day!</p>
             <button onClick={() => navigate('/classroom/planner')} className="px-5 py-2 rounded-2xl bg-[var(--color-accent, #D4AF37)] text-[var(--color-primary, #1E3A5F)] font-bold">
               + Add Study Block
             </button>

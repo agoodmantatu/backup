@@ -36,7 +36,7 @@ const RECENT_ACTIVITY = [
   {icon:'📝', text:'Priya R. submitted homework in UPSC Morning Batch', time:'10m ago'},
   {icon:'👤', text:'New student Karthik M. joined SSC CGL Evening',     time:'25m ago'},
   {icon:'📋', text:'Mentor Suresh posted new assignment in Hall 2',     time:'1h ago'},
-  {icon:'🎯', text:'UPSC Mock Test completed — 234 students appeared',  time:'3h ago'},
+  {icon:'🎯', text:'UPSC Mock Test completed - 234 students appeared',  time:'3h ago'},
   {icon:'💰', text:'₹15,000 collected from Hall 4 enrollments',         time:'5h ago'},
 ]
 
@@ -294,7 +294,7 @@ export default function InstitutionDashboard() {
             ))}
           </div>
           
-          {/* ── AUDIO / VIDEO UPLOAD ── */}
+          {/* -- AUDIO / VIDEO UPLOAD -- */}
           <div style={{background:c,border:'1px solid '+b,borderRadius:18,
             overflow:'hidden',marginTop:20}}>
             <div style={{padding:'14px 16px',borderBottom:'1px solid '+b,

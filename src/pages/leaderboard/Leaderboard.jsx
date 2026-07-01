@@ -1,5 +1,5 @@
 // FILE: src/pages/leaderboard/Leaderboard.jsx
-// TryIT — Full Leaderboard System
+// TryIT - Full Leaderboard System
 // Section A: Live Activity Ticker (opt-in, NO marks, achievements only)
 // Section B: Top 20 pinned profile cards by exam/state/period
 // Route: /leaderboard
@@ -12,7 +12,7 @@ import { formatActivityText, rankEmoji, scoreMedal } from '../../components/Emoj
 
 const NAVY='#1E3A5F', GOLD='#C9A84C', BG='#F8FAFC', GREEN='#059669'
 
-// ── MOCK DATA ─────────────────────────────────────────────────────────────
+// -- MOCK DATA -------------------------------------------------------------
 const MOCK_FEED=[
   {feed_id:'f1',user_name:'Priya',user_state:'Tamil Nadu',activity_type:'streak_milestone',display_text:'is on a 21-day study streak',created_at:new Date(Date.now()-2*60000).toISOString()},
   {feed_id:'f2',user_name:'Arjun',user_state:'Karnataka',activity_type:'concept_unlocked',display_text:'unlocked Reasoning Level 5 concept',created_at:new Date(Date.now()-5*60000).toISOString()},
@@ -45,7 +45,7 @@ const MOCK_TOP=[
 const STATES=['All India','Tamil Nadu','Karnataka','Kerala','Andhra Pradesh','Telangana','Maharashtra','Gujarat','Rajasthan','UP','Bihar','West Bengal','Delhi','MP','Odisha','Punjab']
 const EXAMS=['All Exams','SSC CGL','UPSC CSE','IBPS PO','NEET','JEE','GATE','TNPSC','KPSC','RRB NTPC','NDA']
 
-// ── LIVE ACTIVITY TICKER ──────────────────────────────────────────────────
+// -- LIVE ACTIVITY TICKER --------------------------------------------------
 function ActivityTicker({items}){
   const[idx,setIdx]=useState(0)
   const[fade,setFade]=useState(true)
@@ -74,7 +74,7 @@ function ActivityTicker({items}){
   )
 }
 
-// ── AVATAR ────────────────────────────────────────────────────────────────
+// -- AVATAR ----------------------------------------------------------------
 function Avatar({name,photoUrl,size=40,isOwner=false}){
   const initials=(name||'').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()
   if(photoUrl&&!isOwner){
@@ -94,7 +94,7 @@ function Avatar({name,photoUrl,size=40,isOwner=false}){
   )
 }
 
-// ── MAIN LEADERBOARD ──────────────────────────────────────────────────────
+// -- MAIN LEADERBOARD ------------------------------------------------------
 export default function Leaderboard(){
   const { theme } = useTheme()
   const primary = theme?.primary || '#1E3A5F'
@@ -157,7 +157,7 @@ export default function Leaderboard(){
           ))}
         </div>
 
-        {/* Activity Ticker — always visible */}
+        {/* Activity Ticker - always visible */}
         <ActivityTicker items={feed}/>
       </div>
 
@@ -202,7 +202,7 @@ export default function Leaderboard(){
 
           <div style={{padding:16,maxWidth:480,margin:'0 auto'}}>
 
-            {/* PODIUM — Top 3 */}
+            {/* PODIUM - Top 3 */}
             {podium.length>=3&&(
               <div style={{display:'flex',alignItems:'flex-end',gap:8,marginBottom:16}}>
                 {/* 2nd */}
@@ -283,7 +283,7 @@ export default function Leaderboard(){
         <div style={{padding:16,maxWidth:480,margin:'0 auto'}}>
           <div style={{background:'#EFF6FF',border:'1px solid #BFDBFE',borderRadius:12,padding:12,marginBottom:14}}>
             <p style={{fontSize:12,color:'#1D4ED8',margin:0,lineHeight:1.6}}>
-              ⚡ <strong>Live Activity Feed</strong> — Achievements only, no marks shown.<br/>
+              ⚡ <strong>Live Activity Feed</strong> - Achievements only, no marks shown.<br/>
               You see: streaks, concept unlocks, badges, milestones.<br/>
               Opt-in via Profile → Settings to appear here.
             </p>

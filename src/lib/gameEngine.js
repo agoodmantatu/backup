@@ -1,7 +1,7 @@
 // FILE: src/lib/gameEngine.js
-// TryIT — Shared Game Engine for all mini-games
+// TryIT - Shared Game Engine for all mini-games
 // Dopamine mechanics: combo multiplier, streak fire, instant feedback,
-// score popups — all exam-relevant (no random trivia, no junk content)
+// score popups - all exam-relevant (no random trivia, no junk content)
 //
 // COIN ECONOMY (100% admin-controlled via game_economy_config table):
 //   Entry cost, win reward, loss penalty are NEVER hardcoded.
@@ -10,7 +10,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
 import { supabase } from './supabase'
 
-// ── FETCH LIVE ECONOMY CONFIG (admin can change anytime, no app update needed) ──
+// -- FETCH LIVE ECONOMY CONFIG (admin can change anytime, no app update needed) --
 export async function fetchGameEconomy(gameId) {
   try {
     const { data, error } = await supabase.rpc('get_game_economy', { p_game_id: gameId })
@@ -27,7 +27,7 @@ export async function fetchGameEconomy(gameId) {
   }
 }
 
-// ── HOOK: GAME ENTRY GATE (coin check + spend before play starts) ──────────
+// -- HOOK: GAME ENTRY GATE (coin check + spend before play starts) ----------
 export function useGameEntry(gameId, { coins, spendCoins, addCoins }) {
   const [economy,    setEconomy]    = useState(null)
   const [canAfford,  setCanAfford]  = useState(true)
@@ -47,7 +47,7 @@ export function useGameEntry(gameId, { coins, spendCoins, addCoins }) {
     return ok
   }, [economy, gameId, spendCoins])
 
-  // Called once when game ends — settles win/loss coins
+  // Called once when game ends - settles win/loss coins
   const settleResult = useCallback(async (result /* 'win'|'loss'|'draw' */) => {
     if (!economy) return 0
     let delta = 0
@@ -68,7 +68,7 @@ export function useGameEntry(gameId, { coins, spendCoins, addCoins }) {
   return { economy, canAfford, entryPaid, payEntry, settleResult }
 }
 
-// ── COMBO MULTIPLIER SYSTEM ───────────────────────────────────────────────
+// -- COMBO MULTIPLIER SYSTEM -----------------------------------------------
 // Consecutive correct answers increase multiplier: 1x → 1.5x → 2x → 3x
 export function getComboMultiplier(streak) {
   if (streak >= 10) return { mult: 3,   label: '🔥🔥🔥 ON FIRE',  color: '#DC2626' }
@@ -77,7 +77,7 @@ export function getComboMultiplier(streak) {
   return                  { mult: 1,   label: '',                color: '#64748B' }
 }
 
-// ── HAPTIC-LIKE FEEDBACK (vibration on mobile) ────────────────────────────
+// -- HAPTIC-LIKE FEEDBACK (vibration on mobile) ----------------------------
 export function triggerHaptic(type = 'success') {
   if (!navigator.vibrate) return
   const patterns = {
@@ -90,7 +90,7 @@ export function triggerHaptic(type = 'success') {
   navigator.vibrate(patterns[type] || patterns.success)
 }
 
-// ── GAME SESSION HOOK (shared state machine for all games) ───────────────
+// -- GAME SESSION HOOK (shared state machine for all games) ---------------
 export function useGameSession({ totalQuestions, duration, onComplete }) {
   const [phase,       setPhase]       = useState('ready')  // ready|playing|done
   const [currentIdx,  setCurrentIdx]  = useState(0)
@@ -177,7 +177,7 @@ export function useGameSession({ totalQuestions, duration, onComplete }) {
   }
 }
 
-// ── SCORE TIER (for end screen medal) ─────────────────────────────────────
+// -- SCORE TIER (for end screen medal) -------------------------------------
 export function getGameTier(score, maxPossible) {
   const pct = maxPossible > 0 ? (score / maxPossible) * 100 : 0
   if (pct >= 90) return { emoji:'🏆', label:'Legendary',  color:'#D97706' }
@@ -187,7 +187,7 @@ export function getGameTier(score, maxPossible) {
   return              { emoji:'🌱', label:'Keep Going', color:'#059669' }
 }
 
-// ── DAILY HIGH SCORE TRACKING (localStorage, synced to Supabase) ──────────
+// -- DAILY HIGH SCORE TRACKING (localStorage, synced to Supabase) ----------
 export function getLocalHighScore(gameId) {
   try {
     return parseInt(localStorage.getItem(`tryit_hs_${gameId}`) || '0')
@@ -205,7 +205,7 @@ export function setLocalHighScore(gameId, score) {
   return false
 }
 
-// ── MOMENTUM METER (original mechanic — decays, doesn't shatter) ──────────
+// -- MOMENTUM METER (original mechanic - decays, doesn't shatter) ----------
 export const MOMENTUM_LEVELS = [
   { level:0, label:'No Momentum', emoji:'⚪', color:'#94A3B8' },
   { level:1, label:'Building',    emoji:'🌱', color:'#059669' },
@@ -228,7 +228,7 @@ export async function recordMomentum(userId) {
   } catch { return null }
 }
 
-// ── DAILY CHALLENGE — deterministic seed (same questions for all users that day) ──
+// -- DAILY CHALLENGE - deterministic seed (same questions for all users that day) --
 export function getDailyChallengeSeed(dateStr = null) {
   const date = dateStr || new Date().toISOString().slice(0, 10)  // "2026-06-20"
   let hash = 0
@@ -238,7 +238,7 @@ export function getDailyChallengeSeed(dateStr = null) {
   return hash
 }
 
-// Seeded shuffle — deterministic given the same seed (so all users get same order)
+// Seeded shuffle - deterministic given the same seed (so all users get same order)
 export function seededShuffle(arr, seed) {
   const a = [...arr]
   let s = seed
@@ -295,7 +295,7 @@ export async function recordDailyChallengeCompletion(userId, score, correct) {
   await recordMomentum(userId)
 }
 
-// ── GAME NOTIFICATION TRIGGERS ──────────────────────────────────────────
+// -- GAME NOTIFICATION TRIGGERS ------------------------------------------
 // Call these at the right moments to drive re-engagement
 export async function notifyDailyChallengeUnlock(userId) {
   try {
@@ -326,7 +326,7 @@ export async function notifyNewGameUnlocked(userId, gameName, gameEmoji) {
     await supabase.from('notification_queue').insert({
       user_id: userId, notif_type: 'new_game_unlocked',
       title: `🎮 New game unlocked: ${gameName}!`,
-      body: `${gameEmoji} Be among the first to play — sharpen your mind now!`,
+      body: `${gameEmoji} Be among the first to play - sharpen your mind now!`,
       deep_link: '/games',
       send_at: new Date().toISOString(),
     })

@@ -19,7 +19,7 @@ const EBOOK_INFO = {
 // TODO: replace with real ebook content fetched from storage once populated
 const TOTAL_PAGES = 12;
 
-const buildPageContent = (subject, page) => `Chapter ${Math.ceil(page / 3)} — ${subject} Fundamentals
+const buildPageContent = (subject, page) => `Chapter ${Math.ceil(page / 3)} - ${subject} Fundamentals
 
 This page covers core concepts in ${subject} relevant to your exam preparation. Focus on understanding the underlying principles before moving to practice questions.
 
@@ -29,7 +29,7 @@ Key points to remember:
 - Revisit difficult topics every few days using spaced repetition
 - Take short breaks to retain information better
 
-(Page ${page} of ${TOTAL_PAGES} — sample placeholder content for ${subject})`;
+(Page ${page} of ${TOTAL_PAGES} - sample placeholder content for ${subject})`;
 
 const FONT_SIZES = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
 

@@ -1,5 +1,5 @@
 // FILE: src/pages/admin/CurrentAffairsManager.jsx
-// Admin — Daily Current Affairs & Materials Manager
+// Admin - Daily Current Affairs & Materials Manager
 // Route: /admin/current-affairs
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -151,7 +151,7 @@ export default function CurrentAffairsManager() {
   )
 }
 
-// ── POST TAB ───────────────────────────────────────────────────────────────
+// -- POST TAB ---------------------------------------------------------------
 function PostTab({ setSaveMsg, saveMsg, setMaterials }) {
   const [form, setForm] = useState({
     title:'', subtitle:'', material_type:'daily_current_affairs',
@@ -222,7 +222,7 @@ function PostTab({ setSaveMsg, saveMsg, setMaterials }) {
           </select>
 
           <label style={S.lbl}>Title *</label>
-          <input style={S.inp} placeholder={`e.g. ${typeInfo?.icon} Daily CA — ${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long'})}`}
+          <input style={S.inp} placeholder={`e.g. ${typeInfo?.icon} Daily CA - ${new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long'})}`}
             value={form.title} onChange={e => f('title', e.target.value)} />
 
           <label style={S.lbl}>Subtitle (optional)</label>
@@ -319,7 +319,7 @@ function PostTab({ setSaveMsg, saveMsg, setMaterials }) {
   )
 }
 
-// ── SCHEDULE TAB ───────────────────────────────────────────────────────────
+// -- SCHEDULE TAB -----------------------------------------------------------
 function ScheduleTab() {
   const [scheduled, setScheduled] = useState([])
 
@@ -382,7 +382,7 @@ function ScheduleTab() {
   )
 }
 
-// ── LIST TAB ───────────────────────────────────────────────────────────────
+// -- LIST TAB ---------------------------------------------------------------
 function ListTab({ materials, loading, filter, setFilter, dateRange, setDateRange, toggleMaterial, deleteMaterial }) {
   const [search, setSearch] = useState('')
 
@@ -436,7 +436,7 @@ function ListTab({ materials, loading, filter, setFilter, dateRange, setDateRang
                 {m.is_pinned && '📌 '}{m.title}
               </p>
               <p style={{ fontSize:11, color:'#64748B', margin:'2px 0 0' }}>
-                {m.publish_date} · {m.source || '—'} · {m.relevant_for}
+                {m.publish_date} · {m.source || '-'} · {m.relevant_for}
               </p>
               <p style={{ fontSize:10, color:'#94A3B8', margin:'1px 0 0' }}>
                 👁️ {m.view_count||0} · ⬇️ {m.download_count||0}
@@ -464,7 +464,7 @@ function ListTab({ materials, loading, filter, setFilter, dateRange, setDateRang
   )
 }
 
-// ── ANALYTICS TAB ──────────────────────────────────────────────────────────
+// -- ANALYTICS TAB ----------------------------------------------------------
 function AnalyticsTab() {
   const [stats, setStats] = useState({ total:0, today:0, views:0, downloads:0, pinned:0 })
 
@@ -511,7 +511,7 @@ function AnalyticsTab() {
       <div style={{ background:'#fff', borderRadius:14, padding:16, border:'1.5px solid #E2E8F0', marginTop:20 }}>
         <p style={{ fontWeight:700, color:NAVY, fontSize:14, marginBottom:12 }}>📋 Quick Tips</p>
         {[
-          'Post daily current affairs before 7 AM — students check first thing in morning',
+          'Post daily current affairs before 7 AM - students check first thing in morning',
           'Pin important exam notifications so they stay visible across days',
           'Formula sheets and revision sheets get the most downloads near exam dates',
           'Add exam tags so only relevant students see each material in their feed',

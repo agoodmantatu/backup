@@ -1,5 +1,5 @@
 // FILE: src/lib/tournamentEngine.js
-// TryIT Tournament Engine — 100% Client-Side
+// TryIT Tournament Engine - 100% Client-Side
 // All computation happens on the student's device.
 // Zero server calls during the exam. One call at submission.
 //
@@ -13,13 +13,13 @@
 import { Capacitor }   from '@capacitor/core'
 import { Preferences } from '@capacitor/preferences'
 
-// ── CONSTANTS ─────────────────────────────────────────────────────────────
+// -- CONSTANTS -------------------------------------------------------------
 const CDN_BASE     = 'https://tryiteducations.net/tournament-data'
 const SUBMIT_URL   = 'https://api.tryiteducations.net/tournament/submit'
 const JITTER_MIN   = 1 * 60 * 1000      // 1 minute minimum
 const JITTER_MAX   = 45 * 60 * 1000     // 45 minutes maximum
 
-// ── MEDAL SYSTEM (no negative language) ──────────────────────────────────
+// -- MEDAL SYSTEM (no negative language) ----------------------------------
 export const MEDALS = {
   gold:    { emoji:'🥇', label:'Gold',    minPct:90, color:'#D97706' },
   silver:  { emoji:'🥈', label:'Silver',  minPct:75, color:'#64748B' },
@@ -37,13 +37,13 @@ export function getMedal(pct) {
 }
 
 export function getMedalForAnswer(isCorrect) {
-  // Used per-question — no "wrong"/"incorrect" language
+  // Used per-question - no "wrong"/"incorrect" language
   return isCorrect
     ? { emoji:'✅', label:'Correct!',         color:'#059669' }
     : { emoji:'📚', label:'Learn from this',  color:'#D97706' }
 }
 
-// ── 1. PRE-DOWNLOAD ENCRYPTED QUESTIONS ──────────────────────────────────
+// -- 1. PRE-DOWNLOAD ENCRYPTED QUESTIONS ----------------------------------
 export async function preDownloadQuestions(registration) {
   const { tournament_id, question_set_id, cdn_question_file } = registration
 
@@ -76,7 +76,7 @@ export async function preDownloadQuestions(registration) {
   }
 }
 
-// ── 2. GENERATE HMAC KEY LOCALLY (zero server calls) ─────────────────────
+// -- 2. GENERATE HMAC KEY LOCALLY (zero server calls) ---------------------
 // Key = HMAC-SHA256(student_token + tournament_id + exam_date_string)
 // All three values are already on the device.
 // At exactly 9:00 AM (NTP-verified time), app computes key and decrypts.
@@ -111,7 +111,7 @@ export async function generateLocalKey(studentToken, tournamentId, examDate) {
   }
 }
 
-// ── 3. DECRYPT AND LOAD QUESTIONS ────────────────────────────────────────
+// -- 3. DECRYPT AND LOAD QUESTIONS ----------------------------------------
 export async function decryptAndLoadQuestions(registration, studentToken) {
   const { tournament_id, question_set_id, exam_starts_at } = registration
 
@@ -166,7 +166,7 @@ export async function decryptAndLoadQuestions(registration, studentToken) {
   }
 }
 
-// ── 4. CHECK EXAM IS LIVE (NTP-synced time verification) ─────────────────
+// -- 4. CHECK EXAM IS LIVE (NTP-synced time verification) -----------------
 export async function verifyExamTime(examStartsAt, windowMinutes = 0) {
   // Get server time to prevent device clock manipulation
   try {
@@ -181,7 +181,7 @@ export async function verifyExamTime(examStartsAt, windowMinutes = 0) {
   }
 }
 
-// ── 5. REAL-TIME ANTI-CHEAT MONITORING (client-side) ─────────────────────
+// -- 5. REAL-TIME ANTI-CHEAT MONITORING (client-side) ---------------------
 export function createAntiCheatMonitor(onFlagRaised) {
   const flags     = []
   let   tabCount  = 0
@@ -245,7 +245,7 @@ export function createAntiCheatMonitor(onFlagRaised) {
   }
 }
 
-// ── 6. LOCAL SCORING ENGINE ───────────────────────────────────────────────
+// -- 6. LOCAL SCORING ENGINE -----------------------------------------------
 // Computes score using exact exam marking scheme
 // Called instantly when exam ends (0 network calls)
 export function computeScore(answers, questions, markingScheme) {
@@ -308,7 +308,7 @@ function computeSubjectScores(perQuestion, questions, markingScheme) {
   return subjects
 }
 
-// ── 7. PRIVATE CATEGORY RANK (computed locally from pre-downloaded data) ──
+// -- 7. PRIVATE CATEGORY RANK (computed locally from pre-downloaded data) --
 export function computeCategoryRank(userScore, category, rankIndexData, cutoffsData) {
   const catRanks = rankIndexData.category_ranks?.[category] || {}
   const scoreKey = userScore.toFixed(2)
@@ -321,7 +321,7 @@ export function computeCategoryRank(userScore, category, rankIndexData, cutoffsD
     const diff = userScore - cutoff.cutoff_marks
     if (diff >= 10)  return { label:'🟢 HIGH CHANCE',    desc:'Your score is well above the cutoff', color:'#059669' }
     if (diff >= 0)   return { label:'🟡 BORDERLINE',     desc:`Only ${diff.toFixed(1)} marks above cutoff`, color:'#D97706' }
-    if (diff >= -10) return { label:'🟠 CLOSE MISS',     desc:'Just below cutoff — almost there!',   color:'#EA580C' }
+    if (diff >= -10) return { label:'🟠 CLOSE MISS',     desc:'Just below cutoff - almost there!',   color:'#EA580C' }
     return               { label:'📚 NEEDS MORE PREP', desc:'Focus on weak areas to close the gap', color:'#DC2626' }
   })()
 
@@ -336,7 +336,7 @@ export function computeCategoryRank(userScore, category, rankIndexData, cutoffsD
   }
 }
 
-// ── 8. COMPRESS ANSWER STRING (1KB submission) ─────────────────────────
+// -- 8. COMPRESS ANSWER STRING (1KB submission) -------------------------
 export function compressAnswers(answers, questions) {
   // Convert to compact string: one char per question
   // A=option0, B=option1, C=option2, D=option3, S=skipped
@@ -348,7 +348,7 @@ export function compressAnswers(answers, questions) {
   }).join('')
 }
 
-// ── 9. JITTER SUBMISSION ──────────────────────────────────────────────────
+// -- 9. JITTER SUBMISSION --------------------------------------------------
 // Shows "Submitted!" immediately. Actually submits after random delay.
 export async function jitterSubmit(registration, scoreResult, answers, questions, timings) {
   const tournamentId = registration.tournament_id
@@ -387,7 +387,7 @@ export async function jitterSubmit(registration, scoreResult, answers, questions
     await actualSubmit(submissionLine, pendingKey)
   }, jitterMs)
 
-  // Return "success" immediately to student (honest — we WILL submit)
+  // Return "success" immediately to student (honest - we WILL submit)
   return {
     acknowledged: true,
     message: 'Your response has been saved! Results will be announced at 8:00 PM.',
@@ -413,12 +413,12 @@ async function actualSubmit(submissionLine, pendingKey) {
       console.log('[TryIT] Submission delivered to Cloudflare R2')
     }
   } catch {
-    // Network error — retry in 10 minutes
+    // Network error - retry in 10 minutes
     setTimeout(() => actualSubmit(submissionLine, pendingKey), 10 * 60 * 1000)
   }
 }
 
-// ── 10. RANK LOOKUP AT 8 PM (from CDN static JSON, zero DB) ─────────────
+// -- 10. RANK LOOKUP AT 8 PM (from CDN static JSON, zero DB) -------------
 export async function lookupRank(tournamentId, userScore) {
   try {
     const rankIndexUrl = `${CDN_BASE}/rank_index_${tournamentId}.json`
@@ -442,7 +442,7 @@ export async function lookupRank(tournamentId, userScore) {
   }
 }
 
-// ── HELPER: Check pending submissions on app open ─────────────────────────
+// -- HELPER: Check pending submissions on app open -------------------------
 export async function checkAndResumePendingSubmissions() {
   // On app open, check if any submissions are pending (in case of crash/close)
   if (Capacitor.isNativePlatform()) {
@@ -467,7 +467,7 @@ export async function checkAndResumePendingSubmissions() {
   }
 }
 
-// ── HELPER: Update registration status ───────────────────────────────────
+// -- HELPER: Update registration status -----------------------------------
 async function updateRegistrationStatus(registration, status) {
   try {
     const { supabase } = await import('./supabase')
@@ -477,7 +477,7 @@ async function updateRegistrationStatus(registration, status) {
   } catch {}
 }
 
-// ── UTILITY: Crypto helpers ───────────────────────────────────────────────
+// -- UTILITY: Crypto helpers -----------------------------------------------
 function hexToBytes(hex) {
   const bytes = new Uint8Array(hex.length / 2)
   for (let i = 0; i < hex.length; i += 2) {

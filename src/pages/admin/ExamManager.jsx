@@ -73,8 +73,8 @@ export default function ExamManager() {
       <h1 style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'var(--color-primary, #1E3A5F)', fontSize:24, marginBottom:6 }}>📋 Exam Manager</h1>
       <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>
         {source==='local'
-          ? '⚠️ Reading from static /data/exams.json (Supabase "exams" table empty/missing — saves will fail until table exists, see schema)'
-          : `✅ Connected to Supabase — ${exams.length} exams`}
+          ? '⚠️ Reading from static /data/exams.json (Supabase "exams" table empty/missing - saves will fail until table exists, see schema)'
+          : `✅ Connected to Supabase - ${exams.length} exams`}
       </p>
 
       <div style={{ display:'flex', gap:10, marginBottom:14, flexWrap:'wrap' }}>
@@ -99,7 +99,7 @@ export default function ExamManager() {
               <button onClick={()=>remove(e.id)} style={{ background:'#FEE2E2', border:'none', borderRadius:10, padding:'6px 12px', fontSize:12, fontWeight:700, color:'#991B1B', cursor:'pointer' }}>Delete</button>
             </div>
           ))}
-          {filtered.length > 100 && <p style={{ color:'#94A3B8', fontSize:12, textAlign:'center' }}>Showing 100 of {filtered.length} — refine search</p>}
+          {filtered.length > 100 && <p style={{ color:'#94A3B8', fontSize:12, textAlign:'center' }}>Showing 100 of {filtered.length} - refine search</p>}
         </div>
       )}
 

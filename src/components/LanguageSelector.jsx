@@ -97,7 +97,7 @@ export default function LanguageSelector({ compact = false }) {
           }}
         >
           {LANGUAGE_GROUPS.map(group => (
-            <optgroup key={group.region} label={`── ${group.region} ──`}>
+            <optgroup key={group.region} label={`-- ${group.region} --`}>
               {group.langs.map(l => (
                 <option key={l.value} value={l.value}>{l.tone}</option>
               ))}

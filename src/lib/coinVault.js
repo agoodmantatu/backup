@@ -1,11 +1,11 @@
 /**
- * CoinVault — Single source of truth for all coin operations
+ * CoinVault - Single source of truth for all coin operations
  * Every feature in TryIT connects here to earn/spend coins
  * Offline-first: saves locally, syncs to Supabase when online
  */
 import { supabase } from './supabase'
 
-// ── Coin earn rates (locked) ──────────────────────────────────────
+// -- Coin earn rates (locked) --------------------------------------
 export const COIN_RATES = {
   // Tests
   test_complete:        { base: 50,  max: 150, formula: 'score_pct * 1.5' },
@@ -45,7 +45,7 @@ export const COIN_RATES = {
   scholarship_applied:  { flat: 10   },
 }
 
-// ── Coin spend options ────────────────────────────────────────────
+// -- Coin spend options --------------------------------------------
 export const COIN_COSTS = {
   unlock_premium_test:   100,
   unlock_test_pack:      500,
@@ -56,7 +56,7 @@ export const COIN_COSTS = {
   premium_doubt_priority: 75,
 }
 
-// ── localStorage key ──────────────────────────────────────────────
+// -- localStorage key ----------------------------------------------
 const TX_KEY       = 'tryit_coin_txs'
 const BALANCE_KEY  = 'tryit_coin_balance'
 
@@ -64,7 +64,7 @@ function getTxs()     { return JSON.parse(localStorage.getItem(TX_KEY)    || '[]
 function getBalance() { return parseInt(localStorage.getItem(BALANCE_KEY) || '0') }
 function saveBalance(b){ localStorage.setItem(BALANCE_KEY, String(b)) }
 
-// ── Core earn function ────────────────────────────────────────────
+// -- Core earn function --------------------------------------------
 export async function earnCoins({ source, amount, description, userId, sourceId }) {
   if (!amount || amount <= 0) return { coins: 0, balance: getBalance() }
 
@@ -103,7 +103,7 @@ export async function earnCoins({ source, amount, description, userId, sourceId 
   return { coins: amount, balance }
 }
 
-// ── Core spend function ───────────────────────────────────────────
+// -- Core spend function -------------------------------------------
 export async function spendCoins({ source, amount, description, userId }) {
   const balance = getBalance()
   if (balance < amount) return { success: false, reason: 'Insufficient coins', balance }
@@ -112,7 +112,7 @@ export async function spendCoins({ source, amount, description, userId }) {
     .then(r => ({ success: true, ...r }))
 }
 
-// ── Section-specific helpers ──────────────────────────────────────
+// -- Section-specific helpers --------------------------------------
 
 // Called when a test is completed
 export async function rewardTestComplete({ score, examName, testType, userId }) {
@@ -121,7 +121,7 @@ export async function rewardTestComplete({ score, examName, testType, userId }) 
   return earnCoins({
     source:      'test',
     amount:      coins,
-    description: `Completed ${examName} — ${score}%`,
+    description: `Completed ${examName} - ${score}%`,
     userId,
   })
 }
@@ -132,7 +132,7 @@ export async function rewardFocusSession({ minutes, userId }) {
   return earnCoins({
     source:      'focus',
     amount:      rate,
-    description: `Focus session — ${minutes} min`,
+    description: `Focus session - ${minutes} min`,
     userId,
   })
 }
@@ -156,7 +156,7 @@ export async function rewardGame({ score, isPerfect, userId, gameName }) {
   return earnCoins({
     source:      'game',
     amount:      coins,
-    description: `${gameName} — ${isPerfect ? 'Perfect!' : score + ' pts'}`,
+    description: `${gameName} - ${isPerfect ? 'Perfect!' : score + ' pts'}`,
     userId,
   })
 }
@@ -189,7 +189,7 @@ export async function rewardReferral({ referredEmail, userId }) {
   return earnCoins({
     source:      'referral',
     amount:      COIN_RATES.referral_signup.flat,
-    description: `Referral bonus — ${referredEmail} joined`,
+    description: `Referral bonus - ${referredEmail} joined`,
     userId,
   })
 }

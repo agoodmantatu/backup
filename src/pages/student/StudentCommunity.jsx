@@ -127,7 +127,7 @@ export default function StudentCommunity() {
                 background:`linear-gradient(135deg,${accent},${accentL})`,
                 border:'none', borderRadius:10, padding:'10px 20px',
                 color:primD, fontWeight:700, fontSize:13, cursor:'pointer' }}>
-                {submitting ? 'Posting…' : 'Post'}
+                {submitting ? 'Posting...' : 'Post'}
               </button>
               <button onClick={() => setShowNew(false)} style={{
                 background:'transparent', border:`1px solid ${bdr}`,
@@ -153,7 +153,7 @@ export default function StudentCommunity() {
         </div>
 
         {loading ? (
-          <div style={{ textAlign:'center', padding:'40px', color:muted }}>Loading…</div>
+          <div style={{ textAlign:'center', padding:'40px', color:muted }}>Loading...</div>
         ) : posts.length === 0 ? (
           <div style={{ background:card, border:`1px dashed ${accent}35`,
             borderRadius:20, padding:'40px', textAlign:'center' }}>

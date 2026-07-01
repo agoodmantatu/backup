@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 import ThemeSwitcher from '../../components/ThemeSwitcher'
 
-// 5 base themes always free — shown as quick-access dots
+// 5 base themes always free - shown as quick-access dots
 // Each dot has a light+dark pair
 // Clicking a dot applies the right variant for current mode
 const BASE_DOTS = [
@@ -85,7 +85,7 @@ export default function Navbar() {
         boxShadow: scrolled ? '0 4px 24px rgba(0,0,0,0.12)' : 'none',
       }}>
 
-        {/* ── Logo ── */}
+        {/* -- Logo -- */}
         <div onClick={() => navigate('/landing')}
           style={{ display:'flex', alignItems:'center', gap:7,
             cursor:'pointer', flexShrink:0, marginRight:4 }}>
@@ -102,7 +102,7 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* ── Role tabs ── */}
+        {/* -- Role tabs -- */}
         <div className="nav-roles" style={{ display:'flex', gap:3 }}>
           {ROLES.map(r => (
             <button key={r.id}
@@ -125,10 +125,10 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* ── Spacer ── */}
+        {/* -- Spacer -- */}
         <div style={{ flex:1 }}/>
 
-        {/* ── Base theme colour dots ── */}
+        {/* -- Base theme colour dots -- */}
         <div className="theme-dots"
           style={{ display:'flex', alignItems:'center', gap:4,
             background: isDark?'rgba(255,255,255,0.06)':'rgba(0,0,0,0.05)',
@@ -160,10 +160,10 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Full theme picker for Pro/Ultra themes — separate from dots */}
+        {/* Full theme picker for Pro/Ultra themes - separate from dots */}
         <ThemeSwitcher dark={isDark}/>
 
-        {/* ── Dark / Light toggle ── */}
+        {/* -- Dark / Light toggle -- */}
         <button onClick={handleDarkToggle}
           style={{
             display:'flex', alignItems:'center', gap:5,
@@ -192,7 +192,7 @@ export default function Navbar() {
           <span className="dark-label">{isDark ? '🌙' : '☀️'}</span>
         </button>
 
-        {/* ── Live indicator ── */}
+        {/* -- Live indicator -- */}
         <div className="live-pill" style={{
           display:'flex', alignItems:'center', gap:5,
           background:'rgba(34,197,94,0.09)',
@@ -208,7 +208,7 @@ export default function Navbar() {
           </span>
         </div>
 
-        {/* ── Login ── */}
+        {/* -- Login -- */}
         <button onClick={() => navigate('/login')}
           style={{
             background: isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.05)',
@@ -218,7 +218,7 @@ export default function Navbar() {
             cursor:'pointer', fontFamily:'Poppins,sans-serif',
           }}>Login</button>
 
-        {/* ── Register Free ── */}
+        {/* -- Register Free -- */}
         <button onClick={() => navigate('/register')}
           style={{
             background:`linear-gradient(135deg,${accent},var(--color-accent-light,#E8C44A))`,

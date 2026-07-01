@@ -1,5 +1,5 @@
 // FILE: src/components/QuestionFlag.jsx
-// TryIT — Question Flag Component
+// TryIT - Question Flag Component
 // Used inside ActiveTest and TournamentLive
 // Students report: wrong answer / wrong question / translation error / unclear
 // Flags go to mentor review queue in MentorHub
@@ -57,7 +57,7 @@ export default function QuestionFlag({ questionId, examId, tournamentId, onClose
       <div style={{ background:'#fff', borderRadius:'20px 20px 0 0', padding:24,
         width:'100%', maxWidth:460, maxHeight:'80vh', overflowY:'auto' }}>
 
-        {/* Step 1 — Select flag type */}
+        {/* Step 1 - Select flag type */}
         {step === 1 && (
           <>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
@@ -93,7 +93,7 @@ export default function QuestionFlag({ questionId, examId, tournamentId, onClose
           </>
         )}
 
-        {/* Step 2 — Add details */}
+        {/* Step 2 - Add details */}
         {step === 2 && (
           <>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16 }}>
@@ -104,7 +104,7 @@ export default function QuestionFlag({ questionId, examId, tournamentId, onClose
             </div>
 
             <p style={{ fontSize:12, color:'#64748B', marginBottom:10 }}>
-              Add more details (optional — helps our mentors fix it faster):
+              Add more details (optional - helps our mentors fix it faster):
             </p>
 
             <textarea
@@ -129,7 +129,7 @@ export default function QuestionFlag({ questionId, examId, tournamentId, onClose
           </>
         )}
 
-        {/* Step 3 — Done */}
+        {/* Step 3 - Done */}
         {step === 3 && (
           <div style={{ textAlign:'center', padding:'8px 0' }}>
             <p style={{ fontSize:40, marginBottom:12 }}>✅</p>

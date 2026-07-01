@@ -4,12 +4,12 @@ import AppLayout from '../../components/layout/AppLayout'
 import { useAuth } from '../../context/AuthContext'
 
 const PRICING = [
-  { key: 'trial_pass',    label: 'Trial Pass',       price_inr: 19,   description: '3-day full access — try every Pro feature risk-free.' },
-  { key: 'pro_monthly',   label: 'Pro Monthly',      price_inr: 99,   description: 'Unlimited tests, all themes, ad-free — billed monthly.' },
-  { key: 'pro_yearly',    label: 'Pro Yearly',       price_inr: 699,  description: 'Best value — save ₹489 vs monthly. Everything in Pro.' },
+  { key: 'trial_pass',    label: 'Trial Pass',       price_inr: 19,   description: '3-day full access - try every Pro feature risk-free.' },
+  { key: 'pro_monthly',   label: 'Pro Monthly',      price_inr: 99,   description: 'Unlimited tests, all themes, ad-free - billed monthly.' },
+  { key: 'pro_yearly',    label: 'Pro Yearly',       price_inr: 699,  description: 'Best value - save ₹489 vs monthly. Everything in Pro.' },
   { key: 'coin_pack_100', label: '100 Coins',        price_inr: 9,    description: 'Boost your wallet for hints, games, and more.' },
   { key: 'coin_pack_500', label: '500 Coins',        price_inr: 39,   description: 'Great for active learners who play daily.' },
-  { key: 'coin_pack_1200',label: '1,200 Coins',      price_inr: 79,   description: 'Power pack — never run low mid-session.' },
+  { key: 'coin_pack_1200',label: '1,200 Coins',      price_inr: 79,   description: 'Power pack - never run low mid-session.' },
   { key: 'coin_pack_3000',label: '3,000 Coins',      price_inr: 149,  description: 'Ultimate stash for serious grinders.' },
 ]
 
@@ -47,7 +47,7 @@ export default function PricingPage() {
         }}>
           <span style={{ fontSize: '1.25rem' }}>🎉</span>
           <div>
-            <p style={{ fontWeight: 700, color: 'var(--color-primary-dark, #0F2140)', fontSize: '1.125rem' }}>You're on Pro — free during our launch period!</p>
+            <p style={{ fontWeight: 700, color: 'var(--color-primary-dark, #0F2140)', fontSize: '1.125rem' }}>You're on Pro - free during our launch period!</p>
             <p style={{ color: 'var(--color-primary, #1E3A5F)', fontSize: '0.875rem', marginTop: 4 }}>Enjoy all features at no charge. Paid plans activate after our launch window ends (we'll give you 30 days' notice).</p>
           </div>
         </div>

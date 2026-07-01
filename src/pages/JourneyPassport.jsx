@@ -5,7 +5,7 @@ import StudentIDCard from '../components/profile/StudentIDCard'
 
 const JOURNEY_MILESTONES = [
   { year: 2018, label:'Class 6', event:'Started learning journey',    badge:'🌱', completed:true  },
-  { year: 2020, label:'Class 8', event:'NMMS Scholarship — ₹12,000/yr',badge:'🏅', completed:true  },
+  { year: 2020, label:'Class 8', event:'NMMS Scholarship - ₹12,000/yr',badge:'🏅', completed:true  },
   { year: 2022, label:'Class 10',event:'NTSE Stage 1 Qualified',       badge:'⭐', completed:true  },
   { year: 2023, label:'Class 11',event:'INSPIRE Scholarship Applied',  badge:'💡', completed:true  },
   { year: 2024, label:'Class 12',event:'JEE Mains attempted',          badge:'📝', completed:true  },
@@ -39,7 +39,7 @@ export default function JourneyPassport() {
         🪪 My Journey Passport
       </h1>
       <p style={{ color:'var(--color-text-light, #94A3B8)', fontSize:14, marginBottom:20 }}>
-        Your complete learning journey — Class 6 to today and beyond
+        Your complete learning journey - Class 6 to today and beyond
       </p>
 
       {/* ID Card */}
@@ -124,7 +124,7 @@ export default function JourneyPassport() {
           <div style={{ marginTop:20, background:'rgba(var(--color-warning-rgb, 245,158,11),0.12)', borderRadius:14, padding:'12px 16px' }}>
             <p style={{ color:'var(--color-warning, #F59E0B)', fontWeight:700, fontSize:13 }}>💡 AI Suggestion</p>
             <p style={{ color:'var(--color-warning, #F59E0B)', fontSize:13, marginTop:4 }}>
-              Focus on English (68%) — 10% improvement here adds +142 rank positions based on your current profile.
+              Focus on English (68%) - 10% improvement here adds +142 rank positions based on your current profile.
             </p>
           </div>
         </div>

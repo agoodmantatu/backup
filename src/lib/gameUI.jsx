@@ -1,10 +1,10 @@
 ﻿// src/lib/gameUI.jsx
-// Premium Game UI Engine — Dopamine mechanics, visual hierarchy, micro-rewards
+// Premium Game UI Engine - Dopamine mechanics, visual hierarchy, micro-rewards
 // Apply to ALL games for consistent premium feel
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-// ── PARTICLE BURST on correct answer ─────────────────────────────
+// -- PARTICLE BURST on correct answer -----------------------------
 export function ParticleBurst({ active, color='#FFD700', x=50, y=50 }) {
   if (!active) return null
   const particles = Array.from({length:12}, (_,i) => ({
@@ -40,7 +40,7 @@ export function ParticleBurst({ active, color='#FFD700', x=50, y=50 }) {
   )
 }
 
-// ── COMBO FIRE DISPLAY ───────────────────────────────────────────
+// -- COMBO FIRE DISPLAY -------------------------------------------
 export function ComboFire({ combo }) {
   if (combo < 2) return null
   const colors = ['','','#FF6B35','#FF4500','#FF0000','#FF0000']
@@ -72,7 +72,7 @@ export function ComboFire({ combo }) {
   )
 }
 
-// ── SCORE POPUP ──────────────────────────────────────────────────
+// -- SCORE POPUP --------------------------------------------------
 export function ScorePopup({ points, correct, x=50, y=40 }) {
   if (points === null) return null
   return (
@@ -101,7 +101,7 @@ export function ScorePopup({ points, correct, x=50, y=40 }) {
   )
 }
 
-// ── TIMER RING ───────────────────────────────────────────────────
+// -- TIMER RING ---------------------------------------------------
 export function TimerRing({ timeLeft, totalTime, size=80, accent='#C9A84C' }) {
   const pct = totalTime > 0 ? timeLeft/totalTime : 0
   const r   = (size-6)/2
@@ -138,7 +138,7 @@ export function TimerRing({ timeLeft, totalTime, size=80, accent='#C9A84C' }) {
   )
 }
 
-// ── ANSWER OPTION ─────────────────────────────────────────────────
+// -- ANSWER OPTION -------------------------------------------------
 export function AnswerOption({ option, index, selected, correct, wrong, revealed, onClick, disabled }) {
   const letter = String.fromCharCode(65+index)
   const isCorrect = revealed && correct
@@ -200,7 +200,7 @@ export function AnswerOption({ option, index, selected, correct, wrong, revealed
   )
 }
 
-// ── XP BAR ────────────────────────────────────────────────────────
+// -- XP BAR --------------------------------------------------------
 export function XPBar({ current, max, color='#C9A84C', label='' }) {
   const pct = Math.min(100, (current/max)*100)
   return (
@@ -224,7 +224,7 @@ export function XPBar({ current, max, color='#C9A84C', label='' }) {
   )
 }
 
-// ── GAME HEADER ───────────────────────────────────────────────────
+// -- GAME HEADER ---------------------------------------------------
 export function GameHeader({ title, emoji, score, combo, timeLeft, totalTime,
   questNum, totalQuest, accent='#C9A84C', onExit }) {
   return (

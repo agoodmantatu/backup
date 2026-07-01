@@ -1,5 +1,5 @@
 // FILE: src/pages/admin/AdminDashboard.jsx
-// Admin — Full Control Panel
+// Admin - Full Control Panel
 // Tabs: Overview · Users · Grants · Exams · Materials · Flags · Config · Announcements · Security · View As
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -22,7 +22,7 @@ const TABS = [
   { id:'viewas',        label:'👁️ View As'          },
 ]
 
-// ── Shared styles ─────────────────────────────────────────────────────────
+// -- Shared styles ---------------------------------------------------------
 const S = {
   card:    { background:'#F8FAFC', borderRadius:18, padding:18, border:'1.5px solid #E2E8F0' },
   input:   { width:'100%', padding:'10px 13px', borderRadius:11, border:'1.5px solid #E2E8F0', fontSize:13, outline:'none', boxSizing:'border-box', background:'#fff' },
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
       <div style={{ background:'linear-gradient(135deg,#1E3A5F,#0F2140)', padding:'20px clamp(16px,4vw,40px)', display:'flex', justifyContent:'space-between', alignItems:'center', flexWrap:'wrap', gap:12 }}>
         <div>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'#C9A84C', fontSize:22 }}>🛡️ TryIT Admin</p>
-          <p style={{ color:'rgba(255,255,255,0.5)', fontSize:12 }}>Full Control Panel — 360° Access</p>
+          <p style={{ color:'rgba(255,255,255,0.5)', fontSize:12 }}>Full Control Panel - 360° Access</p>
         </div>
         <button onClick={logout} style={{ background:'rgba(255,255,255,0.08)', border:'1px solid rgba(255,255,255,0.15)', borderRadius:12, padding:'10px 20px', color:'#fff', fontWeight:600, fontSize:13, cursor:'pointer' }}>
           🚪 Logout
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
   )
 }
 
-// ── OVERVIEW ──────────────────────────────────────────────────────────────
+// -- OVERVIEW --------------------------------------------------------------
 function OverviewTab({ navigate }) {
   const [stats, setStats] = useState({ users:0, pro:0, ultra:0, tests:0, flags:0, materials:0 })
 
@@ -135,7 +135,7 @@ function OverviewTab({ navigate }) {
     { label:'Tests Taken',     value:stats.tests,     emoji:'📝', color:'#059669' },
     { label:'Pending Flags',   value:stats.flags,     emoji:'🚩', color:'#DC2626' },
     { label:'Materials Today', value:stats.materials, emoji:'📄', color:'#7C3AED' },
-    { label:'Active Grants',   value:'—',             emoji:'🎁', color:'#0891B2' },
+    { label:'Active Grants',   value:'-',             emoji:'🎁', color:'#0891B2' },
   ]
 
   return (
@@ -163,7 +163,7 @@ function OverviewTab({ navigate }) {
   )
 }
 
-// ── USERS ─────────────────────────────────────────────────────────────────
+// -- USERS -----------------------------------------------------------------
 function UsersTab() {
   const [users, setUsers]   = useState([])
   const [loading, setLoading] = useState(true)
@@ -191,7 +191,7 @@ function UsersTab() {
     try {
       await supabase.from('profiles').update({ plan }).eq('id', id)
       setUsers(u => u.map(x => x.id === id ? {...x, plan} : x))
-    } catch { alert('Could not update — check Supabase') }
+    } catch { alert('Could not update - check Supabase') }
   }
 
   const revokeUser = async () => {
@@ -269,7 +269,7 @@ function UsersTab() {
               <option value="plan_downgrade">Force Downgrade to Free</option>
               <option value="mentor_revoke">Revoke Mentor Status</option>
             </select>
-            <label style={S.label}>Reason (required — logged permanently)</label>
+            <label style={S.label}>Reason (required - logged permanently)</label>
             <textarea value={revokeReason} onChange={e => setRevokeReason(e.target.value)}
               placeholder="e.g. Detected answer sharing, mass reporting abuse..."
               rows={3} style={{ ...S.input, resize:'none', marginBottom:14 }} />
@@ -287,7 +287,7 @@ function UsersTab() {
   )
 }
 
-// ── GRANTS ────────────────────────────────────────────────────────────────
+// -- GRANTS ----------------------------------------------------------------
 function GrantsTab() {
   const [grants, setGrants] = useState(() => {
     try { return JSON.parse(localStorage.getItem('tryit_pro_grants')||'[]') } catch { return [] }
@@ -346,7 +346,7 @@ function GrantsTab() {
   )
 }
 
-// ── EXAMS ─────────────────────────────────────────────────────────────────
+// -- EXAMS -----------------------------------------------------------------
 function ExamsTab({ navigate }) {
   const [exams, setExams] = useState([])
   useEffect(() => {
@@ -375,7 +375,7 @@ function ExamsTab({ navigate }) {
   )
 }
 
-// ── DAILY MATERIALS (NEW) ─────────────────────────────────────────────────
+// -- DAILY MATERIALS (NEW) -------------------------------------------------
 function MaterialsTab() {
   const [materials, setMaterials] = useState([])
   const [loading, setLoading]     = useState(true)
@@ -457,7 +457,7 @@ function MaterialsTab() {
     <div>
       <h2 style={S.h2}>📄 Post Daily Materials</h2>
       <p style={{ color:'#94A3B8', fontSize:13, marginBottom:20 }}>
-        Post current affairs PDFs, study notes, question papers, formula sheets — anything students need daily.
+        Post current affairs PDFs, study notes, question papers, formula sheets - anything students need daily.
       </p>
 
       {/* POST FORM */}
@@ -467,7 +467,7 @@ function MaterialsTab() {
         <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
           <div style={{ gridColumn:'1/-1' }}>
             <label style={S.label}>Title *</label>
-            <input style={S.input} placeholder="e.g. Daily Current Affairs — 17 June 2026"
+            <input style={S.input} placeholder="e.g. Daily Current Affairs - 17 June 2026"
               value={form.title} onChange={e => f('title', e.target.value)} />
           </div>
           <div>
@@ -569,7 +569,7 @@ function MaterialsTab() {
   )
 }
 
-// ── FLAGS & FIX (NEW) ─────────────────────────────────────────────────────
+// -- FLAGS & FIX (NEW) -----------------------------------------------------
 function FlagsTab() {
   const [flags, setFlags]     = useState([])
   const [loading, setLoading] = useState(true)
@@ -617,7 +617,7 @@ function FlagsTab() {
       await supabase.rpc('find_mentor_for_flag', { p_flag_id: flagId, p_topic_id: null, p_subject_id: null, p_language: 'en', p_flag_type: 'other' })
       alert('Re-routed to next available mentor')
       loadFlags()
-    } catch { alert('Could not re-route — check Supabase') }
+    } catch { alert('Could not re-route - check Supabase') }
   }
 
   const approveBulkFix = async (queueId) => {
@@ -626,7 +626,7 @@ function FlagsTab() {
       await supabase.from('bulk_fix_queue').update({ status:'approved', approved_by:'admin', approved_at:new Date().toISOString() }).eq('queue_id', queueId)
       setBulkQueue(prev => prev.filter(b => b.queue_id !== queueId))
       alert('✅ Bulk fix approved! It will run in the background.')
-    } catch { alert('Could not approve — check Supabase') }
+    } catch { alert('Could not approve - check Supabase') }
   }
 
   const FLAG_TYPE_LABELS = {
@@ -706,7 +706,7 @@ function FlagsTab() {
                   </p>
                   <p style={{ fontSize:11, color:'#94A3B8' }}>
                     Lang: {(flag.language_used||'en').toUpperCase()} ·
-                    Topic: {flag.topic_id||'—'} ·
+                    Topic: {flag.topic_id||'-'} ·
                     {flag.created_at ? new Date(flag.created_at).toLocaleDateString('en-IN') : 'just now'}
                   </p>
                   {flag.description && (
@@ -737,7 +737,7 @@ function FlagsTab() {
   )
 }
 
-// ── SYSTEM CONFIG (NEW) ────────────────────────────────────────────────────
+// -- SYSTEM CONFIG (NEW) ----------------------------------------------------
 function ConfigTab() {
   // All config stored in localStorage and synced to Supabase system_config table
   const DEFAULT_CONFIG = {
@@ -821,7 +821,7 @@ function ConfigTab() {
         </div>
       </div>
       <p style={{ color:'#DC2626', fontSize:12, marginBottom:20, background:'#FEF2F2', padding:'8px 12px', borderRadius:10 }}>
-        ⚠️ Changes take effect immediately — no app deployment needed. All prices and limits below are fully controlled here.
+        ⚠️ Changes take effect immediately - no app deployment needed. All prices and limits below are fully controlled here.
       </p>
 
       {CATEGORIES.map(cat => (
@@ -862,7 +862,7 @@ function ConfigTab() {
   )
 }
 
-// ── ANNOUNCEMENTS (NEW) ────────────────────────────────────────────────────
+// -- ANNOUNCEMENTS (NEW) ----------------------------------------------------
 function AnnouncementsTab() {
   const [anns, setAnns]   = useState([])
   const [loading, setLoading] = useState(true)
@@ -1015,7 +1015,7 @@ function AnnouncementsTab() {
   )
 }
 
-// ── SECURITY ──────────────────────────────────────────────────────────────
+// -- SECURITY --------------------------------------------------------------
 function SecurityTab() {
   const [events, setEvents] = useState([])
   useEffect(() => {
@@ -1037,14 +1037,14 @@ function SecurityTab() {
         </div>
       ) : events.map(e => (
         <div key={e.id} style={{ padding:'10px 14px', background:'#FEF2F2', borderRadius:12, marginBottom:8, fontSize:13 }}>
-          {e.type} — {e.severity} — {new Date(e.timestamp).toLocaleString('en-IN')}
+          {e.type} - {e.severity} - {new Date(e.timestamp).toLocaleString('en-IN')}
         </div>
       ))}
     </div>
   )
 }
 
-// ── VIEW AS ───────────────────────────────────────────────────────────────
+// -- VIEW AS ---------------------------------------------------------------
 function ViewAsTab() {
   const { viewAs } = useAuth()
   const navigate   = useNavigate()
@@ -1062,7 +1062,7 @@ function ViewAsTab() {
 
   return (
     <div>
-      <h2 style={S.h2}>👁️ View As — QA Mode</h2>
+      <h2 style={S.h2}>👁️ View As - QA Mode</h2>
       <p style={{ color:'#94A3B8', fontSize:13, marginBottom:16 }}>
         Experience the app as any role with full Pro access. A banner shows so you can exit back to Admin anytime.
       </p>
@@ -1308,7 +1308,7 @@ function TournamentAdminTab(){
                   ✅ Confirm & Schedule
                 </button>
               )}
-              {poll.status==='admin_confirmed'&&<span style={{fontSize:11,color:'#059669',fontWeight:700}}>✅ Confirmed — will be scheduled</span>}
+              {poll.status==='admin_confirmed'&&<span style={{fontSize:11,color:'#059669',fontWeight:700}}>✅ Confirmed - will be scheduled</span>}
             </div>
           ))}
         </div>
@@ -1396,7 +1396,7 @@ function TournamentAdminTab(){
 
 // ═══════════════════════════════════════════════════════════════════════════
 // GAME ECONOMY ADMIN TAB
-// Full control over coin entry/win/loss amounts — changeable anytime, no app update
+// Full control over coin entry/win/loss amounts - changeable anytime, no app update
 // Add to TABS: { id:'game_economy', label:'🎮 Game Economy' }
 // Add to render: {tab === 'game_economy' && <GameEconomyTab />}
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1423,7 +1423,7 @@ function GameEconomyTab(){
     setSaving(true)
     try{
       await supabase.from('game_economy_config').update({...config,updated_at:new Date().toISOString()}).eq('config_id','default')
-      alert('✅ Saved! Takes effect immediately for all games — no app update needed.')
+      alert('✅ Saved! Takes effect immediately for all games - no app update needed.')
     }catch(e){alert('Error: '+e.message)}
     setSaving(false)
   }
@@ -1442,13 +1442,13 @@ function GameEconomyTab(){
     <div style={{padding:16}}>
       <h2 style={{...S.h2,marginBottom:4}}>🎮 Game Economy Control</h2>
       <p style={{fontSize:12,color:'#64748B',marginBottom:16}}>
-        Change coin amounts anytime — 5 → 50 → 500, instant effect, zero app deployment needed.
+        Change coin amounts anytime - 5 → 50 → 500, instant effect, zero app deployment needed.
       </p>
 
       <div style={{background:'#F0FDF4',border:'1px solid #BBF7D0',borderRadius:12,padding:12,marginBottom:16}}>
         <p style={{fontSize:12,color:'#065F46',margin:0,lineHeight:1.7}}>
           💰 <strong>Default Secret Sauce:</strong> ₹5 = 50 coins. Win game = +5 coins. Lose = -5 coins.
-          Each game costs 5 coins to enter. Net swing per game = 10 coins — creates "one more game" loop.
+          Each game costs 5 coins to enter. Net swing per game = 10 coins - creates "one more game" loop.
         </p>
       </div>
 
@@ -1558,7 +1558,7 @@ function OverrideModal({gameId,defaultConfig,onSave,onClose}){
 
 // ═══════════════════════════════════════════════════════════════════════════
 // GAME & LEVEL TESTING TAB
-// Direct admin shortcut — jump to any game, any level, any theme universe instantly
+// Direct admin shortcut - jump to any game, any level, any theme universe instantly
 // Add to TABS: { id:'game_testing', label:'🛡️ Game Testing' }
 // Add to render: {tab === 'game_testing' && <GameTestingTab />}
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1580,14 +1580,14 @@ function GameTestingTab(){
     <div style={{padding:16}}>
       <h2 style={{...S.h2,marginBottom:4}}>🛡️ Game & Level Testing</h2>
       <p style={{fontSize:12,color:'#64748B',marginBottom:16}}>
-        Jump straight into any game at any level — bypasses all tier gates and coin costs.
+        Jump straight into any game at any level - bypasses all tier gates and coin costs.
         Test plays never touch real student leaderboards or skill data.
       </p>
 
       <div style={{background:'#FEF2F2',border:'1.5px solid #FCA5A5',borderRadius:12,padding:12,marginBottom:16}}>
         <p style={{fontSize:12,color:'#991B1B',margin:0,lineHeight:1.7}}>
           ⚠️ This bypass only works because your account role is <strong>admin</strong>.
-          Regular students always go through the normal unlock flow — this tab has zero
+          Regular students always go through the normal unlock flow - this tab has zero
           effect on the live game economy.
         </p>
       </div>

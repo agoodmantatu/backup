@@ -1,16 +1,16 @@
 // FILE: src/lib/answerKeyEngine.js
-// TryIT — Dynamic Paper Assembly + Answer Key Engine
+// TryIT - Dynamic Paper Assembly + Answer Key Engine
 //
 // CORE PRINCIPLE:
 //   Every student gets a UNIQUE 100-question paper.
 //   Questions assembled from topic pools following exact PYQ weightage.
 //   Answer key lives INSIDE each question (correct_answer field).
-//   Scoring always by q_id — never by position alone.
+//   Scoring always by q_id - never by position alone.
 //   Two friends in same room cannot help each other.
 
 import { supabase } from './supabase'
 
-// ── 1. ASSEMBLE UNIQUE PAPER FOR STUDENT ─────────────────────────────────
+// -- 1. ASSEMBLE UNIQUE PAPER FOR STUDENT ---------------------------------
 // Called at registration time. Runs 3-layer verification.
 // Returns question array with answer keys embedded.
 
@@ -37,7 +37,7 @@ export async function assembleUniquePaper(tournamentId, userId, blueprintId) {
     attempts++
     questions = []
 
-    // ── STEP 1: PICK QUESTIONS FROM EACH TOPIC POOL ──────────────────
+    // -- STEP 1: PICK QUESTIONS FROM EACH TOPIC POOL ------------------
     for (const slot of slots) {
       const topicQs = await pickFromPool({
         topicCode:  slot.topic_code,
@@ -55,26 +55,26 @@ export async function assembleUniquePaper(tournamentId, userId, blueprintId) {
       continue
     }
 
-    // ── STEP 2: SHUFFLE (so same topics not always grouped together) ──
+    // -- STEP 2: SHUFFLE (so same topics not always grouped together) --
     questions = shuffleArray(questions)
 
     const qIds = questions.map(q => q.q_id)
 
-    // ── LAYER 1: SECTION ACCURACY CHECK ──────────────────────────────
+    // -- LAYER 1: SECTION ACCURACY CHECK ------------------------------
     sectionOk = verifySections(questions, blueprint.sections)
     if (!sectionOk) {
       console.warn('[Assembly] Section check failed, retrying...')
       continue
     }
 
-    // ── LAYER 2: TOPIC WEIGHTAGE vs PYQ CHECK ────────────────────────
+    // -- LAYER 2: TOPIC WEIGHTAGE vs PYQ CHECK ------------------------
     weightageOk = verifyWeightage(questions, slots)
     if (!weightageOk) {
       console.warn('[Assembly] Weightage check failed, retrying...')
       continue
     }
 
-    // ── LAYER 3: UNIQUENESS CHECK (vs other assembled papers) ─────────
+    // -- LAYER 3: UNIQUENESS CHECK (vs other assembled papers) ---------
     uniquenessOk = await verifyUniqueness(qIds, tournamentId, blueprint.max_overlap_pct || 15)
     if (!uniquenessOk) {
       console.warn('[Assembly] Uniqueness check failed, retrying...')
@@ -90,15 +90,15 @@ export async function assembleUniquePaper(tournamentId, userId, blueprintId) {
   }
 
   if (!uniquenessOk) {
-    console.warn('[Assembly] Uniqueness could not be guaranteed — proceeding with best attempt')
+    console.warn('[Assembly] Uniqueness could not be guaranteed - proceeding with best attempt')
   }
 
-  // ── BUILD ANSWER KEY ──────────────────────────────────────────────
+  // -- BUILD ANSWER KEY ----------------------------------------------
   const answerKey  = questions.map(q => q.correct_answer).join('')
   const answerIds  = questions.map(q => `${q.q_id}_${q.correct_answer}`)
   const keyHash    = await sha256(answerKey)  // published at 8 PM for verification
 
-  // ── SAVE TO DATABASE ──────────────────────────────────────────────
+  // -- SAVE TO DATABASE ----------------------------------------------
   const { data: paper, error } = await supabase
     .from('student_papers')
     .insert({
@@ -118,7 +118,7 @@ export async function assembleUniquePaper(tournamentId, userId, blueprintId) {
 
   if (error) throw error
 
-  // ── RETURN PAPER (for encryption and CDN upload) ──────────────────
+  // -- RETURN PAPER (for encryption and CDN upload) ------------------
   return {
     paper_id:     paper.paper_id,
     questions:    questions,   // full question objects with correct_answer
@@ -128,7 +128,7 @@ export async function assembleUniquePaper(tournamentId, userId, blueprintId) {
 }
 
 
-// ── 2. PICK FROM TOPIC POOL ───────────────────────────────────────────────
+// -- 2. PICK FROM TOPIC POOL -----------------------------------------------
 async function pickFromPool({ topicCode, subject, difficulty, count, exclude, blueprintId }) {
   // Get blueprint to check PYQ exclusion years
   const { data: bp } = await supabase
@@ -193,7 +193,7 @@ async function pickFromPoolFallback({ topicCode, subject, difficulty, count, exc
 }
 
 
-// ── 3. LAYER 1: SECTION ACCURACY ─────────────────────────────────────────
+// -- 3. LAYER 1: SECTION ACCURACY -----------------------------------------
 export function verifySections(questions, sectionsConfig) {
   const counts = {}
   for (const q of questions) {
@@ -212,7 +212,7 @@ export function verifySections(questions, sectionsConfig) {
 }
 
 
-// ── 4. LAYER 2: TOPIC WEIGHTAGE vs PYQ ───────────────────────────────────
+// -- 4. LAYER 2: TOPIC WEIGHTAGE vs PYQ -----------------------------------
 export function verifyWeightage(questions, slots) {
   const topicCounts = {}
   for (const q of questions) {
@@ -235,7 +235,7 @@ export function verifyWeightage(questions, slots) {
 }
 
 
-// ── 5. LAYER 3: UNIQUENESS CHECK ──────────────────────────────────────────
+// -- 5. LAYER 3: UNIQUENESS CHECK ------------------------------------------
 export async function verifyUniqueness(qIds, tournamentId, maxOverlapPct = 15) {
   // Fetch 20 random already-assembled papers for this tournament
   const { data: existingPapers } = await supabase
@@ -264,7 +264,7 @@ export async function verifyUniqueness(qIds, tournamentId, maxOverlapPct = 15) {
 }
 
 
-// ── 6. SCORE BY q_id (not position) ──────────────────────────────────────
+// -- 6. SCORE BY q_id (not position) --------------------------------------
 // This is the core scoring function. Always matches by question ID.
 export function scoreByQId(studentAnswers, questions, markingScheme) {
   // studentAnswers: { "PERC_L2_023": "C", "SDT_L3_007": "A", ... }
@@ -350,7 +350,7 @@ export function scoreByQId(studentAnswers, questions, markingScheme) {
 }
 
 
-// ── 7. BUILD REVIEW DATA (unlocked at 8 PM) ───────────────────────────────
+// -- 7. BUILD REVIEW DATA (unlocked at 8 PM) -------------------------------
 // Enriches per_question results with full explanations
 export async function buildReviewData(perQuestion, userLanguage = 'en') {
   const qIds   = perQuestion.map(pq => pq.q_id)
@@ -411,7 +411,7 @@ export async function buildReviewData(perQuestion, userLanguage = 'en') {
 }
 
 
-// ── 8. COMPRESS ANSWERS (q_id → position-based for 1KB submission) ────────
+// -- 8. COMPRESS ANSWERS (q_id → position-based for 1KB submission) --------
 export function compressAnswersToString(studentAnswers, questions) {
   // questions array is position-ordered
   return questions.map(q => {
@@ -435,7 +435,7 @@ export function decompressAnswerString(answerString, questions) {
 }
 
 
-// ── 9. SERVER-SIDE VERIFICATION (at 4 PM batch) ───────────────────────────
+// -- 9. SERVER-SIDE VERIFICATION (at 4 PM batch) ---------------------------
 // Called by batch-rank-computer.js to verify device score
 export function verifyDeviceScore(answerString, studentPaper, markingScheme) {
   const answers   = decompressAnswerString(answerString, studentPaper.questions)
@@ -447,7 +447,7 @@ export function verifyDeviceScore(answerString, studentPaper, markingScheme) {
 }
 
 
-// ── HELPERS ───────────────────────────────────────────────────────────────
+// -- HELPERS ---------------------------------------------------------------
 function shuffleArray(arr) {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {

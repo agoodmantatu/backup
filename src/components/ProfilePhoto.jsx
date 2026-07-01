@@ -1,16 +1,16 @@
 // FILE: src/components/ProfilePhoto.jsx
 // Profile Photo Component
-// • Optional — if no photo, shows generated avatar
+// • Optional - if no photo, shows generated avatar
 // • Anti-screenshot: pointer-events blocked for others, right-click disabled
 // • Nudity detection via Supabase Edge Function + Google Vision API
 // • Owner-only zoom (others see fixed size only)
 // • In leaderboard: shows real face (social feel)
-// • Upload any image (not just face photo — student's choice)
+// • Upload any image (not just face photo - student's choice)
 
 import { useState, useRef, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 
-// ── AVATAR GENERATOR (used when no photo) ─────────────────────────────────
+// -- AVATAR GENERATOR (used when no photo) ---------------------------------
 // Generates a unique gradient avatar from user's name/ID
 function generateAvatarStyle(userId, name) {
   const GRADIENTS = [
@@ -29,7 +29,7 @@ function generateAvatarStyle(userId, name) {
   return { gradient:`linear-gradient(135deg,${c1},${c2})`, initials }
 }
 
-// ── ANTI-SCREENSHOT OVERLAY ────────────────────────────────────────────────
+// -- ANTI-SCREENSHOT OVERLAY ------------------------------------------------
 // Injected over photo for non-owners
 // • Blocks pointer events (no right-click save)
 // • CSS user-select none
@@ -55,7 +55,7 @@ function AntiScreenshotOverlay() {
   )
 }
 
-// ── MAIN PROFILE PHOTO COMPONENT ──────────────────────────────────────────
+// -- MAIN PROFILE PHOTO COMPONENT ------------------------------------------
 export default function ProfilePhoto({
   userId,           // whose photo is this
   name,             // user's name (for avatar fallback)
@@ -76,7 +76,7 @@ export default function ProfilePhoto({
 
   const { gradient, initials } = generateAvatarStyle(userId, name)
 
-  // ── HANDLE FILE UPLOAD ────────────────────────────────────────────────────
+  // -- HANDLE FILE UPLOAD ----------------------------------------------------
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -146,7 +146,7 @@ export default function ProfilePhoto({
     e.target.value = '' // reset input
   }
 
-  // ── RENDER PHOTO OR AVATAR ────────────────────────────────────────────────
+  // -- RENDER PHOTO OR AVATAR ------------------------------------------------
   const renderPhoto = (sz = size, forZoom = false) => {
     if (localUrl) {
       return (
@@ -228,7 +228,7 @@ export default function ProfilePhoto({
         <p style={{ fontSize:11, color:'#DC2626', marginTop:4, maxWidth:200 }}>{uploadError}</p>
       )}
 
-      {/* Zoom modal — OWNER ONLY ──────────────────────────────────────── */}
+      {/* Zoom modal - OWNER ONLY ---------------------------------------- */}
       {zoomed && isOwner && (
         <div
           onClick={() => setZoomed(false)}
@@ -259,7 +259,7 @@ export default function ProfilePhoto({
 }
 
 
-// ── LEADERBOARD ROW with profile photo ────────────────────────────────────
+// -- LEADERBOARD ROW with profile photo ------------------------------------
 export function LeaderboardRow({ rank, user, isCurrentUser }) {
   const NAVY = '#1E3A5F'
   const GOLD = '#C9A84C'
@@ -325,7 +325,7 @@ export function LeaderboardRow({ rank, user, isCurrentUser }) {
 }
 
 
-// ── SUPABASE EDGE FUNCTION (create this file separately) ──────────────────
+// -- SUPABASE EDGE FUNCTION (create this file separately) ------------------
 /*
 FILE: supabase/functions/moderate-image/index.ts
 

@@ -1,7 +1,7 @@
 // FILE: src/components/NotificationBar.jsx
-// TryIT — Sticky In-App Notification Banner + Push Setup
+// TryIT - Sticky In-App Notification Banner + Push Setup
 // Shows banners for all 17 notification types
-// Add <NotificationBar /> once in App.jsx — works everywhere
+// Add <NotificationBar /> once in App.jsx - works everywhere
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth }     from '../context/AuthContext'

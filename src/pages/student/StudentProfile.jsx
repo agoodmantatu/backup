@@ -11,7 +11,7 @@ export default function StudentProfile() {
   const t = theme?.text||'#1E293B', m = theme?.textLight||'#64748B'
   const bg = theme?.background||'#F8FAFC', c = theme?.surface||'#FFFFFF', b = theme?.border||'#E2E8F0'
   const name = user?.user_metadata?.name || user?.phone || 'Student'
-  const phone = user?.phone || '—'
+  const phone = user?.phone || '-'
   return (
     <div style={{minHeight:'100vh',background:bg,fontFamily:'Poppins,sans-serif'}}>
       <div style={{background:c,borderBottom:`1px solid ${b}`,padding:'16px 20px',

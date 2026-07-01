@@ -16,7 +16,7 @@ export default function ImpersonationBanner() {
       gap:12, fontSize:13, fontFamily:'Poppins,sans-serif', fontWeight:700,
       flexWrap:'wrap',
     }}>
-      <span>👁️ ADMIN VIEW-AS MODE — Viewing as <b>{user?.role}</b></span>
+      <span>👁️ ADMIN VIEW-AS MODE - Viewing as <b>{user?.role}</b></span>
       <button onClick={()=>{ exitImpersonation(); navigate('/admin/dashboard') }}
         style={{ background:'#FEF3C7', color:'#7C2D12', border:'none', borderRadius:8, padding:'4px 14px', fontWeight:800, cursor:'pointer', fontSize:12 }}>
         Exit to Admin

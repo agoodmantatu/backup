@@ -1,5 +1,5 @@
 ﻿// src/pages/student/StudentGames.jsx
-// Cinematic Games Hub — dopamine-engineered, exam-skill focused
+// Cinematic Games Hub - dopamine-engineered, exam-skill focused
 // Individual per-student randomization, unlimited levels, Supabase tracking
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -125,7 +125,7 @@ export default function StudentGames() {
   const [dailySeed,   setDailySeed]   = useState(0)
 
   useEffect(() => {
-    // Daily seed — changes every day so question order differs
+    // Daily seed - changes every day so question order differs
     const today = new Date()
     setDailySeed(today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate())
     loadPlayerData()
@@ -263,7 +263,7 @@ export default function StudentGames() {
         }
       `}</style>
 
-      {/* ── HEADER ─────────────────────────────────────────────── */}
+      {/* -- HEADER ----------------------------------------------- */}
       <div style={{
         display:'flex', alignItems:'center', justifyContent:'space-between',
         padding:'14px 20px',
@@ -289,7 +289,7 @@ export default function StudentGames() {
         </div>
         {/* Search */}
         <input value={search} onChange={e=>setSearch(e.target.value)}
-          placeholder="Search games…"
+          placeholder="Search games..."
           style={{
             background:card, border:`1px solid ${bdr}`,
             borderRadius:20, padding:'7px 14px', color:txt,
@@ -298,7 +298,7 @@ export default function StudentGames() {
           }} className="search-input"/>
       </div>
 
-      {/* ── HERO STATS ─────────────────────────────────────────── */}
+      {/* -- HERO STATS ------------------------------------------- */}
       <div style={{
         background:`linear-gradient(135deg,${primD},${primary})`,
         padding:'20px', margin:'0 0 0 0',
@@ -331,7 +331,7 @@ export default function StudentGames() {
 
       <div style={{ maxWidth:900, margin:'0 auto', padding:'20px' }}>
 
-        {/* ── FILTER TABS ────────────────────────────────────────── */}
+        {/* -- FILTER TABS ------------------------------------------ */}
         <div style={{ display:'flex', gap:8, marginBottom:20,
           overflowX:'auto', scrollbarWidth:'none', paddingBottom:4 }}>
           {[
@@ -353,7 +353,7 @@ export default function StudentGames() {
           ))}
         </div>
 
-        {/* ── GAMES GRID ─────────────────────────────────────────── */}
+        {/* -- GAMES GRID ------------------------------------------- */}
         <div style={{
           display:'grid',
           gridTemplateColumns:'repeat(auto-fill,minmax(180px,1fr))',
@@ -543,7 +543,7 @@ export default function StudentGames() {
           })}
         </div>
 
-        {/* ── SKILL IMPROVEMENT BANNER ──────────────────────────── */}
+        {/* -- SKILL IMPROVEMENT BANNER ---------------------------- */}
         <div style={{
           marginTop:24, background:`linear-gradient(135deg,${primD},${primary})`,
           borderRadius:20, padding:'20px',
@@ -556,7 +556,7 @@ export default function StudentGames() {
           <p style={{ color:'rgba(255,255,255,0.6)', fontSize:12,
             margin:'0 0 14px', lineHeight:1.7 }}>
             Each game targets a specific exam skill. Playing 15 minutes daily improves
-            speed, accuracy and memory — proven by students who moved from 45% to 78%
+            speed, accuracy and memory - proven by students who moved from 45% to 78%
             in 60 days.
           </p>
           <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>

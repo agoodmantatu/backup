@@ -10,12 +10,12 @@ const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 const BG   = '#F8FAFC'
 
-// ── MOCK CONCEPTS (shown when Supabase isn't ready yet) ───────────────────
+// -- MOCK CONCEPTS (shown when Supabase isn't ready yet) -------------------
 const MOCK_CONCEPTS = {
   'arith_percentage': {
     1: {
-      concept_title: 'Percentage — Level 1: What Does % Even Mean?',
-      concept_summary: '% means "per hundred" — it compares everything on a scale of 100. Once you understand this one idea, every percentage question becomes easy.',
+      concept_title: 'Percentage - Level 1: What Does % Even Mean?',
+      concept_summary: '% means "per hundred" - it compares everything on a scale of 100. Once you understand this one idea, every percentage question becomes easy.',
       level_label: 'Class 1-5 Introduction',
       real_world: 'You see % everywhere in India: 18% GST on your Amazon order, 20% off on Diwali sale, 75% attendance required in college, 45% marks to pass your exam. Every single day you use percentage without even realising it.',
       real_world_examples: [
@@ -90,16 +90,16 @@ const MOCK_CONCEPTS = {
         },
       ],
       mnemonic: 'PHW = Part divided by (Hundred times Whole). "Phew, that was easy!"',
-      mnemonic_detail: 'Remember PHW: P for Part (goes on top), H for the hundred (multiply by), W for Whole (goes below). Say "Phew" to remember — because once you know this, % questions are easy!',
+      mnemonic_detail: 'Remember PHW: P for Part (goes on top), H for the hundred (multiply by), W for Whole (goes below). Say "Phew" to remember - because once you know this, % questions are easy!',
       shortcuts: [
         { trick: '10% shortcut: just move decimal one place left', condition: 'When finding 10%', example: '10% of 340 = 34.0' },
         { trick: '5% = half of 10%', condition: 'When finding 5%', example: '5% of 200 = half of 20 = 10' },
         { trick: '25% = divide by 4', condition: 'When finding 25%', example: '25% of 80 = 80÷4 = 20' },
         { trick: '50% = divide by 2', condition: 'When finding 50%', example: '50% of 360 = 180' },
       ],
-      visual_pattern: '  PART\n ──────  × 100  =  %\n  WHOLE',
-      story: 'Ramu bhaiya runs a small kirana shop in Patna. During Diwali, he gave 20% off on all items. Priya came to buy a ₹500 face cream. Ramu bhaiya quickly calculated: 20% of 500 = (20÷100)×500 = ₹100 off. So Priya paid only ₹400. "You remembered the PHW formula!" laughed Priya. Ramu smiled — percentage had made his business honest and fast.',
-      story_moral: 'Percentage is just a way to compare fairly — whether in a shop, exam, or election.',
+      visual_pattern: '  PART\n ------  × 100  =  %\n  WHOLE',
+      story: 'Ramu bhaiya runs a small kirana shop in Patna. During Diwali, he gave 20% off on all items. Priya came to buy a ₹500 face cream. Ramu bhaiya quickly calculated: 20% of 500 = (20÷100)×500 = ₹100 off. So Priya paid only ₹400. "You remembered the PHW formula!" laughed Priya. Ramu smiled - percentage had made his business honest and fast.',
+      story_moral: 'Percentage is just a way to compare fairly - whether in a shop, exam, or election.',
       exam_coverage: {
         school_olympiad: ['IMO Level 1', 'NSO Level 1', 'NTSE Stage 1 MAT'],
         state_competitive: ['TNPSC Group 4', 'UP VDO', 'NTSE Stage 2'],
@@ -138,7 +138,7 @@ const MOCK_CONCEPTS = {
   },
   'arith_profit_loss': {
     1: {
-      concept_title: 'Profit & Loss — Level 1: Buy Low, Sell High',
+      concept_title: 'Profit & Loss - Level 1: Buy Low, Sell High',
       concept_summary: 'Profit happens when you sell something for more than you bought it. Loss happens when you sell for less. These two simple ideas power all of commerce.',
       level_label: 'Class 6-7 Basics',
       real_world: 'Every kirana shop, vegetable vendor, and mobile phone seller uses profit and loss every single day. When your uncle buys mangoes for ₹50/kg and sells for ₹70/kg, that ₹20 is his profit.',
@@ -150,8 +150,8 @@ const MOCK_CONCEPTS = {
       definition: 'Profit = Selling Price (SP) − Cost Price (CP). If SP > CP → Profit. If SP < CP → Loss.',
       formula: 'Profit = SP − CP | Loss = CP − SP | Profit% = (Profit ÷ CP) × 100',
       formula_breakdown: [
-        { symbol: 'CP', meaning: 'Cost Price — what you paid to buy', example: 'Bought for ₹500 → CP = 500' },
-        { symbol: 'SP', meaning: 'Selling Price — what you got when you sold', example: 'Sold for ₹600 → SP = 600' },
+        { symbol: 'CP', meaning: 'Cost Price - what you paid to buy', example: 'Bought for ₹500 → CP = 500' },
+        { symbol: 'SP', meaning: 'Selling Price - what you got when you sold', example: 'Sold for ₹600 → SP = 600' },
         { symbol: 'Profit%', meaning: 'Profit as a percentage of CP', example: '(100÷500)×100 = 20% profit' },
       ],
       key_terms: [
@@ -178,7 +178,7 @@ const MOCK_CONCEPTS = {
           problem: 'A bicycle bought for ₹3,000 was sold for ₹2,400. Find loss%.',
           steps: ['CP = 3000, SP = 2400', 'Loss = 3000−2400 = ₹600', 'Loss% = (600÷3000)×100 = 20%'],
           answer: 'Loss% = 20%',
-          insight: 'Loss% = (Loss ÷ CP) × 100 — same formula, just called "loss" instead of "profit".',
+          insight: 'Loss% = (Loss ÷ CP) × 100 - same formula, just called "loss" instead of "profit".',
         },
         {
           title: 'Example 3 (Find SP)',
@@ -199,7 +199,7 @@ const MOCK_CONCEPTS = {
         { trick: 'SP = CP × (100−L)/100 for loss', condition: 'When loss SP is unknown', example: 'CP=500, L%=10 → SP=500×90/100=450' },
       ],
       story: 'Priya\'s mother Savita sells vegetables at the Coimbatore market. She buys tomatoes at ₹20/kg from the farm and sells at ₹28/kg. "Amma, what is your profit?" asked Priya. "₹8 per kilo, which is 40% profit on what I paid!" said Savita. Priya quickly checked: (8÷20)×100 = 40%. Correct! The formula SP−CP gives profit, and dividing by CP gives the percentage.',
-      story_moral: 'Every transaction has a cost price and selling price — knowing the difference gives you business sense for life.',
+      story_moral: 'Every transaction has a cost price and selling price - knowing the difference gives you business sense for life.',
       exam_coverage: {
         school_olympiad: ['IMO', 'NTSE MAT'],
         state_competitive: ['TNPSC', 'SSC MTS', 'Bank Clerk'],
@@ -222,7 +222,7 @@ const MOCK_CONCEPTS = {
   },
 }
 
-// ── LAYER CONFIG ───────────────────────────────────────────────────────────
+// -- LAYER CONFIG -----------------------------------------------------------
 const LAYERS = [
   { key:'real_world',   icon:'🌍', label:'Real World',      color:'#0891B2' },
   { key:'definition',   icon:'📖', label:'Concept',         color:'#7C3AED' },
@@ -247,10 +247,10 @@ export default function ConceptCard() {
   const timerRef = useRef(null)
   const lvl = parseInt(level) || 1
 
-  // ── ACCESS CHECK ─────────────────────────────────────────────────────────
+  // -- ACCESS CHECK ---------------------------------------------------------
   const hasAccess = planTier === 'ultra' || isTopicUnlocked(topicId)
 
-  // ── LOAD CONCEPT ─────────────────────────────────────────────────────────
+  // -- LOAD CONCEPT ---------------------------------------------------------
   useEffect(() => {
     ;(async () => {
       setLoading(true)
@@ -276,7 +276,7 @@ export default function ConceptCard() {
     })()
   }, [topicId, lvl])
 
-  // ── READING TIMER ─────────────────────────────────────────────────────────
+  // -- READING TIMER ---------------------------------------------------------
   useEffect(() => {
     if (!hasAccess || !concept) return
     timerRef.current = setInterval(() => setReadSecs(s => s + 1), 1000)
@@ -291,7 +291,7 @@ export default function ConceptCard() {
 
   const allLayersRead = readLayers.size >= LAYERS.length
 
-  // ── SAVE READ PROGRESS ────────────────────────────────────────────────────
+  // -- SAVE READ PROGRESS ----------------------------------------------------
   const markRead = async () => {
     const conceptId = `${topicId}_l${lvl}`
     try {
@@ -318,7 +318,7 @@ export default function ConceptCard() {
     })
   }
 
-  // ── LAYER CONTENT RENDERER ────────────────────────────────────────────────
+  // -- LAYER CONTENT RENDERER ------------------------------------------------
   const renderLayer = () => {
     if (!concept) return null
     const layer = LAYERS[activeLayer]
@@ -500,7 +500,7 @@ export default function ConceptCard() {
     }
   }
 
-  // ── GATED VIEW ────────────────────────────────────────────────────────────
+  // -- GATED VIEW ------------------------------------------------------------
   if (!loading && !hasAccess) {
     return (
       <div style={{ minHeight:'100vh', background:BG, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:24 }}>
@@ -513,7 +513,7 @@ export default function ConceptCard() {
             Learn any topic from Level 1 to Level 10 with 7-layer explanations, Indian stories, mnemonics and more.
           </p>
           <div style={{ background:'#FFF7E6', borderRadius:14, padding:14, marginBottom:16, border:'1px solid #FDE68A' }}>
-            <p style={{ fontSize:13, fontWeight:700, color:'#92400E', marginBottom:4 }}>₹25 — This Topic Only</p>
+            <p style={{ fontSize:13, fontWeight:700, color:'#92400E', marginBottom:4 }}>₹25 - This Topic Only</p>
             <p style={{ fontSize:11, color:'#78350F' }}>All 10 levels for this topic · Lifetime access</p>
             <button onClick={() => navigate('/pro')}
               style={{ marginTop:10, padding:'10px 20px', background:GOLD, color:NAVY, border:'none', borderRadius:10, fontWeight:800, fontSize:13, cursor:'pointer', width:'100%' }}>
@@ -522,7 +522,7 @@ export default function ConceptCard() {
           </div>
           <button onClick={() => navigate('/pro')}
             style={{ width:'100%', padding:'12px', background:NAVY, color:'#fff', border:'none', borderRadius:12, fontWeight:700, fontSize:13, cursor:'pointer', marginBottom:10 }}>
-            Upgrade to Ultra — All Topics
+            Upgrade to Ultra - All Topics
           </button>
           <button onClick={() => navigate(-1)} style={{ fontSize:12, color:'#94A3B8', background:'none', border:'none', cursor:'pointer' }}>
             ← Go Back
@@ -536,7 +536,7 @@ export default function ConceptCard() {
     <div style={{ minHeight:'100vh', display:'flex', alignItems:'center', justifyContent:'center', background:BG }}>
       <div style={{ textAlign:'center' }}>
         <div style={{ width:48, height:48, border:`3px solid ${GOLD}`, borderTopColor:'transparent', borderRadius:'50%', animation:'spin 0.8s linear infinite', margin:'0 auto 16px' }} />
-        <p style={{ color:'#94A3B8', fontSize:13 }}>Loading concept…</p>
+        <p style={{ color:'#94A3B8', fontSize:13 }}>Loading concept...</p>
         <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       </div>
     </div>
@@ -558,7 +558,7 @@ export default function ConceptCard() {
   return (
     <div style={{ minHeight:'100vh', background:BG, fontFamily:'Inter,sans-serif', paddingBottom:80 }}>
 
-      {/* ── HEADER ──────────────────────────────────────────────────────── */}
+      {/* -- HEADER -------------------------------------------------------- */}
       <div style={{ background:NAVY, color:'#fff', padding:'14px 16px' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:10 }}>
           <button onClick={() => navigate(-1)} style={{ background:'none', border:'none', color:'rgba(255,255,255,0.7)', fontSize:20, cursor:'pointer' }}>←</button>
@@ -581,13 +581,13 @@ export default function ConceptCard() {
         </p>
       </div>
 
-      {/* ── SUMMARY CARD ───────────────────────────────────────────────── */}
+      {/* -- SUMMARY CARD ------------------------------------------------- */}
       <div style={{ background:'linear-gradient(135deg,#FFF7E6,#FFFBF0)', padding:'14px 16px', borderBottom:'1px solid #FDE68A' }}>
         <p style={{ fontSize:13, color:'#78350F', lineHeight:1.7 }}>{concept.concept_summary}</p>
         <p style={{ fontSize:11, color:'#B45309', marginTop:4 }}>⏱️ ~{concept.read_time_mins || 5} min read</p>
       </div>
 
-      {/* ── LAYER TABS ──────────────────────────────────────────────────── */}
+      {/* -- LAYER TABS ---------------------------------------------------- */}
       <div style={{ display:'flex', overflowX:'auto', borderBottom:'1px solid #E2E8F0', background:'#fff', scrollbarWidth:'none' }}>
         {LAYERS.map((layer, idx) => {
           const isRead   = readLayers.has(idx)
@@ -609,7 +609,7 @@ export default function ConceptCard() {
         })}
       </div>
 
-      {/* ── ACTIVE LAYER CONTENT ────────────────────────────────────────── */}
+      {/* -- ACTIVE LAYER CONTENT ------------------------------------------ */}
       <div style={{ padding:16 }}>
         <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:14 }}>
           <span style={{ fontSize:22 }}>{currentLayer.icon}</span>
@@ -651,7 +651,7 @@ export default function ConceptCard() {
           <button
             onClick={handleStartCheckpoint}
             style={{ width:'100%', padding:'13px', background:`linear-gradient(135deg,${GOLD},#E8C96A)`, color:NAVY, border:'none', borderRadius:14, fontWeight:800, fontSize:14, cursor:'pointer' }}>
-            ✅ I'm Ready — Start Checkpoint
+            ✅ I'm Ready - Start Checkpoint
           </button>
         )}
       </div>

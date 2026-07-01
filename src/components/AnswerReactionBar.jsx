@@ -9,7 +9,7 @@ const springTap = { type: 'spring', stiffness: 420, damping: 26 }
 /**
  * Place this directly under a mentor's answer wherever students read
  * it (GuruHub thread view, doubt detail page, etc). Any student
- * viewing the answer can tap a reaction — this is the actual
+ * viewing the answer can tap a reaction - this is the actual
  * reacting surface; MentorHub only shows the resulting daily pin.
  *
  * answer: { id, mentorId, mentorName, subject, text }
@@ -21,7 +21,7 @@ export default function AnswerReactionBar({ answer }) {
 
   useEffect(() => {
     // Reflect this student's existing reaction if they already reacted
-    // earlier today — keeps the bar idempotent across reloads.
+    // earlier today - keeps the bar idempotent across reloads.
     try {
       const all = JSON.parse(localStorage.getItem('tryit_answer_reactions') || '{}')
       const day = new Date().toISOString().slice(0, 10)

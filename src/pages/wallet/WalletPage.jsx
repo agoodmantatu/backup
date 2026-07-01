@@ -1,5 +1,5 @@
 // FILE: src/pages/wallet/WalletPage.jsx
-// TryIT — Wallet & Coins Page
+// TryIT - Wallet & Coins Page
 // Route: /wallet
 import { useState, useEffect } from 'react'
 import { useNavigate }        from 'react-router-dom'
@@ -39,7 +39,7 @@ const COIN_USES = [
   { use:'Unlock advanced game',             cost:100, emoji:'🕹️' },
   { use:'Extra mock test (free tier)',      cost:50,  emoji:'📝' },
   { use:'Ask mentor a doubt',              cost:100, emoji:'🧑‍🏫' },
-  { use:'Offline pack — 1 topic',          cost:50,  emoji:'📥' },
+  { use:'Offline pack - 1 topic',          cost:50,  emoji:'📥' },
 ]
 
 export default function WalletPage() {
@@ -183,7 +183,7 @@ export default function WalletPage() {
 
       <div style={{ padding:16, maxWidth:480, margin:'0 auto' }}>
 
-        {/* BALANCE TAB — transaction history */}
+        {/* BALANCE TAB - transaction history */}
         {tab === 'balance' && (
           <div>
             <p style={{ fontSize:11, fontWeight:700, color:'#94A3B8', letterSpacing:1, textTransform:'uppercase', marginBottom:12 }}>
@@ -228,7 +228,7 @@ export default function WalletPage() {
         {tab === 'buy' && (
           <div>
             <p style={{ fontSize:13, color:'#64748B', marginBottom:16, lineHeight:1.6 }}>
-              Buy coins to unlock explanations, games, and extra features instantly — no subscription needed.
+              Buy coins to unlock explanations, games, and extra features instantly - no subscription needed.
             </p>
             {COIN_PACKS.map(pack => (
               <div key={pack.id} style={{ background:'#fff', borderRadius:16, padding:16, marginBottom:12,
@@ -269,7 +269,7 @@ export default function WalletPage() {
 
             <div style={{ background:'#F0FDF4', border:'1px solid #BBF7D0', borderRadius:12, padding:12 }}>
               <p style={{ fontSize:12, color:'#065F46', margin:0, lineHeight:1.6 }}>
-                💡 <strong>Better value:</strong> Pro plan (₹199/month) gives unlimited explanations — no coins needed.
+                💡 <strong>Better value:</strong> Pro plan (₹199/month) gives unlimited explanations - no coins needed.
                 <button onClick={() => navigate('/pro')} style={{ color:GREEN, fontWeight:700, background:'none', border:'none', cursor:'pointer', fontSize:12 }}>
                   Compare plans →
                 </button>
@@ -282,7 +282,7 @@ export default function WalletPage() {
         {tab === 'earn' && (
           <div>
             <p style={{ fontSize:13, color:'#64748B', marginBottom:14 }}>
-              Earn coins every day through your normal study routine — no extra effort needed.
+              Earn coins every day through your normal study routine - no extra effort needed.
             </p>
             {EARN_WAYS.map(e => (
               <div key={e.way} style={{ background:'#fff', borderRadius:12, padding:'11px 14px', marginBottom:8, border:'1.5px solid #E2E8F0', display:'flex', alignItems:'center', gap:10 }}>
@@ -327,7 +327,7 @@ export default function WalletPage() {
             {planTier !== 'free' && (
               <div style={{ background:'#F0FDF4', border:'1px solid #BBF7D0', borderRadius:12, padding:12, marginTop:4 }}>
                 <p style={{ fontSize:12, color:GREEN, margin:0 }}>
-                  ✅ You're on {planTier.toUpperCase()} — most features are already unlocked for you at no coin cost!
+                  ✅ You're on {planTier.toUpperCase()} - most features are already unlocked for you at no coin cost!
                 </p>
               </div>
             )}

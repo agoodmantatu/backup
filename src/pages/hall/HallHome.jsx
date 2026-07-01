@@ -25,7 +25,7 @@ const SAMPLE_MEMBERS = [
 const SAMPLE_ACTIVITY = [
   { who: 'Aarav Sharma', what: 'completed a Mock Test scoring 92%', time: '2h ago', emoji: '📝' },
   { who: 'Priya Nair', what: 'won a Hall Battle 🔥', time: '4h ago', emoji: '⚔️' },
-  { who: 'Sneha Iyer', what: 'reached Level 5 — The Grinder 💪', time: '6h ago', emoji: '🎉' },
+  { who: 'Sneha Iyer', what: 'reached Level 5 - The Grinder 💪', time: '6h ago', emoji: '🎉' },
   { who: 'Karthik Raj', what: 'answered 3 questions in Guru Hub', time: '1d ago', emoji: '🙋' },
   { who: 'Rohan Mehta', what: 'maintained a 15-day streak 🔥', time: '1d ago', emoji: '🔥' },
 ];

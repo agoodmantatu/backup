@@ -153,7 +153,7 @@ export default function UpgradePopup({ type, category='ssc_railway', onClose, on
           boxShadow:`0 6px 20px ${accent}44`,
           marginBottom:8
         }}>
-          {paying ? '⏳ Opening payment…' : payMsg || 'Unlock Now →'}
+          {paying ? '⏳ Opening payment...' : payMsg || 'Unlock Now →'}
         </button>
         <button onClick={onClose} style={{
           width:'100%',background:'transparent',

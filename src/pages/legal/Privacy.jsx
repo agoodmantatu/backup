@@ -1,4 +1,4 @@
-// FILE: src/pages/legal/Privacy.jsx — Route: /privacy
+// FILE: src/pages/legal/Privacy.jsx - Route: /privacy
 import { useNavigate } from 'react-router-dom'
 const NAVY='#1E3A5F'
 

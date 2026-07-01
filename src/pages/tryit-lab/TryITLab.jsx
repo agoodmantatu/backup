@@ -8,7 +8,7 @@ const LAB_FEATURES = [
     id: 'doubt_solver',
     emoji: '🧠',
     title: 'AI Doubt Solver',
-    desc: 'Type any question from any subject — get a step-by-step explanation tailored to your exam pattern, with shortcuts and memory tips.',
+    desc: 'Type any question from any subject - get a step-by-step explanation tailored to your exam pattern, with shortcuts and memory tips.',
     benefit: 'Instant clarity on any concept, anytime.',
     color: 'var(--color-primary, #1E3A5F)',
     bgColor: 'var(--color-bg-muted, #EFF6FF)',
@@ -18,7 +18,7 @@ const LAB_FEATURES = [
     id: 'voice_practice',
     emoji: '🎙️',
     title: 'Voice-Based Practice',
-    desc: 'Practice answering MCQs out loud. Our voice engine listens, evaluates fluency, and gives confidence scores — perfect for IELTS speaking and viva prep.',
+    desc: 'Practice answering MCQs out loud. Our voice engine listens, evaluates fluency, and gives confidence scores - perfect for IELTS speaking and viva prep.',
     benefit: 'Speak your answers, not just click them.',
     color: '#064E3B',
     bgColor: '#ECFDF5',
@@ -28,7 +28,7 @@ const LAB_FEATURES = [
     id: 'handwriting_math',
     emoji: '✍️',
     title: 'Handwriting Recognition for Maths',
-    desc: 'Write equations on your screen. We read your handwriting, parse the expression, and solve it step-by-step — works for algebra, calculus, and more.',
+    desc: 'Write equations on your screen. We read your handwriting, parse the expression, and solve it step-by-step - works for algebra, calculus, and more.',
     benefit: 'Solve maths the way your brain thinks.',
     color: '#4C1D95',
     bgColor: '#F5F3FF',
@@ -93,7 +93,7 @@ export default function TryITLab() {
               Welcome to TryIT Lab
             </h1>
             <p className="text-blue-200 text-sm max-w-xl">
-              A sneak peek at features we're building just for you. These aren't ready yet — but they're coming.
+              A sneak peek at features we're building just for you. These aren't ready yet - but they're coming.
               Register your interest and be the first to get access when they launch.
             </p>
           </div>

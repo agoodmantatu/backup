@@ -1,5 +1,5 @@
-// ── LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ─────────
-// ── LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ─────────
+// -- LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ---------
+// -- LEVEL SYSTEM (Cinematic + Indian Cinema Inspired) ---------
 // Note: All 5 mandatory languages loaded in questionsWith7Layers.js
 // te-anna (Telugu), kn-anna (Kannada) added there
 export const LEVELS = [
@@ -18,9 +18,9 @@ export const LEVELS = [
 export const getLevelInfo = (xp) =>
   LEVELS.find(l => xp >= l.minXP && xp < l.maxXP) || LEVELS[9]
 
-// ── BADGES (Cinematic) ────────────────────────────────────────
+// -- BADGES (Cinematic) ----------------------------------------
 export const BADGES = [
-  { id:'baahuveer',      name:'Baahuveer',        emoji:'🦁', desc:'Reach Level 6 — The Warrior King',       earned:true,  earnedDate:'May 2026' },
+  { id:'baahuveer',      name:'Baahuveer',        emoji:'🦁', desc:'Reach Level 6 - The Warrior King',       earned:true,  earnedDate:'May 2026' },
   { id:'thalavan',       name:'Thalavan',          emoji:'👑', desc:'Answer 50 doubts as Mentor',             earned:false, progress:34, target:50 },
   { id:'gold-king',      name:'The Gold King',     emoji:'🥇', desc:'Score 95%+ in any mock test',           earned:true,  earnedDate:'Apr 2026' },
   { id:'the-riser',      name:'The Riser',         emoji:'📈', desc:'Improve rank by 1000 positions',        earned:true,  earnedDate:'Mar 2026' },
@@ -32,7 +32,7 @@ export const BADGES = [
   { id:'obsessed',       name:'The Obsessed',      emoji:'🔬', desc:'Study 200 hours on TryIT',              earned:false, progress:48, target:200},
 ]
 
-// ── STUDENT ID CARD TEMPLATES ─────────────────────────────────
+// -- STUDENT ID CARD TEMPLATES ---------------------------------
 export const ID_TEMPLATES = [
   {
     id:'royal-gold',
@@ -91,7 +91,7 @@ export const ID_TEMPLATES = [
   },
 ]
 
-// ── GURU HUB SEEDED DATA ─────────────────────────────────────
+// -- GURU HUB SEEDED DATA -------------------------------------
 export const GURU_DOUBTS = [
   {
     id:'d001',
@@ -154,7 +154,7 @@ export const GURU_DOUBTS = [
         mentorBadge:'Baahuveer',
         mentorBadgeEmoji:'🦁',
         isBest:true,
-        text:'Fundamental Rights (Part III): Justiciable — can be enforced in Supreme Court under Art 32. Negative in nature — restrict state action.\n\nDPSPs (Part IV): Non-justiciable — Art 37 explicitly says courts cannot enforce them. They are GUIDELINES for state policy. Positive obligations on state.\n\nKey reason: DPSPs need resources to implement. Constitution makers knew newly independent India couldn\'t guarantee socio-economic rights immediately.',
+        text:'Fundamental Rights (Part III): Justiciable - can be enforced in Supreme Court under Art 32. Negative in nature - restrict state action.\n\nDPSPs (Part IV): Non-justiciable - Art 37 explicitly says courts cannot enforce them. They are GUIDELINES for state policy. Positive obligations on state.\n\nKey reason: DPSPs need resources to implement. Constitution makers knew newly independent India couldn\'t guarantee socio-economic rights immediately.',
         rating:5.0,
         reactions:{ fire:89, bulb:56, heart:34, star:71 },
         timeAgo:'20 min ago',
@@ -238,7 +238,7 @@ export const GURU_DOUBTS = [
         mentorBadge:'The Gold King',
         mentorBadgeEmoji:'🥇',
         isBest:true,
-        text:'NOT truly weightless! Weight = mg acts throughout.\n\nAt the top: velocity = 0 BUT acceleration = g downward (still in free fall).\n\nWhy it FEELS weightless: The ball is in free fall — no normal force, no contact force. Our sense of weight comes from normal force, not gravity.\n\nProof: In an elevator falling freely, you float → feel weightless even though g still acts.\n\nKey distinction:\n• Weight (mg) = ALWAYS acts\n• Apparent weight = 0 during free fall\n• True weightlessness only in deep space (zero g)',
+        text:'NOT truly weightless! Weight = mg acts throughout.\n\nAt the top: velocity = 0 BUT acceleration = g downward (still in free fall).\n\nWhy it FEELS weightless: The ball is in free fall - no normal force, no contact force. Our sense of weight comes from normal force, not gravity.\n\nProof: In an elevator falling freely, you float → feel weightless even though g still acts.\n\nKey distinction:\n• Weight (mg) = ALWAYS acts\n• Apparent weight = 0 during free fall\n• True weightlessness only in deep space (zero g)',
         rating:5.0,
         reactions:{ fire:78, bulb:92, heart:31, star:64 },
         timeAgo:'2 hrs ago',
@@ -248,7 +248,7 @@ export const GURU_DOUBTS = [
   },
 ]
 
-// ── PLATFORM FEATURES FOR LANDING ────────────────────────────
+// -- PLATFORM FEATURES FOR LANDING ----------------------------
 export const PLATFORM_FEATURES = [
   {
     id:'test-engine',
@@ -265,7 +265,7 @@ export const PLATFORM_FEATURES = [
     emoji:'🌌',
     title:'Exam Universe',
     subtitle:'A-to-Z Exam Profiles',
-    desc:'Every exam fully profiled — salary, career path, syllabus, eligibility, cut-offs 10 years, preparation strategy, and FAQ. Before you prepare, understand your battlefield.',
+    desc:'Every exam fully profiled - salary, career path, syllabus, eligibility, cut-offs 10 years, preparation strategy, and FAQ. Before you prepare, understand your battlefield.',
     badge:'Exclusive',
     color:'#7C3AED',
     stats:'9,852 exam profiles',
@@ -285,7 +285,7 @@ export const PLATFORM_FEATURES = [
     emoji:'🎓',
     title:'Guru Hub',
     subtitle:'Ask. Answer. Earn.',
-    desc:'Post doubts, get answers from verified mentors within 2 hours. Mentors earn ₹50–500/week. 24/7 active community of 50,000+ students.',
+    desc:'Post doubts, get answers from verified mentors within 2 hours. Mentors earn ₹50-500/week. 24/7 active community of 50,000+ students.',
     badge:'Community',
     color:'#0369A1',
     stats:'50,000+ students active',
@@ -295,7 +295,7 @@ export const PLATFORM_FEATURES = [
     emoji:'🪪',
     title:'Student ID Card',
     subtitle:'5 Cinematic Templates',
-    desc:'Royal Gold, The Legend, Warrior, Scholar, Champion — 5 premium templates with 3D flip animation. Share your rank and exam on Instagram, WhatsApp.',
+    desc:'Royal Gold, The Legend, Warrior, Scholar, Champion - 5 premium templates with 3D flip animation. Share your rank and exam on Instagram, WhatsApp.',
     badge:'🔥 Viral',
     color:'var(--color-accent, #D4AF37)',
     stats:'Share your journey',
@@ -365,14 +365,14 @@ export const PLATFORM_FEATURES = [
     emoji:'🎓',
     title:'Scholarship Hub',
     subtitle:'Free Money for Your Education',
-    desc:'800+ scholarships — Central, State, Private, Merit, Need-based. Deadline alerts so you never miss free funding for your studies.',
+    desc:'800+ scholarships - Central, State, Private, Merit, Need-based. Deadline alerts so you never miss free funding for your studies.',
     badge:'Free Money',
     color:'var(--color-accent, #D4AF37)',
     stats:'800+ scholarships tracked',
   },
 ]
 
-// ── LANGUAGES SHOWCASE ────────────────────────────────────────
+// -- LANGUAGES SHOWCASE ----------------------------------------
 export const LANGUAGES_DATA = [
   { code:'en', name:'English',    native:'English',     flag:'🇬🇧' },
   { code:'hi', name:'Hindi',      native:'हिंदी',        flag:'🇮🇳' },
@@ -392,7 +392,7 @@ export const LANGUAGES_DATA = [
   { code:'ks', name:'Kashmiri',   native:'کٲشُر',           flag:'❄️' },
 ]
 
-// ── TESTIMONIALS (The Hall - Infinite Marquee) ────────────────
+// -- TESTIMONIALS (The Hall - Infinite Marquee) ----------------
 export const TESTIMONIALS = [
   { name:'Arjun K.',     state:'Tamil Nadu',  exam:'SSC CGL',   rank:'#1,243', score:'89%', text:'"Moved from #8,432 to #1,243 in 30 days. The mock tests are exactly like the real exam." 🔥', level:'The Gold Miner', emoji:'⛏️' },
   { name:'Priya S.',     state:'Kerala',      exam:'NEET UG',   rank:'#847',   score:'94%', text:'"Studied in Malayalam for the first time. Biology explanations are crystal clear." 🌴', level:'The Fighter', emoji:'⚔️' },
@@ -404,7 +404,7 @@ export const TESTIMONIALS = [
   { name:'Sunita P.',    state:'Odisha',      exam:'RRB NTPC',  rank:'#1,892', score:'83%', text:'"Study planner + Focus Mode changed my whole routine. Studying 6hrs daily now." 📅', level:'The Fighter', emoji:'⚔️' },
 ]
 
-// ── LEADERBOARD MOCK DATA ─────────────────────────────────────
+// -- LEADERBOARD MOCK DATA -------------------------------------
 export const LEADERBOARD_DATA = [
   { rank:1,    name:'Priya Sharma',    state:'Kerala',       exam:'NEET UG',  score:'97.4%', badge:'The Unstoppable', badgeEmoji:'⚡' },
   { rank:2,    name:'Rahul Kumar',     state:'Delhi',        exam:'UPSC CSE', score:'94.8%', badge:'Thalavan',        badgeEmoji:'👑' },

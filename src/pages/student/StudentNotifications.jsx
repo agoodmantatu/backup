@@ -46,7 +46,7 @@ export default function StudentNotifications() {
     { id:2, title:'🏆 Rank Update', message:'Your All-India rank improved to #1,247 after yesterday\'s test.', type:'rank', created_at: new Date(Date.now()-5*60*60*1000).toISOString() },
     { id:3, title:'📝 Weekly Test Live', message:'TNPSC Group 2 weekly test is now live. 1,240 students competing.', type:'test', created_at: new Date(Date.now()-24*60*60*1000).toISOString() },
     { id:4, title:'🪙 Coins Earned', message:'You earned 20 coins for completing today\'s test.', type:'coins', created_at: new Date(Date.now()-2*24*60*60*1000).toISOString() },
-    { id:5, title:'🚀 Launchpad Topic', message:"Today's topic: Article 300A — Right to Property. Don't miss it!", type:'launchpad', created_at: new Date(Date.now()-3*24*60*60*1000).toISOString() },
+    { id:5, title:'🚀 Launchpad Topic', message:"Today's topic: Article 300A - Right to Property. Don't miss it!", type:'launchpad', created_at: new Date(Date.now()-3*24*60*60*1000).toISOString() },
   ]
 
   const displayNotifs = notifs.length > 0 ? notifs : MOCK_NOTIFS

@@ -11,7 +11,7 @@ const SAMPLE_MEMBERS = [
 ]
 
 const SAMPLE_ANNOUNCEMENTS = [
-  { id: 1, title: '📅 Mock Test This Saturday', body: 'Centre mock for UPSC Prelims — 10am sharp. Bring your hall ticket number.', time: '2 days ago' },
+  { id: 1, title: '📅 Mock Test This Saturday', body: 'Centre mock for UPSC Prelims - 10am sharp. Bring your hall ticket number.', time: '2 days ago' },
   { id: 2, title: '📚 New Study Material Added', body: 'Current affairs notes for January 2025 uploaded to the resource library.', time: '5 days ago' },
   { id: 3, title: '🏆 Circle Leaderboard Reset', body: 'Monthly circle rank reset on the 1st. Keep your streak going!', time: '1 week ago' },
 ]
@@ -37,7 +37,7 @@ export default function SchoolCircle() {
 
         <div className="bg-gradient-to-r from-[var(--color-primary, #1E3A5F)] to-[#3B2A6B] rounded-2xl p-5 text-white">
           <p className="text-2xl font-bold">🏫 School Circle</p>
-          <p className="text-sm opacity-70 mt-1">Your institution's private community space — study together, stay updated.</p>
+          <p className="text-sm opacity-70 mt-1">Your institution's private community space - study together, stay updated.</p>
         </div>
 
         {hasCircle ? (

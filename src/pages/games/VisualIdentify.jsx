@@ -1,5 +1,5 @@
 // FILE: src/pages/games/VisualIdentify.jsx
-// TryIT — Visual Identify TEMPLATE
+// TryIT - Visual Identify TEMPLATE
 // Powers: Map Master, Diagram Decode, Flag Frenzy, Monument Match, Peak Pointer, Circuit Logic
 // Route: /games/visual/:gameId
 // Reads game config from games_catalog, questions from image_bank

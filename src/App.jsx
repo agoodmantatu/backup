@@ -48,7 +48,7 @@ const ExamUniverse    = lazy(() => import('./pages/exams/ExamUniverse'))
 const RoadmapPage     = lazy(() => import('./pages/roadmap/RoadmapPage'))
 const ExamAlerts      = lazy(() => import('./pages/exam-alerts/ExamAlerts'))
 
-// ── CONCEPT LEARNING ─────────────────────────────────────────────
+// -- CONCEPT LEARNING ---------------------------------------------
 const ConceptCard        = lazy(() => import('./pages/concept/ConceptCard'))
 const ConceptCheckpoint  = lazy(() => import('./pages/concept/ConceptCheckpoint'))
 const PrepPathway        = lazy(() => import('./pages/roadmap/PrepPathway'))

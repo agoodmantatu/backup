@@ -1,18 +1,18 @@
 // FILE: src/lib/levelSystem.js
-// TryIT — Unlimited Level Progression + Cinematic Theme Universes
+// TryIT - Unlimited Level Progression + Cinematic Theme Universes
 // Levels are procedurally generated (harder difficulty + more questions as level rises)
-// Theme shifts every 10 levels — premium blockbuster-world feel, fully original IP
+// Theme shifts every 10 levels - premium blockbuster-world feel, fully original IP
 // Unlock: free via completing previous level, OR pay coins to skip
 
 import { supabase } from './supabase'
 
-// ── THEME UNIVERSES (mirrors SQL seed — used for instant client-side render) ──
+// -- THEME UNIVERSES (mirrors SQL seed - used for instant client-side render) --
 export const THEME_UNIVERSES = [
   { id:'emberfall',    from:1,  to:10,     name:'Emberfall Wilds',      tagline:'Where every spark of knowledge ignites a forest of wisdom',
     primary:'#0F4C3A', secondary:'#1B6B4A', accent:'#5EEAD4',
     bg:'linear-gradient(160deg,#0F4C3A,#1B6B4A,#134E4A)', particle:'ember',
     icons:['🌿','🔥','🦋','✨','🍃'], costMult:1.0 },
-  { id:'ironcrown',    from:11, to:20,     name:'Ironcrown Throne',     tagline:'Rule the realm of reasoning — every level, a new kingdom',
+  { id:'ironcrown',    from:11, to:20,     name:'Ironcrown Throne',     tagline:'Rule the realm of reasoning - every level, a new kingdom',
     primary:'#1C1917', secondary:'#7C2D12', accent:'#FBBF24',
     bg:'linear-gradient(160deg,#1C1917,#451A03,#7C2D12)', particle:'ember',
     icons:['⚔️','🏰','🛡️','👑','🐉'], costMult:1.3 },
@@ -44,7 +44,7 @@ export function getUniverseForLevel(level) {
   return THEME_UNIVERSES.find(u => level >= u.from && level <= u.to) || THEME_UNIVERSES[0]
 }
 
-// ── LEVEL DIFFICULTY SCALING (procedural — no pre-built content needed) ──
+// -- LEVEL DIFFICULTY SCALING (procedural - no pre-built content needed) --
 export function getLevelConfig(level, baseGame) {
   // Every 5 levels: +1 question, -3% time, harder difficulty mix
   const tier = Math.floor((level - 1) / 5)
@@ -59,7 +59,7 @@ export function getLevelConfig(level, baseGame) {
   return { questionCount, duration, difficultyMix, level }
 }
 
-// ── UNLOCK COST (admin-controlled growth curve) ──────────────────────────
+// -- UNLOCK COST (admin-controlled growth curve) --------------------------
 export async function getUnlockCost(level) {
   const universe = getUniverseForLevel(level)
   try {
@@ -72,7 +72,7 @@ export async function getUnlockCost(level) {
   }
 }
 
-// ── ADMIN GOD-MODE: full access, zero gates, zero data pollution ──────────
+// -- ADMIN GOD-MODE: full access, zero gates, zero data pollution ----------
 // Admin can jump straight to ANY level of ANY game, instantly, for testing.
 // Every admin play is tagged is_admin_test=true so it never touches real
 // student leaderboards, skill snapshots, or coin economy.
@@ -80,7 +80,7 @@ export function isAdminUser(user) {
   return user?.role === 'admin'
 }
 
-// ── FETCH USER'S PROGRESS FOR A GAME ──────────────────────────────────────
+// -- FETCH USER'S PROGRESS FOR A GAME --------------------------------------
 export async function getUserLevelProgress(userId, gameId, isAdmin = false) {
   if (isAdmin) {
     // Admin sees everything unlocked, no DB read needed
@@ -93,7 +93,7 @@ export async function getUserLevelProgress(userId, gameId, isAdmin = false) {
       .eq('user_id', userId).eq('game_id', gameId).single()
     if (data) return data
 
-    // First time playing this game — initialize
+    // First time playing this game - initialize
     await supabase.from('user_game_levels').insert({
       user_id: userId, game_id: gameId, current_level: 1, highest_unlocked: 1
     })
@@ -103,7 +103,7 @@ export async function getUserLevelProgress(userId, gameId, isAdmin = false) {
   }
 }
 
-// ── UNLOCK NEXT LEVEL (free, after completing current one) ────────────────
+// -- UNLOCK NEXT LEVEL (free, after completing current one) ----------------
 export async function unlockNextLevelFree(userId, gameId, completedLevel, score, maxScore, isAdmin = false) {
   const stars = score >= maxScore * 0.9 ? 3 : score >= maxScore * 0.7 ? 2 : score >= maxScore * 0.4 ? 1 : 0
 
@@ -146,7 +146,7 @@ export async function unlockNextLevelFree(userId, gameId, completedLevel, score,
   }
 }
 
-// ── UNLOCK LEVEL WITH COINS (skip-ahead, no need to clear previous) ───────
+// -- UNLOCK LEVEL WITH COINS (skip-ahead, no need to clear previous) -------
 export async function unlockLevelWithCoins(userId, gameId, targetLevel, spendCoinsFn) {
   const cost = await getUnlockCost(targetLevel)
   const ok = await spendCoinsFn?.(cost, `level_unlock_${gameId}_${targetLevel}`)
@@ -176,7 +176,7 @@ export async function unlockLevelWithCoins(userId, gameId, targetLevel, spendCoi
   }
 }
 
-// ── REAL SKILL IMPROVEMENT (NEVER fabricated — pulled from actual answer data) ──
+// -- REAL SKILL IMPROVEMENT (NEVER fabricated - pulled from actual answer data) --
 export async function getRealSkillImprovement(userId) {
   if (!userId) return []
   try {

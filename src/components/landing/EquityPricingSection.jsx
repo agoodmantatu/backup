@@ -55,7 +55,7 @@ const TIERS = [
     priceColor: 'var(--color-success, #22C55E)',
     tag:        'FREE FOR LIFE',
     tagBg:      '#DCFCE7', tagColor:'#15803D',
-    doc:        'National Transgender Identity Card — issued via the SMILE Portal (MoSJE)',
+    doc:        'National Transgender Identity Card - issued via the SMILE Portal (MoSJE)',
     group:      'free',
   },
   {
@@ -185,7 +185,7 @@ export default function EquityPricingSection({ navigate }) {
           ))}
         </div>
 
-        {/* Desktop table — hidden on small screens */}
+        {/* Desktop table - hidden on small screens */}
         <div style={{
           background:'#fff', borderRadius:24, overflow:'hidden',
           boxShadow:'0 8px 40px rgba(30,58,95,0.08)',
@@ -262,7 +262,7 @@ export default function EquityPricingSection({ navigate }) {
           ))}
         </div>
 
-        {/* Mobile cards — shown on small screens */}
+        {/* Mobile cards - shown on small screens */}
         <div style={{ display:'flex', flexDirection:'column', gap:12 }}
           className="equity-cards">
           {filtered.map((t,i)=>(
@@ -311,7 +311,7 @@ export default function EquityPricingSection({ navigate }) {
                     <div style={{ background:'#EDE9FE', borderRadius:12,
                       padding:'8px 12px', marginBottom:10 }}>
                       <p style={{ color:'#7C3AED', fontSize:12, fontWeight:600 }}>
-                        ♿ Accessibility Mode Included — Audio Companion, Visual Sync
+                        ♿ Accessibility Mode Included - Audio Companion, Visual Sync
                         & Minimal Motion modes auto-activated for your profile
                       </p>
                     </div>

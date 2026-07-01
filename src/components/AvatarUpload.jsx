@@ -11,7 +11,7 @@ const OUTPUT_SIZE = 480 // final square avatar dimension in px
 
 /**
  * Compresses + center-crops an image file to a square JPEG blob,
- * entirely client-side via canvas — so a phone camera's 8MB photo
+ * entirely client-side via canvas - so a phone camera's 8MB photo
  * doesn't get pushed to storage as-is. This runs before moderation
  * and before upload.
  */
@@ -161,10 +161,10 @@ export default function AvatarUpload({ userId, currentUrl, onUploaded }) {
       />
 
       {status === 'moderating' && (
-        <p style={{ fontSize: 12, color: 'var(--subtext-color, #64748B)' }}>Checking your photo…</p>
+        <p style={{ fontSize: 12, color: 'var(--subtext-color, #64748B)' }}>Checking your photo...</p>
       )}
       {status === 'uploading' && (
-        <p style={{ fontSize: 12, color: 'var(--subtext-color, #64748B)' }}>Uploading…</p>
+        <p style={{ fontSize: 12, color: 'var(--subtext-color, #64748B)' }}>Uploading...</p>
       )}
       {status === 'done' && (
         <p style={{ fontSize: 12, color: 'var(--color-success, #22C55E)', display: 'flex', alignItems: 'center', gap: 4 }}>

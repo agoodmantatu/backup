@@ -1,5 +1,5 @@
 // FILE: src/components/SkillProgress.jsx
-// TryIT — Real Skill Improvement Tracker (for Profile page)
+// TryIT - Real Skill Improvement Tracker (for Profile page)
 // CRITICAL: This data is computed from ACTUAL question_bank performance.
 // Never fabricated, never randomized, never a placeholder number.
 // Only shows topics with 2+ real data points (genuine before/after comparison).
@@ -37,7 +37,7 @@ export default function SkillProgress({ compact = false }) {
       <p style={{ fontSize:24, marginBottom:6 }}>📊</p>
       <p style={{ fontSize:12, color:'#64748B', margin:0, lineHeight:1.6 }}>
         Play more tournaments and tests to unlock your real skill improvement chart.<br/>
-        We only show genuine before/after comparisons — never fake numbers.
+        We only show genuine before/after comparisons - never fake numbers.
       </p>
     </div>
   )
@@ -49,7 +49,7 @@ export default function SkillProgress({ compact = false }) {
       {!compact && (
         <div style={{ background:'#F0FDF4', border:'1px solid #BBF7D0', borderRadius:10, padding:'8px 12px', marginBottom:12 }}>
           <p style={{ fontSize:11, color:'#065F46', margin:0, lineHeight:1.6 }}>
-            ✅ Computed from your actual question-by-question answers. Real data only — never estimated.
+            ✅ Computed from your actual question-by-question answers. Real data only - never estimated.
           </p>
         </div>
       )}

@@ -1,6 +1,6 @@
 // src/lib/payment.js
 // Razorpay + UPI payment integration
-// Loads Razorpay SDK dynamically — no build-time dependency
+// Loads Razorpay SDK dynamically - no build-time dependency
 
 const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_placeholder'
 
@@ -91,7 +91,7 @@ export async function payDayPass({ days, category, userId, profile, onSuccess, o
 
   await openPayment({
     amount,
-    description: `TryIT ${days}-Day Pass — ${category}`,
+    description: `TryIT ${days}-Day Pass - ${category}`,
     prefill: {
       name:    profile?.name    || '',
       contact: profile?.phone   || '',
@@ -130,7 +130,7 @@ export async function paySubscription({ plan, category, years=1, userId, profile
 
   await openPayment({
     amount,
-    description: `TryIT Pro — ${plan} subscription`,
+    description: `TryIT Pro - ${plan} subscription`,
     prefill: {
       name:    profile?.name  || '',
       contact: profile?.phone || '',

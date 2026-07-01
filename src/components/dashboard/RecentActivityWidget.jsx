@@ -3,7 +3,7 @@ const ACTIVITIES = [
   { dot:'bg-[var(--color-accent, #D4AF37)]', action:'7-Day Streak Badge Unlocked 🔥',detail:'Congratulations! Keep going',         time:'Yesterday' },
   { dot:'bg-blue-500',  action:'Answered doubt in Guru Hub',   detail:'+5 Guru Points · ⭐4.8 rating',        time:'Yesterday' },
   { dot:'bg-green-500', action:'Completed Daily Quiz',         detail:'4/5 correct · +50 coins',              time:'2 days ago'},
-  { dot:'bg-[var(--color-accent, #D4AF37)]', action:'Reached Level 4 — Gold Miner', detail:'6,000 XP milestone reached',           time:'3 days ago'},
+  { dot:'bg-[var(--color-accent, #D4AF37)]', action:'Reached Level 4 - Gold Miner', detail:'6,000 XP milestone reached',           time:'3 days ago'},
   { dot:'bg-blue-500',  action:'Joined Hall: IIT Chasers',     detail:'8 members · 7-day group streak',       time:'4 days ago'},
 ]
 

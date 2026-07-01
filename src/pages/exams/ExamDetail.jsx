@@ -163,9 +163,9 @@ export default function ExamDetail() {
               <h2 className="text-lg font-bold text-[var(--color-primary, #1E3A5F)] mb-4">About This Exam</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
                 {[
-                  { label: 'Conducting Body', value: exam.body || '—' },
-                  { label: 'Level', value: exam.level ? exam.level.charAt(0).toUpperCase() + exam.level.slice(1) : '—' },
-                  { label: 'Category', value: exam.category?.replace(/_/g, ' ') || '—' },
+                  { label: 'Conducting Body', value: exam.body || '-' },
+                  { label: 'Level', value: exam.level ? exam.level.charAt(0).toUpperCase() + exam.level.slice(1) : '-' },
+                  { label: 'Category', value: exam.category?.replace(/_/g, ' ') || '-' },
                   { label: 'Vacancies', value: exam.vacancies ? `${exam.vacancies}` : 'As per notification' },
                   { label: 'Application Fee', value: exam.price_inr ? `₹${exam.price_inr}` : 'Free' },
                 ].map(item => (
@@ -184,7 +184,7 @@ export default function ExamDetail() {
           {activeTab === 'syllabus' && (
             <div>
               <h2 className="text-lg font-bold text-[var(--color-primary, #1E3A5F)] mb-1">Syllabus</h2>
-              <p className="text-xs text-gray-400 mb-5">Indicative syllabus — refer to official notification for latest updates</p>
+              <p className="text-xs text-gray-400 mb-5">Indicative syllabus - refer to official notification for latest updates</p>
               <div className="space-y-4">
                 {SAMPLE_SYLLABUS.map((sec, i) => (
                   <div key={i} className="border border-gray-100 rounded-xl p-4">
@@ -203,7 +203,7 @@ export default function ExamDetail() {
           {activeTab === 'pattern' && (
             <div>
               <h2 className="text-lg font-bold text-[var(--color-primary, #1E3A5F)] mb-1">Exam Pattern</h2>
-              <p className="text-xs text-gray-400 mb-5">Sample structure — actual pattern may vary per notification</p>
+              <p className="text-xs text-gray-400 mb-5">Sample structure - actual pattern may vary per notification</p>
               <div className="space-y-4">
                 {SAMPLE_PATTERN.map((p, i) => (
                   <div key={i} className="rounded-xl border border-gray-100 overflow-hidden">

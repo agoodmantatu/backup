@@ -1,5 +1,5 @@
 // FILE: src/pages/parent/ParentOnboarding.jsx
-// TryIT — Child-linking form for ALREADY-authenticated users
+// TryIT - Child-linking form for ALREADY-authenticated users
 // Route: /parent/onboarding (reached via RoleSelect, NOT a login screen)
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -42,7 +42,7 @@ export default function ParentOnboarding(){
 
         <button onClick={()=>navigate('/family')}
           style={{width:'100%',padding:'12px',background:'none',color:'rgba(255,255,255,0.6)',border:'none',fontSize:12,cursor:'pointer'}}>
-          Skip for now — link later
+          Skip for now - link later
         </button>
 
         <p style={{fontSize:10,color:'rgba(255,255,255,0.4)',textAlign:'center',marginTop:10,lineHeight:1.6}}>

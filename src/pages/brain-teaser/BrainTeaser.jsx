@@ -13,7 +13,7 @@ const TEASERS = [
     answer: 'An Echo',
     hint: 'Think about what happens in mountains or empty halls when you shout.',
     explanation:
-      'An echo has no physical form, yet it "speaks" by repeating sound. It is triggered by the waves the wind carries or by a voice — hence "comes alive with wind."',
+      'An echo has no physical form, yet it "speaks" by repeating sound. It is triggered by the waves the wind carries or by a voice - hence "comes alive with wind."',
   },
   {
     id: 1,
@@ -33,7 +33,7 @@ const TEASERS = [
     answer: 'A Map',
     hint: 'You use this to find your way, but it is not a real place itself.',
     explanation:
-      'A map represents real-world features — cities, mountains, water, roads — as symbols and drawings, but none of these things physically exist on the map itself.',
+      'A map represents real-world features - cities, mountains, water, roads - as symbols and drawings, but none of these things physically exist on the map itself.',
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const TEASERS = [
     answer: 'The Future',
     hint: 'Think time, not space.',
     explanation:
-      'The future is always "ahead" of you in time, but you cannot see or touch it — it hasn\'t happened yet.',
+      'The future is always "ahead" of you in time, but you cannot see or touch it - it hasn\'t happened yet.',
   },
   {
     id: 4,
@@ -53,17 +53,17 @@ const TEASERS = [
     answer: 'A Coin',
     hint: 'You flip this when making a decision.',
     explanation:
-      'A coin has a "head" side and a "tail" side, but no physical body between them — it is flat. A classic lateral-thinking trick that plays on body-part language.',
+      'A coin has a "head" side and a "tail" side, but no physical body between them - it is flat. A classic lateral-thinking trick that plays on body-part language.',
   },
   {
     id: 5,
     emoji: '⭐',
     question:
       'A man walks into a restaurant and orders albatross soup. After one sip, he goes home and kills himself. Why?',
-    answer: 'He was a shipwreck survivor who ate his wife thinking it was albatross — the real soup confirmed it.',
-    hint: 'He had eaten "albatross soup" before — but where, and under what conditions?',
+    answer: 'He was a shipwreck survivor who ate his wife thinking it was albatross - the real soup confirmed it.',
+    hint: 'He had eaten "albatross soup" before - but where, and under what conditions?',
     explanation:
-      'A classic lateral thinking puzzle. He survived a shipwreck by eating "albatross" — but the restaurant soup tasted different, revealing the true nature of what he had eaten on the island. His guilt drove him to take his own life.',
+      'A classic lateral thinking puzzle. He survived a shipwreck by eating "albatross" - but the restaurant soup tasted different, revealing the true nature of what he had eaten on the island. His guilt drove him to take his own life.',
   },
   {
     id: 6,
@@ -73,7 +73,7 @@ const TEASERS = [
     answer: 'A Coffin',
     hint: 'Think of the full life-cycle of this object and who experiences each stage.',
     explanation:
-      'A coffin is crafted and sold by an undertaker, bought by a family member after a death, and used by the deceased — who is unaware.',
+      'A coffin is crafted and sold by an undertaker, bought by a family member after a death, and used by the deceased - who is unaware.',
   },
 ]
 
@@ -164,7 +164,7 @@ export default function BrainTeaser() {
 
           {revealing && (
             <div className="flex justify-center items-center gap-2 text-[var(--color-accent, #D4AF37)] text-lg font-semibold animate-pulse">
-              <span>🤔</span> Thinking…
+              <span>🤔</span> Thinking...
             </div>
           )}
 

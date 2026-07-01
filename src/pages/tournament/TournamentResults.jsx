@@ -1,5 +1,5 @@
 // FILE: src/pages/tournament/TournamentResults.jsx
-// TryIT — 8 PM Tournament Results Reveal
+// TryIT - 8 PM Tournament Results Reveal
 // Route: /tournament/:id/results
 // Rank fetched from static CDN JSON (zero DB reads)
 // Category rank computed locally on device
@@ -105,10 +105,10 @@ function SuspenseReveal({ rank, total, medal, onComplete }) {
         <div style={{ marginTop:32, textAlign:'center' }}>
           <p style={{ fontSize:64, marginBottom:8 }}>{medal.emoji}</p>
           <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:52, color:GOLD, margin:'0 0 4px', lineHeight:1 }}>
-            #{rank?.toLocaleString('en-IN') || '—'}
+            #{rank?.toLocaleString('en-IN') || '-'}
           </p>
           <p style={{ fontSize:16, color:'rgba(255,255,255,0.6)', margin:0 }}>
-            All India Rank · out of {total?.toLocaleString('en-IN') || '—'}
+            All India Rank · out of {total?.toLocaleString('en-IN') || '-'}
           </p>
         </div>
       )}
@@ -215,7 +215,7 @@ export default function TournamentResults() {
     return <SuspenseReveal rank={myRank} total={rankData?.total_participants} medal={medal || { emoji:'🏆' }} onComplete={() => setPhase('loaded')} />
   }
 
-  // ── LOADED: FULL RESULTS PAGE ─────────────────────────────────────────
+  // -- LOADED: FULL RESULTS PAGE -----------------------------------------
   return (
     <div style={{ minHeight:'100vh', background:'#0A0A14', fontFamily:'Inter,sans-serif', color:'#fff', paddingBottom:80 }}>
 
@@ -231,7 +231,7 @@ export default function TournamentResults() {
           {tournament?.tournament_name || 'Tournament'}
         </p>
         <p style={{ fontSize:11, color:'rgba(255,255,255,0.5)', margin:'0 0 20px' }}>
-          {tournament?.exam_display_name} · {rankData?.total_participants?.toLocaleString('en-IN') || '—'} participants
+          {tournament?.exam_display_name} · {rankData?.total_participants?.toLocaleString('en-IN') || '-'} participants
         </p>
 
         {/* My rank hero */}
@@ -239,7 +239,7 @@ export default function TournamentResults() {
           <div style={{ background:'rgba(255,255,255,0.06)', borderRadius:20, padding:20, textAlign:'center' }}>
             <p style={{ fontSize:48, margin:'0 0 6px' }}>{medal?.emoji || '🏆'}</p>
             <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:40, color:GOLD, margin:'0 0 4px', lineHeight:1 }}>
-              #{myRank?.toLocaleString('en-IN') || '—'}
+              #{myRank?.toLocaleString('en-IN') || '-'}
             </p>
             <p style={{ fontSize:13, color:'rgba(255,255,255,0.6)', margin:'0 0 16px' }}>
               All India Rank · {medal?.label}
@@ -295,17 +295,17 @@ export default function TournamentResults() {
                 +{myResult?.coins_awarded || 50} Coins Added
               </p>
               <p style={{ fontSize:11, color:'rgba(255,255,255,0.5)', margin:0 }}>
-                Tournament participation reward — check your Wallet
+                Tournament participation reward - check your Wallet
               </p>
             </div>
           </div>
         )}
 
-        {/* CATEGORY RANK — PRIVATE to user only */}
+        {/* CATEGORY RANK - PRIVATE to user only */}
         {categoryData && (
           <div style={{ background:'rgba(30,58,95,0.4)', border:'1.5px solid rgba(30,58,95,0.8)', borderRadius:18, padding:16, marginBottom:14 }}>
             <p style={{ fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.4)', letterSpacing:1, margin:'0 0 12px' }}>
-              🔒 PRIVATE — YOUR CATEGORY ANALYSIS
+              🔒 PRIVATE - YOUR CATEGORY ANALYSIS
             </p>
 
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:10, marginBottom:14 }}>
@@ -314,13 +314,13 @@ export default function TournamentResults() {
                   {categoryData.category?.toUpperCase().replace('_',' ')} RANK
                 </p>
                 <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:28, color:GOLD, margin:0 }}>
-                  #{categoryData.category_rank?.toLocaleString('en-IN') || '—'}
+                  #{categoryData.category_rank?.toLocaleString('en-IN') || '-'}
                 </p>
               </div>
               <div style={{ background:'rgba(255,255,255,0.05)', borderRadius:12, padding:12, textAlign:'center' }}>
                 <p style={{ fontSize:10, color:'rgba(255,255,255,0.4)', margin:'0 0 4px' }}>CATEGORY CUTOFF</p>
                 <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:28, color:GREEN, margin:0 }}>
-                  {categoryData.cutoff_marks || '—'}
+                  {categoryData.cutoff_marks || '-'}
                 </p>
               </div>
             </div>
@@ -352,7 +352,7 @@ export default function TournamentResults() {
         {top100.length > 0 && (
           <div>
             <p style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.5)', letterSpacing:1, marginBottom:12 }}>
-              🏆 TOP 20 — {tournament?.exam_display_name}
+              🏆 TOP 20 - {tournament?.exam_display_name}
             </p>
             {top100.slice(0, 20).map((entry, i) => {
               const isMe = entry.user_id === user?.id
@@ -394,7 +394,7 @@ export default function TournamentResults() {
   )
 }
 
-// ── SHARE RESULT MODAL ────────────────────────────────────────────────────
+// -- SHARE RESULT MODAL ----------------------------------------------------
 function ShareResultModal({ rank, score, exam, total, medal, userName, onClose }) {
   const NAVY = '#1E3A5F', GOLD = '#C9A84C'
 

@@ -1,20 +1,20 @@
 /**
- * TryIT — Mentor Answer Reactions & Daily Pin
- * ─────────────────────────────────────────────────────────────────
+ * TryIT - Mentor Answer Reactions & Daily Pin
+ * -----------------------------------------------------------------
  * Tracks reactions students leave on a MENTOR'S ANSWER (not on the
- * original question — reacting to a question was the earlier, wrong
+ * original question - reacting to a question was the earlier, wrong
  * version of this feature). Reactions are weighted, not just counted,
  * so "highest emoji" has real meaning: a single 🏆 should be able to
  * outweigh a handful of 👍.
  *
  * Once per day, the highest-scoring answer across all mentors becomes
- * the pinned "Today's Top Answer" — shown at the top of the Mentor
+ * the pinned "Today's Top Answer" - shown at the top of the Mentor
  * Hub feed AND as a 24-hour badge on that mentor's profile.
  *
  * STORAGE NOTE: this is built on localStorage for now, matching your
  * existing IS_DEV/Supabase-fallback pattern elsewhere in the app. The
  * seam for the real backend is isolated to the three functions below
- * (recordReaction, getTodayLeaderboard, getPinnedAnswer) — swap their
+ * (recordReaction, getTodayLeaderboard, getPinnedAnswer) - swap their
  * internals for Supabase table reads/writes once your `answers`
  * table schema is ready; nothing calling into this module needs to
  * change.
@@ -55,7 +55,7 @@ function writeAll(data) {
  * emoji: one of ANSWER_REACTIONS' emoji values
  * studentId: used to prevent double-counting the same reaction twice
  * in the same day from the same student (toggle behavior handled by
- * the calling component — this function just records the latest
+ * the calling component - this function just records the latest
  * state for that student+answer pair).
  */
 export function recordReaction(answer, emoji, studentId) {
@@ -103,7 +103,7 @@ export function getTodayLeaderboard() {
 
 /**
  * Computes (and caches for the day) the single pinned answer. Call
- * this once when the Mentor Hub feed loads — it's cheap, but caching
+ * this once when the Mentor Hub feed loads - it's cheap, but caching
  * avoids recomputing on every render.
  * Returns null if no reactions exist yet today.
  */
@@ -117,7 +117,7 @@ export function getPinnedAnswer() {
   const leaderboard = getTodayLeaderboard()
   const top = leaderboard[0] || null
   // Require a minimum score so a single 👍 doesn't get "pinned" status
-  // on a quiet day — that would cheapen what pinning means.
+  // on a quiet day - that would cheapen what pinning means.
   const pinned = top && top.score >= 4 ? top : null
 
   try { localStorage.setItem(PIN_KEY, JSON.stringify({ day, pinned })) } catch {}
@@ -125,7 +125,7 @@ export function getPinnedAnswer() {
 }
 
 /**
- * Convenience check for a mentor's own profile badge — is THIS mentor
+ * Convenience check for a mentor's own profile badge - is THIS mentor
  * currently holding the daily pin?
  */
 export function isMentorPinnedToday(mentorId) {

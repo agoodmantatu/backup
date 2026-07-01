@@ -1,5 +1,5 @@
 // FILE: src/components/EmojiSystem.js
-// TryIT App-Wide Medal & Emoji System — NO negative language ever.
+// TryIT App-Wide Medal & Emoji System - NO negative language ever.
 // "Wrong/Failed/Incorrect/Error" NEVER used. Always medals + encouragement.
 const GOLD='#C9A84C'
 
@@ -108,7 +108,7 @@ export function encouragement(pct){
   if(pct>=75)return"Excellent work! Keep this momentum. 💪"
   if(pct>=60)return"Good performance! You're growing stronger. 📈"
   if(pct>=45)return"Great effort! Every test makes you better. 🌱"
-  if(pct>=30)return"You showed up — that's what counts. Keep going! 🔥"
+  if(pct>=30)return"You showed up - that's what counts. Keep going! 🔥"
   return"This is where champions begin. Review and rise! 💡"
 }
 

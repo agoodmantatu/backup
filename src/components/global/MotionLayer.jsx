@@ -1,5 +1,5 @@
 // src/components/global/MotionLayer.jsx
-// TRYIT EDUCATIONS — Shooting Stars Motion Layer
+// TRYIT EDUCATIONS - Shooting Stars Motion Layer
 import React from 'react'
 
 export default function MotionLayer() {

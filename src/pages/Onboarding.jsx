@@ -1,5 +1,5 @@
 // FILE: src/pages/Onboarding.jsx
-// TryIT — Unified Multi-Role Onboarding Pipeline
+// TryIT - Unified Multi-Role Onboarding Pipeline
 // Route: /onboarding (Triggers dynamically post role-select to configure profile details)
 
 import { useState, useEffect, useMemo } from 'react'
@@ -178,7 +178,7 @@ function SelectInput({ label, value, onChange, options, placeholder, optional })
   )
 }
 
-// ─── STUDENT SUB-COMPONENTS ───
+// --- STUDENT SUB-COMPONENTS ---
 
 function StudentStep1({ data, setData }) {
   return (
@@ -328,7 +328,7 @@ function StudentStep5({ data, setData }) {
   }
   return (
     <div>
-      <StepTitle title="Your strengths & weak areas" subtitle="Optional — helps us parameterize your adaptive study map." />
+      <StepTitle title="Your strengths & weak areas" subtitle="Optional - helps us parameterize your adaptive study map." />
       <div className="mb-5">
         <p className="text-sm font-semibold mb-2" style={{ color: '#16A34A', fontFamily: 'Inter, sans-serif' }}>💪 Strong in</p>
         <div className="flex flex-wrap gap-2">
@@ -349,7 +349,7 @@ function StudentStep5({ data, setData }) {
   )
 }
 
-// ─── MENTOR SUB-COMPONENTS ───
+// --- MENTOR SUB-COMPONENTS ---
 
 function MentorStep1({ data, setData }) {
   return (
@@ -410,7 +410,7 @@ function MentorStep3({ data, setData }) {
   )
 }
 
-// ─── INSTITUTION SUB-COMPONENTS ───
+// --- INSTITUTION SUB-COMPONENTS ---
 
 function InstitutionStep1({ data, setData }) {
   return (
@@ -431,7 +431,7 @@ function InstitutionStep2({ data, setData }) {
         label="Number of active students enrolled"
         value={data.studentCount || ''}
         onChange={v => setData(d => ({...d, studentCount: v}))}
-        options={['1–50','51–200','201–500','501–1000','1000+']}
+        options={['1-50','51-200','201-500','501-1000','1000+']}
       />
     </div>
   )
@@ -456,7 +456,7 @@ function InstitutionStep3({ data, setData }) {
   )
 }
 
-// ─── FAMILY SUB-COMPONENTS ───
+// --- FAMILY SUB-COMPONENTS ---
 
 function FamilyStep1({ data, setData }) {
   return (
@@ -487,7 +487,7 @@ function FamilyStep2({ data, setData }) {
   )
 }
 
-// ─── MAIN MASTER CLASS WORKFLOW ───
+// --- MAIN MASTER CLASS WORKFLOW ---
 
 export default function Onboarding() {
   const navigate = useNavigate()

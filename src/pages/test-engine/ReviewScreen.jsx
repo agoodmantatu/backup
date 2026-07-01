@@ -111,7 +111,7 @@ export default function ReviewScreen() {
 
                 {/* Unattempted note */}
                 {!wasAttempted && (
-                  <div className="text-xs text-gray-400 italic">Not attempted — correct answer: <span className="font-semibold text-gray-600">{q.correct_answer}</span></div>
+                  <div className="text-xs text-gray-400 italic">Not attempted - correct answer: <span className="font-semibold text-gray-600">{q.correct_answer}</span></div>
                 )}
 
                 {/* Explanation */}

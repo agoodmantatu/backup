@@ -6,12 +6,12 @@ import { useAuth } from '../../context/AuthContext'
 
 const TIERS = [
   { id: 'hope_scholars',       emoji: '🌱', name: 'Hope Scholars',        desc: 'Students from economically weaker sections (BPL/AAY card holders)',        badge: '100% Free for Life' },
-  { id: 'divyang',             emoji: '♿', name: 'Physically Challenged', desc: 'Persons with disabilities (PwD) — Divyang category per Govt of India',     badge: '100% Free for Life' },
+  { id: 'divyang',             emoji: '♿', name: 'Physically Challenged', desc: 'Persons with disabilities (PwD) - Divyang category per Govt of India',     badge: '100% Free for Life' },
   { id: 'swachhta_warriors',   emoji: '🧹', name: 'Swachhta Warriors',    desc: 'Sanitation workers, waste pickers, and their immediate family',             badge: '100% Free for Life' },
   { id: 'martyr_families',     emoji: '🎖️', name: "Martyr's Families",   desc: 'Families of fallen soldiers, paramilitary, or police (Veer Naris)',         badge: '100% Free for Life' },
   { id: 'transgender_youth',   emoji: '🏳️‍⚧️', name: 'Transgender Youth', desc: 'Transgender students (SMILE Portal beneficiaries and applicants)',         badge: '100% Free for Life' },
   { id: 'active_military',     emoji: '🪖', name: 'Active Military',      desc: 'Currently serving defence/paramilitary personnel and their dependents',      badge: '15-30% Discount' },
-  { id: 'asha_anganwadi',      emoji: '🏥', name: 'ASHA / Anganwadi',    desc: 'Frontline health workers — ASHA, Anganwadi, and their children',            badge: '15-30% Discount' },
+  { id: 'asha_anganwadi',      emoji: '🏥', name: 'ASHA / Anganwadi',    desc: 'Frontline health workers - ASHA, Anganwadi, and their children',            badge: '15-30% Discount' },
   { id: 'first_generation',    emoji: '🌟', name: 'First-Generation',     desc: 'First in family to pursue higher education (no parent with degree)',        badge: '15-30% Discount' },
 ]
 

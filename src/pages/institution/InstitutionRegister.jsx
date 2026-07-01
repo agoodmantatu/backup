@@ -13,9 +13,9 @@ const TYPES = [
 ]
 
 const FEE_MODELS = [
-  {id:'free',     icon:'🆓', label:'Free',         sub:'No app payment — collect offline'},
+  {id:'free',     icon:'🆓', label:'Free',         sub:'No app payment - collect offline'},
   {id:'per_hall', icon:'🏛️', label:'Per Hall Fee', sub:'Student pays per hall joined'},
-  {id:'pass',     icon:'🎟️', label:'Institution Pass', sub:'One price — all halls access'},
+  {id:'pass',     icon:'🎟️', label:'Institution Pass', sub:'One price - all halls access'},
 ]
 
 const EXAMS = ['UPSC CSE','SSC CGL','TNPSC Group 1','IBPS PO','NEET UG','JEE Main',
@@ -82,7 +82,7 @@ export default function InstitutionRegister() {
             🏫 Register Your Institution
           </h1>
           <p style={{color:'rgba(255,255,255,0.7)',fontSize:13,margin:'0 0 20px'}}>
-            School · College · Coaching · Tuition · Online — anyone can start
+            School · College · Coaching · Tuition · Online - anyone can start
           </p>
 
           {/* Step indicator */}
@@ -177,7 +177,7 @@ export default function InstitutionRegister() {
                 background:canNext1?'linear-gradient(135deg,'+p+','+a+')':b,
                 border:'none',borderRadius:14,padding:'14px',
                 color:canNext1?'#fff':m,fontWeight:800,fontSize:14,cursor:'pointer'}}>
-              Next — Specialization →
+              Next - Specialization →
             </button>
           </div>
         )}
@@ -209,7 +209,7 @@ export default function InstitutionRegister() {
               How will students pay?
             </p>
             <p style={{color:m,fontSize:11,margin:'0 0 12px'}}>
-              You decide — you can change this anytime
+              You decide - you can change this anytime
             </p>
             <div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:20}}>
               {FEE_MODELS.map(model=>(
@@ -259,7 +259,7 @@ export default function InstitutionRegister() {
                   background:canNext2?'linear-gradient(135deg,'+p+','+a+')':b,
                   border:'none',borderRadius:14,padding:'13px',
                   color:canNext2?'#fff':m,fontWeight:800,fontSize:13,cursor:'pointer'}}>
-                Next — Owner Details →
+                Next - Owner Details →
               </button>
             </div>
           </div>
@@ -304,7 +304,7 @@ export default function InstitutionRegister() {
                 <div key={i} style={{display:'flex',gap:8,marginBottom:6}}>
                   <span style={{color:m,fontSize:12,minWidth:100}}>{row.l}:</span>
                   <span style={{color:t,fontSize:12,fontWeight:600,flex:1}}>
-                    {row.v||'—'}
+                    {row.v||'-'}
                   </span>
                 </div>
               ))}

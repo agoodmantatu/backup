@@ -46,7 +46,7 @@ export default function UploadEbook() {
     <AppLayout title="Upload Ebook">
       <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-md p-6 sm:p-8">
         <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">Share Your Ebook ⬆️</h2>
-        <p className="text-slate-500 mb-6">Help fellow aspirants — submit for review and reach thousands of learners.</p>
+        <p className="text-slate-500 mb-6">Help fellow aspirants - submit for review and reach thousands of learners.</p>
 
         <div className="space-y-5">
           <div>
@@ -100,7 +100,7 @@ export default function UploadEbook() {
           </div>
 
           <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">Price (₹) — set 0 for Free</label>
+            <label className="block text-sm font-bold text-slate-700 mb-2">Price (₹) - set 0 for Free</label>
             <input
               type="number"
               min="0"

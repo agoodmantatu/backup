@@ -1,4 +1,4 @@
-// All 9 Social Equity Tiers — complete definitions
+// All 9 Social Equity Tiers - complete definitions
 export const EQUITY_TIERS = {
   HOPE_SCHOLAR: {
     id: 'hope_scholar',

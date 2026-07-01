@@ -1,6 +1,6 @@
 // FILE: src/pages/Login.jsx
-// TryIT — Multi-Role & Phone-First Secure Verification (Truecaller / OTP)
-// Route: /login (One registration per verified phone number — Anti-Cheat Foundation)
+// TryIT - Multi-Role & Phone-First Secure Verification (Truecaller / OTP)
+// Route: /login (One registration per verified phone number - Anti-Cheat Foundation)
 
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
@@ -199,7 +199,7 @@ export default function Login() {
             </p>
           </div>
 
-          {/* ─── STEP 1: ROLE SELECTION ─── */}
+          {/* --- STEP 1: ROLE SELECTION --- */}
           {step === 'role' && (
             <div>
               <h2 className="text-center text-xl font-bold mb-1" style={{ color: textColor, fontFamily: 'Poppins, sans-serif' }}>
@@ -230,7 +230,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* ─── STEP 2: PHONE PHONE-NUMBER ENTRY ─── */}
+          {/* --- STEP 2: PHONE PHONE-NUMBER ENTRY --- */}
           {step === 'phone' && (
             <div>
               <button onClick={() => { setStep('role'); setError('') }} className="flex items-center gap-1 text-sm mb-5 transition-opacity hover:opacity-70" style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>
@@ -278,13 +278,13 @@ export default function Login() {
                   className="w-full rounded-xl py-3 font-semibold text-sm transition-all hover:shadow-md disabled:opacity-60"
                   style={{ background: accentGradient, color: buttonText, fontFamily: 'Poppins, sans-serif' }}
                 >
-                  {loading ? 'Sending OTP…' : 'Continue →'}
+                  {loading ? 'Sending OTP...' : 'Continue →'}
                 </button>
               </form>
             </div>
           )}
 
-          {/* ─── STEP 3: OTP VERIFICATION PIN-PAD ─── */}
+          {/* --- STEP 3: OTP VERIFICATION PIN-PAD --- */}
           {step === 'otp' && (
             <div>
               <button onClick={() => { setStep('phone'); setError(''); setOtp(['','','','','','']) }} className="flex items-center gap-1 text-sm mb-5 transition-opacity hover:opacity-70" style={{ color: textColor, fontFamily: 'Inter, sans-serif' }}>
@@ -330,7 +330,7 @@ export default function Login() {
                   className="w-full rounded-xl py-3 font-semibold text-sm transition-all hover:shadow-md disabled:opacity-50"
                   style={{ background: accentGradient, color: buttonText, fontFamily: 'Poppins, sans-serif' }}
                 >
-                  {loading ? 'Verifying…' : 'Verify & Proceed →'}
+                  {loading ? 'Verifying...' : 'Verify & Proceed →'}
                 </button>
               </form>
 
@@ -342,7 +342,7 @@ export default function Login() {
             </div>
           )}
 
-          {/* ─── STEP 4: ACCOUNT ONBOARDING PROFILE SETUP ─── */}
+          {/* --- STEP 4: ACCOUNT ONBOARDING PROFILE SETUP --- */}
           {step === 'name' && (
             <div>
               <p className="text-4xl text-center mb-2">👋</p>

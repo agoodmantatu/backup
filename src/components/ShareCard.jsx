@@ -1,5 +1,5 @@
 // FILE: src/components/ShareCard.jsx
-// TryIT — Social Share Cards for Student / Mentor / Institution
+// TryIT - Social Share Cards for Student / Mentor / Institution
 // All cards: TryIT logo + tryiteducations.net branding
 // Social sharing OFF by default (admin toggle). Only fires when user chooses.
 import { useState } from 'react'
@@ -7,7 +7,7 @@ import { supabase } from '../lib/supabase'
 
 const NAVY='#1E3A5F', GOLD='#C9A84C'
 
-// ── CARD RENDERERS ────────────────────────────────────────────────────────
+// -- CARD RENDERERS --------------------------------------------------------
 
 function TryITLogo({size=14}){
   return(
@@ -34,7 +34,7 @@ function StudentResultCard({userName,rank,score,exam,total,medal,userState}){
         <p style={{fontSize:13,fontWeight:700,color:'#fff',margin:'0 0 2px'}}>{userName}</p>
         <p style={{fontSize:10,color:'rgba(255,255,255,0.5)',margin:0}}>{userState||'India'} · Score: {score}</p>
       </div>
-      <p style={{fontSize:10,color:'rgba(255,255,255,0.4)',margin:0}}>out of {total?.toLocaleString('en-IN')||'—'} students · tryiteducations.net</p>
+      <p style={{fontSize:10,color:'rgba(255,255,255,0.4)',margin:0}}>out of {total?.toLocaleString('en-IN')||'-'} students · tryiteducations.net</p>
     </div>
   )
 }
@@ -154,19 +154,19 @@ function GameResultCard({userName,gameName,gameEmoji,score,medal,bestStreak}){
   )
 }
 
-// ── MAIN ShareCard COMPONENT ──────────────────────────────────────────────
+// -- MAIN ShareCard COMPONENT ----------------------------------------------
 export default function ShareCard({type,data,onClose}){
   const[sharing,setSharing]=useState(false)
 
   const getText=()=>{
     switch(type){
       case 'student_result': return `🏆 I ranked #${data.rank?.toLocaleString('en-IN')} All India in ${data.exam} on TryIT Educations!\n📊 Score: ${data.score} | ${data.medal?.label}\n🌐 tryiteducations.net`
-      case 'mentor_stats':   return `🧑‍🏫 I helped ${data.solved} students today on TryIT Educations${data.isMentorOfDay?' — and I am Mentor of the Day! 🏅':'!'}\n🌐 tryiteducations.net`
+      case 'mentor_stats':   return `🧑‍🏫 I helped ${data.solved} students today on TryIT Educations${data.isMentorOfDay?' - and I am Mentor of the Day! 🏅':'!'}\n🌐 tryiteducations.net`
       case 'institution_live':return `🔴 LIVE NOW: ${data.centreName} is conducting ${data.examName} on TryIT Educations!\nJoin now: tryiteducations.net`
-      case 'institution_result':return `📊 ${data.centreName} — ${data.examName} Results\nAvg Score: ${data.avgScore}% | ${data.totalStudents} students\n🌐 tryiteducations.net`
+      case 'institution_result':return `📊 ${data.centreName} - ${data.examName} Results\nAvg Score: ${data.avgScore}% | ${data.totalStudents} students\n🌐 tryiteducations.net`
       case 'parent_child':   return `🎉 My child ${data.childName} ranked #${data.rank?.toLocaleString('en-IN')} All India in ${data.exam}!\nPrepared on TryIT Educations 🇮🇳\n🌐 tryiteducations.net`
-      case 'game_result':    return `🎮 Scored ${data.score} pts in ${data.gameName} on TryIT Educations!\n${data.medal?.emoji} ${data.medal?.label}${data.bestStreak?` · 🔥${data.bestStreak}x combo`:''}\nSharpening my mind for exams — join me! 🧠\n🌐 tryiteducations.net`
-      default:               return 'Check out TryIT Educations — tryiteducations.net'
+      case 'game_result':    return `🎮 Scored ${data.score} pts in ${data.gameName} on TryIT Educations!\n${data.medal?.emoji} ${data.medal?.label}${data.bestStreak?` · 🔥${data.bestStreak}x combo`:''}\nSharpening my mind for exams - join me! 🧠\n🌐 tryiteducations.net`
+      default:               return 'Check out TryIT Educations - tryiteducations.net'
     }
   }
 

@@ -1,10 +1,10 @@
-// src/pages/Landing.jsx — TryIT Educations
-// Professional landing page — Vidya Indigo brand
+// src/pages/Landing.jsx - TryIT Educations
+// Professional landing page - Vidya Indigo brand
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
-// Brand colors (hardcoded for landing — before ThemeContext loads)
+// Brand colors (hardcoded for landing - before ThemeContext loads)
 const B = {
   primary: '#2D1B69',
   dark:    '#1A0D3D',
@@ -47,12 +47,12 @@ const FEATURES = [
   {
     icon:'👨‍🏫',
     title:'1-to-1 Async Mentoring',
-    desc:'Get a dedicated mentor for your exam. Daily assignments, doubt solving, unit tests — all without video calls. Works on 2G.',
+    desc:'Get a dedicated mentor for your exam. Daily assignments, doubt solving, unit tests - all without video calls. Works on 2G.',
   },
   {
     icon:'🏫',
     title:'Institution Management',
-    desc:'Schools, coaching centres and tuition classes — manage halls, conduct live exams, track every student, share parent reports.',
+    desc:'Schools, coaching centres and tuition classes - manage halls, conduct live exams, track every student, share parent reports.',
   },
   {
     icon:'🎯',
@@ -68,7 +68,7 @@ const PLANS = [
     period:'forever',
     color:B.muted,
     features:[
-      'PYQ questions — unlimited',
+      'PYQ questions - unlimited',
       '5 AI explanations per 6 hours',
       'Daily current affairs',
       'All-India leaderboard',
@@ -86,7 +86,7 @@ const PLANS = [
     color:B.primary,
     features:[
       'Everything in Free',
-      'All questions — AI + PYQ',
+      'All questions - AI + PYQ',
       'Unlimited 7-layer explanations',
       'Unlimited tests and mock exams',
       'All 24 preparation pathways',
@@ -140,7 +140,7 @@ function useInView(threshold=0.2) {
   return [ref, inView]
 }
 
-// ─── Navbar ──────────────────────────────────────────────
+// --- Navbar ----------------------------------------------
 function Navbar({nav}) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -223,7 +223,7 @@ function Navbar({nav}) {
   )
 }
 
-// ─── Hero ─────────────────────────────────────────────────
+// --- Hero -------------------------------------------------
 function Hero({nav}) {
   return (
     <section style={{
@@ -235,7 +235,7 @@ function Hero({nav}) {
         display:'grid',gridTemplateColumns:'1fr 1fr',gap:80,
         alignItems:'center'}}>
 
-        {/* Left — Text */}
+        {/* Left - Text */}
         <div>
           {/* Badge */}
           <div style={{display:'inline-flex',alignItems:'center',gap:6,
@@ -296,7 +296,7 @@ function Hero({nav}) {
           </p>
         </div>
 
-        {/* Right — Visual */}
+        {/* Right - Visual */}
         <div style={{position:'relative'}}>
           {/* Main card */}
           <div style={{background:B.primary,borderRadius:24,padding:28,
@@ -342,7 +342,7 @@ function Hero({nav}) {
               borderRadius:10,padding:'12px 14px'}}>
               <p style={{color:B.accent,fontFamily:'Inter,sans-serif',
                 fontSize:12,fontWeight:700,margin:'0 0 4px'}}>
-                ✓ Correct — Article 14
+                ✓ Correct - Article 14
               </p>
               <p style={{color:'rgba(255,255,255,0.6)',fontSize:11,margin:0,
                 fontFamily:'Inter,sans-serif'}}>
@@ -390,7 +390,7 @@ function Hero({nav}) {
   )
 }
 
-// ─── Stats ────────────────────────────────────────────────
+// --- Stats ------------------------------------------------
 function Stats() {
   const [ref, inView] = useInView()
   return (
@@ -419,7 +419,7 @@ function Stats() {
   )
 }
 
-// ─── Exam Trust ───────────────────────────────────────────
+// --- Exam Trust -------------------------------------------
 function ExamTrust() {
   return (
     <section style={{background:B.surface,padding:'64px 24px',
@@ -454,7 +454,7 @@ function ExamTrust() {
   )
 }
 
-// ─── Features ─────────────────────────────────────────────
+// --- Features ---------------------------------------------
 function Features() {
   const [ref, inView] = useInView()
   return (
@@ -512,14 +512,14 @@ function Features() {
   )
 }
 
-// ─── Role Sections ────────────────────────────────────────
+// --- Role Sections ----------------------------------------
 function RoleSections({nav}) {
   const ROLES = [
     {
       tag:'For Students',
       title:'Study smarter. Rank higher.',
       desc:'Take unlimited tests, track your All-India rank in real time, earn coins for every correct answer, and unlock themes. Learn in your own language.',
-      points:['Adaptive difficulty — L1 to L10','7-layer explanations after every question','Daily study streak with coin rewards','Community doubts answered by mentors'],
+      points:['Adaptive difficulty - L1 to L10','7-layer explanations after every question','Daily study streak with coin rewards','Community doubts answered by mentors'],
       cta:'Start Studying Free',
       ctaPath:'/role-select',
       side:'left',
@@ -538,7 +538,7 @@ function RoleSections({nav}) {
     {
       tag:'For Institutions',
       title:'Your classroom. Digitised.',
-      desc:'Schools, coaching centres and tuition classes — manage multiple halls, conduct live exams for lakhs of students, and share automated parent reports.',
+      desc:'Schools, coaching centres and tuition classes - manage multiple halls, conduct live exams for lakhs of students, and share automated parent reports.',
       points:['Multiple halls and batches','Live exam with auto-submit','Per-student performance graphs','WhatsApp-ready parent reports'],
       cta:'Register Institution',
       ctaPath:'/institution/register',
@@ -563,7 +563,7 @@ function RoleSections({nav}) {
               transform: inView ? 'translateY(0)' : 'translateY(32px)',
               transition:'all 0.6s ease',
             }}>
-              {/* Text — swap order for right */}
+              {/* Text - swap order for right */}
               <div style={{order: role.side==='right' ? 2 : 1}}>
                 <span style={{
                   background: role.color+'15',
@@ -637,7 +637,7 @@ function RoleSections({nav}) {
   )
 }
 
-// ─── Pricing ──────────────────────────────────────────────
+// --- Pricing ----------------------------------------------
 function Pricing({nav}) {
   const [annual, setAnnual] = useState(true)
   return (
@@ -742,7 +742,7 @@ function Pricing({nav}) {
   )
 }
 
-// ─── Footer ───────────────────────────────────────────────
+// --- Footer -----------------------------------------------
 function Footer({nav}) {
   const LINKS = {
     'Platform': [
@@ -838,7 +838,7 @@ function Footer({nav}) {
   )
 }
 
-// ─── Main ─────────────────────────────────────────────────
+// --- Main -------------------------------------------------
 export default function Landing() {
   const nav = useNavigate()
   const { user } = useAuth()

@@ -1,4 +1,4 @@
-// FILE: src/pages/Dashboard.jsx — TryIT Main Home Screen
+// FILE: src/pages/Dashboard.jsx - TryIT Main Home Screen
 import { useState, useEffect } from 'react'
 import { useNavigate }         from 'react-router-dom'
 import { useAuth }             from '../context/AuthContext'
@@ -14,9 +14,9 @@ const MOCK_ENROLLED = [
   { id:'upsc_cse_pre',name:'UPSC CSE Prelims',  readiness:41, examDate:'May 2027', icon:'🇮🇳', color:'#DC2626' },
 ]
 const MOCK_MATERIALS = [
-  { material_id:'m1', title:'Daily Current Affairs — 18 June 2026', material_type:'daily_current_affairs', source:'The Hindu + PIB', file_url:'#', view_count:1240, download_count:342, is_pinned:true },
-  { material_id:'m2', title:'SSC CGL Maths Formula Sheet — All Chapters', material_type:'formula_sheet', source:'TryIT', file_url:'#', view_count:3840, download_count:1203, is_pinned:false },
-  { material_id:'m3', title:'RRB NTPC Notification 2026 — Official PDF', material_type:'exam_notification', source:'Railway Board', file_url:'#', view_count:8920, download_count:4102, is_pinned:false },
+  { material_id:'m1', title:'Daily Current Affairs - 18 June 2026', material_type:'daily_current_affairs', source:'The Hindu + PIB', file_url:'#', view_count:1240, download_count:342, is_pinned:true },
+  { material_id:'m2', title:'SSC CGL Maths Formula Sheet - All Chapters', material_type:'formula_sheet', source:'TryIT', file_url:'#', view_count:3840, download_count:1203, is_pinned:false },
+  { material_id:'m3', title:'RRB NTPC Notification 2026 - Official PDF', material_type:'exam_notification', source:'Railway Board', file_url:'#', view_count:8920, download_count:4102, is_pinned:false },
 ]
 const MOCK_LEADERBOARD = [
   { id:'u1', name:'Priya K.',   state:'Tamil Nadu',    score:9840, accuracy:91 },
@@ -24,7 +24,7 @@ const MOCK_LEADERBOARD = [
   { id:'u3', name:'Ravi S.',    state:'Andhra Pradesh',score:9601, accuracy:87 },
 ]
 const MOCK_STORY = {
-  headline:'The Man Who Planted a Forest — Alone — for 37 Years',
+  headline:'The Man Who Planted a Forest - Alone - for 37 Years',
   state_name:'Assam', region:'northeast',
   hook_line:'While the world was moving forward, one man was moving earth.',
 }
@@ -165,7 +165,7 @@ export default function Dashboard() {
         {/* Start test */}
         <button onClick={()=>navigate('/test-engine')} disabled={planTier==='free'&&freeTestsLeft===0}
           style={{ width:'100%', padding:'14px', marginBottom:4, background:planTier==='free'&&freeTestsLeft===0?'#E2E8F0':`linear-gradient(135deg,${NAVY},#0F2140)`, color:planTier==='free'&&freeTestsLeft===0?'#94A3B8':'#fff', border:'none', borderRadius:14, fontWeight:800, fontSize:15, cursor:planTier==='free'&&freeTestsLeft===0?'not-allowed':'pointer' }}>
-          {planTier==='free'&&freeTestsLeft===0 ? '🔒 Daily Limit Reached — Upgrade for More' : '📝 Start Practice Test →'}
+          {planTier==='free'&&freeTestsLeft===0 ? '🔒 Daily Limit Reached - Upgrade for More' : '📝 Start Practice Test →'}
         </button>
 
         {/* Bharat Pulse */}
@@ -242,7 +242,7 @@ export default function Dashboard() {
               </>
             ) : (
               <>
-                <p style={{ fontWeight:700, color:'#fff', fontSize:13, margin:'0 0 2px' }}>24 Prep Pathways — JEE · NEET · UPSC · Banking</p>
+                <p style={{ fontWeight:700, color:'#fff', fontSize:13, margin:'0 0 2px' }}>24 Prep Pathways - JEE · NEET · UPSC · Banking</p>
                 <p style={{ fontSize:11, color:GOLD, margin:0, fontWeight:700 }}>Unlock with Ultra ✨ →</p>
               </>
             )}

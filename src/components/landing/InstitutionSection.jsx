@@ -28,10 +28,10 @@ export default function InstitutionSection() {
   const CONTENT = [
     {
       title:'Live Student Analytics Dashboard',
-      desc:'Who attended. Who skipped. Minutes spent. Weak subjects per student. All automatic — zero manual work. Intervene early before small gaps become big exam-day failures.',
+      desc:'Who attended. Who skipped. Minutes spent. Weak subjects per student. All automatic - zero manual work. Intervene early before small gaps become big exam-day failures.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
-          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>CLASS OVERVIEW — JUNE 2026</p>
+          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>CLASS OVERVIEW - JUNE 2026</p>
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr 1fr',gap:6,marginBottom:10}}>
             {[['28','Students',accent],['87%','Attendance','#4ADE80'],['8','Tests Run','#60A5FA'],['19%','Avg Improvement','#F472B6']].map(([v,l,c])=>(
               <div key={l} style={{background:isDark?`${c}10`:surf,border:`1px solid ${c}20`,borderRadius:8,padding:'6px 5px',textAlign:'center'}}>
@@ -54,7 +54,7 @@ export default function InstitutionSection() {
       ),
     },
     {
-      title:'Conduct Tests Daily — Auto-Generated',
+      title:'Conduct Tests Daily - Auto-Generated',
       desc:'Choose subject → choose topics → set difficulty → launch. Auto-generates questions from our 1,10,000+ question bank. Share a 6-digit code. Students join from any phone. Done.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
@@ -75,8 +75,8 @@ export default function InstitutionSection() {
       ),
     },
     {
-      title:'Student Management — Complete Control',
-      desc:'Add students, organise by batch, set exam targets, track individual progress, send alerts to parents — all from one screen. No spreadsheets. No WhatsApp groups chasing attendance.',
+      title:'Student Management - Complete Control',
+      desc:'Add students, organise by batch, set exam targets, track individual progress, send alerts to parents - all from one screen. No spreadsheets. No WhatsApp groups chasing attendance.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>BATCH: NEET 2026 · 28 STUDENTS</p>
@@ -121,8 +121,8 @@ export default function InstitutionSection() {
       ),
     },
     {
-      title:'Attendance Tracking — Automated',
-      desc:'See who attended, who was absent, for exactly how many minutes — all automatic. No manual register. No chasing students. Alert parents instantly when a student misses a session.',
+      title:'Attendance Tracking - Automated',
+      desc:'See who attended, who was absent, for exactly how many minutes - all automatic. No manual register. No chasing students. Alert parents instantly when a student misses a session.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>JUNE 2026 ATTENDANCE</p>
@@ -140,14 +140,14 @@ export default function InstitutionSection() {
             </div>
           ))}
           <div style={{marginTop:8,background:'rgba(248,113,113,0.08)',border:'1px solid rgba(248,113,113,0.2)',borderRadius:8,padding:'6px 10px'}}>
-            <p style={{color:'#F87171',fontSize:9,fontWeight:700,margin:0}}>⚠️ Karthik below 60% — parent alert sent automatically</p>
+            <p style={{color:'#F87171',fontSize:9,fontWeight:700,margin:0}}>⚠️ Karthik below 60% - parent alert sent automatically</p>
           </div>
         </div>
       ),
     },
     {
-      title:'40+ Languages — Every Student Learns in Their Mother Tongue',
-      desc:'Your students from Tamil Nadu, Maharashtra, Manipur — all study in their own language. Same test, same question bank, different languages. No one is left behind.',
+      title:'40+ Languages - Every Student Learns in Their Mother Tongue',
+      desc:'Your students from Tamil Nadu, Maharashtra, Manipur - all study in their own language. Same test, same question bank, different languages. No one is left behind.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 10px',letterSpacing:'1px'}}>LANGUAGES YOUR STUDENTS USE</p>
@@ -165,11 +165,11 @@ export default function InstitutionSection() {
     },
     {
       title:'Save Lakhs Every Year',
-      desc:'No printing. No manual test papers. No extra staff. No travel. From ₹999/year for unlimited students — the only EdTech that actually saves institutions money.',
+      desc:'No printing. No manual test papers. No extra staff. No travel. From ₹999/year for unlimited students - the only EdTech that actually saves institutions money.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
-          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>ANNUAL COST — 100 STUDENTS</p>
-          {[['Test Paper Printing','₹48,000/yr','₹0'],['Manual Grading Time','₹36,000/yr','₹0'],['Extra Admin Staff','₹1,20,000/yr','₹0'],['Student Travel Cost','₹2,40,000/yr','₹0'],['TryIT Platform','—','₹999/yr']].map(([item,old,nw])=>(
+          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>ANNUAL COST - 100 STUDENTS</p>
+          {[['Test Paper Printing','₹48,000/yr','₹0'],['Manual Grading Time','₹36,000/yr','₹0'],['Extra Admin Staff','₹1,20,000/yr','₹0'],['Student Travel Cost','₹2,40,000/yr','₹0'],['TryIT Platform','-','₹999/yr']].map(([item,old,nw])=>(
             <div key={item} style={{display:'grid',gridTemplateColumns:'1fr 70px 70px',gap:5,padding:'5px 0',borderBottom:`1px solid ${bdr}`}}>
               <span style={{color:muted,fontSize:9}}>{item}</span>
               <span style={{color:'#F87171',fontSize:9,fontWeight:600,textAlign:'right'}}>{old}</span>
@@ -200,7 +200,7 @@ export default function InstitutionSection() {
             End the Daily Grind. <span style={{color:accent}}>Start Teaching Smart.</span>
           </h2>
           <p style={{color:muted,fontSize:14,maxWidth:580,margin:'0 auto',lineHeight:1.7}}>
-            No traffic. No manual test papers. No stressful weekends. Conduct daily classes and tests from home — with full student analytics. From ₹999 per year for unlimited students.
+            No traffic. No manual test papers. No stressful weekends. Conduct daily classes and tests from home - with full student analytics. From ₹999 per year for unlimited students.
           </p>
         </div>
 
@@ -243,7 +243,7 @@ export default function InstitutionSection() {
               </div>
             ))}
           </div>
-          {[['⏰','Daily Time Lost','2–4 hrs commuting','0 mins travel'],['💸','Annual Cost','₹30K–₹3L per student','From ₹999/yr'],['📋','Test Conduction','Manual papers, Sundays','Auto-generated, anytime'],['📊','Analytics','Teacher guesses','Live per-student dashboard'],['🌙','Weekends','Exhausted, stressed','Home. Rested. Ready.'],['🌐','Languages','English / Hindi only','40+ Indian languages']].map(([icon,topic,old,nw],i)=>(
+          {[['⏰','Daily Time Lost','2-4 hrs commuting','0 mins travel'],['💸','Annual Cost','₹30K-₹3L per student','From ₹999/yr'],['📋','Test Conduction','Manual papers, Sundays','Auto-generated, anytime'],['📊','Analytics','Teacher guesses','Live per-student dashboard'],['🌙','Weekends','Exhausted, stressed','Home. Rested. Ready.'],['🌐','Languages','English / Hindi only','40+ Indian languages']].map(([icon,topic,old,nw],i)=>(
             <div key={i} style={{display:'grid',gridTemplateColumns:'1fr 1.2fr 1.2fr',borderBottom:`1px solid ${bdr}`,background:isDark?(i%2===0?'rgba(255,255,255,0.015)':card):(i%2===0?'rgba(0,0,0,0.015)':card)}}>
               <div style={{padding:'10px 14px',display:'flex',alignItems:'center',gap:7}}><span style={{fontSize:15}}>{icon}</span><span style={{color:muted,fontSize:11,fontWeight:600}}>{topic}</span></div>
               <div style={{padding:'10px 14px',borderLeft:`1px solid ${bdr}`}}><span style={{color:'#F87171',fontSize:11,fontWeight:600}}>{old}</span></div>

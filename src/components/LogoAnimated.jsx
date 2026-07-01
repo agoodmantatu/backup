@@ -14,7 +14,7 @@ function TextLogo({ size }) {
       alignItems: 'flex-start', gap, lineHeight: 1,
       userSelect: 'none',
     }}>
-      {/* TryIT — no gap */}
+      {/* TryIT - no gap */}
       <div style={{ display:'flex', alignItems:'baseline', gap: 0 }}>
         <span style={{
           fontFamily: 'Poppins, sans-serif',

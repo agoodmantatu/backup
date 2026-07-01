@@ -1,5 +1,5 @@
 // FILE: src/pages/community/CommunityPage.jsx
-// TryIT Community — Democratic, Self-Healing Platform
+// TryIT Community - Democratic, Self-Healing Platform
 // Students post requests → others VOTE (no replies)
 // High votes → Platform considers → Admin responds transparently
 // Accepted request → User gets pinned greeting card
@@ -13,7 +13,7 @@ const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 const BG   = '#F8FAFC'
 
-// ── CATEGORIES ─────────────────────────────────────────────────────────────
+// -- CATEGORIES -------------------------------------------------------------
 const CATEGORIES = [
   { id:'all',          label:'All Requests',  icon:'🌐' },
   { id:'new_exam',     label:'New Exam',       icon:'📋' },
@@ -26,7 +26,7 @@ const CATEGORIES = [
   { id:'other',        label:'Other',          icon:'💬' },
 ]
 
-// ── STATUS CONFIG ──────────────────────────────────────────────────────────
+// -- STATUS CONFIG ----------------------------------------------------------
 const STATUS = {
   open:         { label:'Open',            bg:'#DBEAFE', color:'#1D4ED8', emoji:'🗳️'  },
   considering:  { label:'Considering',     bg:'#FEF3C7', color:'#D97706', emoji:'🤔'  },
@@ -36,20 +36,20 @@ const STATUS = {
   cost_concern: { label:'Cost Concern',    bg:'#FEE2E2', color:'#DC2626', emoji:'💰'  },
 }
 
-// ── MOCK DATA (shown before Supabase is connected) ─────────────────────────
+// -- MOCK DATA (shown before Supabase is connected) -------------------------
 const MOCK_POSTS = [
   {
     post_id:'p1', category:'translation', status:'done',
     title:'Add Bhojpuri language translation to all questions',
     body:'Many students from Bihar/UP speak Bhojpuri. If you add this, lakhs of students will benefit who struggle with Hindi bookish language.',
     vote_count:847, user_voted:false, user_name:'Rahul S.', user_state:'Bihar',
-    admin_response:'✅ Done! Bhojpuri translation is now live across all SSC CGL, RRB, and Banking questions. Thank you Rahul for voicing this — 847 students agreed!',
+    admin_response:'✅ Done! Bhojpuri translation is now live across all SSC CGL, RRB, and Banking questions. Thank you Rahul for voicing this - 847 students agreed!',
     user_pinned:true, created_at:'2026-05-12T10:00:00Z',
     celebrating_user:{ name:'Rahul S.', state:'Bihar', votes:847 }
   },
   {
     post_id:'p2', category:'new_exam', status:'done',
-    title:'Add IB ACIO exam — Intelligence Bureau Assistant Central Intelligence Officer',
+    title:'Add IB ACIO exam - Intelligence Bureau Assistant Central Intelligence Officer',
     body:'IB ACIO is one of the most popular central government exams but not on any platform properly. Tier 1 + Tier 2 + Interview pattern.',
     vote_count:623, user_voted:false, user_name:'Priya K.', user_state:'Tamil Nadu',
     admin_response:'✅ IB ACIO is now live! Tier 1 (Objective + Descriptive), Tier 2, and Interview preparation are all added with 500+ questions and 3 mock tests.',
@@ -58,7 +58,7 @@ const MOCK_POSTS = [
   },
   {
     post_id:'p3', category:'difficulty', status:'in_progress',
-    title:'SSC CGL mock tests are too easy — need L4 difficulty questions',
+    title:'SSC CGL mock tests are too easy - need L4 difficulty questions',
     body:'Current mock tests feel like practice, not like real SSC CGL pressure. Real exam is much harder especially Tier 2 Maths. Please add more L4 questions.',
     vote_count:412, user_voted:true, user_name:'Arun M.', user_state:'Karnataka',
     admin_response:'⚙️ We\'re adding 2,000 more L4 difficulty Maths questions specifically for SSC CGL Tier 2 pattern. ETA: Next update in 5 days.',
@@ -69,7 +69,7 @@ const MOCK_POSTS = [
     title:'Add Sanskrit translation for all Vedic Maths topics',
     body:'Sanskrit medium students preparing for Sanskrit University entrances need Sanskrit explanations. Will be very helpful for 3-4 lakh students.',
     vote_count:234, user_voted:false, user_name:'Vidya P.', user_state:'Maharashtra',
-    admin_response:'💰 We truly want to add Sanskrit translation — and we will. Currently the AI model for Sanskrit requires a premium API which would increase our infrastructure cost by ₹15,000/month. We are evaluating open-source Sanskrit NLP options. We will add it in 3-4 months. Thank you for your patience 🙏',
+    admin_response:'💰 We truly want to add Sanskrit translation - and we will. Currently the AI model for Sanskrit requires a premium API which would increase our infrastructure cost by ₹15,000/month. We are evaluating open-source Sanskrit NLP options. We will add it in 3-4 months. Thank you for your patience 🙏',
     user_pinned:false, created_at:'2026-05-28T10:00:00Z',
   },
   {
@@ -155,7 +155,7 @@ export default function CommunityPage() {
   return (
     <div style={{ minHeight:'100vh', background:BG, fontFamily:'Inter,sans-serif', paddingBottom:80 }}>
 
-      {/* ── HEADER ────────────────────────────────────────────────────── */}
+      {/* -- HEADER ------------------------------------------------------ */}
       <div style={{ background:`linear-gradient(135deg,${NAVY},#0F2140)`, padding:'20px 16px', color:'#fff' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
           <div>
@@ -186,7 +186,7 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* ── HOW IT WORKS ──────────────────────────────────────────────── */}
+      {/* -- HOW IT WORKS ------------------------------------------------ */}
       <div style={{ background:'#FFF7E6', border:'1px solid #FDE68A', padding:'10px 16px', display:'flex', gap:12, alignItems:'flex-start' }}>
         <span style={{ fontSize:18, flexShrink:0 }}>💡</span>
         <p style={{ fontSize:12, color:'#92400E', margin:0, lineHeight:1.7 }}>
@@ -196,7 +196,7 @@ export default function CommunityPage() {
         </p>
       </div>
 
-      {/* ── FILTERS ───────────────────────────────────────────────────── */}
+      {/* -- FILTERS ----------------------------------------------------- */}
       <div style={{ padding:'12px 16px 0' }}>
         <div style={{ display:'flex', overflowX:'auto', gap:6, paddingBottom:8, scrollbarWidth:'none' }}>
           {CATEGORIES.map(cat => (
@@ -230,12 +230,12 @@ export default function CommunityPage() {
         </div>
       </div>
 
-      {/* ── PINNED CELEBRATION CARDS ──────────────────────────────────── */}
+      {/* -- PINNED CELEBRATION CARDS ------------------------------------ */}
       {pinned.length > 0 && (
         <div style={{ padding:'12px 16px' }}>
           <p style={{ fontSize:10, fontWeight:700, color:'#94A3B8', letterSpacing:1.2,
             textTransform:'uppercase', marginBottom:10 }}>
-            🏆 Hall of Fame — Their requests made TryIT better!
+            🏆 Hall of Fame - Their requests made TryIT better!
           </p>
           {pinned.map(post => (
             <CelebrationCard key={post.post_id} post={post} />
@@ -243,7 +243,7 @@ export default function CommunityPage() {
         </div>
       )}
 
-      {/* ── POSTS LIST ────────────────────────────────────────────────── */}
+      {/* -- POSTS LIST -------------------------------------------------- */}
       <div style={{ padding:'4px 16px' }}>
         {unpinned.length === 0 ? (
           <div style={{ textAlign:'center', padding:40, color:'#94A3B8' }}>
@@ -262,7 +262,7 @@ export default function CommunityPage() {
         )}
       </div>
 
-      {/* ── NEW POST MODAL ────────────────────────────────────────────── */}
+      {/* -- NEW POST MODAL ---------------------------------------------- */}
       {showForm && (
         <NewPostModal
           onClose={() => setShowForm(false)}
@@ -277,7 +277,7 @@ export default function CommunityPage() {
   )
 }
 
-// ── CELEBRATION CARD ───────────────────────────────────────────────────────
+// -- CELEBRATION CARD -------------------------------------------------------
 function CelebrationCard({ post }) {
   const u = post.celebrating_user
   return (
@@ -309,7 +309,7 @@ function CelebrationCard({ post }) {
   )
 }
 
-// ── POST CARD ──────────────────────────────────────────────────────────────
+// -- POST CARD --------------------------------------------------------------
 function PostCard({ post, onVote, isLoggedIn }) {
   const [expanded, setExpanded] = useState(false)
   const st = STATUS[post.status] || STATUS.open
@@ -391,14 +391,14 @@ function PostCard({ post, onVote, isLoggedIn }) {
       {/* No-reply note */}
       {!post.admin_response && (
         <p style={{ fontSize:10, color:'#CBD5E1', marginTop:8, textAlign:'right', margin:'8px 0 0' }}>
-          👆 Vote to move this up · No comment section — only votes count here
+          👆 Vote to move this up · No comment section - only votes count here
         </p>
       )}
     </div>
   )
 }
 
-// ── NEW POST MODAL ─────────────────────────────────────────────────────────
+// -- NEW POST MODAL ---------------------------------------------------------
 function NewPostModal({ onClose, onPosted, user }) {
   const [form, setForm] = useState({
     title:'', body:'', category:'feature'
@@ -458,7 +458,7 @@ function NewPostModal({ onClose, onPosted, user }) {
             <div style={{ background:'#F0FDF4', border:'1px solid #BBF7D0', borderRadius:12, padding:12, marginBottom:16 }}>
               <p style={{ fontSize:12, color:'#065F46', lineHeight:1.8, margin:0 }}>
                 ✅ Your request is now public<br/>
-                🗳️ Others can vote — no comments (keeps it clean)<br/>
+                🗳️ Others can vote - no comments (keeps it clean)<br/>
                 ⚡ High-voted requests → implemented in 72hrs<br/>
                 🏆 If accepted, YOUR name goes on the Hall of Fame!
               </p>
@@ -466,7 +466,7 @@ function NewPostModal({ onClose, onPosted, user }) {
             <button onClick={() => { onPosted(form); onClose() }}
               style={{ width:'100%', padding:'12px', background:NAVY, color:'#fff',
                 border:'none', borderRadius:12, fontWeight:700, cursor:'pointer' }}>
-              Done — See My Post ✓
+              Done - See My Post ✓
             </button>
           </div>
         ) : (
@@ -480,7 +480,7 @@ function NewPostModal({ onClose, onPosted, user }) {
 
             <div style={{ background:'#EFF6FF', border:'1px solid #BFDBFE', borderRadius:12, padding:10, marginBottom:14 }}>
               <p style={{ fontSize:12, color:'#1D4ED8', margin:0, lineHeight:1.6 }}>
-                📌 <strong>No comments section</strong> — only votes count. This keeps the community positive, focused, and democratic. Your voice = your vote.
+                📌 <strong>No comments section</strong> - only votes count. This keeps the community positive, focused, and democratic. Your voice = your vote.
               </p>
             </div>
 
@@ -491,7 +491,7 @@ function NewPostModal({ onClose, onPosted, user }) {
               ))}
             </select>
 
-            <label style={S.lbl}>Request Title * (be specific — good titles get more votes)</label>
+            <label style={S.lbl}>Request Title * (be specific - good titles get more votes)</label>
             <input style={S.inp}
               placeholder='e.g. "Add concept learning for Vedic Maths" or "Add Tamil Nadu municipal exam"'
               value={form.title} onChange={e => f('title', e.target.value)} maxLength={120} />
@@ -511,7 +511,7 @@ function NewPostModal({ onClose, onPosted, user }) {
               style={{ width:'100%', padding:'13px', background:`linear-gradient(135deg,${NAVY},#0F2140)`,
                 color:'#fff', border:'none', borderRadius:12, fontWeight:700, fontSize:14,
                 cursor:'pointer', opacity:submitting?0.7:1 }}>
-              {submitting ? '⏳ Posting...' : '🗳️ Post Request — Let the Community Vote'}
+              {submitting ? '⏳ Posting...' : '🗳️ Post Request - Let the Community Vote'}
             </button>
           </>
         )}

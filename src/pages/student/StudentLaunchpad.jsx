@@ -6,7 +6,7 @@ const TRACKS = [
   {id:'upsc',label:'UPSC Civil Services',icon:'🏛️',days:365,desc:'Complete GS + Optional syllabus'},
   {id:'ssc',label:'SSC CGL / CHSL',icon:'📋',days:180,desc:'Quant, Reasoning, English, GK'},
   {id:'tnpsc',label:'TNPSC Group 1/2/4',icon:'🌿',days:120,desc:'Tamil Nadu state service exams'},
-  {id:'banking',label:'IBPS / SBI Banking',icon:'🏦',days:90,desc:'PO, Clerk, SO — all patterns'},
+  {id:'banking',label:'IBPS / SBI Banking',icon:'🏦',days:90,desc:'PO, Clerk, SO - all patterns'},
   {id:'neet',label:'NEET / JEE',icon:'🔬',days:270,desc:'Medical & Engineering entrance'},
   {id:'railway',label:'Railway RRB / NTPC',icon:'🚂',days:90,desc:'Group D, NTPC, ALP tracks'},
 ]

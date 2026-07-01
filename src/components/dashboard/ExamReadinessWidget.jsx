@@ -44,7 +44,7 @@ export default function ExamReadinessWidget() {
       <div className="flex items-center justify-between mb-5">
         <h3 className="font-bold text-[var(--color-primary, #1E3A5F)] text-lg font-poppins">🎯 Exam Readiness</h3>
         <span className="glass-gold px-3 py-1.5 rounded-xl text-xs font-semibold text-[var(--color-primary, #1E3A5F)]">
-          Predicted: 145–162 / 200 · ON TRACK ✅
+          Predicted: 145-162 / 200 · ON TRACK ✅
         </span>
       </div>
       <div className="flex flex-wrap justify-around gap-6">

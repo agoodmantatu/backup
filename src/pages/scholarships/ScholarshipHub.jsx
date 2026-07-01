@@ -6,10 +6,10 @@ import { useAuth } from '../../context/AuthContext'
 const SCHOLARSHIPS = [
   {
     id: 'nsp_merit',
-    name: 'National Scholarship Portal — Merit Scholarship',
+    name: 'National Scholarship Portal - Merit Scholarship',
     provider: 'Ministry of Education, Govt. of India',
-    amount: '₹12,000 – ₹20,000 / year',
-    eligibility: 'Class 11–Postgraduate, 80%+ marks, family income < ₹6 lakh',
+    amount: '₹12,000 - ₹20,000 / year',
+    eligibility: 'Class 11-Postgraduate, 80%+ marks, family income < ₹6 lakh',
     deadline: 'Oct 31, 2025',
     category: 'Merit',
     emoji: '🏅',
@@ -52,7 +52,7 @@ const SCHOLARSHIPS = [
     id: 'minority_scholarship',
     name: 'Pre & Post-Matric Scholarship for Minorities',
     provider: 'Ministry of Minority Affairs',
-    amount: '₹1,000 – ₹10,000 / year',
+    amount: '₹1,000 - ₹10,000 / year',
     eligibility: 'Muslim, Christian, Sikh, Buddhist, Jain, Zoroastrian communities; family income < ₹2 lakh',
     deadline: 'Oct 15, 2025',
     category: 'Minority',
@@ -72,7 +72,7 @@ const SCHOLARSHIPS = [
   },
   {
     id: 'aicte_pragati',
-    name: 'AICTE — Pragati Scholarship for Girls',
+    name: 'AICTE - Pragati Scholarship for Girls',
     provider: 'All India Council for Technical Education',
     amount: '₹30,000 / year',
     eligibility: 'Female students in AICTE-approved technical institutions, family income < ₹8 lakh',
@@ -86,7 +86,7 @@ const SCHOLARSHIPS = [
     name: 'National Means-cum-Merit Scholarship (NMMS)',
     provider: 'Department of School Education & Literacy',
     amount: '₹12,000 / year',
-    eligibility: 'Class 9–12 students with 55%+, family income < ₹1.5 lakh',
+    eligibility: 'Class 9-12 students with 55%+, family income < ₹1.5 lakh',
     deadline: 'Feb 28, 2026',
     category: 'Need-based',
     emoji: '📚',
@@ -227,7 +227,7 @@ export default function ScholarshipHub() {
           <div className="text-center py-16">
             <div className="text-5xl mb-3">🔍</div>
             <p className="text-gray-500 text-lg font-semibold">No scholarships in this category yet.</p>
-            <p className="text-gray-400 text-sm mt-1">Check back soon — we add new ones regularly.</p>
+            <p className="text-gray-400 text-sm mt-1">Check back soon - we add new ones regularly.</p>
           </div>
         )}
       </div>

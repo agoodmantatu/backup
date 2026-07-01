@@ -1,5 +1,5 @@
 // FILE: src/pages/role-select/RoleSelect.jsx
-// TryIT — Role Selection (post-login, before onboarding)
+// TryIT - Role Selection (post-login, before onboarding)
 // Route: /role-select
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -27,7 +27,7 @@ export default function RoleSelect(){
     setLoading(false)
 
     // User is ALREADY authenticated (came from phone OTP Login.jsx).
-    // We only set their role and route them onward — never re-login.
+    // We only set their role and route them onward - never re-login.
     const routes = {
       student: '/onboarding',
       mentor:  '/mentor',

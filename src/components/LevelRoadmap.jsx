@@ -1,5 +1,5 @@
 // FILE: src/components/LevelRoadmap.jsx
-// TryIT — Cinematic Level Roadmap
+// TryIT - Cinematic Level Roadmap
 // Winding path of level nodes, themed by universe (shifts every 10 levels)
 // Current level glows, completed levels show stars, locked levels show coin cost
 import { useState, useEffect, useRef, useMemo } from 'react'
@@ -14,7 +14,7 @@ import { injectGameStyles, playSound } from '../lib/gameJuice'
 
 const GOLD = '#C9A84C'
 
-// ── PARTICLE BACKGROUND (per theme, lightweight canvas) ──────────────────
+// -- PARTICLE BACKGROUND (per theme, lightweight canvas) ------------------
 function ThemeParticles({ type, color }) {
   const canvasRef = useRef(null)
 
@@ -56,7 +56,7 @@ function ThemeParticles({ type, color }) {
   return <canvas ref={canvasRef} style={{ position:'absolute', inset:0, width:'100%', height:'100%', pointerEvents:'none', opacity:0.6 }} />
 }
 
-// ── LEVEL NODE ─────────────────────────────────────────────────────────────
+// -- LEVEL NODE -------------------------------------------------------------
 function LevelNode({ level, status, stars, cost, isLeft, universe, onClick }) {
   // status: 'completed' | 'current' | 'locked'
   const nodeSize = status === 'current' ? 64 : 52
@@ -114,7 +114,7 @@ function LevelNode({ level, status, stars, cost, isLeft, universe, onClick }) {
   )
 }
 
-// ── MAIN ROADMAP COMPONENT ─────────────────────────────────────────────────
+// -- MAIN ROADMAP COMPONENT -------------------------------------------------
 export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel }) {
   const navigate = useNavigate()
   const { user, coins, spendCoins } = useAuth()
@@ -227,7 +227,7 @@ export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel 
             )}
             <p style={{ fontSize:11, fontWeight:700, letterSpacing:2, color:section.universe.accent,
               textTransform:'uppercase', margin:'0 0 4px' }}>
-              {sIdx === 0 ? `${gameEmoji} ${gameName} — ` : ''}World {sIdx + 1}
+              {sIdx === 0 ? `${gameEmoji} ${gameName} - ` : ''}World {sIdx + 1}
             </p>
             <h2 style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, fontSize:24, margin:'0 0 6px',
               textShadow:`0 0 20px ${section.universe.accent}66` }}>
@@ -238,7 +238,7 @@ export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel 
             </p>
           </div>
 
-          {/* Progress summary (first section only) — hidden for admin, replaced by admin banner */}
+          {/* Progress summary (first section only) - hidden for admin, replaced by admin banner */}
           {sIdx === 0 && !isAdmin && (
             <div style={{ position:'relative', zIndex:2, display:'flex', justifyContent:'center', gap:10, marginBottom:32 }}>
               <div style={{ background:'rgba(255,255,255,0.1)', borderRadius:14, padding:'10px 18px', textAlign:'center' }}>
@@ -261,7 +261,7 @@ export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel 
             <div style={{ position:'relative', zIndex:2, maxWidth:340, margin:'0 auto 28px',
               background:'rgba(220,38,38,0.15)', border:'2px solid #EF4444', borderRadius:16, padding:14, textAlign:'center' }}>
               <p style={{ fontSize:11, fontWeight:900, color:'#FCA5A5', letterSpacing:1, margin:'0 0 4px' }}>
-                🛡️ ADMIN TEST MODE — FULL ACCESS
+                🛡️ ADMIN TEST MODE - FULL ACCESS
               </p>
               <p style={{ fontSize:11, color:'rgba(255,255,255,0.6)', margin:'0 0 10px', lineHeight:1.5 }}>
                 Every level unlocked. Zero coin cost. Plays are tagged and excluded from real leaderboards & student data.
@@ -305,7 +305,7 @@ export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel 
 
       <div style={{ background:'#0A0A14', padding:'24px 16px', textAlign:'center' }}>
         <p style={{ fontSize:12, color:'rgba(255,255,255,0.4)', marginBottom:8 }}>
-          Endless worlds ahead — every 10 levels unlocks a new universe
+          Endless worlds ahead - every 10 levels unlocks a new universe
         </p>
         <button onClick={() => navigate('/games')}
           style={{ padding:'10px 24px', background:'rgba(255,255,255,0.1)', color:'#fff', border:'1px solid rgba(255,255,255,0.2)', borderRadius:12, fontSize:12, cursor:'pointer' }}>
@@ -349,7 +349,7 @@ export default function LevelRoadmap({ gameId, gameName, gameEmoji, onPlayLevel 
             {(coins||0) < unlockModal.cost && (
               <button onClick={() => navigate('/wallet')}
                 style={{ marginTop:10, background:'none', border:'none', color:GOLD, fontSize:12, fontWeight:600, cursor:'pointer' }}>
-                💡 No coins? Complete a test to earn some — or buy coins →
+                💡 No coins? Complete a test to earn some - or buy coins →
               </button>
             )}
           </div>

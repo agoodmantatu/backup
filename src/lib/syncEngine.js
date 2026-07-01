@@ -1,5 +1,5 @@
 /**
- * SyncEngine — WhatsApp+Telegram hybrid sync pattern
+ * SyncEngine - WhatsApp+Telegram hybrid sync pattern
  *
  * WhatsApp pattern: Device = primary DB, server = backup
  *   - All reads from device (0 server cost)
@@ -54,7 +54,7 @@ export async function deltaSync(userId, email) {
     }
   } catch {}
 
-  // Step 4: Delta sync — ONE call gets everything (Telegram)
+  // Step 4: Delta sync - ONE call gets everything (Telegram)
   try {
     const since = lastSync
     const [profileRes, resultsRes, notifRes] = await Promise.all([
@@ -94,14 +94,14 @@ export async function deltaSync(userId, email) {
 
   } catch (err) {
     console.warn('[Sync] Server unreachable, using local data:', err.message)
-    // Offline fallback — serve from device (WhatsApp offline mode)
+    // Offline fallback - serve from device (WhatsApp offline mode)
     const local = localDb.getProfileFast()
     return { profile: local, source: 'offline' }
   }
 }
 
 /**
- * Outbox flush — send queued events to server (Telegram batch pattern)
+ * Outbox flush - send queued events to server (Telegram batch pattern)
  * Runs in background every 60 seconds OR when coming online
  * Groups events in batches of 50 to minimise API calls
  */
@@ -154,7 +154,7 @@ export function startRealtimeSync(userId, callbacks={}) {
       (payload) => callbacks.onNotification?.(payload.new)
     ).subscribe()
 
-  // Hall battle updates (PUBLIC — anyone watching)
+  // Hall battle updates (PUBLIC - anyone watching)
   const battleChannel = supabase.channel('battles:live')
     .on('postgres_changes', { event:'UPDATE', schema:'public', table:'hall_battles', filter:`status=eq.live` },
       (payload) => callbacks.onBattleUpdate?.(payload.new)

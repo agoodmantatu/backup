@@ -5,17 +5,17 @@ import { useTheme } from '../../context/ThemeContext'
 import { Q, getLayers, ALL_LANGS, LANG_SCRIPTS } from '../../lib/questionData'
 
 const FULL_LANG_LABELS = {
-  Tamil: 'Tamil — தமிழ் ✔ Cultural tone',
-  Hindi: 'Hindi — हिंदी ✔ Cultural tone',
-  Telugu: 'Telugu — తెలుగు ✔ Cultural tone',
-  Kannada: 'Kannada — ಕನ್ನಡ ✔ 7 layers',
-  Malayalam: 'Malayalam — മലയാളം ✔ 7 layers',
-  Bengali: 'Bengali — বাংলা ✔ 7 layers',
-  Marathi: 'Marathi — मराठी ✔ 7 layers',
-  Gujarati: 'Gujarati — ગુजराती ✔ 7 layers',
-  Punjabi: 'Punjabi — ਪੰਜਾਬੀ ✔ 7 layers',
-  Odia: 'Odia — ଓଡ़िआ ✔ 7 layers',
-  Assamese: 'Assamese — অসমীয়া ✔ 7 layers',
+  Tamil: 'Tamil - தமிழ் ✔ Cultural tone',
+  Hindi: 'Hindi - हिंदी ✔ Cultural tone',
+  Telugu: 'Telugu - తెలుగు ✔ Cultural tone',
+  Kannada: 'Kannada - ಕನ್ನಡ ✔ 7 layers',
+  Malayalam: 'Malayalam - മലയാളം ✔ 7 layers',
+  Bengali: 'Bengali - বাংলা ✔ 7 layers',
+  Marathi: 'Marathi - मराठी ✔ 7 layers',
+  Gujarati: 'Gujarati - ગુजराती ✔ 7 layers',
+  Punjabi: 'Punjabi - ਪੰਜਾਬੀ ✔ 7 layers',
+  Odia: 'Odia - ଓଡ़िआ ✔ 7 layers',
+  Assamese: 'Assamese - অসমীয়া ✔ 7 layers',
 }
 const NE_LANGS = ['Manipuri','Nagamese','Mizo','Khasi','Kokborok','Angami','Ao']
 
@@ -51,13 +51,13 @@ export default function QuestionDemo() {
       <div style={{maxWidth:1140,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:36}}>
           <span style={{background:'#EDE9FE',color:'#7C3AED',fontSize:11,fontWeight:700,
-            padding:'4px 14px',borderRadius:20,letterSpacing:'1px'}}>LIVE PREVIEW — NO LOGIN NEEDED</span>
+            padding:'4px 14px',borderRadius:20,letterSpacing:'1px'}}>LIVE PREVIEW - NO LOGIN NEEDED</span>
           <h2 style={{fontFamily:'Poppins,sans-serif',fontWeight:900,
             fontSize:'clamp(22px,4vw,40px)',color:txt,margin:'12px 0 6px'}}>
-            ⚡ Try a Real Question — See How TryIT Teaches
+            ⚡ Try a Real Question - See How TryIT Teaches
           </h2>
           <p style={{color:muted,fontSize:14}}>
-            Answer it — 7 explanation layers unlock in your language with respectful cultural tone
+            Answer it - 7 explanation layers unlock in your language with respectful cultural tone
           </p>
         </div>
 
@@ -65,7 +65,7 @@ export default function QuestionDemo() {
           gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,480px),1fr))',
           gap:24,alignItems:'start'}}>
 
-          {/* ── Question card ── */}
+          {/* -- Question card -- */}
           <div style={{background:card,border:`1.5px solid ${accent}30`,borderRadius:20,
             overflow:'hidden',boxShadow:isDark?`0 8px 40px rgba(0,0,0,0.4)`:`0 4px 24px rgba(0,0,0,0.08)`}}>
 
@@ -113,7 +113,7 @@ export default function QuestionDemo() {
                 <div style={{background:isDark?`${accent}08`:surf,
                   border:`1px solid ${accent}20`,borderRadius:12,padding:'10px 14px',textAlign:'center'}}>
                   <p style={{color:muted,fontSize:11,margin:0}}>
-                    ☝️ Choose your answer — 7 layers unlock in{' '}
+                    ☝️ Choose your answer - 7 layers unlock in{' '}
                     <strong style={{color:accent}}>{lang}</strong> with respectful cultural tone
                   </p>
                 </div>
@@ -137,19 +137,19 @@ export default function QuestionDemo() {
                         border:`1px solid ${accent}40`,borderRadius:8,padding:'4px 8px',
                         color:isDark?'#ffffff':txt,fontSize:11,fontWeight:700,cursor:'pointer',flex:1}}>
                       <option value="English">English (7 layers)</option>
-                      <option disabled>─── Full cultural tone (Anna/Akka style) ───</option>
+                      <option disabled>--- Full cultural tone (Anna/Akka style) ---</option>
                       {Object.entries(FULL_LANG_LABELS).map(([l,label])=>(
                         <option key={l} value={l}>{label}</option>
                       ))}
-                      <option disabled>─── Northeast India ───</option>
+                      <option disabled>--- Northeast India ---</option>
                       {NE_LANGS.map(l=><option key={l} value={l}>{l}</option>)}
-                      <option disabled>─── All Other Languages ───</option>
+                      <option disabled>--- All Other Languages ---</option>
                       {ALL_LANGS.filter(l=>
                         !Object.keys(FULL_LANG_LABELS).includes(l) &&
                         !NE_LANGS.includes(l)
                       ).map(l=>(
                         <option key={l} value={l}>
-                          {l}{LANG_SCRIPTS[l] ? ' — '+LANG_SCRIPTS[l] : ''}
+                          {l}{LANG_SCRIPTS[l] ? ' - '+LANG_SCRIPTS[l] : ''}
                         </option>
                       ))}
                     </select>
@@ -197,7 +197,7 @@ export default function QuestionDemo() {
             </div>
           </div>
 
-          {/* ── Exam Drop form ── */}
+          {/* -- Exam Drop form -- */}
           <div style={{background:isDark
             ?`linear-gradient(135deg,${primary}50,${primD}70)`
             :`linear-gradient(135deg,${accent}14,${accent}06)`,
@@ -214,10 +214,10 @@ export default function QuestionDemo() {
                   <div>
                     <p style={{color:isDark?'#fff':primD,fontWeight:900,fontSize:16,
                       fontFamily:'Poppins,sans-serif',margin:'0 0 4px'}}>
-                      Your exam isn’t on any platform yet?
+                      Your exam isn't on any platform yet?
                     </p>
                     <p style={{color:accent,fontSize:12,fontWeight:700,margin:0}}>
-                      We’ll build the complete test series — within 48 hours.
+                      We'll build the complete test series - within 48 hours.
                     </p>
                   </div>
                 </div>
@@ -225,7 +225,7 @@ export default function QuestionDemo() {
                   fontSize:13,margin:'0 0 12px',lineHeight:1.7}}>
                   Any exam. Any state. Any language. From Class 1 scholarships to PhD entrance.
                   If it exists and has no platform,{' '}
-                  <strong style={{color:accent}}>we’ll build the full test series for free.</strong>
+                  <strong style={{color:accent}}>we'll build the full test series for free.</strong>
                 </p>
                 <div style={{background:isDark?'rgba(255,255,255,0.08)':'rgba(0,0,0,0.05)',
                   borderRadius:12,padding:'9px 14px',marginBottom:14,display:'flex',gap:16,flexWrap:'wrap'}}>
@@ -240,7 +240,7 @@ export default function QuestionDemo() {
                   style={{width:'100%',background:`linear-gradient(135deg,${accent},${accentL})`,
                     border:'none',borderRadius:14,padding:'14px',color:primD,
                     fontWeight:800,fontSize:14,cursor:'pointer',boxShadow:`0 6px 20px ${accent}44`}}>
-                  Register &amp; Request Your Exam — Built in 48 Hours →
+                  Register &amp; Request Your Exam - Built in 48 Hours →
                 </button>
               </div>
             )}
@@ -248,9 +248,9 @@ export default function QuestionDemo() {
             {step===1 && (
               <div>
                 <p style={{color:isDark?'#fff':primD,fontWeight:900,fontSize:14,
-                  fontFamily:'Poppins,sans-serif',margin:'0 0 4px'}}>Step 1 of 2 — Quick Registration</p>
+                  fontFamily:'Poppins,sans-serif',margin:'0 0 4px'}}>Step 1 of 2 - Quick Registration</p>
                 <p style={{color:muted,fontSize:11,margin:'0 0 14px'}}>
-                  We’ll notify you the moment your exam goes live on TryIT.
+                  We'll notify you the moment your exam goes live on TryIT.
                 </p>
                 {[['Full Name *','Your name','name','text'],
                   ['Email Address *','your@email.com','email','email'],
@@ -276,7 +276,7 @@ export default function QuestionDemo() {
                     style={{flex:2,background:`linear-gradient(135deg,${accent},${accentL})`,
                       border:'none',borderRadius:10,padding:'10px',color:primD,
                       fontWeight:800,fontSize:12,cursor:'pointer'}}>
-                    Next — Tell Us Your Exam →
+                    Next - Tell Us Your Exam →
                   </button>
                 </div>
               </div>
@@ -285,9 +285,9 @@ export default function QuestionDemo() {
             {step===2 && (
               <div>
                 <p style={{color:isDark?'#fff':primD,fontWeight:900,fontSize:14,
-                  fontFamily:'Poppins,sans-serif',margin:'0 0 4px'}}>Step 2 of 2 — Your Exam Details</p>
+                  fontFamily:'Poppins,sans-serif',margin:'0 0 4px'}}>Step 2 of 2 - Your Exam Details</p>
                 <p style={{color:muted,fontSize:11,margin:'0 0 14px'}}>
-                  Hello {reg.name}! We’ll build your test series within 48 hours.
+                  Hello {reg.name}! We'll build your test series within 48 hours.
                 </p>
                 {[['Exam Name *','e.g. TNPSC Group 2A, Bihar STET, Mizo PSC...','exam'],
                   ['Conducting Body *','e.g. TNPSC, BPSC, Mizoram PSC...','body'],
@@ -314,7 +314,7 @@ export default function QuestionDemo() {
                     style={{flex:2,background:`linear-gradient(135deg,${accent},${accentL})`,
                       border:'none',borderRadius:10,padding:'10px',color:primD,
                       fontWeight:800,fontSize:12,cursor:'pointer'}}>
-                    Submit — Built in 48 Hours
+                    Submit - Built in 48 Hours
                   </button>
                 </div>
               </div>
@@ -328,7 +328,7 @@ export default function QuestionDemo() {
                   Received, {reg.name}!
                 </p>
                 <p style={{color:muted,fontSize:12,lineHeight:1.7,margin:'0 0 12px'}}>
-                  We’ll build{' '}
+                  We'll build{' '}
                   <strong style={{color:accent}}>{exam.exam||'your exam'}</strong>{' '}
                   within 48 hours and notify you at{' '}
                   <strong style={{color:accent}}>{reg.email}</strong>.

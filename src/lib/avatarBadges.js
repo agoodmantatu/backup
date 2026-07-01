@@ -1,14 +1,14 @@
 /**
- * TryIT — Avatar Badge Logic
- * ─────────────────────────────────────────────────────────────────
+ * TryIT - Avatar Badge Logic
+ * -----------------------------------------------------------------
  * Derives exactly TWO visual signals from a user's stats:
- *   1. ringTier — a color band around the avatar (bronze/silver/gold/
+ *   1. ringTier - a color band around the avatar (bronze/silver/gold/
  *      platinum) based on overall progress (level).
- *   2. cornerBadge — ONE small icon in the corner: an active streak
+ *   2. cornerBadge - ONE small icon in the corner: an active streak
  *      takes priority (time-sensitive, "don't break it"), otherwise
  *      falls back to the most notable recent achievement.
  *
- * Deliberately capped at one ring + one corner badge — no stacking.
+ * Deliberately capped at one ring + one corner badge - no stacking.
  * This mirrors how Discord/Duolingo-style decorations stay premium:
  * restraint, not maximalism. If you want to add more signals later,
  * extend the priority list in getCornerBadge(), don't add new slots.
@@ -22,7 +22,7 @@ const RING_TIERS = [
 ]
 
 /**
- * user: expects the shape already used in AuthContext — level, streak,
+ * user: expects the shape already used in AuthContext - level, streak,
  * testsCompleted, coins. Fields you don't have default safely to 0.
  */
 export function getRingTier(user = {}) {
@@ -39,7 +39,7 @@ export function getCornerBadge(user = {}) {
   const testsCompleted = Number(user.testsCompleted ?? 0)
   const coins = Number(user.coins ?? 0)
 
-  // Priority 1: active streak — time-sensitive, most motivating to surface.
+  // Priority 1: active streak - time-sensitive, most motivating to surface.
   if (streak >= 3) {
     return { id: 'streak', icon: '🔥', tooltip: `${streak}-day streak`, glow: '#F97316' }
   }
@@ -58,7 +58,7 @@ export function getCornerBadge(user = {}) {
 }
 
 /**
- * Single entry point — returns everything ProtectedAvatar /
+ * Single entry point - returns everything ProtectedAvatar /
  * OwnProfileAvatar need to render decoration around a photo.
  */
 export function getAvatarDecoration(user = {}) {

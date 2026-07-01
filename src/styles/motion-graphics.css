@@ -1,5 +1,5 @@
 /* =====================================================
-   TRYIT EDUCATIONS — SHOOTING STARS ONLY
+   TRYIT EDUCATIONS - SHOOTING STARS ONLY
    ===================================================== */
 
 .mg-layer {
@@ -7,7 +7,7 @@
   pointer-events: none; overflow: hidden;
 }
 
-/* Very faint ambient colour — barely visible */
+/* Very faint ambient colour - barely visible */
 .mg-orb {
   position: absolute; border-radius: 50%;
   filter: blur(140px); pointer-events: none;
@@ -31,7 +31,7 @@
   0%,100%{transform:translate(0,0);} 50%{transform:translate(-80px,-80px);}
 }
 
-/* ── FLYING PLATES (shooting stars) ── */
+/* -- FLYING PLATES (shooting stars) -- */
 .mg-shoot {
   position: absolute;
   border-radius: 4px;
@@ -78,7 +78,7 @@
   100%  {transform:translateX(130vw) translateY(46vh) rotate(-26deg);opacity:0;}
 }
 
-/* Global body defaults — ALL pages get theme */
+/* Global body defaults - ALL pages get theme */
 body { color:var(--color-text,#1E293B); background:var(--color-background,#F8FAFC); }
 body.theme-dark  { color:var(--color-text,#F1F5F9); }
 body.theme-light { color:var(--color-text,#1E293B); }

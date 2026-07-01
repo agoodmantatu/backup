@@ -17,7 +17,7 @@ const COURSES = [
   {
     id:2, mentorName:'Priya C.', mentorCity:'Madurai',
     mentorRating:4.9, mentorStudents:52, mentorVerified:true,
-    title:'UPSC 60-Day Sprinter — GS Complete',
+    title:'UPSC 60-Day Sprinter - GS Complete',
     duration:60, durationType:'sprinter',
     price:899, enrolled:86, slots:15, startDate:'2026-07-01',
     includes:['Daily 2-hour structured content','3 weekly mock tests','Doubt priority','Essay guidance','Previous year analysis'],
@@ -27,7 +27,7 @@ const COURSES = [
   {
     id:3, mentorName:'Suresh M.', mentorCity:'Kochi',
     mentorRating:4.8, mentorStudents:36, mentorVerified:true,
-    title:'UPSC 90-Day Achiever — Full Syllabus',
+    title:'UPSC 90-Day Achiever - Full Syllabus',
     duration:90, durationType:'achiever',
     price:1499, enrolled:42, slots:10, startDate:'2026-07-01',
     includes:['Full syllabus daily coverage','4 weekly tests','Essay + Answer writing','Interview prep basics','Lifetime access to materials'],
@@ -224,7 +224,7 @@ export default function ExamCourses() {
                     background:'linear-gradient(135deg,'+p+','+a+')',
                     border:'none',borderRadius:14,padding:'14px',
                     color:'#fff',fontWeight:800,fontSize:14,cursor:'pointer'}}>
-                    Enroll Now — ₹{course.price}
+                    Enroll Now - ₹{course.price}
                   </button>
                   <button onClick={()=>setSelected(null)}
                     style={{width:'100%',marginTop:8,background:'transparent',
@@ -239,7 +239,7 @@ export default function ExamCourses() {
                     background:DURATION_COLORS[course.durationType],
                     border:'none',borderRadius:14,padding:'13px',
                     color:'#fff',fontWeight:800,fontSize:14,cursor:'pointer'}}>
-                  Join {DURATION_LABELS[course.durationType]} — ₹{course.price}
+                  Join {DURATION_LABELS[course.durationType]} - ₹{course.price}
                 </button>
               )}
             </div>

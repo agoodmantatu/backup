@@ -5,7 +5,7 @@ import AppLayout from '../../components/layout/AppLayout'
 const SECTIONS = [
   {
     title: '1. What Data We Collect',
-    body: `We collect: (a) Account data — name, email, state, city, role, and exam preferences you provide at registration; (b) Usage data — test attempts, scores, streak counts, coins, XP, and study hours generated through platform activity; (c) Device data — browser type, OS, and IP address for security and analytics; (d) Payment data — processed entirely by Razorpay; TryIT does not store card or UPI details.`,
+    body: `We collect: (a) Account data - name, email, state, city, role, and exam preferences you provide at registration; (b) Usage data - test attempts, scores, streak counts, coins, XP, and study hours generated through platform activity; (c) Device data - browser type, OS, and IP address for security and analytics; (d) Payment data - processed entirely by Razorpay; TryIT does not store card or UPI details.`,
   },
   {
     title: '2. How We Use Your Data',
@@ -13,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: '3. Data Sharing',
-    body: `We do not sell your personal data. We share data only with: (a) Cloudflare (infrastructure and CDN); (b) Razorpay (payment processing); (c) our internal analytics tools (anonymised/aggregated only); (d) legal authorities where required by Indian law. Mentors and institutions can view enrolled students' progress metrics — not personal contact details.`,
+    body: `We do not sell your personal data. We share data only with: (a) Cloudflare (infrastructure and CDN); (b) Razorpay (payment processing); (c) our internal analytics tools (anonymised/aggregated only); (d) legal authorities where required by Indian law. Mentors and institutions can view enrolled students' progress metrics - not personal contact details.`,
   },
   {
     title: "4. Children's Privacy",
@@ -29,7 +29,7 @@ const SECTIONS = [
   },
   {
     title: '7. Cookies & Local Storage',
-    body: `We use browser local storage to persist your login session, theme preference, and accessibility settings. We do not use third-party advertising cookies. You can clear local storage at any time via your browser settings — this will log you out of TryIT.`,
+    body: `We use browser local storage to persist your login session, theme preference, and accessibility settings. We do not use third-party advertising cookies. You can clear local storage at any time via your browser settings - this will log you out of TryIT.`,
   },
   {
     title: '8. Security',
@@ -41,7 +41,7 @@ const SECTIONS = [
   },
   {
     title: '10. Contact & Grievance Officer',
-    body: `Data Protection / Privacy queries: privacy@tryiteducations.net\nGrievance Officer: TryIT Educations Pvt. Ltd., Bengaluru, Karnataka — 560001\nResponse time: within 72 hours.`,
+    body: `Data Protection / Privacy queries: privacy@tryiteducations.net\nGrievance Officer: TryIT Educations Pvt. Ltd., Bengaluru, Karnataka - 560001\nResponse time: within 72 hours.`,
   },
 ]
 

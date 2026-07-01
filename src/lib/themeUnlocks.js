@@ -1,15 +1,15 @@
 /**
- * TryIT — Theme Unlock Engine
- * ─────────────────────────────────────────────────────────────────
+ * TryIT - Theme Unlock Engine
+ * -----------------------------------------------------------------
  * Decides which themes a user has unlocked, based on stats you already
  * track (tests completed, streaks, coins, scores, etc). This file has
- * no UI and no storage of its own — it's pure logic, fed by whatever
+ * no UI and no storage of its own - it's pure logic, fed by whatever
  * AuthContext / CoinContext / profile data you already have.
  *
  * HOW TO WIRE IT UP:
  * Call `getUnlockStatus(theme, userStats)` for each theme to find out
  * if it's unlocked, and how close the user is if not. `userStats` is
- * a plain object — map your existing fields onto it, for example:
+ * a plain object - map your existing fields onto it, for example:
  *
  *   const userStats = {
  *     tests_completed: profile.totalTestsTaken,
@@ -24,7 +24,7 @@
  * Persisting *which* themes have been unlocked (so a later drop in
  * stats, e.g. streak reset, doesn't lock a theme the user already
  * earned) is intentionally left to your backend / localStorage layer
- * — see `mergeUnlockedThemeIds` below for a small helper to do that.
+ * - see `mergeUnlockedThemeIds` below for a small helper to do that.
  */
 
 import { THEME_LIST, BASE_THEME_IDS } from './themes'
@@ -59,7 +59,7 @@ export function getUnlockStatus(theme, userStats = {}) {
 }
 
 /**
- * Returns the full theme list annotated with live unlock status —
+ * Returns the full theme list annotated with live unlock status -
  * what ThemeSelector.jsx and ThemeSwitcher.jsx actually render from.
  *
  * A theme is `unlocked` only when BOTH conditions hold: the user's
@@ -91,7 +91,7 @@ export function getThemesWithStatus(userStats = {}, unlockedThemeIds = [], userP
  * Call this after any stat-changing event (test submitted, coins
  * earned, streak updated) to find newly-unlocked themes worth
  * celebrating. Only fires for themes the user's plan already permits
- * — if a free user crosses an achievement threshold for a Pro theme,
+ * - if a free user crosses an achievement threshold for a Pro theme,
  * that's not a celebration moment yet, it's an upsell moment (handled
  * separately via planGateLabel in the UI).
  */

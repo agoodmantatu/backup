@@ -17,7 +17,7 @@ const CATEGORIES = ['All','Exam Alert','Study Tip','Success Story','Current Affa
 const PULSE_DATA = [
   {
     id:1, featured:true,
-    title:'UPSC CSE 2026 — Final Result Declared. 1,016 candidates recommended',
+    title:'UPSC CSE 2026 - Final Result Declared. 1,016 candidates recommended',
     body:'Union Public Service Commission has declared the final result of Civil Services Examination 2026. IFS 2026 results also announced simultaneously. Check your roll number on upsc.gov.in',
     category:'Exam Alert', role:'institution',
     author:'TryIT Editorial', authorCity:'New Delhi',
@@ -27,7 +27,7 @@ const PULSE_DATA = [
   },
   {
     id:2,
-    title:'SSC CGL Tier 2 2025 Admit Card Released — Exam on 18-19 Jan 2026',
+    title:'SSC CGL Tier 2 2025 Admit Card Released - Exam on 18-19 Jan 2026',
     body:'Staff Selection Commission has released the admit card for CGL Tier 2 examination. Download from ssc.nic.in using registration number and date of birth.',
     category:'Exam Alert', role:'mentor',
     author:'Suresh Menon', authorCity:'Kochi',
@@ -47,7 +47,7 @@ const PULSE_DATA = [
   },
   {
     id:4,
-    title:'TNPSC Group 1 2026 Notification — 98 posts, application from March 1',
+    title:'TNPSC Group 1 2026 Notification - 98 posts, application from March 1',
     body:'Tamil Nadu Public Service Commission has released official notification for Group 1 services recruitment. Online applications open March 1 to April 10, 2026.',
     category:'Recruitment', role:'institution',
     author:'Sri Vidya Academy', authorCity:'Chennai',
@@ -67,7 +67,7 @@ const PULSE_DATA = [
   },
   {
     id:6,
-    title:'RRB NTPC 2025 CBT-1 Result to be declared this week — official confirmation',
+    title:'RRB NTPC 2025 CBT-1 Result to be declared this week - official confirmation',
     body:'Railway Recruitment Board has confirmed that CBT-1 results for NTPC cycle 8 will be declared by end of this week. Shortlisted candidates will be called for CBT-2.',
     category:'Exam Alert', role:'student',
     author:'Anjali Sharma', authorCity:'Lucknow',
@@ -80,7 +80,7 @@ const PULSE_DATA = [
 const TICKER_ITEMS = [
   '🔴 UPSC CSE 2026 Final Result Declared',
   '📋 SSC CGL Tier 2 Admit Card Released',
-  '🎯 TNPSC Group 1 2026 — Applications Open March 1',
+  '🎯 TNPSC Group 1 2026 - Applications Open March 1',
   '🏆 CAT 2025 Toppers List Published',
   '📌 RRB NTPC CBT-1 Result This Week',
   '⚡ IBPS PO 2026 Notification Expected February',

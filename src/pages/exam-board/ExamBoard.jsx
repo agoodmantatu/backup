@@ -189,7 +189,7 @@ export default function ExamBoard() {
                 📋 Exam Board
               </h1>
               <p style={{color:'rgba(255,255,255,0.7)',fontSize:11,margin:0}}>
-                All India · State · Central · University · School — in one place
+                All India · State · Central · University · School - in one place
               </p>
             </div>
             <button onClick={()=>setShowPost(!showPost)}

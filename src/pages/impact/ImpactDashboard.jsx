@@ -36,7 +36,7 @@ export default function ImpactDashboard() {
     <div style={{ minHeight:'100vh', background:'#F8FAFC' }}>
       <div style={{ background:'linear-gradient(135deg,var(--color-primary, #1E3A5F),#3B2A6B)', padding:'60px 32px', textAlign:'center' }}>
         <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:900, color:'var(--color-accent, #D4AF37)', fontSize:32, margin:'0 0 8px' }}>🌍 Live Impact</p>
-        <p style={{ color:'rgba(255,255,255,0.7)', fontSize:16, margin:0 }}>TryIT Educations — Real numbers, real students</p>
+        <p style={{ color:'rgba(255,255,255,0.7)', fontSize:16, margin:0 }}>TryIT Educations - Real numbers, real students</p>
       </div>
 
       <div style={{ maxWidth:900, margin:'0 auto', padding:'32px 24px' }}>
@@ -53,7 +53,7 @@ export default function ImpactDashboard() {
         </div>
 
         <div style={{ background:'#fff', borderRadius:20, border:'1.5px solid var(--color-border, #E2E8F0)', padding:24 }}>
-          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'var(--color-primary, #1E3A5F)', fontSize:18, marginBottom:16 }}>📍 States Reached — {STATES.length}/28</p>
+          <p style={{ fontFamily:'Poppins,sans-serif', fontWeight:800, color:'var(--color-primary, #1E3A5F)', fontSize:18, marginBottom:16 }}>📍 States Reached - {STATES.length}/28</p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
             {STATES.map(s=>(
               <span key={s} style={{ background:'linear-gradient(135deg,var(--color-primary, #1E3A5F),var(--color-primary-dark, #0F2140))', color:'var(--color-accent, #D4AF37)', borderRadius:20, padding:'4px 12px', fontSize:12, fontWeight:600 }}>✓ {s}</span>

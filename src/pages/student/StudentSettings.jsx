@@ -217,7 +217,7 @@ export default function StudentSettings() {
         </div>
       </div>
 
-      {/* Horizontal tabs — works on all screen sizes */}
+      {/* Horizontal tabs - works on all screen sizes */}
       <div style={{
         display: 'flex', gap: 6, overflowX: 'auto',
         padding: '12px 24px', borderBottom: `1px solid ${bdr}`,
@@ -248,7 +248,7 @@ export default function StudentSettings() {
       <div style={{ maxWidth: 900, margin: '0 auto', padding: '24px' }}>
         <div>
 
-          {/* ── PROFILE TAB ────────────────────────────────────── */}
+          {/* -- PROFILE TAB -------------------------------------- */}
           {activeTab === 'profile' && (
             <div style={{ background: card, border: `1px solid ${bdr}`,
               borderRadius: 20, padding: '24px' }}>
@@ -357,12 +357,12 @@ export default function StudentSettings() {
                 border: 'none', borderRadius: 12, padding: '12px 28px',
                 color: saved ? '#fff' : primD, fontWeight: 800,
                 fontSize: 14, cursor: 'pointer', transition: 'all 0.3s' }}>
-                {saving ? 'Saving…' : saved ? '✅ Saved!' : 'Save Changes'}
+                {saving ? 'Saving...' : saved ? '✅ Saved!' : 'Save Changes'}
               </button>
             </div>
           )}
 
-          {/* ── THEMES TAB ─────────────────────────────────────── */}
+          {/* -- THEMES TAB --------------------------------------- */}
           {activeTab === 'themes' && (
             <div>
               <div style={{ background: card, border: `1px solid ${bdr}`,
@@ -412,7 +412,7 @@ export default function StudentSettings() {
                         onMouseEnter={e => { if(unlocked) e.currentTarget.style.transform='scale(1.03)' }}
                         onMouseLeave={e => e.currentTarget.style.transform='scale(1)'}>
 
-                        {/* Theme preview — Mini Mockup */}
+                        {/* Theme preview - Mini Mockup */}
                         <div style={{
                           height:115, overflow:'hidden', position:'relative',
                           borderRadius:'12px 12px 0 0',
@@ -519,7 +519,7 @@ export default function StudentSettings() {
             </div>
           )}
 
-          {/* ── LANGUAGE TAB ───────────────────────────────────── */}
+          {/* -- LANGUAGE TAB ------------------------------------- */}
           {activeTab === 'language' && (
             <div style={{ background: card, border: `1px solid ${bdr}`,
               borderRadius: 20, padding: '24px' }}>
@@ -552,7 +552,7 @@ export default function StudentSettings() {
             </div>
           )}
 
-          {/* ── NOTIFICATIONS TAB ──────────────────────────────── */}
+          {/* -- NOTIFICATIONS TAB -------------------------------- */}
           {activeTab === 'notifications' && (
             <div style={{ background: card, border: `1px solid ${bdr}`,
               borderRadius: 20, padding: '24px' }}>
@@ -596,7 +596,7 @@ export default function StudentSettings() {
             </div>
           )}
 
-          {/* ── SECURITY TAB ───────────────────────────────────── */}
+          {/* -- SECURITY TAB ------------------------------------- */}
           {activeTab === 'security' && (
             <div style={{ background: card, border: `1px solid ${bdr}`,
               borderRadius: 20, padding: '24px' }}>
@@ -664,7 +664,7 @@ export default function StudentSettings() {
             </div>
           )}
 
-          {/* ── ACCOUNT TAB ────────────────────────────────────── */}
+          {/* -- ACCOUNT TAB -------------------------------------- */}
           {activeTab === 'account' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
 

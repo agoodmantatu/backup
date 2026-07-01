@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useAuth } from '../../context/AuthContext'
 
-// Lightweight CSS-only confetti — no extra dependency, GPU-friendly
+// Lightweight CSS-only confetti - no extra dependency, GPU-friendly
 // (transform + opacity only) so it stays smooth on low-end Android.
 function Confetti({ active }) {
   const pieces = useRef(
@@ -74,7 +74,7 @@ export default function ResultScreen() {
       updateUser({ xp: (user?.xp || 0) + xpEarned, testsCompleted: (user?.testsCompleted || 0) + 1 })
     }
     // Staged reveal: score lands first, then coins/XP, then confetti for
-    // a strong result. This is the "reward moment" — concentrated here,
+    // a strong result. This is the "reward moment" - concentrated here,
     // not smeared across every button in the app.
     const t1 = setTimeout(() => setRevealStage(1), 150)
     const t2 = setTimeout(() => setRevealStage(2), 650)
@@ -260,7 +260,7 @@ export default function ResultScreen() {
               ? '🏆 Excellent! Review the solutions to reinforce what you know.'
               : percentage >= 50
               ? '📈 Solid effort. Check the review to identify patterns in your mistakes.'
-              : '💡 Keep going — every test is practice. Review the answers carefully.'}
+              : '💡 Keep going - every test is practice. Review the answers carefully.'}
           </p>
         </div>
 

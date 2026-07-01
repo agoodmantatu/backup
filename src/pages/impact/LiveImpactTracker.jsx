@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 
-// Live mock metrics — in production: fetch from Supabase every 30s
+// Live mock metrics - in production: fetch from Supabase every 30s
 const BASE_METRICS = {
   hope_scholars:      847,
   physically_challenged: 1203,
@@ -106,7 +106,7 @@ export default function LiveImpactTracker() {
           margin:'0 auto 32px', lineHeight:1.7 }}>
           TryIT's near-zero infrastructure model enables 100% free education for India's
           most vulnerable communities. Every number below is a real person whose future
-          we are changing — right now.
+          we are changing - right now.
         </p>
 
         {/* Top 4 stats */}
@@ -147,7 +147,7 @@ export default function LiveImpactTracker() {
           Impact by Community
         </h2>
         <p style={{ color:'rgba(255,255,255,0.4)', fontSize:14, marginBottom:24, textAlign:'center' }}>
-          Every verified beneficiary gets full access — zero cost, zero compromise.
+          Every verified beneficiary gets full access - zero cost, zero compromise.
         </p>
 
         <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:14 }}>

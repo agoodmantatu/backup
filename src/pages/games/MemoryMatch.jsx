@@ -1,7 +1,7 @@
 // FILE: src/pages/games/MemoryMatch.jsx
-// TryIT — Memory Match: flip-card pairs of GK facts/formulas, 90 seconds
+// TryIT - Memory Match: flip-card pairs of GK facts/formulas, 90 seconds
 // Route: /games/memory-match
-// Trains long-term retention — directly helps recall static GK & formulas in exam
+// Trains long-term retention - directly helps recall static GK & formulas in exam
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { triggerHaptic } from '../../lib/gameEngine'

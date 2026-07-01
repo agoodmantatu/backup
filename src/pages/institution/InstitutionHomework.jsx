@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
 
 const HW_LIST = [
-  {id:1,title:'Polity Chapter 5 — 20 MCQs',hall:'UPSC Morning Batch',
+  {id:1,title:'Polity Chapter 5 - 20 MCQs',hall:'UPSC Morning Batch',
    type:'mcq',due:'Tomorrow 9PM',submitted:198,total:240,status:'active'},
-  {id:2,title:'Maths Speed Test — Time & Work',hall:'SSC CGL Evening',
+  {id:2,title:'Maths Speed Test - Time & Work',hall:'SSC CGL Evening',
    type:'mcq',due:'Today 8PM',submitted:180,total:180,status:'completed'},
   {id:3,title:'Write 200-word answer on Federalism',hall:'UPSC Morning Batch',
    type:'written',due:'Sun 9PM',submitted:45,total:240,status:'active'},
-  {id:4,title:'Read Chapter 3 — Mughal Empire',hall:'Class 10 Science',
+  {id:4,title:'Read Chapter 3 - Mughal Empire',hall:'Class 10 Science',
    type:'reading',due:'Mon 6PM',submitted:30,total:35,status:'active'},
 ]
 
@@ -87,7 +87,7 @@ export default function InstitutionHomework() {
               <label style={{display:'block',color:t,fontWeight:700,
                 fontSize:12,marginBottom:6}}>Title *</label>
               <input value={form.title} onChange={e=>up('title',e.target.value)}
-                placeholder="e.g. Polity Chapter 5 — 20 MCQs"
+                placeholder="e.g. Polity Chapter 5 - 20 MCQs"
                 style={{width:'100%',padding:'10px 12px',borderRadius:10,
                   border:'1.5px solid '+b,background:bg,color:t,
                   fontSize:13,outline:'none',boxSizing:'border-box'}}/>

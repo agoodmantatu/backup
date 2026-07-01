@@ -1,5 +1,5 @@
 // FILE: src/pages/family/FamilyHub.jsx
-// TryIT — Family / Parent Dashboard
+// TryIT - Family / Parent Dashboard
 // Parents can track their child's study progress, weak areas, exam readiness
 // Route: /family
 import { useState, useEffect } from 'react'
@@ -12,7 +12,7 @@ const GOLD = '#C9A84C'
 const BG   = '#F8FAFC'
 const GREEN = '#059669'
 
-// ── MOCK CHILD DATA ───────────────────────────────────────────────────────
+// -- MOCK CHILD DATA -------------------------------------------------------
 const MOCK_CHILDREN = [
   {
     id:'child-001', name:'Arjun', age:15, class:'Class 10',
@@ -70,7 +70,7 @@ const MOCK_CHILDREN = [
   },
 ]
 
-// ── MINI CHART ────────────────────────────────────────────────────────────
+// -- MINI CHART ------------------------------------------------------------
 function MiniBarChart({ scores, color }) {
   const max   = Math.max(...scores, 1)
   const days  = ['M','T','W','T','F','S','S']
@@ -88,7 +88,7 @@ function MiniBarChart({ scores, color }) {
   )
 }
 
-// ── RELATIVE TIME ─────────────────────────────────────────────────────────
+// -- RELATIVE TIME ---------------------------------------------------------
 function relativeTime(isoStr) {
   const diff = (Date.now() - new Date(isoStr).getTime()) / 60000
   if (diff < 1)   return 'just now'
@@ -130,7 +130,7 @@ export default function FamilyHub() {
   return (
     <div style={{ minHeight:'100vh', background:BG, fontFamily:'Inter,sans-serif', paddingBottom:80 }}>
 
-      {/* ── HEADER ──────────────────────────────────────────────────────── */}
+      {/* -- HEADER -------------------------------------------------------- */}
       <div style={{ background:`linear-gradient(135deg,${NAVY},#0F2140)`, padding:'20px 16px 24px' }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
           <button onClick={() => navigate('/')} style={{ background:'rgba(255,255,255,0.1)', border:'none', color:'rgba(255,255,255,0.7)', width:34, height:34, borderRadius:'50%', fontSize:16, cursor:'pointer' }}>←</button>
@@ -191,7 +191,7 @@ export default function FamilyHub() {
         </div>
       </div>
 
-      {/* ── TABS ─────────────────────────────────────────────────────────── */}
+      {/* -- TABS ----------------------------------------------------------- */}
       <div style={{ display:'flex', background:'#fff', borderBottom:'1px solid #E2E8F0', overflowX:'auto' }}>
         {[
           { id:'today',    label:'📅 Today'    },
@@ -359,7 +359,7 @@ export default function FamilyHub() {
                 `Ask ${child.name} to explain ${child.weak_topics[0]?.topic} to you in simple words`,
                 'Encourage 20 minutes of focused practice daily on weak topics',
                 `Check their progress on these topics again next week`,
-                'Celebrate when they get questions right — positive reinforcement works!',
+                'Celebrate when they get questions right - positive reinforcement works!',
               ].map((tip, i) => (
                 <p key={i} style={{ fontSize:12, color:'#475569', margin:'0 0 6px', lineHeight:1.6 }}>
                   → {tip}
@@ -387,12 +387,12 @@ export default function FamilyHub() {
             </div>
 
             <div style={{ background:'#fff', borderRadius:14, padding:14, border:'1.5px solid #E2E8F0', marginBottom:12 }}>
-              <p style={{ fontSize:12, fontWeight:700, color:NAVY, marginBottom:10 }}>📋 Parent Guide — What This Stage Means</p>
+              <p style={{ fontSize:12, fontWeight:700, color:NAVY, marginBottom:10 }}>📋 Parent Guide - What This Stage Means</p>
               <p style={{ fontSize:13, color:'#475569', lineHeight:1.8 }}>
                 {child.name} is in <strong>Stage {child.pathway.stage}</strong> of the {child.pathway.name}.
                 At this stage, they should be focusing on{' '}
                 <strong>building strong conceptual foundations</strong> in their core subjects.
-                This is the most important stage — what they learn here forms the base for all future exams.
+                This is the most important stage - what they learn here forms the base for all future exams.
               </p>
             </div>
 

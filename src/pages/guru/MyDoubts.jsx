@@ -1,4 +1,4 @@
-// src/pages/guru/MyDoubts.jsx — Premium standalone
+// src/pages/guru/MyDoubts.jsx - Premium standalone
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'

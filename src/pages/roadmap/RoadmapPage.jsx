@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
 
-// Generate an 8–12 week study plan structure per category
+// Generate an 8-12 week study plan structure per category
 const generatePlan = (exam) => {
   const cat = exam?.category || ''
 
@@ -136,7 +136,7 @@ export default function RoadmapPage() {
   }
 
   return (
-    <AppLayout title={`Roadmap — ${exam.name}`}>
+    <AppLayout title={`Roadmap - ${exam.name}`}>
       <div className="max-w-3xl mx-auto px-4 py-6">
 
         {/* Header */}

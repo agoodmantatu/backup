@@ -1,17 +1,17 @@
 /**
- * TryIT — Avatar Moderation Gate
- * ─────────────────────────────────────────────────────────────────
+ * TryIT - Avatar Moderation Gate
+ * -----------------------------------------------------------------
  * Every profile photo MUST pass through checkImageSafety() before it
  * is stored or shown to any other user. This is a hard requirement,
- * not a nice-to-have — TryIT's user base includes minors, and an
+ * not a nice-to-have - TryIT's user base includes minors, and an
  * unmoderated public photo surface (leaderboard, mentor hub, Hall)
  * is not acceptable.
  *
- * IMPLEMENTATION NOTE — READ BEFORE WIRING:
+ * IMPLEMENTATION NOTE - READ BEFORE WIRING:
  * The actual moderation call below is a clearly-marked stub. I don't
  * have your API credentials or Edge Function setup, so I cannot wire
  * a live call from here. What IS real and complete: the gate logic,
- * the rejection flow, and the integration point in AvatarUpload.jsx —
+ * the rejection flow, and the integration point in AvatarUpload.jsx -
  * none of that changes regardless of which provider you plug in.
  *
  * RECOMMENDED PROVIDER: Google Cloud Vision SafeSearch, called from a
@@ -32,7 +32,7 @@ const MODERATION_ENDPOINT = '/api/moderate-avatar' // ← point this at your Sup
 /**
  * Returns { safe: boolean, reason: string|null }.
  * Call this BEFORE uploading to storage and BEFORE showing the image
- * to anyone else. If safe is false, reject the upload entirely — do
+ * to anyone else. If safe is false, reject the upload entirely - do
  * not store it "just in case," do not show it to the uploader's own
  * profile pending review. Reject and ask for a different photo.
  */
@@ -47,7 +47,7 @@ export async function checkImageSafety(file) {
     })
 
     if (!response.ok) {
-      // Moderation service unreachable — fail CLOSED, not open. An
+      // Moderation service unreachable - fail CLOSED, not open. An
       // unmoderated photo must never slip through because a network
       // call failed. Ask the user to retry rather than risk it.
       return { safe: false, reason: 'moderation_unavailable' }
@@ -69,7 +69,7 @@ export async function checkImageSafety(file) {
     }
     return { safe: true, reason: null }
   } catch (err) {
-    // Network/parsing failure — same fail-closed principle as above.
+    // Network/parsing failure - same fail-closed principle as above.
     return { safe: false, reason: 'moderation_unavailable' }
   }
 }

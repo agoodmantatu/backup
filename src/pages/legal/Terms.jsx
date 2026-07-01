@@ -1,4 +1,4 @@
-// FILE: src/pages/legal/Terms.jsx — Route: /terms
+// FILE: src/pages/legal/Terms.jsx - Route: /terms
 import { useNavigate } from 'react-router-dom'
 const NAVY='#1E3A5F'
 

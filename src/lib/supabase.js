@@ -14,7 +14,7 @@ export const supabase = createClient(URL, ANON, {
   },
 })
 
-// ── Visibility helpers ────────────────────────────────────────────
+// -- Visibility helpers --------------------------------------------
 // PUBLIC data: leaderboard, hall battles, tournaments, game scores, doubts
 // PRIVATE data: individual test results, analytics, coin balance, weak subjects
 

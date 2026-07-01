@@ -29,7 +29,7 @@ const RESULTS = {
   '0-1': [{icon:'\u{1F3E6}',name:'IBPS PO / SBI PO',match:94,reason:'Commerce + economy knowledge is perfect for banking'},
           {icon:'\u{1F4CB}',name:'SSC CGL',match:86,reason:'Reasoning strength helps in Tier 1 & 2'},
           {icon:'\u{1F3DB}',name:'UPSC Civil Services',match:78,reason:'Economy optional could be your strength'}],
-  '1-0': [{icon:'\u{1F6F8}',name:'NDA / CDS',match:95,reason:'Defence career path — maths + physical fitness'},
+  '1-0': [{icon:'\u{1F6F8}',name:'NDA / CDS',match:95,reason:'Defence career path - maths + physical fitness'},
           {icon:'\u{1F3DB}',name:'UPSC Civil Services',match:84,reason:'IPS / IAS through UPSC CSE'},
           {icon:'\u{1F468}\u{200D}\u{1F393}',name:'SSC GD Constable',match:79,reason:'Direct entry into Central Armed Police'}],
   'default': [{icon:'\u{1F4CB}',name:'SSC CGL',match:91,reason:'Best all-rounder exam for any background'},

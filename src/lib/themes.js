@@ -1,20 +1,20 @@
 /**
- * TryIT — Theme System v2
- * ─────────────────────────────────────────────────────────────────
+ * TryIT - Theme System v2
+ * -----------------------------------------------------------------
  * Every theme is produced by buildTheme(), which derives text/border/
  * card colors from a small set of seed values and enforces a WCAG AA
  * contrast floor (4.5:1 body text, 3:1 large text) at generation time.
- * No theme can ship with unreadable text — the floor is structural,
+ * No theme can ship with unreadable text - the floor is structural,
  * not a per-theme value someone has to remember to fix.
  *
  * 5 BASE themes are unlocked for every user from day one.
- * The remaining themes are reward unlocks — see src/lib/themeUnlocks.js
+ * The remaining themes are reward unlocks - see src/lib/themeUnlocks.js
  * for the criteria (tests completed, streaks, scores, etc).
  */
 
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 // Color math (kept dependency-free, runs in browser + Node)
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 
 function hexToRgb(hex) {
   const cleaned = hex.replace('#', '').trim()
@@ -56,7 +56,7 @@ function mix(hexA, hexB, t) {
 /**
  * Pushes `hex` toward black or white in steps until it reaches the
  * target contrast ratio against `bgHex`. This is what guarantees the
- * 4.5:1 floor — it doesn't trust the seed color, it tests and corrects.
+ * 4.5:1 floor - it doesn't trust the seed color, it tests and corrects.
  */
 function ensureContrast(hex, bgHex, minRatio) {
   let current = hex
@@ -71,9 +71,9 @@ function ensureContrast(hex, bgHex, minRatio) {
   return target
 }
 
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 // Theme builder
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 // Seeds you choose by hand: hue/mood colors + light-or-dark surface.
 // Everything else (text, textLight, border, card colors, id-card
 // colors) is DERIVED and contrast-checked, never hand-typed.
@@ -85,10 +85,10 @@ function buildTheme(seed) {
     bg, surface, isDark = false,
     success = '#22C55E', error = '#EF4444', warning = '#F59E0B',
     glow = null, unlock = null,
-    // plan: 'free' | 'pro' | 'ultra' — minimum subscription tier required
+    // plan: 'free' | 'pro' | 'ultra' - minimum subscription tier required
     // to be ELIGIBLE for this theme. Even when eligible, the unlock
     // criteria in `unlock` still has to be met. Base themes (tier:'base')
-    // ignore plan entirely — they're free for everyone.
+    // ignore plan entirely - they're free for everyone.
     plan = 'pro',
   } = seed
 
@@ -112,7 +112,7 @@ function buildTheme(seed) {
   const cardText = ensureContrast(rawText, cardBg, 4.5)
 
   // ID card is a deliberately dark, branded gradient regardless of theme
-  // mode — so its own text must always be light, checked against itself.
+  // mode - so its own text must always be light, checked against itself.
   const idCardBg = `linear-gradient(135deg, ${primaryDark}, ${primary})`
   const idCardText = ensureContrast('#FFFFFF', primaryDark, 4.5)
   const idCardId = ensureContrast(accentLight, primaryDark, 4.5)
@@ -135,17 +135,17 @@ function buildTheme(seed) {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────
-// 5 BASE THEMES — unlocked for everyone, day one.
+// -----------------------------------------------------------------
+// 5 BASE THEMES - unlocked for everyone, day one.
 // Chosen to span the generational range: Classic/High Contrast suit
 // older or low-vision users who want stability and clarity; Sunrise/
 // Ocean are gentle, universally calm; Midnight is the default modern
 // dark mode younger users expect.
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 
 const BASE_THEMES = [
   // ══════════════════════════════════════════
-  // BATCH 1 — FREE THEMES (Light & Readable)
+  // BATCH 1 - FREE THEMES (Light & Readable)
   // ══════════════════════════════════════════
 
   buildTheme({
@@ -209,7 +209,7 @@ const BASE_THEMES = [
     accent: '#F472B6', accentLight: '#FBCFE8',
     bg: '#1A000E', surface: '#2A0018', isDark: true,
   }),
-  // ── INDIAN STATES ──────────────────────────────
+  // -- INDIAN STATES ------------------------------
   buildTheme({
     id: 'tamilnadu', name: 'Madurai Kovil', emoji: '🏛️', category: 'Indian Pride', tier: 'base', plan: 'free',
     primary: '#7C0000', primaryDark: '#5C0000',
@@ -241,7 +241,7 @@ const BASE_THEMES = [
     bg: '#F7FEE7', surface: '#FFFFFF', isDark: false,
   }),
 
-  // ── EXAM MOODS ──────────────────────────────────
+  // -- EXAM MOODS ----------------------------------
   buildTheme({
     id: 'focus-mode', name: 'Abhyas Neel', emoji: '🎯', category: 'Exam Mood', tier: 'base', plan: 'free',
     primary: '#1E3A5F', primaryDark: '#0F2140',
@@ -306,11 +306,11 @@ const BASE_THEMES = [
   }),
 ]
 
-// ─────────────────────────────────────────────────────────────────
-// 21 UNLOCKABLE THEMES — same visual moods as before, original names
+// -----------------------------------------------------------------
+// 21 UNLOCKABLE THEMES - same visual moods as before, original names
 // (no movie/franchise IP). unlock = { type, value, label } consumed
 // by src/lib/themeUnlocks.js + ThemeSelector / ThemeSwitcher UI.
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 
 const UNLOCK_THEMES = [
   buildTheme({
@@ -721,12 +721,12 @@ const UNLOCK_THEMES = [
   }),
 ]
 
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 // Public export
-// ─────────────────────────────────────────────────────────────────
+// -----------------------------------------------------------------
 
 
-// ── MENTOR PROFESSIONAL THEMES ─────────────────────────────
+// -- MENTOR PROFESSIONAL THEMES -----------------------------
 const MENTOR_THEMES = [
   buildTheme({ id:'mentor-kashi-dawn',   name:'Kashi Dawn',      emoji:'🏛️',
     category:'Mentor Light', tier:'mentor', plan:'free',

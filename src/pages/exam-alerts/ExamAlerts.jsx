@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AppLayout from '../../components/layout/AppLayout'
 
-// Hardcoded sample alerts — pulled from common exam names
+// Hardcoded sample alerts - pulled from common exam names
 const SAMPLE_ALERTS = [
   {
     id: 'ssc-cgl-2025',
@@ -127,7 +127,7 @@ const STATUS_CONFIG = {
 }
 
 const formatDate = (iso) => {
-  if (!iso) return '—'
+  if (!iso) return '-'
   try {
     return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
   } catch { return iso }

@@ -10,7 +10,7 @@ export default function Logo({ dark = false, height = 54 }) {
       alignItems: 'flex-start', gap, lineHeight: 1,
       userSelect: 'none',
     }}>
-      {/* TryIT — no gap between Try and IT */}
+      {/* TryIT - no gap between Try and IT */}
       <div style={{ display:'flex', alignItems:'baseline', gap: 0 }}>
         <span style={{
           fontFamily: 'Poppins, sans-serif',

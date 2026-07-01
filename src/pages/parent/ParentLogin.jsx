@@ -1,5 +1,5 @@
 // FILE: src/pages/parent/ParentLogin.jsx
-// TryIT — Parent Login (connects to child via student's registration token)
+// TryIT - Parent Login (connects to child via student's registration token)
 // Route: /parent/login
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -35,7 +35,7 @@ export default function ParentLogin(){
 
       <div style={{background:'rgba(255,255,255,0.08)',borderRadius:24,padding:28,width:'100%',maxWidth:380}}>
         <p style={{fontSize:13,color:'rgba(255,255,255,0.7)',marginBottom:20,lineHeight:1.6}}>
-          Track your child's exam preparation, tournament results, and progress — all in one place.
+          Track your child's exam preparation, tournament results, and progress - all in one place.
         </p>
 
         <label style={{fontSize:11,fontWeight:700,color:'rgba(255,255,255,0.6)',display:'block',marginBottom:4}}>Your Phone Number</label>

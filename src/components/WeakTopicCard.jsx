@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import confetti from 'canvas-confetti';
 
-// Small seed bank — 3 questions per category, picked based on the
+// Small seed bank - 3 questions per category, picked based on the
 // user's weakest subject. TODO: replace with Supabase questions
 // table query (filtered by topic_id + difficulty L1) once populated.
 const QUESTION_BANK = {
@@ -311,7 +311,7 @@ export default function WeakTopicCard() {
         <div className="text-center py-2">
           <p className="text-4xl mb-2">🎉</p>
           <h3 className="text-lg font-bold mb-1" style={{ color: 'var(--color-navy, #1E3A5F)' }}>
-            3/3 — quick win!
+            3/3 - quick win!
           </h3>
           <p className="text-sm text-gray-600 mb-5">
             {lockedSubject.name} accuracy is up to{' '}

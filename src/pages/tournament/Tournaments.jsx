@@ -37,7 +37,7 @@ export default function Tournaments() {
     <AppLayout title="Tournaments">
       <div className="mb-6">
         <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">🏆 Tournaments</h2>
-        <p className="text-slate-500">Compete, climb the ranks, and earn exclusive badges — entry is always free.</p>
+        <p className="text-slate-500">Compete, climb the ranks, and earn exclusive badges - entry is always free.</p>
       </div>
 
       <div className="flex gap-2 mb-6 bg-white rounded-2xl p-1 shadow-md w-fit">
@@ -57,7 +57,7 @@ export default function Tournaments() {
       {filtered.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-md p-10 text-center">
           <div className="text-5xl mb-3">🗓️</div>
-          <p className="text-slate-500">No {activeTab} tournaments right now — check back soon!</p>
+          <p className="text-slate-500">No {activeTab} tournaments right now - check back soon!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -74,7 +74,7 @@ export default function Tournaments() {
               <h3 className="font-display font-extrabold text-lg text-[var(--color-primary, #1E3A5F)] mb-1">{t.name}</h3>
               <p className="text-sm text-slate-500 mb-3">🎁 {t.prize}</p>
               <div className="flex items-center justify-between text-sm text-slate-400 mb-4">
-                <span>📅 {formatDate(t.start)} – {formatDate(t.end)}</span>
+                <span>📅 {formatDate(t.start)} - {formatDate(t.end)}</span>
                 <span>👥 {t.participants.toLocaleString()}</span>
               </div>
               <div className="flex items-center justify-between">

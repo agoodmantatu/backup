@@ -1,6 +1,6 @@
 // FILE: src/pages/admin/AdminLogin.jsx
-// TryIT — Admin Login Panel (Context-Driven with Sandbox Fallback)
-// Route: /admin/login (Restricted — authorized personnel only)
+// TryIT - Admin Login Panel (Context-Driven with Sandbox Fallback)
+// Route: /admin/login (Restricted - authorized personnel only)
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -77,7 +77,7 @@ export default function AdminLogin() {
           <p style={{ color: 'var(--color-error, #DC2626)', mountaineer: 'true', fontWeight: 700, fontSize: 13, marginTop: 6, textTransform: 'uppercase', letterSpacing: '1px' }}>
             🔐 Admin Access Only
           </p>
-          <p style={{ fontSize: 11, color: '#94A3B8', marginTop: 2 }}>Restricted — authorized personnel only</p>
+          <p style={{ fontSize: 11, color: '#94A3B8', marginTop: 2 }}>Restricted - authorized personnel only</p>
         </div>
 
         {/* Input Form Scope */}

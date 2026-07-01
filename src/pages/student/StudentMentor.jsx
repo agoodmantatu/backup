@@ -137,7 +137,7 @@ export default function StudentMentor() {
             border:'none',borderRadius:14,padding:'14px',
             color:'#fff',fontWeight:800,fontSize:14,cursor:'pointer',
             boxShadow:'0 4px 16px '+p+'33'}}>
-            {passType==='weekly'?'Get Weekly Pass — ₹'+mentor.weekly:'Get Monthly Pass — ₹'+mentor.monthly}
+            {passType==='weekly'?'Get Weekly Pass - ₹'+mentor.weekly:'Get Monthly Pass - ₹'+mentor.monthly}
           </button>
           <p style={{color:m,fontSize:10,textAlign:'center',margin:'8px 0 0'}}>
             Secure payment · Cancel anytime · Change mentor after 7 days

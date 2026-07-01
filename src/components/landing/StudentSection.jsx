@@ -29,7 +29,7 @@ export default function StudentSection() {
   const CONTENT = [
     {
       title:'All-India Leaderboard',
-      desc:'Real rank after every test — not at the end, but immediately. Watch yourself climb from #50,000 to #500 month by month. Every state, every exam, one real rank.',
+      desc:'Real rank after every test - not at the end, but immediately. Watch yourself climb from #50,000 to #500 month by month. Every state, every exam, one real rank.',
       preview:(
         <div style={{borderRadius:12,overflow:'hidden',border:`1px solid ${bdr}`}}>
           <div style={{background:isDark?primD:primary,padding:'7px 12px',display:'grid',gridTemplateColumns:'40px 1fr 80px 55px',gap:8}}>
@@ -47,7 +47,7 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'The Hall — Battle Arena',
+      title:'The Hall - Battle Arena',
       desc:'Create a study hall, invite your batch, battle live in quiz wars. The hall that studies together, ranks together. Hall rank shown separately from All-India rank.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
@@ -71,8 +71,8 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Classroom — Your Digital Study Room',
-      desc:'PDFs, study planners, e-books, concept cards — every subject, every exam, perfectly organised. Download for offline use. Works on 2G.',
+      title:'Classroom - Your Digital Study Room',
+      desc:'PDFs, study planners, e-books, concept cards - every subject, every exam, perfectly organised. Download for offline use. Works on 2G.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           {[{ic:'📄',t:'NEET Biology Notes Ch.12',sz:'47 pages · PDF',c:'#4ADE80'},{ic:'📊',t:'SSC CGL Previous 10 Years',sz:'2400 questions',c:accent},{ic:'📅',t:'30-Day UPSC Study Plan',sz:'Personalised',c:'#60A5FA'},{ic:'📖',t:'IBPS PO eBook 2024',sz:'320 pages · Free',c:'#A78BFA'}].map((f,i)=>(
@@ -86,14 +86,14 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Bharat Pulse — Know the Unknown India',
-      desc:'One powerful India story every day — with a real exam question that appears in UPSC, SSC, or State PSC. Know the unknown India while you practise.',
+      title:'Bharat Pulse - Know the Unknown India',
+      desc:'One powerful India story every day - with a real exam question that appears in UPSC, SSC, or State PSC. Know the unknown India while you practise.',
       preview:(
         <div style={{background:isDark?`${accent}10`:card,border:`1px solid ${accent}28`,borderRadius:12,padding:12}}>
           <div style={{display:'flex',gap:8,marginBottom:8}}>
             <span style={{color:accent,fontSize:9,fontWeight:700}}>🇮🇳 TODAY · June 22</span>
           </div>
-          <p style={{color:txt,fontWeight:700,fontSize:12,margin:'0 0 6px',lineHeight:1.4}}>Why Manipur gets two monsoons — and why it matters for UPSC Geography</p>
+          <p style={{color:txt,fontWeight:700,fontSize:12,margin:'0 0 6px',lineHeight:1.4}}>Why Manipur gets two monsoons - and why it matters for UPSC Geography</p>
           <p style={{color:muted,fontSize:10,margin:'0 0 8px',lineHeight:1.6}}>Northeast India unique geography creates a double monsoon pattern. Southwest monsoon arrives in June, Northeast in October...</p>
           <div style={{background:surf,borderRadius:8,padding:'7px 10px'}}>
             <p style={{color:accent,fontSize:9,fontWeight:700,margin:'0 0 3px'}}>🎯 Today's Exam Question</p>
@@ -103,8 +103,8 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'GuruHub — Post Any Doubt, Get Answered',
-      desc:'Post your doubt right now. A verified mentor from your own state answers in your language — usually within minutes. No stranger, no embarrassment.',
+      title:'GuruHub - Post Any Doubt, Get Answered',
+      desc:'Post your doubt right now. A verified mentor from your own state answers in your language - usually within minutes. No stranger, no embarrassment.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <div style={{display:'flex',gap:8,marginBottom:8}}>
@@ -144,7 +144,7 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Brain Games Hub — 24 Games',
+      title:'Brain Games Hub - 24 Games',
       desc:'24 brain-sharpening games. Math Blitz, GK Battle, Word Rush, Memory Match, Logic Grid. Earn coins every day you play. Unlock themes with coins.',
       preview:(
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
@@ -158,8 +158,8 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Quick Test — Launch in 10 Seconds',
-      desc:'Topic-wise, subject-wise, or full mock — pick your target and start immediately. Results, rank, and explanation all instant. No setup, no waiting.',
+      title:'Quick Test - Launch in 10 Seconds',
+      desc:'Topic-wise, subject-wise, or full mock - pick your target and start immediately. Results, rank, and explanation all instant. No setup, no waiting.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>SELECT TEST TYPE</p>
@@ -174,8 +174,8 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Smart Analytics — Know Your True Potential',
-      desc:'Weak subjects, strong topics. This month vs last month. All visualised so you know exactly where to focus. No guessing — data-driven improvement.',
+      title:'Smart Analytics - Know Your True Potential',
+      desc:'Weak subjects, strong topics. This month vs last month. All visualised so you know exactly where to focus. No guessing - data-driven improvement.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
           <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px',letterSpacing:'1px'}}>JUNE 2026 PERFORMANCE</p>
@@ -197,7 +197,7 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Referral Cashback — Your Network is Your Scholarship',
+      title:'Referral Cashback - Your Network is Your Scholarship',
       desc:'Refer 1 friend and both get a free Pro month. Refer 3 friends and you get a full year free. Every subscription also sponsors a student who cannot afford one.',
       preview:(
         <div style={{background:isDark?`${accent}10`:card,border:`1px solid ${accent}28`,borderRadius:12,padding:12}}>
@@ -218,11 +218,11 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'Career Compass — AI Maps Your Perfect Exam',
+      title:'Career Compass - AI Maps Your Perfect Exam',
       desc:'Answer 8 questions about your interests, strengths, and goals. Our AI maps your ideal exam path in 60 seconds. Covers all 1,10,000+ pathways.',
       preview:(
         <div style={{background:card,borderRadius:12,padding:12,border:`1px solid ${bdr}`}}>
-          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px'}}>Q4 of 8 — What interests you most?</p>
+          <p style={{color:muted,fontSize:9,fontWeight:700,margin:'0 0 8px'}}>Q4 of 8 - What interests you most?</p>
           {['Governance & Public Policy','Science & Technology','Finance & Economics','Teaching & Education'].map((o,i)=>(
             <div key={i} style={{padding:'6px 10px',borderRadius:8,border:`1px solid ${i===2?accent:bdr}`,background:i===2?`${accent}14`:'transparent',marginBottom:5,cursor:'pointer'}}>
               <span style={{color:i===2?accent:txt,fontSize:10,fontWeight:i===2?700:400}}>{i===2?'✓ ':''}{o}</span>
@@ -235,8 +235,8 @@ export default function StudentSection() {
       ),
     },
     {
-      title:'42+ Indian Languages — Every Mother Tongue',
-      desc:'Every question, explanation, and memory trick in your mother tongue. Tamil, Manipuri, Kashmiri, Bhojpuri — all 42 covered. Works on 2G anywhere in India.',
+      title:'42+ Indian Languages - Every Mother Tongue',
+      desc:'Every question, explanation, and memory trick in your mother tongue. Tamil, Manipuri, Kashmiri, Bhojpuri - all 42 covered. Works on 2G anywhere in India.',
       preview:(
         <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
           {[['Tamil','#E53E3E'],['Hindi','#DD6B20'],['Telugu','#D69E2E'],['Kannada','#38A169'],['Malayalam','#3182CE'],['Bengali','#805AD5'],['Marathi','#E53E3E'],['Manipuri','#DD6B20'],['Kashmiri','#D69E2E'],['Bhojpuri','#38A169'],['Assamese','#3182CE'],['Odia','#805AD5']].map(([l,c],i)=>(
@@ -265,7 +265,7 @@ export default function StudentSection() {
             Everything You Need. <span style={{color:accent}}>Nothing You Don't.</span>
           </h2>
           <p style={{color:muted,fontSize:14,maxWidth:560,margin:'0 auto',lineHeight:1.7}}>
-            No YouTube. No coaching fee. No travel. No stranger fear. Subscribe once — another student who cannot afford it studies free alongside you.
+            No YouTube. No coaching fee. No travel. No stranger fear. Subscribe once - another student who cannot afford it studies free alongside you.
           </p>
         </div>
 

@@ -1,5 +1,5 @@
 // src/pages/student/StudentDashboard.jsx
-// TRYIT PREMIUM DASHBOARD v3 — Full featured world-class
+// TRYIT PREMIUM DASHBOARD v3 - Full featured world-class
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useTheme } from '../../context/ThemeContext'
@@ -12,7 +12,7 @@ import {
   uploadAvatar, updateProfile, getLeaderboard
 } from '../../lib/studentLib'
 
-// ── Helpers ───────────────────────────────────────────────────────
+// -- Helpers -------------------------------------------------------
 function AnimNum({ value=0, duration=900, prefix='', suffix='' }) {
   const [n, setN] = useState(0)
   useEffect(() => {
@@ -61,7 +61,7 @@ function CoinPop({ amount, onDone }) {
   )
 }
 
-// ── Full screen wrapper ───────────────────────────────────────────
+// -- Full screen wrapper -------------------------------------------
 function FullScreen({ title, onClose, children, accent }) {
   useEffect(()=>{
     const esc = e => { if(e.key==='Escape') onClose() }
@@ -83,7 +83,7 @@ function FullScreen({ title, onClose, children, accent }) {
   )
 }
 
-// ── Nav config ────────────────────────────────────────────────────
+// -- Nav config ----------------------------------------------------
 const NAV = [
   {id:'home',      icon:'🏠',label:'Home',       path:'/student'},
   {id:'test',      icon:'📝',label:'Tests',       path:'/student/test',      limit:'tests'},
@@ -241,7 +241,7 @@ export default function StudentDashboard() {
   }
 
   const share=()=>{
-    const text=`I scored ${attempts[0]?.score||0}/${attempts[0]?.total||100} on ${attempts[0]?.exam_name||'TryIT exam'}! Rank #${profile?.rank||'—'} All-India. 🎓 tryiteducations.net`
+    const text=`I scored ${attempts[0]?.score||0}/${attempts[0]?.total||100} on ${attempts[0]?.exam_name||'TryIT exam'}! Rank #${profile?.rank||'-'} All-India. 🎓 tryiteducations.net`
     if(navigator.share){navigator.share({title:'My TryIT Score',text})}
     else{navigator.clipboard?.writeText(text)}
   }
@@ -250,7 +250,7 @@ export default function StudentDashboard() {
     <div style={{minHeight:'100vh',background:isDark?primD:'#F0F4F8',
       display:'flex',alignItems:'center',justifyContent:'center',flexDirection:'column',gap:16}}>
       <Ring pct={75} size={64} color={accent}><span style={{fontSize:22}}>🎓</span></Ring>
-      <p style={{color:muted,fontFamily:'Poppins,sans-serif',fontSize:14}}>Loading your dashboard…</p>
+      <p style={{color:muted,fontFamily:'Poppins,sans-serif',fontSize:14}}>Loading your dashboard...</p>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   )
@@ -272,7 +272,7 @@ export default function StudentDashboard() {
       background:isDark?`radial-gradient(ellipse 80% 60% at 20% -10%,${primary}40,transparent 60%),${primD}`:'#F0F4F8',
       fontFamily:'Inter,sans-serif',position:'relative'}}>
 
-      {/* ── Overlays ──────────────────────────────────────────── */}
+      {/* -- Overlays -------------------------------------------- */}
       {coinPop&&<CoinPop amount={coinPop} onDone={()=>setCoinPop(null)}/>}
       {upgradeFor&&(
         <UpgradePopup type={upgradeFor}
@@ -403,7 +403,7 @@ export default function StudentDashboard() {
             {[
               {icon:'🔥',msg:'Your streak is at risk! Study today.',time:'2h ago',color:'#F59E0B'},
               {icon:'🏆',msg:'New All-India rank update available.',time:'5h ago',color:accent},
-              {icon:'📝',msg:'Weekly test is now live — attempt it!',time:'1d ago',color:'#60A5FA'},
+              {icon:'📝',msg:'Weekly test is now live - attempt it!',time:'1d ago',color:'#60A5FA'},
             ].map((n,i)=>(
               <div key={i} style={{display:'flex',gap:10,padding:'10px 0',
                 borderBottom:`1px solid ${bdr}`}}>
@@ -427,7 +427,7 @@ export default function StudentDashboard() {
         </div>
       )}
 
-      {/* ── LEFT SIDEBAR ────────────────────────────────────────── */}
+      {/* -- LEFT SIDEBAR ------------------------------------------ */}
       <aside
         ref={sideRef}
         onMouseEnter={()=>setSideHover(true)}
@@ -641,7 +641,7 @@ export default function StudentDashboard() {
         )}
       </aside>
 
-      {/* ── MAIN CONTENT ────────────────────────────────────────── */}
+      {/* -- MAIN CONTENT ------------------------------------------ */}
       <main style={{flex:1,minWidth:0,overflowY:'auto',maxHeight:'100vh'}}>
 
         {/* Top bar */}
@@ -736,13 +736,13 @@ export default function StudentDashboard() {
 
         <div style={{padding:'20px 24px',maxWidth:960,margin:'0 auto'}}>
 
-          {/* ── STATS ─────────────────────────────────────────── */}
+          {/* -- STATS ------------------------------------------- */}
           {showWidget('stats')&&(
             <div style={{display:'grid',
               gridTemplateColumns:'repeat(auto-fit,minmax(min(100%,190px),1fr))',
               gap:12,marginBottom:20}}>
               {[
-                {label:'All-India Rank',val:rank,display:rank?`#${rank.toLocaleString('en-IN')}`:'—',
+                {label:'All-India Rank',val:rank,display:rank?`#${rank.toLocaleString('en-IN')}`:'-',
                   icon:'🏆',color:'#FFD700',ring:rank?Math.min(100,100-(rank/100000)*100):0,sub:'After last test'},
                 {label:'Day Streak',val:curStr,display:curStr,
                   icon:'🔥',color:'#F59E0B',ring:Math.min(100,curStr*3),sub:`Best: ${streak?.longest_streak||0}d`},
@@ -777,7 +777,7 @@ export default function StudentDashboard() {
             </div>
           )}
 
-          {/* ── FREE PLAN BAR ────────────────────────────────── */}
+          {/* -- FREE PLAN BAR ---------------------------------- */}
           {!isPro&&(
             <div style={{background:isDark?`${accent}07`:`${accent}06`,
               border:`1px solid ${accent}25`,borderRadius:14,
@@ -786,7 +786,7 @@ export default function StudentDashboard() {
               justifyContent:'space-between',gap:12,flexWrap:'wrap'}}>
               <div>
                 <p style={{color:accent,fontWeight:700,fontSize:12,margin:0}}>
-                  Free Plan — {FREE_LIMITS.tests-(usage?.tests_today||0)} tests left today
+                  Free Plan - {FREE_LIMITS.tests-(usage?.tests_today||0)} tests left today
                 </p>
                 <p style={{color:muted,fontSize:10,margin:'2px 0 0'}}>
                   Refer a friend who buys Pro → 7 days Pro free for both
@@ -808,7 +808,7 @@ export default function StudentDashboard() {
             </div>
           )}
 
-          {/* ── QUICK ACTIONS ─────────────────────────────────── */}
+          {/* -- QUICK ACTIONS ----------------------------------- */}
           {showWidget('actions')&&(
             <>
               <p style={{color:muted,fontSize:9,fontWeight:700,
@@ -864,7 +864,7 @@ export default function StudentDashboard() {
             </>
           )}
 
-          {/* ── LAUNCHPAD ──────────────────────────────────────── */}
+          {/* -- LAUNCHPAD ---------------------------------------- */}
           {showWidget('launchpad')&&(
             launchpad&&todayTopic?(
               <div style={{background:`linear-gradient(135deg,${primary},${primD})`,
@@ -878,7 +878,7 @@ export default function StudentDashboard() {
                   <div>
                     <p style={{color:accent,fontSize:8,fontWeight:700,
                       letterSpacing:'1.5px',margin:'0 0 4px'}}>
-                      🚀 LAUNCHPAD — {launchpad.track?.toUpperCase()} TRACK
+                      🚀 LAUNCHPAD - {launchpad.track?.toUpperCase()} TRACK
                     </p>
                     <p style={{color:'#fff',fontFamily:'Poppins,sans-serif',
                       fontWeight:800,fontSize:15,margin:'0 0 4px'}}>
@@ -937,7 +937,7 @@ export default function StudentDashboard() {
             )
           )}
 
-          {/* ── RECENT TESTS + ANALYTICS ROW ──────────────────── */}
+          {/* -- RECENT TESTS + ANALYTICS ROW -------------------- */}
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:20}}
             className="two-col">
             {/* Recent tests */}
@@ -1021,7 +1021,7 @@ export default function StudentDashboard() {
                           const pct=a.total?Math.round((a.score/a.total)*100):0
                           const c=pct>=80?'#4ADE80':pct>=60?accent:'#F87171'
                           return(
-                            <div key={i} title={`${pct}% — ${a.exam_name||'Test'}`}
+                            <div key={i} title={`${pct}% - ${a.exam_name||'Test'}`}
                               style={{flex:1,background:`${c}22`,borderRadius:4,
                                 height:`${Math.max(10,pct*0.48)}px`,
                                 border:`1px solid ${c}33`,cursor:'pointer',
@@ -1044,7 +1044,7 @@ export default function StudentDashboard() {
             )}
           </div>
 
-          {/* ── LEADERBOARD ────────────────────────────────────── */}
+          {/* -- LEADERBOARD -------------------------------------- */}
           {showWidget('leaderboard')&&(
             <div style={{background:`linear-gradient(135deg,#060D18,#0F1A2E)`,
               borderRadius:20,overflow:'hidden',marginBottom:20,
@@ -1087,10 +1087,10 @@ export default function StudentDashboard() {
                         {r.profiles?.name||'Student'}
                       </p>
                       <p style={{color:'rgba(255,255,255,0.60)',fontSize:8,margin:0}}>
-                        {r.exam_name||'—'}
+                        {r.exam_name||'-'}
                       </p>
                     </div>
-                    <span style={{color:accent,fontWeight:700,fontSize:11,flexShrink:0}}>{r.score||'—'}</span>
+                    <span style={{color:accent,fontWeight:700,fontSize:11,flexShrink:0}}>{r.score||'-'}</span>
                   </div>
                 )):(
                   <div style={{padding:'24px',textAlign:'center',gridColumn:'1/-1'}}>
@@ -1103,7 +1103,7 @@ export default function StudentDashboard() {
             </div>
           )}
 
-          {/* ── BOOKMARKS ─────────────────────────────────────── */}
+          {/* -- BOOKMARKS --------------------------------------- */}
           {showWidget('bookmarks')&&(
             <div style={{background:card,border:`1px solid ${bdr}`,borderRadius:18,marginBottom:20}}>
               <div style={{padding:'14px 16px',borderBottom:`1px solid ${bdr}`,
@@ -1118,7 +1118,7 @@ export default function StudentDashboard() {
               </div>
               <div style={{padding:'16px',display:'flex',flexDirection:'column',gap:8}}>
                 {[
-                  {icon:'📝',type:'Question',title:'Article 300A — Right to Property distinctions',exam:'TNPSC',color:'#60A5FA'},
+                  {icon:'📝',type:'Question',title:'Article 300A - Right to Property distinctions',exam:'TNPSC',color:'#60A5FA'},
                   {icon:'📰',type:'Current Affairs',title:'India signs semiconductor deal with Japan',exam:'SSC CGL',color:accent},
                   {icon:'📚',type:'Material',title:'SSC CGL Maths Formula Sheet',exam:'SSC',color:'#4ADE80'},
                 ].map((b,i)=>(
@@ -1146,7 +1146,7 @@ export default function StudentDashboard() {
             </div>
           )}
 
-          {/* ── TOURNAMENT + BHARAT PULSE ROW ─────────────────── */}
+          {/* -- TOURNAMENT + BHARAT PULSE ROW ------------------- */}
           <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16,marginBottom:20}}
             className="two-col">
             {showWidget('tournament')&&(
@@ -1207,7 +1207,7 @@ export default function StudentDashboard() {
                     India's semiconductor mission: 5 fabs to be operational by 2026
                   </p>
                   <p style={{color:'rgba(255,255,255,0.80)',fontSize:10,margin:'0 0 12px',lineHeight:1.5}}>
-                    Relates to GS3 Economy, Science & Tech — appears in UPSC, SSC, IBPS
+                    Relates to GS3 Economy, Science & Tech - appears in UPSC, SSC, IBPS
                   </p>
                   <div style={{display:'flex',alignItems:'center',gap:8}}>
                     <span style={{background:`${accent}22`,color:accent,fontSize:9,
@@ -1222,7 +1222,7 @@ export default function StudentDashboard() {
             )}
           </div>
 
-          {/* ── MENTOR CARD ────────────────────────────────────── */}
+          {/* -- MENTOR CARD -------------------------------------- */}
           {showWidget('mentor')&&(
             <div style={{background:card,border:`1px solid ${bdr}`,borderRadius:18,
               padding:'16px',marginBottom:20}}>
@@ -1258,7 +1258,7 @@ export default function StudentDashboard() {
         </div>
       </main>
 
-      {/* ── BOTTOM NAV (mobile) ──────────────────────────────────── */}
+      {/* -- BOTTOM NAV (mobile) ------------------------------------ */}
       <div style={{position:'fixed',bottom:0,left:0,right:0,zIndex:200,
         background:isDark?'rgba(15,23,42,0.97)':'rgba(255,255,255,0.97)',
         backdropFilter:'blur(20px)',

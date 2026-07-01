@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AppLayout from '../../components/layout/AppLayout';
 import { useAuth } from '../../context/AuthContext';
 
-// Sample saved ebooks — set to [] to preview the empty-state
+// Sample saved ebooks - set to [] to preview the empty-state
 const SAMPLE_MY_EBOOKS = [
   { id: 'eb1', title: 'Mastering Quantitative Aptitude', author: 'Dr. R. Krishnan', tag: 'SSC CGL', emoji: '📘', progress: 62 },
   { id: 'eb3', title: 'NEET Biology Quick Revision', author: 'Dr. S. Pillai', tag: 'NEET UG', emoji: '📕', progress: 28 },
@@ -26,7 +26,7 @@ export default function MyEbooks() {
       {SAMPLE_MY_EBOOKS.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-md p-10 text-center">
           <div className="text-5xl mb-3">📖</div>
-          <p className="text-slate-600 mb-4">No ebooks yet — browse the store to find your next read!</p>
+          <p className="text-slate-600 mb-4">No ebooks yet - browse the store to find your next read!</p>
           <button
             onClick={() => navigate('/ebooks')}
             className="px-5 py-2 rounded-2xl bg-[var(--color-primary, #1E3A5F)] text-white font-bold"

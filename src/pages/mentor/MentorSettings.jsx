@@ -237,7 +237,7 @@ export default function MentorSettings() {
             Dashboard Theme
           </p>
           <p style={{color:m,fontSize:11,margin:'0 0 14px'}}>
-            10 professional themes — light & dark
+            10 professional themes - light & dark
           </p>
           <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:10}}>
             {MENTOR_THEMES.map(th=>(

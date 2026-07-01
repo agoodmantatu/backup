@@ -1,6 +1,6 @@
 /**
- * APAAR — Academic Bank of Credits (ABC)
- * "One Nation, One Student ID" — 12-digit unique student ID
+ * APAAR - Academic Bank of Credits (ABC)
+ * "One Nation, One Student ID" - 12-digit unique student ID
  * Issued by Ministry of Education under National Education Policy 2020
  */
 

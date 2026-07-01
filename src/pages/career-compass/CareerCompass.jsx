@@ -146,7 +146,7 @@ const EXAM_PATHS = [
     name: 'Railway Recruitment (RRB)',
     emoji: '🚆',
     tags: ['railway', 'govt'],
-    desc: 'Join Indian Railways — one of the world\'s largest employers with 1 lakh+ seats.',
+    desc: 'Join Indian Railways - one of the world\'s largest employers with 1 lakh+ seats.',
     category: 'railways',
     color: '#4C1D95',
   },

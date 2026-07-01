@@ -332,7 +332,7 @@ export default function MentorHub() {
             </div>
           </div>
 
-          {/* ── AUDIO / VIDEO UPLOAD ── */}
+          {/* -- AUDIO / VIDEO UPLOAD -- */}
           <div style={{background:c,border:'1px solid '+b,borderRadius:18,
             overflow:'hidden',marginBottom:20}}>
 
@@ -368,7 +368,7 @@ export default function MentorHub() {
                     Title *
                   </label>
                   <input value={uploadTitle} onChange={e=>setUploadTitle(e.target.value)}
-                    placeholder={uploadTab==='audio'?'e.g. Polity Chapter 5 — Federalism explained':'e.g. UPSC Essay technique — 15 min'}
+                    placeholder={uploadTab==='audio'?'e.g. Polity Chapter 5 - Federalism explained':'e.g. UPSC Essay technique - 15 min'}
                     style={{width:'100%',padding:'10px 12px',borderRadius:10,
                       border:'1.5px solid '+b,background:bg,color:t,
                       fontSize:13,outline:'none',fontFamily:'Poppins,sans-serif',

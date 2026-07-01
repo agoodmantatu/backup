@@ -33,14 +33,14 @@ const SAMPLE_QUESTIONS = [
     question: 'What does GDP stand for?',
     options: ['Gross Domestic Product','General Domestic Product','Gross Development Product','General Development Policy'],
     correct: 0,
-    explanation: 'GDP stands for Gross Domestic Product — total value of goods and services produced in a country in a year.'
+    explanation: 'GDP stands for Gross Domestic Product - total value of goods and services produced in a country in a year.'
   },
   {
     id: 5, subject: 'Science',
     question: 'What is the chemical formula of water?',
     options: ['H2O2','HO2','H2O','H3O'],
     correct: 2,
-    explanation: 'Water is H2O — two hydrogen atoms and one oxygen atom.'
+    explanation: 'Water is H2O - two hydrogen atoms and one oxygen atom.'
   },
   {
     id: 6, subject: 'Polity',
@@ -54,7 +54,7 @@ const SAMPLE_QUESTIONS = [
     question: 'Which country hosted the G20 Summit in 2023?',
     options: ['USA','China','India','Japan'],
     correct: 2,
-    explanation: 'India hosted the G20 Summit 2023 in New Delhi under the theme Vasudhaiva Kutumbakam — One Earth One Family One Future.'
+    explanation: 'India hosted the G20 Summit 2023 in New Delhi under the theme Vasudhaiva Kutumbakam - One Earth One Family One Future.'
   },
   {
     id: 8, subject: 'Maths',
@@ -168,7 +168,7 @@ export default function StudentTest() {
       try {
         await supabase.from('test_attempts').insert({
           user_id: uid,
-          exam_name: `${EXAM_TYPES.find(e=>e.id===examType)?.label} — General`,
+          exam_name: `${EXAM_TYPES.find(e=>e.id===examType)?.label} - General`,
           subject: 'Mixed',
           score, total,
           time_taken: totalTime - timeLeft,
@@ -254,7 +254,7 @@ export default function StudentTest() {
         )}
       </div>
 
-      {/* ── SELECT PHASE ─────────────────────────────────────── */}
+      {/* -- SELECT PHASE --------------------------------------- */}
       {phase === 'select' && (
         <div style={{ maxWidth:600, margin:'0 auto', padding:'24px' }}>
           <p style={{ color:txt, fontFamily:'Poppins,sans-serif',
@@ -311,7 +311,7 @@ export default function StudentTest() {
         </div>
       )}
 
-      {/* ── ACTIVE PHASE ─────────────────────────────────────── */}
+      {/* -- ACTIVE PHASE --------------------------------------- */}
       {phase === 'active' && q && (
         <div style={{ maxWidth:700, margin:'0 auto', padding:'20px' }}>
 
@@ -415,7 +415,7 @@ export default function StudentTest() {
         </div>
       )}
 
-      {/* ── RESULT PHASE ─────────────────────────────────────── */}
+      {/* -- RESULT PHASE --------------------------------------- */}
       {phase === 'result' && result && (
         <div style={{ maxWidth:600, margin:'0 auto', padding:'24px' }}>
 

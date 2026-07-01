@@ -58,7 +58,7 @@ export default function AllExams() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-[var(--color-primary, #1E3A5F)] mb-1">Exam Explorer</h1>
           <p className="text-gray-500 text-sm">
-            {total} exams and growing — new exams added weekly
+            {total} exams and growing - new exams added weekly
           </p>
         </div>
 

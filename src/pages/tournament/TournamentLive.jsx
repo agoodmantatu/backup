@@ -1,5 +1,5 @@
 // FILE: src/pages/tournament/TournamentLive.jsx
-// TryIT Tournament — ONLINE ONLY Exam Engine
+// TryIT Tournament - ONLINE ONLY Exam Engine
 // Route: /tournament/:id/live
 //
 // ONLINE ENFORCEMENT RULES:
@@ -32,7 +32,7 @@ import { supabase } from '../../lib/supabase'
 const NAVY = '#1E3A5F'
 const GOLD = '#C9A84C'
 
-// ── MOCK QUESTIONS (dev only — real ones from CDN) ────────────────────────
+// -- MOCK QUESTIONS (dev only - real ones from CDN) ------------------------
 const MOCK_QUESTIONS = Array.from({ length: 100 }, (_, i) => ({
   id:             `q_${i + 1}`,
   question:       `Question ${i + 1}: A train travels 120 km in 2 hours. What is its average speed?`,
@@ -49,7 +49,7 @@ const MOCK_SCHEME = {
   max_score: 200, our_time_mins: 54,
 }
 
-// ── PING ENDPOINT (tiny, just to verify internet) ─────────────────────────
+// -- PING ENDPOINT (tiny, just to verify internet) -------------------------
 // We ping our own Cloudflare Worker (always online, costs nothing)
 const PING_URL    = 'https://api.tryiteducations.net/ping'
 const PING_BACKUP = 'https://www.cloudflare.com/cdn-cgi/trace'
@@ -75,7 +75,7 @@ async function checkInternet() {
   }
 }
 
-// ── OFFLINE WARNING OVERLAY ───────────────────────────────────────────────
+// -- OFFLINE WARNING OVERLAY -----------------------------------------------
 function OfflineOverlay({ disconnectCount, offlineSecs, onRetry }) {
   return (
     <div style={{
@@ -104,7 +104,7 @@ function OfflineOverlay({ disconnectCount, offlineSecs, onRetry }) {
         borderRadius: 14, padding: '12px 20px', margin: '16px 0',
       }}>
         <p style={{ fontSize: 13, color: '#FCA5A5', margin: '0 0 4px', fontWeight: 700 }}>
-          ⏸ Exam Paused — {Math.floor(offlineSecs / 60)}m {offlineSecs % 60}s offline
+          ⏸ Exam Paused - {Math.floor(offlineSecs / 60)}m {offlineSecs % 60}s offline
         </p>
         <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', margin: 0 }}>
           Disconnection {disconnectCount} of 3 · Auto-submit after 3 minutes offline
@@ -132,7 +132,7 @@ function OfflineOverlay({ disconnectCount, offlineSecs, onRetry }) {
   )
 }
 
-// ── RECONNECTED GRACE PERIOD ──────────────────────────────────────────────
+// -- RECONNECTED GRACE PERIOD ----------------------------------------------
 function ReconnectedBanner({ countdown }) {
   return (
     <div style={{
@@ -146,14 +146,14 @@ function ReconnectedBanner({ countdown }) {
   )
 }
 
-// ── MAIN COMPONENT ────────────────────────────────────────────────────────
+// -- MAIN COMPONENT --------------------------------------------------------
 export default function TournamentLive() {
   const { id }    = useParams()
   const navigate  = useNavigate()
   const { state } = useLocation()
   const { user }  = useAuth()
 
-  // ── CORE STATE ────────────────────────────────────────────────────────
+  // -- CORE STATE --------------------------------------------------------
   const [phase,         setPhase]         = useState('checking_internet')
   // Phases:
   // checking_internet → verifying before entry
@@ -177,14 +177,14 @@ export default function TournamentLive() {
   const [showConfirm,  setShowConfirm]   = useState(false)
   const [showFeedback, setShowFeedback]  = useState(null)
 
-  // ── CONNECTIVITY STATE ────────────────────────────────────────────────
+  // -- CONNECTIVITY STATE ------------------------------------------------
   const [isOnline,         setIsOnline]         = useState(true)
   const [offlineSecs,      setOfflineSecs]       = useState(0)
   const [disconnectCount,  setDisconnectCount]   = useState(0)
   const [graceCountdown,   setGraceCountdown]    = useState(0)
   const [totalOfflineSecs, setTotalOfflineSecs]  = useState(0)
 
-  // ── REFS ──────────────────────────────────────────────────────────────
+  // -- REFS --------------------------------------------------------------
   const qStartTime    = useRef(Date.now())
   const examStartTime = useRef(null)
   const antiCheat     = useRef(null)
@@ -196,7 +196,7 @@ export default function TournamentLive() {
 
   const q = questions[currentIdx]
 
-  // ── STEP 1: CHECK INTERNET BEFORE ANYTHING ────────────────────────────
+  // -- STEP 1: CHECK INTERNET BEFORE ANYTHING ----------------------------
   useEffect(() => {
     ;(async () => {
       const online = await checkInternet()
@@ -211,7 +211,7 @@ export default function TournamentLive() {
         return
       }
 
-      // Internet confirmed — proceed to load exam
+      // Internet confirmed - proceed to load exam
       initExam()
     })()
 
@@ -224,7 +224,7 @@ export default function TournamentLive() {
     }
   }, [id])
 
-  // ── STEP 2: INIT EXAM (after internet confirmed) ──────────────────────
+  // -- STEP 2: INIT EXAM (after internet confirmed) ----------------------
   const initExam = async () => {
     setPhase('loading')
     try {
@@ -291,7 +291,7 @@ export default function TournamentLive() {
     }
   }
 
-  // ── CONNECTIVITY MONITOR ──────────────────────────────────────────────
+  // -- CONNECTIVITY MONITOR ----------------------------------------------
   // Pings every 90 seconds. If fails → pause exam immediately.
   const startConnectivityMonitor = () => {
 
@@ -300,7 +300,7 @@ export default function TournamentLive() {
     window.addEventListener('offline', handleOffline)
 
     // Active ping every 90 seconds (catches cases where browser says "online"
-    // but actual internet is not working — e.g. connected to router but no ISP)
+    // but actual internet is not working - e.g. connected to router but no ISP)
     pingRef.current = setInterval(async () => {
       const online = await checkInternet()
       if (!online && isOnline) {
@@ -323,7 +323,7 @@ export default function TournamentLive() {
       const newCount = c + 1
       // 3 disconnects → flag for review (but don't disqualify automatically)
       if (newCount >= 3) {
-        console.log('[TryIT] 3 disconnections — flagging session for review')
+        console.log('[TryIT] 3 disconnections - flagging session for review')
       }
       return newCount
     })
@@ -395,7 +395,7 @@ export default function TournamentLive() {
     if (online) handleOnline()
   }
 
-  // ── TIMER ─────────────────────────────────────────────────────────────
+  // -- TIMER -------------------------------------------------------------
   const resumeTimer = () => {
     clearInterval(timerRef.current)
     timerRef.current = setInterval(() => {
@@ -429,7 +429,7 @@ export default function TournamentLive() {
     }
   }, [])
 
-  // ── ANSWER ─────────────────────────────────────────────────────────────
+  // -- ANSWER -------------------------------------------------------------
   const handleAnswer = useCallback((optionIdx) => {
     if (!q || showFeedback) return
     const letter    = ['A', 'B', 'C', 'D'][optionIdx]
@@ -458,7 +458,7 @@ export default function TournamentLive() {
     }
   }
 
-  // ── SUBMIT ─────────────────────────────────────────────────────────────
+  // -- SUBMIT -------------------------------------------------------------
   const handleSubmit = useCallback(async (auto = false) => {
     // One final internet check before submitting
     const online = await checkInternet()
@@ -489,7 +489,7 @@ export default function TournamentLive() {
     setPhase('submitted')
   }, [answers, questions, scheme, timings, registration, id, user?.id, showConfirm])
 
-  // ── HELPERS ────────────────────────────────────────────────────────────
+  // -- HELPERS ------------------------------------------------------------
   const formatTime = (s) => {
     const h = Math.floor(s / 3600)
     const m = Math.floor((s % 3600) / 60)
@@ -577,7 +577,7 @@ export default function TournamentLive() {
       <p style={{ fontWeight:700, fontSize:18, marginBottom:8 }}>Exam hasn't started yet</p>
       <p style={{ fontSize:13, color:'#64748B', textAlign:'center', lineHeight:1.7 }}>
         The exam starts at 9:00 AM.<br />
-        Come back when it's time — keep your internet on.
+        Come back when it's time - keep your internet on.
       </p>
       <button onClick={() => navigate('/tournament')}
         style={{ marginTop:24, padding:'12px 24px', background:NAVY, color:'#fff', border:'none', borderRadius:12, fontWeight:700, cursor:'pointer' }}>
@@ -662,7 +662,7 @@ export default function TournamentLive() {
       userSelect:'none', WebkitUserSelect:'none', color:'#fff', position:'relative' }}
       onContextMenu={e => e.preventDefault()}>
 
-      {/* ── OFFLINE OVERLAY (pauses exam completely) ─────────────────── */}
+      {/* -- OFFLINE OVERLAY (pauses exam completely) ------------------- */}
       {phase === 'paused_offline' && (
         <OfflineOverlay
           disconnectCount={disconnectCount}
@@ -671,10 +671,10 @@ export default function TournamentLive() {
         />
       )}
 
-      {/* ── RECONNECTED GRACE BANNER ──────────────────────────────────── */}
+      {/* -- RECONNECTED GRACE BANNER ------------------------------------ */}
       {phase === 'reconnecting' && <ReconnectedBanner countdown={graceCountdown} />}
 
-      {/* ── ONLINE INDICATOR ─────────────────────────────────────────── */}
+      {/* -- ONLINE INDICATOR ------------------------------------------- */}
       <div style={{ position:'fixed', top:8, right:16, zIndex:100, display:'flex', alignItems:'center', gap:4 }}>
         <div style={{ width:7, height:7, borderRadius:'50%', background: isOnline ? '#22C55E' : '#EF4444' }} />
         <span style={{ fontSize:9, color:'rgba(255,255,255,0.4)', letterSpacing:0.5 }}>
@@ -682,7 +682,7 @@ export default function TournamentLive() {
         </span>
       </div>
 
-      {/* ── TAB WARNING ──────────────────────────────────────────────── */}
+      {/* -- TAB WARNING ------------------------------------------------ */}
       {tabWarnings > 0 && (
         <div style={{ background:'#DC2626', padding:'8px 16px', textAlign:'center', paddingTop: phase==='reconnecting'?48:8 }}>
           <p style={{ fontSize:12, fontWeight:700, color:'#fff', margin:0 }}>
@@ -691,7 +691,7 @@ export default function TournamentLive() {
         </div>
       )}
 
-      {/* ── TIMER HEADER ─────────────────────────────────────────────── */}
+      {/* -- TIMER HEADER ----------------------------------------------- */}
       <div style={{ background:'#1a1a2e', padding:`${tabWarnings > 0 ? 48 : 14}px 16px 12px`, position:'sticky', top:0, zIndex:50 }}>
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:8 }}>
           <div>
@@ -714,7 +714,7 @@ export default function TournamentLive() {
         </div>
       </div>
 
-      {/* ── QUESTION ─────────────────────────────────────────────────── */}
+      {/* -- QUESTION --------------------------------------------------- */}
       <div style={{ padding:'16px', maxWidth:480, margin:'0 auto' }}>
         {q && (
           <>
@@ -796,7 +796,7 @@ export default function TournamentLive() {
         {/* Question palette */}
         <div style={{ marginTop:20 }}>
           <p style={{ fontSize:10, color:'rgba(255,255,255,0.3)', letterSpacing:1, marginBottom:8 }}>
-            QUESTION PALETTE — tap any to jump
+            QUESTION PALETTE - tap any to jump
           </p>
           <div style={{ display:'flex', flexWrap:'wrap', gap:4 }}>
             {questions.map((q, i) => (
@@ -831,7 +831,7 @@ export default function TournamentLive() {
         </p>
       </div>
 
-      {/* ── CONFIRM SUBMIT MODAL ──────────────────────────────────────── */}
+      {/* -- CONFIRM SUBMIT MODAL ---------------------------------------- */}
       {showConfirm && (
         <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.85)', display:'flex',
           alignItems:'center', justifyContent:'center', zIndex:300, padding:20 }}>

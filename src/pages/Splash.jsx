@@ -55,7 +55,7 @@ export default function Splash() {
         overflow: 'hidden',
       }}
     >
-      {/* Subtle ambient rings — decorative only, no animation distraction */}
+      {/* Subtle ambient rings - decorative only, no animation distraction */}
       <div style={{
         position: 'absolute',
         width: 600, height: 600,
@@ -80,7 +80,7 @@ export default function Splash() {
         <LogoAnimated size="splash" mode="auto" dark={true} onComplete={handleAnimComplete} />
       </div>
 
-      {/* Pulsing dots — appear after animation completes */}
+      {/* Pulsing dots - appear after animation completes */}
       <div
         style={{
           marginTop: 40,

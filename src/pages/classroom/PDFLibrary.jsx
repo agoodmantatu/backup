@@ -38,7 +38,7 @@ export default function PDFLibrary() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">PDF Library 📚</h2>
-          <p className="text-slate-500">Notes, previous papers, and study material — free or premium.</p>
+          <p className="text-slate-500">Notes, previous papers, and study material - free or premium.</p>
         </div>
         <div className="flex gap-3">
           <input
@@ -63,7 +63,7 @@ export default function PDFLibrary() {
       {filtered.length === 0 ? (
         <div className="bg-white rounded-2xl shadow-md p-10 text-center">
           <div className="text-5xl mb-3">🔍</div>
-          <p className="text-slate-500">No materials found — try a different search or filter.</p>
+          <p className="text-slate-500">No materials found - try a different search or filter.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">

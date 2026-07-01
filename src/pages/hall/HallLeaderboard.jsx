@@ -29,7 +29,7 @@ export default function HallLeaderboard() {
     <AppLayout title="Global Hall Leaderboard">
       <div className="bg-white rounded-2xl shadow-md p-5 sm:p-6">
         <h2 className="font-display text-2xl font-extrabold text-[var(--color-primary, #1E3A5F)] mb-1">🏆 Global Leaderboard</h2>
-        <p className="text-slate-500 mb-6">Top performers across all Halls — updated weekly.</p>
+        <p className="text-slate-500 mb-6">Top performers across all Halls - updated weekly.</p>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -73,7 +73,7 @@ export default function HallLeaderboard() {
 
         {!isUserRanked && (
           <div className="mt-6 bg-[#FDF6E3] rounded-2xl p-4 text-center">
-            <p className="text-slate-600">You're not ranked yet — join a Hall and start earning! 🏛️</p>
+            <p className="text-slate-600">You're not ranked yet - join a Hall and start earning! 🏛️</p>
           </div>
         )}
       </div>
