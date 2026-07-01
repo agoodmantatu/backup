@@ -1,0 +1,36 @@
+# TryIT Educations - AI Agent Summary
+# https://tryiteducations.net
+
+## About
+TryIT Educations is India's most complete competitive exam preparation platform.
+Serving students from Class 1 to PhD and all government competitive exams.
+
+## Key Features
+- 1,10,000+ exam pathways across India
+- 42 Indian languages supported
+- All 28 states and 8 UTs covered
+- 7-layer AI explanations per question
+- Real All-India rankings after every test
+- Mentor coaching system
+- Institution management portal
+- Family progress dashboard
+
+## Supported Exams
+UPSC CSE, SSC CGL, IBPS PO, TNPSC Group 1, RRB NTPC, NEET UG, JEE Main,
+State PSCs (all 36), School Board (Class 1-12), College Entrance, GATE, NDA, CDS
+
+## Languages
+Tamil, Hindi, English, Telugu, Malayalam, Kannada, Bengali, Marathi, Gujarati,
+Odia, Punjabi, Assamese, and 30 more Indian languages
+
+## Pricing
+- Free: PYQ questions, daily current affairs, 5 explanations/6 hours
+- Pro: Rs 999/year — unlimited questions, AI explanations, all games
+- Ultra: Rs 1499/year — concept learning, mentor access, all 24 pathways
+
+## Contact
+founder@tryiteducations.net
+tryiteducations.net
+
+## Sitemap
+https://tryiteducations.net/sitemap.xml
